@@ -60,11 +60,10 @@ export const DialogueBox = () => {
     <div className={`dialogue-box ${hasTray ? 'has-tray' : 'no-tray'}`}>
       <div className="dialogue-avatar-wrapper">
         <img src={avatarSrc} alt="Teacher Mia" className="dialogue-avatar" />
-        <span className="avatar-tag">Teacher Mia</span>
       </div>
       <div className="dialogue-content">
         <div className="dialogue-header">
-          <span className="dialogue-name">👩‍🏫 Teacher Mia</span>
+          <span className="dialogue-name">Teacher Mia</span>
           <span className="dialogue-status-badge">{dialogue.badge}</span>
         </div>
         <p className="dialogue-text">{displayedText}</p>
