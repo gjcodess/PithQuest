@@ -1,0 +1,153 @@
+/* ==========================================================================
+   PITHQUEST RESPONSIVE ADAPTATIONS
+   Mobile & Tablet Optimizations
+   ========================================================================== */
+
+/* Medium Devices (Tablets & Small Laptops, max-width: 900px) */
+@media (max-width: 900px) {
+  .hud-stepper {
+    display: none; /* Keep HUD clean on smaller screens */
+  }
+
+  .dialogue-box {
+    bottom: 138px;
+    left: 12px;
+    right: 12px;
+    padding: 10px 14px;
+    gap: 12px;
+  }
+
+  .dialogue-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .dialogue-text {
+    font-size: 0.9rem;
+  }
+
+  .active-vessel-card {
+    padding: var(--space-md);
+    width: 95%;
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Small Devices (Mobile Phones, max-width: 640px) */
+@media (max-width: 640px) {
+  .game-hud {
+    height: 56px;
+    padding: 0 10px;
+  }
+
+  .hud-btn .label {
+    display: none; /* Show only icon on mobile */
+  }
+
+  .pill-title {
+    display: none; /* Compact pill */
+  }
+
+  .score-display {
+    padding: 4px 10px;
+    font-size: 0.95rem;
+  }
+
+  .dialogue-box {
+    bottom: 124px;
+    left: 8px;
+    right: 8px;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .dialogue-avatar-wrapper {
+    display: none; /* Hide large avatar on tiny mobile screens to maximize text area */
+  }
+
+  .dialogue-text {
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .inventory-tray {
+    height: 124px;
+    padding: 6px 10px;
+  }
+
+  .items-carousel {
+    padding: 10px 8px 4px 8px;
+  }
+
+  .drag-card {
+    width: 80px;
+    height: 78px;
+    padding: 4px;
+  }
+
+  .card-icon-img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .card-title {
+    font-size: 0.65rem;
+  }
+
+  .card-measure {
+    font-size: 0.58rem;
+  }
+
+  .active-vessel-card {
+    max-height: 52vh;
+    padding: 12px;
+  }
+
+  .dropzone {
+    min-height: 180px;
+  }
+
+  .vessel-title {
+    font-size: 1.05rem;
+  }
+}
+
+/* Landscape Mobile (Orientation fix) */
+@media (max-height: 500px) and (orientation: landscape) {
+  .game-hud {
+    height: 48px;
+  }
+
+  .inventory-tray {
+    height: 90px;
+    padding: 4px 8px;
+  }
+
+  .drag-card {
+    width: 72px;
+    height: 70px;
+  }
+
+  .dialogue-box {
+    bottom: 96px;
+    padding: 6px 12px;
+  }
+
+  .dialogue-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .active-vessel-card {
+    max-height: 55vh;
+    padding: 10px;
+  }
+
+  .dropzone {
+    min-height: 140px;
+  }
+}

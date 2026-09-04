@@ -1,0 +1,164 @@
+/* ==========================================================================
+   PITHQUEST DESIGN SYSTEM & THEME TOKENS
+   Cozy 2D Educational Culinary Laboratory Aesthetic
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --color-cream-bg: #fdfaf3;
+  --color-cream-surface: #ffffff;
+  --color-cream-card: #fffefb;
+  --color-cream-subtle: #f7f1e5;
+
+  /* Primary Palette: Palm Green */
+  --color-palm-50: #e8f5e9;
+  --color-palm-100: #c8e6c9;
+  --color-palm-300: #81c784;
+  --color-palm-500: #43a047;
+  --color-palm-600: #2e7d32;
+  --color-palm-700: #1b5e20;
+
+  /* Secondary Palette: Golden Toasted Cracker */
+  --color-gold-50: #fff9e6;
+  --color-gold-100: #ffecb3;
+  --color-gold-300: #ffd54f;
+  --color-gold-400: #fbc02d;
+  --color-gold-500: #f5a623;
+  --color-gold-600: #e67e22;
+  --color-gold-700: #d35400;
+
+  /* Accent: Laboratory Tile Mint & Teal */
+  --color-teal-50: #e0f2f1;
+  --color-teal-100: #b2dfdb;
+  --color-teal-300: #4db6ac;
+  --color-teal-500: #00897b;
+  --color-teal-700: #004d40;
+
+  /* Neutrals & Dark Tones */
+  --color-text-main: #2c3e50;
+  --color-text-muted: #607d8b;
+  --color-border-light: #e0d7c6;
+  --color-border-dark: #37474f;
+  --color-wood-frame: #8d6e63;
+  --color-wood-dark: #5d4037;
+
+  /* Feedback Colors */
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+  --color-info: #3498db;
+
+  /* Typography */
+  --font-heading: 'Fredoka', cursive, sans-serif;
+  --font-body: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing Scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Radius & Shadows */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 4px rgba(44, 62, 80, 0.08);
+  --shadow-md: 0 4px 12px rgba(44, 62, 80, 0.12);
+  --shadow-lg: 0 8px 24px rgba(44, 62, 80, 0.16);
+  --shadow-3d-btn: 0 5px 0 var(--color-palm-700);
+  --shadow-3d-gold: 0 5px 0 var(--color-gold-700);
+}
+
+/* Reset & Base Setup */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #1a252f;
+  font-family: var(--font-body);
+  color: var(--color-text-main);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 3D Chunky Tactile Buttons */
+.btn-primary, .btn-gold, .btn-secondary, .hud-btn, .dialogue-btn {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #4caf50 0%, var(--color-palm-600) 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 0 #1b5e20, 0 6px 12px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #1b5e20, 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #1b5e20, 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-gold {
+  background: linear-gradient(180deg, #fbc02d 0%, var(--color-gold-500) 100%);
+  color: #3e2723;
+  box-shadow: 0 4px 0 var(--color-gold-700), 0 6px 12px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.btn-gold:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--color-gold-700), 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-gold:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--color-gold-700), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, #ffffff 0%, var(--color-cream-subtle) 100%);
+  color: var(--color-text-main);
+  box-shadow: 0 4px 0 #b0bec5, 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #b0bec5, 0 8px 14px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #b0bec5, 0 2px 4px rgba(0, 0, 0, 0.15);
+}
