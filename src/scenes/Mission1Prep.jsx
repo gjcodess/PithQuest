@@ -113,7 +113,7 @@ export const Mission1Prep = () => {
   };
 
   return (
-    <div className="workstation-scene">
+    <div className="workstation-scene stage-1-bg">
       <div className="workstation-overlay" />
       <div className="stage-center-zone">
         <div className="active-vessel-card prep-workstation">
@@ -129,7 +129,7 @@ export const Mission1Prep = () => {
               onClick={handleBoardClick}
               title="Cutting Board"
             >
-              <img src="/assets/cutting_board.png" alt="Cutting Board" className="board-backdrop-img" />
+              <img src="/images/cutting_board.png" alt="Cutting Board" className="board-backdrop-img" />
               <div className="board-overlay-content">
                 {prepStep === 0 && (
                   <div className="zone-placeholder">
@@ -138,14 +138,14 @@ export const Mission1Prep = () => {
                 )}
                 {prepStep === 1 && (
                   <div className="on-board-item pop-in">
-                    <img src="/assets/icon_coconut_pith.png" alt="Raw Pith" className="board-ingredient-img" />
+                    <img src="/images/icon_coconut_pith.png" alt="Raw Pith" className="board-ingredient-img" />
                     <span className="board-item-label">Raw Coconut Pith (200g)</span>
                     <span className="action-hint-glow">Needs Slicing 🔪</span>
                   </div>
                 )}
                 {prepStep === 2 && (
                   <div className="on-board-item pop-in" onClick={handleBowlClick}>
-                    <img src="/assets/icon_sliced_ubod.png" alt="Sliced Pith" className="board-ingredient-img sliced" />
+                    <img src="/images/icon_sliced_ubod.png" alt="Sliced Pith" className="board-ingredient-img sliced" />
                     <span className="board-item-label">✓ Sliced Ubod Cubes</span>
                     <span className="action-hint-glow">Tap to Move to Bowl ➔</span>
                   </div>
@@ -166,7 +166,7 @@ export const Mission1Prep = () => {
             >
               <div className="bowl-graphic">
                 <img
-                  src={prepStep === 3 ? '/assets/icon_prep_bowl_filled.png' : '/assets/icon_prep_bowl.png'}
+                  src={prepStep === 3 ? '/images/icon_prep_bowl_filled.png' : '/images/icon_prep_bowl.png'}
                   alt={prepStep === 3 ? 'Filled Prep Bowl' : 'Stainless Steel Prep Bowl'}
                   className={`prep-bowl-img ${prepStep === 3 ? 'bowl-filled-anim' : ''}`}
                 />
@@ -203,7 +203,7 @@ export const Mission1Prep = () => {
             className={`drag-card ${selectedItem?.id === 'raw_ubod' ? 'selected-tap' : ''} ${prepStep > 0 ? 'used' : ''}`}
             onClick={() => prepStep === 0 && handleItemClick({ id: 'raw_ubod', name: 'Raw Ubod' })}
           >
-            <img src="/assets/icon_coconut_pith.png" alt="Raw Ubod" className="card-icon-img" />
+            <img src="/images/icon_coconut_pith.png" alt="Raw Ubod" className="card-icon-img" />
             <span className="card-title">Raw Ubod</span>
             <span className="card-measure">200g</span>
           </div>
@@ -212,13 +212,13 @@ export const Mission1Prep = () => {
             className={`drag-card ${selectedItem?.id === 'chef_knife' ? 'selected-tap' : ''} ${prepStep !== 1 ? 'used' : ''}`}
             onClick={() => prepStep === 1 && handleItemClick({ id: 'chef_knife', name: 'Chef Knife' })}
           >
-            <img src="/assets/icon_chef_knife.png" alt="Chef Knife" className="card-icon-img" />
+            <img src="/images/icon_chef_knife.png" alt="Chef Knife" className="card-icon-img" />
             <span className="card-title">Chef Knife</span>
             <span className="card-measure">Sanitized</span>
           </div>
 
           <div className="drag-card used">
-            <img src="/assets/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
+            <img src="/images/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
             <span className="card-title">Starch</span>
             <span className="card-measure">Stage 3</span>
           </div>

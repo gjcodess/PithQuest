@@ -3,9 +3,10 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 const AVATARS = {
-  neutral: '/assets/teacher_mia_neutral.jpg',
-  happy: '/assets/teacher_mia_happy.jpg',
-  thinking: '/assets/teacher_mia_thinking.jpg',
+  neutral: '/images/teacher_mia_neutral.png',
+  happy: '/images/teacher_mia_happy.png',
+  thinking: '/images/teacher_mia_thinking.png',
+  sad: '/images/teacher_mia_sad.png',
 };
 
 export const DialogueBox = () => {

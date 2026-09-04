@@ -113,12 +113,15 @@ export const Mission4Dehydration = () => {
   }, [isDrying, dehydrateStep]);
 
   return (
-    <div className="workstation-scene">
+    <div className="workstation-scene stage-4-bg">
       <div className="workstation-overlay" />
       <div className="stage-center-zone">
         <div className="active-vessel-card dehydration-workstation">
           <div className="vessel-header">
-            <span className="vessel-title">☀️ Dehydration Cabinet Station</span>
+            <span className="vessel-title">
+              <img src="/images/icon_dehydrator.png" alt="" className="vessel-header-icon" />
+              Dehydration Cabinet Station
+            </span>
             <span className="vessel-badge">Pillar 2: Dehydration</span>
           </div>
 
@@ -140,7 +143,13 @@ export const Mission4Dehydration = () => {
                         key={idx}
                         className={`cracker-disc ${isPlaced ? 'placed' : 'empty'} ${isDried ? 'dried-glassy' : ''}`}
                       >
-                        {isPlaced ? (isDried ? '✨ Hard Chip' : 'Raw Dough') : '+'}
+                        {isPlaced ? (
+                          isDried ? (
+                            <span className="disc-chip-label">✨ Hard Pellet</span>
+                          ) : (
+                            <span className="disc-chip-label">Raw Disc</span>
+                          )
+                        ) : '+'}
                       </div>
                     );
                   })}
@@ -173,6 +182,7 @@ export const Mission4Dehydration = () => {
 
           {dehydrateStep === 3 && (
             <div className="dehydrate-complete-banner pop-in">
+              <img src="/images/icon_dried_pellets.png" alt="Dried Pellets" className="dough-img" />
               <h4>✓ Dehydration Complete (9% Moisture)</h4>
               <p>Raw pellets are glassy, hard, and ready for deep frying</p>
               <button
@@ -200,13 +210,13 @@ export const Mission4Dehydration = () => {
             className={`drag-card ${trayDiscs >= 4 ? 'used' : ''}`}
             onClick={handleAddDiscToTray}
           >
-            <span className="card-icon-emoji">⚪</span>
+            <img src="/images/icon_raw_discs.png" alt="Sliced Discs" className="card-icon-img" />
             <span className="card-title">Sliced Discs</span>
             <span className="card-measure">4 Pieces</span>
           </div>
 
           <div className="drag-card used">
-            <span className="card-icon-emoji">🌬️</span>
+            <img src="/images/icon_fan_airflow.png" alt="Dry Air Fan" className="card-icon-img" />
             <span className="card-title">Dry Air Fan</span>
             <span className="card-measure">Automated</span>
           </div>

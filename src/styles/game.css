@@ -212,10 +212,31 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background-image: url('/assets/he_lab_workstation.jpg');
+  background-image: url('/images/he_lab_workstation.jpg');
   background-size: cover;
   background-position: center bottom;
   overflow: hidden;
+  transition: background-image 0.4s ease-in-out;
+}
+
+.workstation-scene.stage-1-bg {
+  background-image: url('/images/bg_stage1_prep.jpg');
+}
+
+.workstation-scene.stage-2-bg {
+  background-image: url('/images/bg_stage2_boiling.jpg');
+}
+
+.workstation-scene.stage-3-bg {
+  background-image: url('/images/bg_stage3_formulation.jpg');
+}
+
+.workstation-scene.stage-4-bg {
+  background-image: url('/images/bg_stage4_dehydration.jpg');
+}
+
+.workstation-scene.stage-5-bg {
+  background-image: url('/images/bg_stage5_frying.jpg');
 }
 
 /* Workstation Vignette & Backdrop */
@@ -518,6 +539,7 @@
   border-radius: 50%;
   border: 3px solid var(--color-palm-500);
   object-fit: cover;
+  background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -995,7 +1017,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/assets/he_lab_workstation.jpg');
+  background-image: url('/images/he_lab_workstation.jpg');
   background-size: cover;
   background-position: center;
   overflow-y: auto;
@@ -1101,6 +1123,7 @@
   border-radius: 50%;
   border: 3px solid var(--color-palm-500);
   object-fit: cover;
+  background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -1109,7 +1132,8 @@
   height: 80px;
   border-radius: var(--radius-md);
   border: 3px solid var(--color-gold-400);
-  object-fit: cover;
+  object-fit: contain;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -1235,6 +1259,7 @@
   border-radius: 50%;
   border: 3px solid var(--color-palm-500);
   object-fit: cover;
+  background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -1344,9 +1369,30 @@
   cursor: default;
 }
 
-.ppe-icon {
-  font-size: 2.4rem;
-  margin-bottom: 6px;
+.ppe-icon-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+  transition: transform 0.2s ease;
+}
+
+.ppe-box:hover .ppe-icon-img {
+  transform: scale(1.08);
+}
+
+.benefits-hero-banner {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.benefits-ubod-img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.15));
 }
 
 .ppe-name {
@@ -2138,6 +2184,29 @@
   display: block;
 }
 
+.wok-appliance-img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+}
+
+.thermometer-gauge-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
+.skimmer-tool-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
 .sizzling-wok {
   animation: sizzle-shake 0.3s infinite;
   box-shadow: 0 0 24px rgba(245, 166, 35, 0.4);
@@ -2266,7 +2335,37 @@
   padding: var(--space-lg);
   display: flex;
   justify-content: center;
-  background: #0f172a;
+  background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url('/images/bg_evaluation_hall.jpg');
+  background-size: cover;
+  background-position: center center;
+}
+
+.eval-ribbon-medal-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.eval-hero-showcase {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.eval-platter-img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
+}
+
+.cert-gold-seal-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(217, 119, 6, 0.4));
 }
 
 .eval-container {

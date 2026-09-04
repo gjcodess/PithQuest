@@ -138,13 +138,13 @@ export const Mission3Mixing = () => {
   };
 
   return (
-    <div className="workstation-scene">
+    <div className="workstation-scene stage-3-bg">
       <div className="workstation-overlay" />
       <div className="stage-center-zone">
         <div className="active-vessel-card mixing-workstation">
           <div className="vessel-header">
             <span className="vessel-title">
-              <img src="/assets/icon_prep_bowl.png" alt="" className="vessel-header-icon" />
+              <img src="/images/icon_prep_bowl.png" alt="" className="vessel-header-icon" />
               Formulation Bench: Mixing Bowl
             </span>
             <span className="vessel-badge">{Object.values(ingredientsInBowl).filter(Boolean).length}/3 Ingredients</span>
@@ -156,7 +156,7 @@ export const Mission3Mixing = () => {
           >
             <div className="bowl-stage-visual">
               <img
-                src="/assets/icon_prep_bowl.png"
+                src="/images/icon_prep_bowl.png"
                 alt="Mixing Bowl"
                 className="mixing-bowl-img"
               />
@@ -169,7 +169,7 @@ export const Mission3Mixing = () => {
               {allIngredientsIn && !isMixed && (
                 <div className="mix-prompt-overlay" onClick={(e) => { e.stopPropagation(); handleMixAction(); }}>
                   <button className="btn-gold btn-stir">
-                    <img src="/assets/icon_spatula.png" alt="" className="stir-icon-img" />
+                    <img src="/images/icon_spatula.png" alt="" className="stir-icon-img" />
                     <span>Stir & Knead Dough!</span>
                   </button>
                 </div>
@@ -177,7 +177,7 @@ export const Mission3Mixing = () => {
 
               {isMixed && (
                 <div className="dough-finished-badge pop-in" onClick={(e) => e.stopPropagation()}>
-                  <img src="/assets/icon_dough.png" alt="Coconut Pith Cracker Dough" className="dough-img" />
+                  <img src="/images/icon_dough.png" alt="Coconut Pith Cracker Dough" className="dough-img" />
                   <h4>✓ Uniform Coconut Pith Cracker Dough</h4>
                   <p>Ready to roll, steam, and dehydrate</p>
                   <button
@@ -207,7 +207,7 @@ export const Mission3Mixing = () => {
             className={`drag-card ${selectedItem?.id === 'pureed_ubod' ? 'selected-tap' : ''} ${ingredientsInBowl.pulp || isMixed ? 'used' : ''}`}
             onClick={() => !ingredientsInBowl.pulp && !isMixed && handleItemClick({ id: 'pureed_ubod' })}
           >
-            <img src="/assets/icon_coconut_pith.png" alt="Pureed Ubod" className="card-icon-img" />
+            <img src="/images/icon_ubod_puree.png" alt="Pureed Ubod" className="card-icon-img" />
             <span className="card-title">Pureed Ubod</span>
             <span className="card-measure">200g</span>
           </div>
@@ -216,7 +216,7 @@ export const Mission3Mixing = () => {
             className={`drag-card ${selectedItem?.id === 'tapioca_starch' ? 'selected-tap' : ''} ${ingredientsInBowl.starch || isMixed ? 'used' : ''}`}
             onClick={() => !ingredientsInBowl.starch && !isMixed && handleItemClick({ id: 'tapioca_starch' })}
           >
-            <img src="/assets/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
+            <img src="/images/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
             <span className="card-title">Tapioca Starch</span>
             <span className="card-measure">100g</span>
           </div>
@@ -225,7 +225,7 @@ export const Mission3Mixing = () => {
             className={`drag-card ${selectedItem?.id === 'seasonings' ? 'selected-tap' : ''} ${ingredientsInBowl.seasonings || isMixed ? 'used' : ''}`}
             onClick={() => !ingredientsInBowl.seasonings && !isMixed && handleItemClick({ id: 'seasonings' })}
           >
-            <img src="/assets/icon_seasonings.png" alt="Seasonings" className="card-icon-img" />
+            <img src="/images/icon_seasonings.png" alt="Seasonings" className="card-icon-img" />
             <span className="card-title">Seasonings</span>
             <span className="card-measure">1 tsp blend</span>
           </div>
@@ -234,7 +234,7 @@ export const Mission3Mixing = () => {
             className={`drag-card distractor ${selectedItem?.id === 'distractor_vinegar' ? 'selected-tap' : ''} ${isMixed ? 'used' : ''}`}
             onClick={() => !isMixed && handleItemClick({ id: 'distractor_vinegar' })}
           >
-            <img src="/assets/icon_vinegar.png" alt="Cane Vinegar" className="card-icon-img" />
+            <img src="/images/icon_vinegar.png" alt="Cane Vinegar" className="card-icon-img" />
             <span className="card-title">Cane Vinegar</span>
             <span className="card-measure">Distractor</span>
           </div>

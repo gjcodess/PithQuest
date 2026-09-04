@@ -165,13 +165,13 @@ export const Mission2Boiling = () => {
   };
 
   return (
-    <div className="workstation-scene">
+    <div className="workstation-scene stage-2-bg">
       <div className="workstation-overlay" />
       <div className="stage-center-zone">
         <div className="active-vessel-card boiling-workstation">
           <div className="vessel-header">
             <span className="vessel-title">
-              <img src="/assets/icon_stockpot.png" alt="" className="vessel-header-icon" />
+              <img src="/images/icon_stockpot.png" alt="" className="vessel-header-icon" />
               Stovetop Station: Boiling & Softening
             </span>
             <span className="vessel-badge">Pillar 1: Boiling</span>
@@ -185,7 +185,11 @@ export const Mission2Boiling = () => {
             >
               {boilStep >= 2 && <div className="steam-particles"><div className="steam" /><div className="steam" /></div>}
               <div className="pot-graphic">
-                <img src="/assets/icon_stockpot.png" alt="Stockpot" className="pot-img" />
+                <img
+                  src={boilStep >= 2 ? '/images/icon_stockpot_boiling.png' : '/images/icon_stockpot.png'}
+                  alt="Stockpot"
+                  className="pot-img"
+                />
                 {boilStep === 0 && <span className="pot-status-text">Empty Stockpot (Needs Water)</span>}
                 {boilStep === 1 && <span className="pot-status-text">Water Added (Needs Heat)</span>}
                 {boilStep === 2 && <span className="pot-status-text">Water Boiling 🔥 (Add Ubod)</span>}
@@ -223,7 +227,11 @@ export const Mission2Boiling = () => {
               onClick={handleBlenderClick}
               title="Food Processor / Blender"
             >
-              <img src="/assets/icon_blender.png" alt="Puree Blender" className="blender-img" />
+              <img
+                src={boilStep >= 5 ? '/images/icon_ubod_puree.png' : '/images/icon_blender.png'}
+                alt="Puree Blender"
+                className="blender-img"
+              />
               <h4>Puree Blender</h4>
               <p>{boilStep >= 5 ? '✓ Smooth Ubod Pulp' : boilStep === 4 ? 'Tap to Puree Soft Ubod!' : 'Awaiting Boiled Ubod'}</p>
               {boilStep >= 5 && (
@@ -254,7 +262,7 @@ export const Mission2Boiling = () => {
             className={`drag-card ${selectedItem?.id === 'water_pitcher' ? 'selected-tap' : ''} ${boilStep > 0 ? 'used' : ''}`}
             onClick={() => boilStep === 0 && handleItemClick({ id: 'water_pitcher', name: 'Water' })}
           >
-            <img src="/assets/icon_water_pitcher.png" alt="Water Pitcher" className="card-icon-img" />
+            <img src="/images/icon_water_pitcher.png" alt="Water Pitcher" className="card-icon-img" />
             <span className="card-title">Water Pitcher</span>
             <span className="card-measure">500ml</span>
           </div>
@@ -263,7 +271,7 @@ export const Mission2Boiling = () => {
             className={`drag-card ${selectedItem?.id === 'sliced_ubod' ? 'selected-tap' : ''} ${boilStep !== 2 ? 'used' : ''}`}
             onClick={() => boilStep === 2 && handleItemClick({ id: 'sliced_ubod', name: 'Sliced Ubod' })}
           >
-            <img src="/assets/icon_prep_bowl_filled.png" alt="Sliced Ubod" className="card-icon-img" />
+            <img src="/images/icon_prep_bowl_filled.png" alt="Sliced Ubod" className="card-icon-img" />
             <span className="card-title">Sliced Ubod</span>
             <span className="card-measure">200g</span>
           </div>

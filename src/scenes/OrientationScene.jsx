@@ -91,7 +91,7 @@ export const OrientationScene = () => {
               <span className="vessel-badge">Orientation</span>
             </div>
             <div className="orientation-body">
-              <img src="/assets/teacher_mia_neutral.jpg" alt="Teacher Mia" className="orientation-hero-img" />
+              <img src="/images/teacher_mia_neutral.png" alt="Teacher Mia" className="orientation-hero-img" />
               <div className="orientation-text">
                 <h3>Home Economics Food Technology Class</h3>
                 <p>
@@ -113,6 +113,9 @@ export const OrientationScene = () => {
             <div className="vessel-header">
               <span className="vessel-title">🥥 Nutritional & Economic Significance</span>
               <span className="vessel-badge">Agricultural Science</span>
+            </div>
+            <div className="benefits-hero-banner">
+              <img src="/images/icon_fresh_ubod.png" alt="Fresh Ubod" className="benefits-ubod-img" />
             </div>
             <div className="benefits-grid">
               <div className="benefit-item">
@@ -152,7 +155,7 @@ export const OrientationScene = () => {
                 className={`ppe-box ${ppeStatus.hairnet ? 'equipped' : ''}`}
                 onClick={() => togglePpe('hairnet', 'Hairnet')}
               >
-                <span className="ppe-icon">🧢</span>
+                <img src="/images/icon_hairnet.png" alt="Sanitary Hairnet" className="ppe-icon-img" />
                 <span className="ppe-name">Sanitary Hairnet</span>
                 <span className="ppe-desc">Prevents hair strand contamination</span>
                 <span className="ppe-status-pill">{ppeStatus.hairnet ? '✓ Equipped' : 'Click to Wear'}</span>
@@ -162,7 +165,7 @@ export const OrientationScene = () => {
                 className={`ppe-box ${ppeStatus.apron ? 'equipped' : ''}`}
                 onClick={() => togglePpe('apron', 'Clean Apron')}
               >
-                <span className="ppe-icon">🥼</span>
+                <img src="/images/icon_apron.png" alt="Clean Apron" className="ppe-icon-img" />
                 <span className="ppe-name">Clean Laboratory Apron</span>
                 <span className="ppe-desc">Protects food from clothing dust</span>
                 <span className="ppe-status-pill">{ppeStatus.apron ? '✓ Equipped' : 'Click to Wear'}</span>
@@ -172,7 +175,7 @@ export const OrientationScene = () => {
                 className={`ppe-box ${ppeStatus.hands ? 'equipped' : ''}`}
                 onClick={() => togglePpe('hands', 'Sanitize Hands')}
               >
-                <span className="ppe-icon">🧼</span>
+                <img src="/images/icon_sanitizer.png" alt="Hand Sanitizer" className="ppe-icon-img" />
                 <span className="ppe-name">Handwashing & Sanitizer</span>
                 <span className="ppe-desc">20-second antibacterial scrub</span>
                 <span className="ppe-status-pill">{ppeStatus.hands ? '✓ Sanitized' : 'Click to Wash'}</span>

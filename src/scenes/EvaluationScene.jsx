@@ -22,7 +22,13 @@ export const EvaluationScene = () => {
       <div className="eval-container">
         {/* Header Banner */}
         <div className="eval-header-card">
-          <div className="cert-ribbon">🏆 LABORATORY MASTERY ACHIEVED</div>
+          <div className="cert-ribbon">
+            <img src="/images/icon_gold_medal.png" alt="Medal" className="eval-ribbon-medal-img" />
+            <span>LABORATORY MASTERY ACHIEVED</span>
+          </div>
+          <div className="eval-hero-showcase">
+            <img src="/images/icon_cracker_platter.png" alt="Finished Coconut Pith Crackers" className="eval-platter-img" />
+          </div>
           <h2>Coconut Pith Crackers Quality Audit</h2>
           <p className="eval-sub">Evaluation Report & Official Laboratory Certificate</p>
         </div>
@@ -95,11 +101,7 @@ export const EvaluationScene = () => {
                 </div>
 
                 <div className="cert-seal-block">
-                  <div className="cert-gold-seal">
-                    <span>SEAL OF</span>
-                    <strong>MASTERY</strong>
-                    <span>{score} PTS</span>
-                  </div>
+                  <img src="/images/icon_certificate_seal.png" alt="Official Seal" className="cert-gold-seal-img" />
                   <span className="cert-date">{currentDate}</span>
                 </div>
 
