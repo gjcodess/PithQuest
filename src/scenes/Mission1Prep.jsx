@@ -203,17 +203,8 @@ export const Mission1Prep = () => {
                   className={`prep-bowl-img ${prepStep === 3 ? 'bowl-filled-anim' : ''}`}
                 />
                 {prepStep === 3 ? (
-                  <div className="bowl-completed-container pop-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="bowl-completed-container pop-in">
                     <span className="bowl-filled-badge">✓ Filled: 200g Sliced Ubod</span>
-                    <button
-                      className="btn-gold btn-next-stage pulse"
-                      onClick={() => {
-                        soundManager.playClick();
-                        setScene('mission2');
-                      }}
-                    >
-                      Proceed to Stage 2: Boiling ➔
-                    </button>
                   </div>
                 ) : (
                   <span className="bowl-subtext">Stainless Prep Bowl</span>

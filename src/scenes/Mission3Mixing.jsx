@@ -187,19 +187,10 @@ export const Mission3Mixing = () => {
               )}
 
               {isMixed && (
-                <div className="dough-finished-badge pop-in" onClick={(e) => e.stopPropagation()}>
+                <div className="dough-finished-badge pop-in">
                   <img src="/images/icon_dough.png" alt="Coconut Pith Cracker Dough" className="dough-img" />
                   <h4>✓ Uniform Coconut Pith Cracker Dough</h4>
                   <p>Ready to roll, steam, and dehydrate</p>
-                  <button
-                    className="btn-gold btn-next-stage pulse"
-                    onClick={() => {
-                      soundManager.playClick();
-                      setScene('mission4');
-                    }}
-                  >
-                    Proceed to Stage 4: Dehydration ➔
-                  </button>
                 </div>
               )}
             </div>

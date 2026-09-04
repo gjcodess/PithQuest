@@ -219,15 +219,6 @@ export const Mission5Frying = () => {
               <img src="/images/icon_cracker_platter.png" alt="Platter" className="dough-img" />
               <h4>🎉 Laboratory Complete! Golden Puffed Crackers Ready!</h4>
               <p>3x starch expansion achieved with crispy sensory texture</p>
-              <button
-                className="btn-gold btn-next-stage pulse"
-                onClick={() => {
-                  soundManager.playClick();
-                  setScene('evaluation');
-                }}
-              >
-                Proceed to Sensory & Certification ➔
-              </button>
             </div>
           )}
         </div>

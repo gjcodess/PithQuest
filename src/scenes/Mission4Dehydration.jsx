@@ -208,15 +208,6 @@ export const Mission4Dehydration = () => {
               <img src="/images/icon_dried_pellets.png" alt="Dried Pellets" className="dough-img" />
               <h4>✓ Dehydration Complete (9% Moisture)</h4>
               <p>Raw pellets are glassy, hard, and ready for deep frying</p>
-              <button
-                className="btn-gold btn-next-stage pulse"
-                onClick={() => {
-                  soundManager.playClick();
-                  setScene('mission5');
-                }}
-              >
-                Proceed to Stage 5: Deep Frying ➔
-              </button>
             </div>
           )}
         </div>

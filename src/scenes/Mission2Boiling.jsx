@@ -373,19 +373,7 @@ export const Mission2Boiling = () => {
                 className="blender-img"
               />
               <h4>Puree Blender</h4>
-              <p>{boilStep >= 5 ? '✓ Smooth Ubod Pulp' : boilStep === 4 ? 'Tap to Puree Soft Ubod!' : 'Awaiting Boiled Ubod'}</p>
-              {boilStep >= 5 && (
-                <button
-                  className="btn-gold btn-next-stage pulse"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    soundManager.playClick();
-                    setScene('mission3');
-                  }}
-                >
-                  Proceed to Stage 3: Mixing ➔
-                </button>
-              )}
+              <p>{boilStep >= 5 ? '✓ Smooth Ubod Pulp Ready' : boilStep === 4 ? 'Tap to Puree Soft Ubod!' : 'Awaiting Boiled Ubod'}</p>
             </div>
           </div>
         </div>
