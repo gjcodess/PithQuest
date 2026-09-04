@@ -19,24 +19,24 @@ import { Mission5Frying } from './scenes/Mission5Frying';
 import { EvaluationScene } from './scenes/EvaluationScene';
 
 export const App = () => {
-  const { scene } = useGame();
+  const { scene, stageKey } = useGame();
 
   const renderScene = () => {
     switch (scene) {
       case 'title':
         return <TitleScene />;
       case 'orientation':
-        return <OrientationScene />;
+        return <OrientationScene key={`orientation-${stageKey}`} />;
       case 'mission1':
-        return <Mission1Prep />;
+        return <Mission1Prep key={`mission1-${stageKey}`} />;
       case 'mission2':
-        return <Mission2Boiling />;
+        return <Mission2Boiling key={`mission2-${stageKey}`} />;
       case 'mission3':
-        return <Mission3Mixing />;
+        return <Mission3Mixing key={`mission3-${stageKey}`} />;
       case 'mission4':
-        return <Mission4Dehydration />;
+        return <Mission4Dehydration key={`mission4-${stageKey}`} />;
       case 'mission5':
-        return <Mission5Frying />;
+        return <Mission5Frying key={`mission5-${stageKey}`} />;
       case 'evaluation':
         return <EvaluationScene />;
       default:

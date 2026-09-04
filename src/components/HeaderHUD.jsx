@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
+import { RestartIcon } from './Icons';
 
 const STAGE_CONFIG = {
   orientation: { num: 'Prep', title: 'Lab Safety & Intro', step: 0 },
@@ -13,11 +14,12 @@ const STAGE_CONFIG = {
 };
 
 export const HeaderHUD = () => {
-  const { scene, setScene, score, openModal, isMuted, toggleSound, resetGame, requestConfirm, hideDialogue } = useGame();
+  const { scene, setScene, score, openModal, isMuted, toggleSound, resetGame, requestConfirm, hideDialogue, restartStage } = useGame();
 
   if (scene === 'title') return null;
 
   const currentStage = STAGE_CONFIG[scene] || { num: 'Lab', title: 'Activity', step: 1 };
+  const isStageScene = ['orientation', 'mission1', 'mission2', 'mission3', 'mission4', 'mission5'].includes(scene);
 
   const handleHomeClick = () => {
     soundManager.playClick();
@@ -30,6 +32,20 @@ export const HeaderHUD = () => {
       onConfirm: () => {
         hideDialogue();
         setScene('title');
+      },
+    });
+  };
+
+  const handleRestartClick = () => {
+    soundManager.playClick();
+    requestConfirm({
+      title: `Restart ${currentStage.title}?`,
+      message: `Would you like to reset your progress on this workstation? The stage will be reset to the beginning so you can try again.`,
+      confirmText: 'Yes, Restart Stage',
+      cancelText: 'Continue Activity',
+      icon: <RestartIcon size={38} strokeWidth={2.6} className="modal-restart-icon" />,
+      onConfirm: () => {
+        restartStage();
       },
     });
   };
@@ -72,6 +88,13 @@ export const HeaderHUD = () => {
           <span>{score}</span>
           <span className="pts-label">PTS</span>
         </div>
+
+        {isStageScene && (
+          <button className="hud-btn hud-btn-restart" onClick={handleRestartClick} title="Restart Current Stage">
+            <span className="icon"><RestartIcon size={17} strokeWidth={2.5} /></span>
+            <span className="label">Restart</span>
+          </button>
+        )}
 
         <button className="hud-btn" onClick={() => openModal('recipe')} title="View Recipe">
           <span className="icon">📖</span>

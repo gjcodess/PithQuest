@@ -33,6 +33,8 @@ export const GameProvider = ({ children }) => {
   const [activeModal, setActiveModal] = useState(null); // 'recipe', 'objectives', null
   const [holdingItem, setHoldingItem] = useState(null); // { id, name, img, ... }
 
+  const [stageKey, setStageKey] = useState(0);
+
   useEffect(() => {
     // Reset any held cursor item when changing scenes
     setHoldingItem(null);
@@ -40,6 +42,14 @@ export const GameProvider = ({ children }) => {
       window.__setPithQuestScene = setScene;
     }
   }, [scene]);
+
+  const restartStage = () => {
+    soundManager.playClick();
+    setHoldingItem(null);
+    setMissionsCompleted(prev => ({ ...prev, [scene]: false }));
+    setStageKey(prev => prev + 1);
+    showToast('Station Reset', 'Workstation reset to beginning. Give it another try!', 'info');
+  };
 
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
@@ -218,6 +228,8 @@ export const GameProvider = ({ children }) => {
         isMuted,
         toggleSound,
         resetGame,
+        stageKey,
+        restartStage,
       }}
     >
       {children}
