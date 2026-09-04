@@ -1521,6 +1521,12 @@
   transform: scale(1.02);
 }
 
+.prep-bowl-zone.filled {
+  border-color: var(--color-palm-400);
+  background: rgba(232, 245, 233, 0.45);
+  border-style: solid;
+}
+
 .prep-bowl-img {
   width: 110px;
   height: 110px;
@@ -1528,6 +1534,23 @@
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
   margin-bottom: 6px;
   transition: transform 0.2s ease;
+}
+
+.prep-bowl-img.bowl-filled-anim {
+  animation: bowl-pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bowl-pop {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.zone-hint-text.board-cleared {
+  color: var(--color-palm-700);
+  background: rgba(232, 245, 233, 0.95);
+  border-color: var(--color-palm-300);
+  box-shadow: 0 3px 8px rgba(46, 204, 113, 0.2);
 }
 
 .bowl-graphic {
@@ -1571,16 +1594,40 @@
   align-items: center;
 }
 
+.vessel-header-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
 .stockpot-zone {
   min-height: 240px;
   background: #e2e8f0;
   position: relative;
 }
 
-.pot-emoji {
-  font-size: 4rem;
-  display: block;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+.pot-img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+  margin-bottom: 4px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.stockpot-zone.simmering .pot-img {
+  animation: pot-rattle 0.35s infinite ease-in-out alternate;
+  filter: drop-shadow(0 8px 20px rgba(255, 87, 34, 0.45));
+}
+
+@keyframes pot-rattle {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-1.5px, -0.5px) rotate(-0.5deg); }
+  50% { transform: translate(1px, 0.5px) rotate(0.5deg); }
+  75% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+  100% { transform: translate(1.5px, -0.5px) rotate(0.5deg); }
 }
 
 .pot-status-text {
@@ -1705,9 +1752,29 @@
   animation: pulse-border 1s infinite alternate;
 }
 
-.blender-icon {
-  font-size: 2.8rem;
-  margin-bottom: 4px;
+.blender-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+.blender-appliance:hover .blender-img {
+  transform: translateY(-3px) scale(1.04);
+}
+
+.blender-appliance.pulse-blender .blender-img {
+  animation: blender-vibrate 0.15s infinite linear;
+}
+
+@keyframes blender-vibrate {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-2px, 1px) rotate(-1.5deg); }
+  50% { transform: translate(2px, -1px) rotate(1.5deg); }
+  75% { transform: translate(-1px, -1px) rotate(-1deg); }
+  100% { transform: translate(1px, 1px) rotate(1deg); }
 }
 
 .blender-appliance h4 {
@@ -1726,70 +1793,186 @@
    MISSION 3: MIXING STYLES
    ========================================================================== */
 .mixing-bowl-zone {
-  min-height: 250px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.bowl-jumbo {
-  font-size: 5rem;
+.mixing-bowl-zone.dough-ready-zone {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.4), rgba(254, 215, 170, 0.2));
+  border-color: var(--color-palm-400);
+}
+
+.bowl-stage-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mixing-bowl-img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
   display: block;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.18));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mixing-bowl-zone:hover .mixing-bowl-img {
+  transform: scale(1.05);
 }
 
 .bowl-contents-summary {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  max-width: 320px;
 }
 
 .ingredient-tag-pill {
-  background: var(--color-palm-50);
-  border: 1px solid var(--color-palm-300);
-  color: var(--color-palm-700);
+  background: #ffffff;
+  border: 1.5px solid var(--color-palm-400);
+  color: var(--color-palm-800);
   font-family: var(--font-heading);
   font-size: 0.8rem;
   font-weight: 700;
-  padding: 2px 10px;
+  padding: 3px 12px;
   border-radius: var(--radius-pill);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .mix-prompt-overlay {
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .btn-stir {
-  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
   padding: 10px 24px;
   animation: star-bounce 1.5s infinite ease-in-out;
 }
 
-.stir-icon {
-  font-size: 1.3rem;
+.stir-icon-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
 }
 
 .dough-finished-badge {
-  margin-top: 10px;
+  margin-top: 14px;
   background: #ffffff;
-  border: 2px solid var(--color-palm-400);
-  border-radius: var(--radius-md);
-  padding: 8px 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2.5px solid var(--color-palm-500);
+  border-radius: var(--radius-lg);
+  padding: 14px 22px;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  max-width: 380px;
 }
 
-.dough-icon {
-  font-size: 2.2rem;
-  display: block;
+.dough-img {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  margin-bottom: 2px;
+  filter: drop-shadow(0 6px 14px rgba(180, 83, 9, 0.25));
 }
 
 .dough-finished-badge h4 {
   font-family: var(--font-heading);
-  font-size: 0.95rem;
-  color: var(--color-palm-700);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-palm-800);
+  margin: 0;
 }
 
 .dough-finished-badge p {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: #64748b;
+  margin: 0 0 8px 0;
+}
+
+.btn-next-stage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 24px;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-next-stage:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.pulse {
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 6px 22px rgba(217, 119, 6, 0.6);
+  }
+}
+
+.dehydrate-complete-banner,
+.frying-complete-banner {
+  background: #ffffff;
+  border: 2.5px solid var(--color-palm-500);
+  border-radius: var(--radius-lg);
+  padding: 12px 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.dehydrate-complete-banner h4,
+.frying-complete-banner h4 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--color-palm-800);
+  margin: 0;
+}
+
+.dehydrate-complete-banner p,
+.frying-complete-banner p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0 0 6px 0;
 }
 
 /* ==========================================================================

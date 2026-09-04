@@ -82,6 +82,20 @@ export const Mission5Frying = () => {
   };
 
   const handleScoopSkimmer = () => {
+    if (fryStep === 4) {
+      soundManager.playSuccess();
+      speak(
+        'Outstanding culinary execution! The Coconut Pith Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
+        'happy',
+        {
+          badge: 'All Missions Cleared',
+          btnText: 'Proceed to Sensory & Certification ➔',
+          onNext: () => setScene('evaluation'),
+        }
+      );
+      return;
+    }
+
     if (fryStep !== 3) return;
 
     soundManager.playCrunch();
@@ -116,7 +130,7 @@ export const Mission5Frying = () => {
             {/* The Wok / Frying Vessel */}
             <div
               className={`dropzone wok-zone ${fryStep === 1 ? 'highlight-ready' : ''} ${fryStep >= 2 ? 'sizzling-wok' : ''}`}
-              onClick={fryStep === 1 ? handleDropPellets : fryStep === 3 ? handleScoopSkimmer : null}
+              onClick={fryStep === 1 ? handleDropPellets : (fryStep === 3 || fryStep === 4) ? handleScoopSkimmer : null}
             >
               <div className="wok-graphic">
                 <span className="wok-rim">🥘</span>
@@ -169,11 +183,29 @@ export const Mission5Frying = () => {
               {fryStep >= 3 && (
                 <div className="skimmer-tool-box pop-in" onClick={handleScoopSkimmer}>
                   <span className="skimmer-icon">🕸️</span>
-                  <button className="btn-primary btn-skimmer">Scoop with Skimmer!</button>
+                  <button className="btn-primary btn-skimmer">
+                    {fryStep === 4 ? 'Crackers Drained ✓' : 'Scoop with Skimmer!'}
+                  </button>
                 </div>
               )}
             </div>
           </div>
+
+          {fryStep === 4 && (
+            <div className="frying-complete-banner pop-in">
+              <h4>🎉 Laboratory Complete! Golden Puffed Crackers Ready!</h4>
+              <p>3x starch expansion achieved with crispy sensory texture</p>
+              <button
+                className="btn-gold btn-next-stage pulse"
+                onClick={() => {
+                  soundManager.playClick();
+                  setScene('evaluation');
+                }}
+              >
+                Proceed to Sensory & Certification ➔
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

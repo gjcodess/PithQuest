@@ -79,6 +79,20 @@ export const Mission1Prep = () => {
   };
 
   const handleBowlClick = () => {
+    if (prepStep === 3) {
+      soundManager.playSuccess();
+      speak(
+        'Fantastic! All 200g of sliced ubod are prepped in the bowl. Ready to soften them with heat in Stage 2: Boiling!',
+        'happy',
+        {
+          badge: 'Stage 1 Cleared',
+          btnText: 'Proceed to Stage 2: Boiling ➔',
+          onNext: () => setScene('mission2'),
+        }
+      );
+      return;
+    }
+
     if (prepStep === 2) {
       soundManager.playPour();
       soundManager.playSuccess();
@@ -129,11 +143,16 @@ export const Mission1Prep = () => {
                     <span className="action-hint-glow">Needs Slicing 🔪</span>
                   </div>
                 )}
-                {prepStep >= 2 && (
+                {prepStep === 2 && (
                   <div className="on-board-item pop-in" onClick={handleBowlClick}>
                     <img src="/assets/icon_sliced_ubod.png" alt="Sliced Pith" className="board-ingredient-img sliced" />
                     <span className="board-item-label">✓ Sliced Ubod Cubes</span>
-                    {prepStep === 2 && <span className="action-hint-glow">Tap to Move to Bowl ➔</span>}
+                    <span className="action-hint-glow">Tap to Move to Bowl ➔</span>
+                  </div>
+                )}
+                {prepStep === 3 && (
+                  <div className="zone-placeholder">
+                    <span className="zone-hint-text board-cleared">✓ Board Cleared</span>
                   </div>
                 )}
               </div>
@@ -141,15 +160,28 @@ export const Mission1Prep = () => {
 
             {/* The Prep Bowl Receiving Vessel */}
             <div
-              className={`prep-bowl-zone ${prepStep === 2 ? 'glow-target' : ''}`}
+              className={`prep-bowl-zone ${prepStep === 2 ? 'glow-target' : ''} ${prepStep === 3 ? 'filled' : ''}`}
               onClick={handleBowlClick}
               title="Stainless Steel Prep Bowl"
             >
               <div className="bowl-graphic">
-                <img src="/assets/icon_prep_bowl.png" alt="Stainless Steel Prep Bowl" className="prep-bowl-img" />
+                <img
+                  src={prepStep === 3 ? '/assets/icon_prep_bowl_filled.png' : '/assets/icon_prep_bowl.png'}
+                  alt={prepStep === 3 ? 'Filled Prep Bowl' : 'Stainless Steel Prep Bowl'}
+                  className={`prep-bowl-img ${prepStep === 3 ? 'bowl-filled-anim' : ''}`}
+                />
                 {prepStep === 3 ? (
-                  <div className="bowl-filled-badge">
+                  <div className="bowl-filled-badge pop-in" onClick={(e) => e.stopPropagation()}>
                     <span>✓ Filled: 200g Sliced Ubod</span>
+                    <button
+                      className="btn-gold btn-next-stage pulse"
+                      onClick={() => {
+                        soundManager.playClick();
+                        setScene('mission2');
+                      }}
+                    >
+                      Proceed to Stage 2: Boiling ➔
+                    </button>
                   </div>
                 ) : (
                   <span className="bowl-subtext">Stainless Prep Bowl</span>

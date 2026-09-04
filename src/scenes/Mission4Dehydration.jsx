@@ -24,6 +24,19 @@ export const Mission4Dehydration = () => {
   }, []);
 
   const handleAddDiscToTray = () => {
+    if (dehydrateStep === 3) {
+      soundManager.playSuccess();
+      speak(
+        'Sensational dehydration! Moisture has dropped from 75% down to 9%. The discs are now glassy, hard, and shelf-stable raw pellets, primed for puffing in Stage 5: Deep Frying!',
+        'happy',
+        {
+          badge: 'Stage 4 Cleared',
+          btnText: 'Proceed to Stage 5: Deep Frying ➔',
+          onNext: () => setScene('mission5'),
+        }
+      );
+      return;
+    }
     if (dehydrateStep !== 0) return;
     soundManager.playPour();
     const count = trayDiscs + 1;
@@ -157,6 +170,22 @@ export const Mission4Dehydration = () => {
               </div>
             </div>
           </div>
+
+          {dehydrateStep === 3 && (
+            <div className="dehydrate-complete-banner pop-in">
+              <h4>✓ Dehydration Complete (9% Moisture)</h4>
+              <p>Raw pellets are glassy, hard, and ready for deep frying</p>
+              <button
+                className="btn-gold btn-next-stage pulse"
+                onClick={() => {
+                  soundManager.playClick();
+                  setScene('mission5');
+                }}
+              >
+                Proceed to Stage 5: Deep Frying ➔
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

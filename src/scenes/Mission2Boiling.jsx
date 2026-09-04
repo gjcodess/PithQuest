@@ -131,6 +131,20 @@ export const Mission2Boiling = () => {
   };
 
   const handleBlenderClick = () => {
+    if (boilStep === 5) {
+      soundManager.playSuccess();
+      speak(
+        'Excellent! The ubod is pureed into a smooth, homogenous paste. This will bind flawlessly with our starch and seasonings in Stage 3: Formulation!',
+        'happy',
+        {
+          badge: 'Stage 2 Cleared',
+          btnText: 'Proceed to Stage 3: Mixing ➔',
+          onNext: () => setScene('mission3'),
+        }
+      );
+      return;
+    }
+
     if (boilStep === 4) {
       soundManager.playPour();
       soundManager.playSuccess();
@@ -156,7 +170,10 @@ export const Mission2Boiling = () => {
       <div className="stage-center-zone">
         <div className="active-vessel-card boiling-workstation">
           <div className="vessel-header">
-            <span className="vessel-title">🫕 Stovetop Station: Boiling & Softening</span>
+            <span className="vessel-title">
+              <img src="/assets/icon_stockpot.png" alt="" className="vessel-header-icon" />
+              Stovetop Station: Boiling & Softening
+            </span>
             <span className="vessel-badge">Pillar 1: Boiling</span>
           </div>
 
@@ -168,13 +185,13 @@ export const Mission2Boiling = () => {
             >
               {boilStep >= 2 && <div className="steam-particles"><div className="steam" /><div className="steam" /></div>}
               <div className="pot-graphic">
-                <span className="pot-emoji">🫕</span>
+                <img src="/assets/icon_stockpot.png" alt="Stockpot" className="pot-img" />
                 {boilStep === 0 && <span className="pot-status-text">Empty Stockpot (Needs Water)</span>}
                 {boilStep === 1 && <span className="pot-status-text">Water Added (Needs Heat)</span>}
                 {boilStep === 2 && <span className="pot-status-text">Water Boiling 🔥 (Add Ubod)</span>}
                 {boilStep === 3 && (
                   <div className="boiling-active-info">
-                    <span className="pot-status-text">♨️ Boiling Fibers Tender...</span>
+                    <span className="pot-status-text">Boiling Fibers Tender...</span>
                     {/* Tenderness Gauge */}
                     <div className="tenderness-meter">
                       <div className="gauge-track">
@@ -184,7 +201,7 @@ export const Mission2Boiling = () => {
                       <span className="gauge-label">{tenderProgress}% Tender (Target: 70-90%)</span>
                     </div>
                     <button className="btn-gold btn-stop-boil" onClick={(e) => { e.stopPropagation(); handleStopBoil(); }}>
-                      ⏹️ Stop Boiling!
+                      Stop Boiling!
                     </button>
                   </div>
                 )}
@@ -202,13 +219,25 @@ export const Mission2Boiling = () => {
 
             {/* The Blender / Pureer Appliance */}
             <div
-              className={`blender-appliance ${boilStep === 4 ? 'pulse-blender' : ''}`}
+              className={`blender-appliance ${boilStep === 4 ? 'pulse-blender' : ''} ${boilStep >= 5 ? 'blender-ready' : ''}`}
               onClick={handleBlenderClick}
               title="Food Processor / Blender"
             >
-              <div className="blender-icon">🌪️</div>
+              <img src="/assets/icon_blender.png" alt="Puree Blender" className="blender-img" />
               <h4>Puree Blender</h4>
               <p>{boilStep >= 5 ? '✓ Smooth Ubod Pulp' : boilStep === 4 ? 'Tap to Puree Soft Ubod!' : 'Awaiting Boiled Ubod'}</p>
+              {boilStep >= 5 && (
+                <button
+                  className="btn-gold btn-next-stage pulse"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    soundManager.playClick();
+                    setScene('mission3');
+                  }}
+                >
+                  Proceed to Stage 3: Mixing ➔
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -217,7 +246,7 @@ export const Mission2Boiling = () => {
       {/* Inventory Tray */}
       <div className="inventory-tray">
         <div className="tray-title-bar">
-          <span className="tray-label">🧰 Boiling Station Supplies:</span>
+          <span className="tray-label">Boiling Station Supplies:</span>
           <span className="tray-hint">Click item, then click the stockpot</span>
         </div>
         <div className="items-carousel">
@@ -225,8 +254,8 @@ export const Mission2Boiling = () => {
             className={`drag-card ${selectedItem?.id === 'water_pitcher' ? 'selected-tap' : ''} ${boilStep > 0 ? 'used' : ''}`}
             onClick={() => boilStep === 0 && handleItemClick({ id: 'water_pitcher', name: 'Water' })}
           >
-            <span className="card-icon-emoji">💧</span>
-            <span className="card-title">Water</span>
+            <img src="/assets/icon_water_pitcher.png" alt="Water Pitcher" className="card-icon-img" />
+            <span className="card-title">Water Pitcher</span>
             <span className="card-measure">500ml</span>
           </div>
 
@@ -234,7 +263,7 @@ export const Mission2Boiling = () => {
             className={`drag-card ${selectedItem?.id === 'sliced_ubod' ? 'selected-tap' : ''} ${boilStep !== 2 ? 'used' : ''}`}
             onClick={() => boilStep === 2 && handleItemClick({ id: 'sliced_ubod', name: 'Sliced Ubod' })}
           >
-            <img src="/assets/icon_sliced_ubod.png" alt="Sliced Ubod" className="card-icon-img" />
+            <img src="/assets/icon_prep_bowl_filled.png" alt="Sliced Ubod" className="card-icon-img" />
             <span className="card-title">Sliced Ubod</span>
             <span className="card-measure">200g</span>
           </div>

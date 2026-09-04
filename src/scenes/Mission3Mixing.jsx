@@ -27,6 +27,7 @@ export const Mission3Mixing = () => {
   }, []);
 
   const handleItemClick = (item) => {
+    if (isMixed) return;
     soundManager.playClick();
     if (selectedItem?.id === item.id) {
       setSelectedItem(null);
@@ -36,6 +37,21 @@ export const Mission3Mixing = () => {
   };
 
   const handleBowlClick = () => {
+    // If dough is already mixed, re-trigger the proceed dialogue safely
+    if (isMixed) {
+      soundManager.playSuccess();
+      speak(
+        'Superb mixing! The coconut pith cracker dough is ready. Click below to proceed to Stage 4: Dehydration!',
+        'happy',
+        {
+          badge: 'Stage 3 Cleared',
+          btnText: 'Proceed to Stage 4: Dehydration ➔',
+          onNext: () => setScene('mission4'),
+        }
+      );
+      return;
+    }
+
     if (!selectedItem) {
       soundManager.playError();
       showToast('Select an Ingredient', 'Pick an ingredient from the bottom shelf.', 'warning');
@@ -107,6 +123,7 @@ export const Mission3Mixing = () => {
     addScore(30);
     unlockBadge('precision_formulator', 'Formulation Specialist', '⚖️');
     setIsMixed(true);
+    setSelectedItem(null);
     completeMission('mission3');
     showToast('Dough Ready!', '+30 Points! Pliable cracker dough formed.', 'success');
     speak(
@@ -126,16 +143,23 @@ export const Mission3Mixing = () => {
       <div className="stage-center-zone">
         <div className="active-vessel-card mixing-workstation">
           <div className="vessel-header">
-            <span className="vessel-title">🥣 Formulation Bench: Mixing Bowl</span>
+            <span className="vessel-title">
+              <img src="/assets/icon_prep_bowl.png" alt="" className="vessel-header-icon" />
+              Formulation Bench: Mixing Bowl
+            </span>
             <span className="vessel-badge">{Object.values(ingredientsInBowl).filter(Boolean).length}/3 Ingredients</span>
           </div>
 
           <div
-            className={`dropzone mixing-bowl-zone ${selectedItem ? 'highlight-ready' : ''}`}
+            className={`dropzone mixing-bowl-zone ${selectedItem ? 'highlight-ready' : ''} ${isMixed ? 'dough-ready-zone' : ''}`}
             onClick={handleBowlClick}
           >
             <div className="bowl-stage-visual">
-              <span className="bowl-jumbo">🥣</span>
+              <img
+                src="/assets/icon_prep_bowl.png"
+                alt="Mixing Bowl"
+                className="mixing-bowl-img"
+              />
               <div className="bowl-contents-summary">
                 {ingredientsInBowl.pulp && <span className="ingredient-tag-pill">✓ 200g Boiled Ubod Pulp</span>}
                 {ingredientsInBowl.starch && <span className="ingredient-tag-pill">✓ 100g Tapioca Starch</span>}
@@ -145,17 +169,26 @@ export const Mission3Mixing = () => {
               {allIngredientsIn && !isMixed && (
                 <div className="mix-prompt-overlay" onClick={(e) => { e.stopPropagation(); handleMixAction(); }}>
                   <button className="btn-gold btn-stir">
-                    <span className="stir-icon">🥄</span>
+                    <img src="/assets/icon_spatula.png" alt="" className="stir-icon-img" />
                     <span>Stir & Knead Dough!</span>
                   </button>
                 </div>
               )}
 
               {isMixed && (
-                <div className="dough-finished-badge pop-in">
-                  <span className="dough-icon">🥟</span>
+                <div className="dough-finished-badge pop-in" onClick={(e) => e.stopPropagation()}>
+                  <img src="/assets/icon_dough.png" alt="Coconut Pith Cracker Dough" className="dough-img" />
                   <h4>✓ Uniform Coconut Pith Cracker Dough</h4>
                   <p>Ready to roll, steam, and dehydrate</p>
+                  <button
+                    className="btn-gold btn-next-stage pulse"
+                    onClick={() => {
+                      soundManager.playClick();
+                      setScene('mission4');
+                    }}
+                  >
+                    Proceed to Stage 4: Dehydration ➔
+                  </button>
                 </div>
               )}
             </div>
@@ -167,12 +200,12 @@ export const Mission3Mixing = () => {
       <div className="inventory-tray">
         <div className="tray-title-bar">
           <span className="tray-label">🧰 Formulation Ingredients:</span>
-          <span className="tray-hint">Click ingredient, then click mixing bowl</span>
+          <span className="tray-hint">{isMixed ? 'Dough is complete! Proceed to Stage 4' : 'Click ingredient, then click mixing bowl'}</span>
         </div>
         <div className="items-carousel">
           <div
-            className={`drag-card ${selectedItem?.id === 'pureed_ubod' ? 'selected-tap' : ''} ${ingredientsInBowl.pulp ? 'used' : ''}`}
-            onClick={() => !ingredientsInBowl.pulp && handleItemClick({ id: 'pureed_ubod' })}
+            className={`drag-card ${selectedItem?.id === 'pureed_ubod' ? 'selected-tap' : ''} ${ingredientsInBowl.pulp || isMixed ? 'used' : ''}`}
+            onClick={() => !ingredientsInBowl.pulp && !isMixed && handleItemClick({ id: 'pureed_ubod' })}
           >
             <img src="/assets/icon_coconut_pith.png" alt="Pureed Ubod" className="card-icon-img" />
             <span className="card-title">Pureed Ubod</span>
@@ -180,8 +213,8 @@ export const Mission3Mixing = () => {
           </div>
 
           <div
-            className={`drag-card ${selectedItem?.id === 'tapioca_starch' ? 'selected-tap' : ''} ${ingredientsInBowl.starch ? 'used' : ''}`}
-            onClick={() => !ingredientsInBowl.starch && handleItemClick({ id: 'tapioca_starch' })}
+            className={`drag-card ${selectedItem?.id === 'tapioca_starch' ? 'selected-tap' : ''} ${ingredientsInBowl.starch || isMixed ? 'used' : ''}`}
+            onClick={() => !ingredientsInBowl.starch && !isMixed && handleItemClick({ id: 'tapioca_starch' })}
           >
             <img src="/assets/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
             <span className="card-title">Tapioca Starch</span>
@@ -189,20 +222,19 @@ export const Mission3Mixing = () => {
           </div>
 
           <div
-            className={`drag-card ${selectedItem?.id === 'seasonings' ? 'selected-tap' : ''} ${ingredientsInBowl.seasonings ? 'used' : ''}`}
-            onClick={() => !ingredientsInBowl.seasonings && handleItemClick({ id: 'seasonings' })}
+            className={`drag-card ${selectedItem?.id === 'seasonings' ? 'selected-tap' : ''} ${ingredientsInBowl.seasonings || isMixed ? 'used' : ''}`}
+            onClick={() => !ingredientsInBowl.seasonings && !isMixed && handleItemClick({ id: 'seasonings' })}
           >
             <img src="/assets/icon_seasonings.png" alt="Seasonings" className="card-icon-img" />
             <span className="card-title">Seasonings</span>
             <span className="card-measure">1 tsp blend</span>
           </div>
 
-
           <div
-            className={`drag-card distractor ${selectedItem?.id === 'distractor_vinegar' ? 'selected-tap' : ''}`}
-            onClick={() => handleItemClick({ id: 'distractor_vinegar' })}
+            className={`drag-card distractor ${selectedItem?.id === 'distractor_vinegar' ? 'selected-tap' : ''} ${isMixed ? 'used' : ''}`}
+            onClick={() => !isMixed && handleItemClick({ id: 'distractor_vinegar' })}
           >
-            <span className="card-icon-emoji">🍶</span>
+            <img src="/assets/icon_vinegar.png" alt="Cane Vinegar" className="card-icon-img" />
             <span className="card-title">Cane Vinegar</span>
             <span className="card-measure">Distractor</span>
           </div>
