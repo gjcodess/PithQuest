@@ -484,6 +484,145 @@
   box-shadow: none !important;
 }
 
+/* Lifted / Held Card State in Tray */
+.drag-card.lifted {
+  opacity: 0.55;
+  border: 2px dashed var(--color-gold-400) !important;
+  background: rgba(255, 253, 245, 0.7) !important;
+  transform: translateY(-2px) scale(0.96) !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.45) !important;
+}
+
+.drag-card.lifted::after {
+  content: 'HOLDING';
+  position: absolute;
+  top: -8px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #1e293b;
+  font-family: var(--font-heading);
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   FLOATING HANDHELD ITEM CURSOR FOLLOWER
+   ========================================================================== */
+body.holding-item-cursor,
+body.holding-item-cursor * {
+  cursor: none !important;
+}
+
+.floating-item-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 999999;
+  will-change: transform;
+}
+
+.floating-item-aura {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.45) 0%, rgba(245, 158, 11, 0) 70%);
+  animation: pulse-follower-aura 1.5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes pulse-follower-aura {
+  0% {
+    transform: translate(-50%, -50%) scale(0.85);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.85;
+  }
+}
+
+.floating-item-graphic-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 82px;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  animation: float-hold 2.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes float-hold {
+  0% {
+    transform: translate(-50%, -50%) rotate(-4deg) scale(1.02);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(4deg) scale(1.08);
+  }
+}
+
+.floating-item-img {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 12px rgba(245, 158, 11, 0.5));
+  pointer-events: none;
+}
+
+.floating-item-emoji {
+  font-size: 3.4rem;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.5));
+}
+
+.floating-item-tooltip {
+  position: absolute;
+  left: 0;
+  top: 48px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1.5px solid rgba(245, 158, 11, 0.8);
+  backdrop-filter: blur(8px);
+  padding: 3px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.floating-item-tooltip .tooltip-name {
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #fef08a;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  line-height: 1.2;
+}
+
+.floating-item-tooltip .tooltip-hint {
+  font-size: 0.62rem;
+  color: #cbd5e1;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
 /* ==========================================================================
    TEACHER MIA DIALOGUE BOX (HUD)
    ========================================================================== */
@@ -534,13 +673,13 @@
 }
 
 .dialogue-avatar {
-  width: 72px;
-  height: 72px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  border: 3px solid var(--color-palm-500);
+  border: 3.5px solid var(--color-palm-500);
   object-fit: cover;
   background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .avatar-tag {
@@ -1546,6 +1685,24 @@
   animation: pulse-border 1s infinite alternate;
 }
 
+.on-board-item:hover .board-ingredient-img {
+  transform: scale(1.15);
+}
+
+.on-board-item.lifted-from-board {
+  opacity: 0.35;
+  filter: grayscale(0.5);
+  transform: scale(0.92);
+  transition: all 0.2s ease;
+}
+
+.on-board-item.lifted-from-board .action-hint-glow {
+  background: #fff8e1;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+
 .prep-bowl-zone {
   background: rgba(255, 255, 255, 0.6);
   border: 3px dashed #94a3b8;
@@ -1617,15 +1774,35 @@
   border: 1px solid #cbd5e1;
 }
 
+.bowl-completed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  width: 100%;
+}
+
 .bowl-filled-badge {
-  background: var(--color-palm-600);
+  background: #166534;
   color: #ffffff;
   font-family: var(--font-heading);
   font-size: 0.82rem;
   font-weight: 700;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: var(--radius-pill);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.prep-bowl-zone .btn-next-stage {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+  white-space: nowrap;
 }
 
 

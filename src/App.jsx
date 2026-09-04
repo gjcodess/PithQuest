@@ -6,6 +6,7 @@ import { Toast } from './components/Toast';
 import { RecipeModal } from './components/Modals/RecipeModal';
 import { ObjectivesModal } from './components/Modals/ObjectivesModal';
 import { ConfirmModal } from './components/Modals/ConfirmModal';
+import { FloatingItemCursor } from './components/FloatingItemCursor';
 
 // Scenes
 import { TitleScene } from './scenes/TitleScene';
@@ -56,6 +57,7 @@ export const App = () => {
       <RecipeModal />
       <ObjectivesModal />
       <ConfirmModal />
+      <FloatingItemCursor />
     </div>
   );
 };

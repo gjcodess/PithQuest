@@ -3,7 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 export const Mission2Boiling = () => {
-  const { setScene, addScore, speak, showToast, completeMission } = useGame();
+  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
 
   const [boilStep, setBoilStep] = useState(0); // 0: Add water, 1: Turn on stove, 2: Add ubod, 3: Boiling gauge, 4: Puree in blender, 5: Done
   const [selectedItem, setSelectedItem] = useState(null);
@@ -16,7 +16,7 @@ export const Mission2Boiling = () => {
       'neutral',
       {
         badge: 'Stage 2: Boiling',
-        hint: 'Select the Water Pitcher to fill the stockpot with 500ml water.',
+        hint: 'Click the Water Pitcher to hold it, then click the stockpot to pour 500ml water.',
         hideButton: true,
       }
     );
@@ -24,18 +24,23 @@ export const Mission2Boiling = () => {
 
   const handleItemClick = (item) => {
     soundManager.playClick();
-    if (selectedItem?.id === item.id) {
+    if (holdingItem?.id === item.id) {
+      setHoldingItem(null);
       setSelectedItem(null);
     } else {
+      setHoldingItem(item);
       setSelectedItem(item);
     }
   };
 
   const handlePotClick = () => {
+    const activeItem = holdingItem || selectedItem;
+
     if (boilStep === 0) {
-      if (selectedItem?.id === 'water_pitcher') {
+      if (activeItem?.id === 'water_pitcher') {
         soundManager.playPour();
         setBoilStep(1);
+        setHoldingItem(null);
         setSelectedItem(null);
         showToast('Water Added!', 'Now turn on the stove burner flame.', 'success');
         speak(
@@ -49,13 +54,14 @@ export const Mission2Boiling = () => {
         );
       } else {
         soundManager.playError();
-        showToast('Add Water First!', 'The pot needs water before heating.', 'danger');
+        showToast('Add Water First!', 'Pick up the Water Pitcher to fill the pot.', 'danger');
       }
     } else if (boilStep === 2) {
-      if (selectedItem?.id === 'sliced_ubod') {
+      if (activeItem?.id === 'sliced_ubod') {
         soundManager.playPour();
         soundManager.playBoil();
         setBoilStep(3);
+        setHoldingItem(null);
         setSelectedItem(null);
         setIsBoiling(true);
         showToast('Boiling Ubod!', 'Watch the tenderness gauge.', 'success');
@@ -68,6 +74,9 @@ export const Mission2Boiling = () => {
             hideButton: true,
           }
         );
+      } else {
+        soundManager.playError();
+        showToast('Add Ubod!', 'Pick up the Sliced Ubod and add it to the boiling pot.', 'danger');
       }
     }
   };
@@ -259,8 +268,16 @@ export const Mission2Boiling = () => {
         </div>
         <div className="items-carousel">
           <div
-            className={`drag-card ${selectedItem?.id === 'water_pitcher' ? 'selected-tap' : ''} ${boilStep > 0 ? 'used' : ''}`}
-            onClick={() => boilStep === 0 && handleItemClick({ id: 'water_pitcher', name: 'Water' })}
+            className={`drag-card ${(holdingItem?.id === 'water_pitcher' || selectedItem?.id === 'water_pitcher') ? 'lifted selected-tap' : ''} ${boilStep > 0 ? 'used' : ''}`}
+            onClick={() =>
+              boilStep === 0 &&
+              handleItemClick({
+                id: 'water_pitcher',
+                name: 'Water Pitcher (500ml)',
+                img: '/images/icon_water_pitcher.png',
+                actionHint: 'Click stockpot to pour water',
+              })
+            }
           >
             <img src="/images/icon_water_pitcher.png" alt="Water Pitcher" className="card-icon-img" />
             <span className="card-title">Water Pitcher</span>
@@ -268,8 +285,16 @@ export const Mission2Boiling = () => {
           </div>
 
           <div
-            className={`drag-card ${selectedItem?.id === 'sliced_ubod' ? 'selected-tap' : ''} ${boilStep !== 2 ? 'used' : ''}`}
-            onClick={() => boilStep === 2 && handleItemClick({ id: 'sliced_ubod', name: 'Sliced Ubod' })}
+            className={`drag-card ${(holdingItem?.id === 'sliced_ubod' || selectedItem?.id === 'sliced_ubod') ? 'lifted selected-tap' : ''} ${boilStep !== 2 ? 'used' : ''}`}
+            onClick={() =>
+              boilStep === 2 &&
+              handleItemClick({
+                id: 'sliced_ubod',
+                name: 'Sliced Ubod (200g)',
+                img: '/images/icon_prep_bowl_filled.png',
+                actionHint: 'Click stockpot to add ubod',
+              })
+            }
           >
             <img src="/images/icon_prep_bowl_filled.png" alt="Sliced Ubod" className="card-icon-img" />
             <span className="card-title">Sliced Ubod</span>

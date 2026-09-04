@@ -3,7 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 export const Mission3Mixing = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, recordMistake } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, recordMistake, holdingItem, setHoldingItem } = useGame();
 
   const [ingredientsInBowl, setIngredientsInBowl] = useState({
     pulp: false,
@@ -20,7 +20,7 @@ export const Mission3Mixing = () => {
       'neutral',
       {
         badge: 'Stage 3: Formulation',
-        hint: 'Click an ingredient from the tray, then click the central mixing bowl.',
+        hint: 'Click an ingredient from the tray to hold it, then click the central mixing bowl.',
         hideButton: true,
       }
     );
@@ -29,9 +29,11 @@ export const Mission3Mixing = () => {
   const handleItemClick = (item) => {
     if (isMixed) return;
     soundManager.playClick();
-    if (selectedItem?.id === item.id) {
+    if (holdingItem?.id === item.id) {
+      setHoldingItem(null);
       setSelectedItem(null);
     } else {
+      setHoldingItem(item);
       setSelectedItem(item);
     }
   };
@@ -52,16 +54,20 @@ export const Mission3Mixing = () => {
       return;
     }
 
-    if (!selectedItem) {
+    const activeItem = holdingItem || selectedItem;
+
+    if (!activeItem) {
       soundManager.playError();
-      showToast('Select an Ingredient', 'Pick an ingredient from the bottom shelf.', 'warning');
+      showToast('Select an Ingredient', 'Pick up an ingredient from the bottom shelf.', 'warning');
       return;
     }
 
     // Check for distractor items
-    if (selectedItem.id === 'distractor_vinegar') {
+    if (activeItem.id === 'distractor_vinegar') {
       soundManager.playError();
       recordMistake();
+      setHoldingItem(null);
+      setSelectedItem(null);
       showToast('Wrong Ingredient!', 'Acid inhibits starch gelatinization!', 'danger');
       speak(
         'Careful! Adding acid (like vinegar) breaks down starch molecules and prevents the crackers from puffing during frying. Stick to our recipe ingredients!',
@@ -72,31 +78,36 @@ export const Mission3Mixing = () => {
           hideButton: true,
         }
       );
-      setSelectedItem(null);
       return;
     }
 
     // Valid ingredients
-    if (selectedItem.id === 'pureed_ubod' && !ingredientsInBowl.pulp) {
+    if (activeItem.id === 'pureed_ubod' && !ingredientsInBowl.pulp) {
       soundManager.playPour();
       addScore(15);
       setIngredientsInBowl(prev => ({ ...prev, pulp: true }));
       showToast('Ubod Puree Added!', '+15 Points.', 'success');
-    } else if (selectedItem.id === 'tapioca_starch' && !ingredientsInBowl.starch) {
+      setHoldingItem(null);
+      setSelectedItem(null);
+    } else if (activeItem.id === 'tapioca_starch' && !ingredientsInBowl.starch) {
       soundManager.playPour();
       addScore(15);
       setIngredientsInBowl(prev => ({ ...prev, starch: true }));
       showToast('Tapioca Starch Added!', '+15 Points (Puffing Agent).', 'success');
-    } else if (selectedItem.id === 'seasonings' && !ingredientsInBowl.seasonings) {
+      setHoldingItem(null);
+      setSelectedItem(null);
+    } else if (activeItem.id === 'seasonings' && !ingredientsInBowl.seasonings) {
       soundManager.playPour();
       addScore(15);
       setIngredientsInBowl(prev => ({ ...prev, seasonings: true }));
       showToast('Seasonings Added!', '+15 Points (Salt, Garlic, Sugar).', 'success');
+      setHoldingItem(null);
+      setSelectedItem(null);
     } else {
       showToast('Already Added!', 'This item is already in the bowl.', 'warning');
+      setHoldingItem(null);
+      setSelectedItem(null);
     }
-
-    setSelectedItem(null);
   };
 
   const allIngredientsIn = ingredientsInBowl.pulp && ingredientsInBowl.starch && ingredientsInBowl.seasonings;
@@ -204,8 +215,17 @@ export const Mission3Mixing = () => {
         </div>
         <div className="items-carousel">
           <div
-            className={`drag-card ${selectedItem?.id === 'pureed_ubod' ? 'selected-tap' : ''} ${ingredientsInBowl.pulp || isMixed ? 'used' : ''}`}
-            onClick={() => !ingredientsInBowl.pulp && !isMixed && handleItemClick({ id: 'pureed_ubod' })}
+            className={`drag-card ${(holdingItem?.id === 'pureed_ubod' || selectedItem?.id === 'pureed_ubod') ? 'lifted selected-tap' : ''} ${ingredientsInBowl.pulp || isMixed ? 'used' : ''}`}
+            onClick={() =>
+              !ingredientsInBowl.pulp &&
+              !isMixed &&
+              handleItemClick({
+                id: 'pureed_ubod',
+                name: 'Pureed Ubod (200g)',
+                img: '/images/icon_ubod_puree.png',
+                actionHint: 'Click mixing bowl to add',
+              })
+            }
           >
             <img src="/images/icon_ubod_puree.png" alt="Pureed Ubod" className="card-icon-img" />
             <span className="card-title">Pureed Ubod</span>
@@ -213,8 +233,17 @@ export const Mission3Mixing = () => {
           </div>
 
           <div
-            className={`drag-card ${selectedItem?.id === 'tapioca_starch' ? 'selected-tap' : ''} ${ingredientsInBowl.starch || isMixed ? 'used' : ''}`}
-            onClick={() => !ingredientsInBowl.starch && !isMixed && handleItemClick({ id: 'tapioca_starch' })}
+            className={`drag-card ${(holdingItem?.id === 'tapioca_starch' || selectedItem?.id === 'tapioca_starch') ? 'lifted selected-tap' : ''} ${ingredientsInBowl.starch || isMixed ? 'used' : ''}`}
+            onClick={() =>
+              !ingredientsInBowl.starch &&
+              !isMixed &&
+              handleItemClick({
+                id: 'tapioca_starch',
+                name: 'Tapioca Starch (100g)',
+                img: '/images/icon_tapioca_starch.png',
+                actionHint: 'Click mixing bowl to add',
+              })
+            }
           >
             <img src="/images/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
             <span className="card-title">Tapioca Starch</span>
@@ -222,8 +251,17 @@ export const Mission3Mixing = () => {
           </div>
 
           <div
-            className={`drag-card ${selectedItem?.id === 'seasonings' ? 'selected-tap' : ''} ${ingredientsInBowl.seasonings || isMixed ? 'used' : ''}`}
-            onClick={() => !ingredientsInBowl.seasonings && !isMixed && handleItemClick({ id: 'seasonings' })}
+            className={`drag-card ${(holdingItem?.id === 'seasonings' || selectedItem?.id === 'seasonings') ? 'lifted selected-tap' : ''} ${ingredientsInBowl.seasonings || isMixed ? 'used' : ''}`}
+            onClick={() =>
+              !ingredientsInBowl.seasonings &&
+              !isMixed &&
+              handleItemClick({
+                id: 'seasonings',
+                name: 'Seasonings (1 tsp)',
+                img: '/images/icon_seasonings.png',
+                actionHint: 'Click mixing bowl to add',
+              })
+            }
           >
             <img src="/images/icon_seasonings.png" alt="Seasonings" className="card-icon-img" />
             <span className="card-title">Seasonings</span>
@@ -231,8 +269,16 @@ export const Mission3Mixing = () => {
           </div>
 
           <div
-            className={`drag-card distractor ${selectedItem?.id === 'distractor_vinegar' ? 'selected-tap' : ''} ${isMixed ? 'used' : ''}`}
-            onClick={() => !isMixed && handleItemClick({ id: 'distractor_vinegar' })}
+            className={`drag-card distractor ${(holdingItem?.id === 'distractor_vinegar' || selectedItem?.id === 'distractor_vinegar') ? 'lifted selected-tap' : ''} ${isMixed ? 'used' : ''}`}
+            onClick={() =>
+              !isMixed &&
+              handleItemClick({
+                id: 'distractor_vinegar',
+                name: 'Cane Vinegar',
+                img: '/images/icon_vinegar.png',
+                actionHint: 'Click mixing bowl to test',
+              })
+            }
           >
             <img src="/images/icon_vinegar.png" alt="Cane Vinegar" className="card-icon-img" />
             <span className="card-title">Cane Vinegar</span>

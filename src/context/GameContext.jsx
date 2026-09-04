@@ -31,6 +31,12 @@ export const GameProvider = ({ children }) => {
   });
 
   const [activeModal, setActiveModal] = useState(null); // 'recipe', 'objectives', null
+  const [holdingItem, setHoldingItem] = useState(null); // { id, name, img, ... }
+
+  useEffect(() => {
+    // Reset any held cursor item when changing scenes
+    setHoldingItem(null);
+  }, [scene]);
 
   const [confirmDialog, setConfirmDialog] = useState({
     visible: false,
@@ -204,6 +210,8 @@ export const GameProvider = ({ children }) => {
         confirmDialog,
         requestConfirm,
         closeConfirm,
+        holdingItem,
+        setHoldingItem,
         isMuted,
         toggleSound,
         resetGame,

@@ -3,7 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 export const Mission4Dehydration = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
 
   const [dehydrateStep, setDehydrateStep] = useState(0); // 0: Place discs on tray, 1: Set temperature, 2: Dehydrating loop, 3: Completed
   const [trayDiscs, setTrayDiscs] = useState(0); // 0 to 4 discs
@@ -17,11 +17,26 @@ export const Mission4Dehydration = () => {
       'neutral',
       {
         badge: 'Stage 4: Dehydration',
-        hint: 'Tap the Sliced Raw Discs to arrange them onto the perforated drying tray.',
+        hint: 'Click the Sliced Raw Discs to hold them, then click the perforated drying tray to load.',
         hideButton: true,
       }
     );
   }, []);
+
+  const handleCardClick = () => {
+    if (trayDiscs >= 4) return;
+    soundManager.playClick();
+    if (holdingItem?.id === 'raw_discs') {
+      setHoldingItem(null);
+    } else {
+      setHoldingItem({
+        id: 'raw_discs',
+        name: `Sliced Discs (${4 - trayDiscs} left)`,
+        img: '/images/icon_raw_discs.png',
+        actionHint: 'Click drying tray to arrange discs',
+      });
+    }
+  };
 
   const handleAddDiscToTray = () => {
     if (dehydrateStep === 3) {
@@ -44,6 +59,7 @@ export const Mission4Dehydration = () => {
 
     if (count >= 4) {
       setDehydrateStep(1);
+      setHoldingItem(null);
       showToast('Tray Loaded!', 'Now set the cabinet dehydrator to 60°C.', 'success');
       speak(
         'The perforated tray is loaded with uniform discs! Now click the temperature dial to set the cabinet dehydrator to 60°C.',
@@ -54,6 +70,13 @@ export const Mission4Dehydration = () => {
           hideButton: true,
         }
       );
+    } else if (holdingItem?.id === 'raw_discs') {
+      setHoldingItem({
+        id: 'raw_discs',
+        name: `Sliced Discs (${4 - count} left)`,
+        img: '/images/icon_raw_discs.png',
+        actionHint: 'Click drying tray to arrange discs',
+      });
     }
   };
 
@@ -207,12 +230,12 @@ export const Mission4Dehydration = () => {
         </div>
         <div className="items-carousel">
           <div
-            className={`drag-card ${trayDiscs >= 4 ? 'used' : ''}`}
-            onClick={handleAddDiscToTray}
+            className={`drag-card ${holdingItem?.id === 'raw_discs' ? 'lifted selected-tap' : ''} ${trayDiscs >= 4 ? 'used' : ''}`}
+            onClick={handleCardClick}
           >
             <img src="/images/icon_raw_discs.png" alt="Sliced Discs" className="card-icon-img" />
             <span className="card-title">Sliced Discs</span>
-            <span className="card-measure">4 Pieces</span>
+            <span className="card-measure">{4 - trayDiscs} Available</span>
           </div>
 
           <div className="drag-card used">

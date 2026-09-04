@@ -3,7 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 export const Mission5Frying = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, recordMistake } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, recordMistake, holdingItem, setHoldingItem } = useGame();
 
   const [fryStep, setFryStep] = useState(0); // 0: Heat oil, 1: Drop chips, 2: Puffing & sizzling, 3: Scoop with skimmer, 4: Done
   const [oilTemp, setOilTemp] = useState(120); // Target: 180°C (Green zone 175-190°C)
@@ -39,13 +39,13 @@ export const Mission5Frying = () => {
             setIsHeating(false);
             setFryStep(1);
             soundManager.playSuccess();
-            showToast('Optimal 180°C Reached!', 'Click or drop the dried pellets into the oil!', 'success');
+            showToast('Optimal 180°C Reached!', 'Click the pellets to hold them, then click the wok!', 'success');
             speak(
-              'Oil is at the optimal 180°C frying temperature! Tap the Dried Pellets on the tray to drop them into the sizzling wok!',
+              'Oil is at the optimal 180°C frying temperature! Click the Dried Pellets to hold them, then click into the sizzling wok!',
               'happy',
               {
                 badge: 'Thermal Optimum',
-                hint: 'Tap Dried Pellets to drop into oil.',
+                hint: 'Click Dried Pellets, then click wok to drop into oil.',
                 hideButton: true,
               }
             );
@@ -58,10 +58,26 @@ export const Mission5Frying = () => {
     return () => clearInterval(interval);
   }, [isHeating, fryStep]);
 
+  const handlePelletsClick = () => {
+    if (fryStep !== 1) return;
+    soundManager.playClick();
+    if (holdingItem?.id === 'dried_pellets') {
+      handleDropPellets();
+    } else {
+      setHoldingItem({
+        id: 'dried_pellets',
+        name: 'Dried Pellets (9% Moisture)',
+        img: '/images/icon_dried_pellets.png',
+        actionHint: 'Click sizzling wok to flash puff!',
+      });
+    }
+  };
+
   const handleDropPellets = () => {
     if (fryStep !== 1) return;
 
     soundManager.playSizzle();
+    setHoldingItem(null);
     setFryStep(2);
     setCrackersPuffed(true);
     showToast('Flash Puffing!', 'Steam expansion in action!', 'success');
@@ -102,6 +118,7 @@ export const Mission5Frying = () => {
     soundManager.playFanfare();
     addScore(50);
     unlockBadge('golden_crunch_master', 'Master of the Golden Crunch', '👑');
+    setHoldingItem(null);
     setFryStep(4);
     completeMission('mission5');
     showToast('Cracker Master!', '+50 Points! Golden, crispy batch complete.', 'success');
@@ -120,7 +137,7 @@ export const Mission5Frying = () => {
     <div className="workstation-scene stage-5-bg">
       <div className="workstation-overlay" />
       <div className="stage-center-zone">
-        <div className="active-vessel-card frying-workstation">
+        <div className="workstation-card frying-workstation">
           <div className="vessel-header">
             <span className="vessel-title">
               <img src="/images/icon_frying_wok.png" alt="" className="vessel-header-icon" />
@@ -155,8 +172,11 @@ export const Mission5Frying = () => {
                 )}
 
                 {fryStep >= 2 && (
-                  <div className="puffing-animation-container">
-                    <div className="sizzle-bubbles">
+                  <div className="in-wok-contents">
+                    <div className="oil-bubbles">
+                      <span className="bubble">🫧</span>
+                      <span className="bubble">🫧</span>
+                      <span className="bubble">🫧</span>
                       <span className="bubble">🫧</span>
                       <span className="bubble">🫧</span>
                       <span className="bubble">🫧</span>
@@ -221,12 +241,35 @@ export const Mission5Frying = () => {
         </div>
         <div className="items-carousel">
           <div
-            className={`drag-card ${fryStep === 1 ? 'selected-tap pulse' : ''} ${fryStep > 1 ? 'used' : ''}`}
-            onClick={fryStep === 1 ? handleDropPellets : null}
+            className={`drag-card ${holdingItem?.id === 'dried_pellets' ? 'lifted selected-tap' : fryStep === 1 ? 'selected-tap pulse' : ''} ${fryStep > 1 ? 'used' : ''}`}
+            onClick={fryStep === 1 ? handlePelletsClick : null}
           >
             <img src="/images/icon_dried_pellets.png" alt="Dried Pellets" className="card-icon-img" />
             <span className="card-title">Dried Pellets</span>
             <span className="card-measure">Glassy 9%</span>
+          </div>
+
+          <div
+            className={`drag-card ${fryStep < 3 ? 'used' : holdingItem?.id === 'skimmer' ? 'lifted selected-tap' : fryStep === 3 ? 'selected-tap pulse' : 'used'}`}
+            onClick={() => {
+              if (fryStep === 3) {
+                if (holdingItem?.id === 'skimmer') {
+                  handleScoopSkimmer();
+                } else {
+                  soundManager.playClick();
+                  setHoldingItem({
+                    id: 'skimmer',
+                    name: 'Spider Skimmer',
+                    img: '/images/icon_spider_skimmer.png',
+                    actionHint: 'Click wok to scoop crackers',
+                  });
+                }
+              }
+            }}
+          >
+            <img src="/images/icon_spider_skimmer.png" alt="Spider Skimmer" className="card-icon-img" />
+            <span className="card-title">Spider Skimmer</span>
+            <span className="card-measure">{fryStep >= 4 ? 'Used' : 'Scoop & Drain'}</span>
           </div>
 
           <div className="drag-card used">
