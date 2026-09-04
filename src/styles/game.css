@@ -510,8 +510,56 @@
 }
 
 /* ==========================================================================
-   FLOATING HANDHELD ITEM CURSOR FOLLOWER
+   CUSTOM CHEF GLOVE GAME CURSOR & FLOATING ITEM FOLLOWER
    ========================================================================== */
+html, body, .game-app {
+  cursor: url('/assets/cursor_32.png') 2 2, auto;
+}
+
+/* Sparkle Glove Pointer on Hoverable / Clickable Elements */
+button,
+a,
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+label,
+[role="button"],
+.btn-primary,
+.btn-gold,
+.btn-secondary,
+.hud-btn,
+.dialogue-btn,
+.btn-next-stage,
+.btn-skimmer,
+.drag-card:not(.used),
+.dropzone,
+.clickable,
+.prep-bowl-zone,
+.cutting-board-zone,
+.on-board-item,
+.blender-appliance,
+.stockpot-zone,
+.mixing-bowl-zone,
+.tray-zone,
+.wok-zone,
+.ppe-box,
+.cert-action-btn,
+.spatula-in-bowl,
+.skimmer-tool-box,
+.burner-knob-wrapper,
+.modal-close-btn,
+.tab-btn {
+  cursor: url('/assets/cursor_hover_32.png') 2 2, pointer !important;
+}
+
+/* Used / Disabled Cards */
+.drag-card.used {
+  cursor: not-allowed !important;
+}
+
+/* Hide cursor when holding an item so the item itself acts as the cursor */
 body.holding-item-cursor,
 body.holding-item-cursor * {
   cursor: none !important;
@@ -1811,38 +1859,63 @@ body.holding-item-cursor * {
    ========================================================================== */
 .stovetop-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 18px;
   width: 100%;
-  align-items: center;
+  align-items: stretch;
 }
 
 .vessel-header-icon {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
   vertical-align: middle;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .stockpot-zone {
-  min-height: 240px;
-  background: #e2e8f0;
+  min-height: 280px;
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 3px dashed #94a3b8;
+  border-radius: var(--radius-md);
+  padding: 14px 12px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
+  transition: all 0.25s ease;
+}
+
+.stockpot-zone.simmering {
+  border-color: #f97316;
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  box-shadow: inset 0 0 24px rgba(249, 115, 22, 0.16), 0 0 16px rgba(249, 115, 22, 0.2);
+}
+
+.pot-graphic {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .pot-img {
-  width: 130px;
-  height: 130px;
+  width: 165px;
+  height: 145px;
   object-fit: contain;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
   margin-bottom: 4px;
   transition: transform 0.25s ease, filter 0.25s ease;
+  position: relative;
+  z-index: 2;
 }
 
-.stockpot-zone.simmering .pot-img {
+.pot-img.pot-simmering {
   animation: pot-rattle 0.35s infinite ease-in-out alternate;
-  filter: drop-shadow(0 8px 20px rgba(255, 87, 34, 0.45));
+  filter: drop-shadow(0 10px 22px rgba(255, 87, 34, 0.45));
 }
 
 @keyframes pot-rattle {
@@ -1853,65 +1926,285 @@ body.holding-item-cursor * {
   100% { transform: translate(1.5px, -0.5px) rotate(0.5deg); }
 }
 
+/* Realistic Gas Burner Flame Ring Beneath Pot */
+.burner-flame-underglow {
+  position: absolute;
+  top: 105px;
+  width: 140px;
+  height: 38px;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flame-corona {
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(ellipse at center, rgba(255, 120, 0, 0.6) 0%, rgba(56, 189, 248, 0.5) 55%, transparent 75%);
+  filter: blur(6px);
+  animation: flame-flicker 0.18s infinite alternate ease-in-out;
+}
+
+.gas-flame-ring {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.flame-jet {
+  width: 8px;
+  height: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbbf24 30%, #ea580c 60%, #0284c7 95%);
+  border-radius: 50% 50% 30% 30%;
+  filter: drop-shadow(0 0 5px #38bdf8);
+  animation: jet-burn 0.22s infinite alternate ease-in-out;
+}
+
+.flame-jet.fj1 { animation-delay: 0.03s; height: 14px; }
+.flame-jet.fj2 { animation-delay: 0.12s; height: 18px; }
+.flame-jet.fj3 { animation-delay: 0.07s; height: 19px; }
+.flame-jet.fj4 { animation-delay: 0.15s; height: 21px; }
+.flame-jet.fj5 { animation-delay: 0.05s; height: 19px; }
+.flame-jet.fj6 { animation-delay: 0.18s; height: 17px; }
+.flame-jet.fj7 { animation-delay: 0.09s; height: 14px; }
+
+@keyframes jet-burn {
+  0% { transform: scaleY(0.85) scaleX(0.92); }
+  100% { transform: scaleY(1.15) scaleX(1.08); }
+}
+
+@keyframes flame-flicker {
+  0% { opacity: 0.8; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1.04); }
+}
+
 .pot-status-text {
   font-family: var(--font-heading);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #1e293b;
   display: block;
-  margin-top: 6px;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.pot-ready-callout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.transfer-hint-pill {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  animation: pulse-border 1.2s infinite alternate;
 }
 
 .steam-particles {
   position: absolute;
-  top: 10px;
+  top: 6px;
   display: flex;
-  gap: 16px;
+  gap: 20px;
+  pointer-events: none;
+  z-index: 4;
 }
 
 .steam {
   width: 14px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.7);
+  height: 28px;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   filter: blur(4px);
-  animation: steam-rise 1.4s infinite ease-out;
 }
 
-.burner-control-panel {
+.steam.s1 { animation: steam-rise 1.5s infinite ease-out 0s; }
+.steam.s2 { animation: steam-rise 1.7s infinite ease-out 0.4s; }
+.steam.s3 { animation: steam-rise 1.4s infinite ease-out 0.8s; }
+
+/* Enhanced Stove Burner Console with Tactile Rotary Knob */
+.stove-burner-console {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  background: #ffffff;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  gap: 12px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #475569;
+  border-radius: 40px;
+  padding: 6px 18px 6px 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+  max-width: 100%;
 }
 
-.burner-knob {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #cbd5e1;
+.stove-burner-console:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  border-color: #64748b;
+}
+
+.stove-burner-console.ready-to-ignite {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, #2a1e12 0%, #171109 100%);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.5), inset 0 1px 0 rgba(255, 220, 150, 0.3);
+  animation: console-beacon 1.5s infinite alternate ease-in-out;
+}
+
+.stove-burner-console.flame-active {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #2c1010 0%, #170707 100%);
+  box-shadow: 0 0 22px rgba(239, 68, 68, 0.45), 0 0 40px rgba(249, 115, 22, 0.25);
+}
+
+.stove-burner-console.knob-shake {
+  animation: knob-locked-shake 0.4s ease;
+}
+
+@keyframes console-beacon {
+  from { box-shadow: 0 0 14px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 220, 150, 0.2); }
+  to { box-shadow: 0 0 28px rgba(245, 158, 11, 0.7), inset 0 1px 0 rgba(255, 220, 150, 0.4); }
+}
+
+@keyframes knob-locked-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.knob-assembly {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  border-radius: 50%;
+}
+
+.knob-base-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.knob-rotor-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+}
+
+.knob-rotor-img.turned-off {
+  transform: rotate(0deg);
+}
+
+.knob-rotor-img.turned-high {
+  transform: rotate(90deg);
+  filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.6)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.knob-beacon-ring {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #f59e0b;
+  border-radius: 50%;
+  animation: beacon-expand 1.6s infinite ease-out;
+  pointer-events: none;
+}
+
+.knob-beacon-ring.r2 {
+  animation-delay: 0.8s;
+}
+
+@keyframes beacon-expand {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.burner-panel-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.burner-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.burner-led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
   transition: all 0.2s ease;
 }
 
-.burner-knob.flame-on {
-  background: #ff5722;
-  box-shadow: 0 0 12px #ff5722;
+.burner-led.cold {
+  background: #64748b;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.burner-label {
+.burner-led.blinking {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: led-blink 0.8s infinite alternate;
+}
+
+.burner-led.burning {
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444, 0 0 18px #f97316;
+}
+
+@keyframes led-blink {
+  from { opacity: 0.4; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+.burner-mode-title {
   font-family: var(--font-heading);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #334155;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.stove-burner-console.flame-active .burner-mode-title {
+  color: #fed7aa;
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+}
+
+.burner-action-hint {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.stove-burner-console.ready-to-ignite .burner-action-hint {
+  color: #fef08a;
 }
 
 .tenderness-meter {

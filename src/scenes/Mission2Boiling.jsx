@@ -9,6 +9,7 @@ export const Mission2Boiling = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [tenderProgress, setTenderProgress] = useState(0);
   const [isBoiling, setIsBoiling] = useState(false);
+  const [knobWiggle, setKnobWiggle] = useState(false);
 
   useEffect(() => {
     speak(
@@ -42,13 +43,13 @@ export const Mission2Boiling = () => {
         setBoilStep(1);
         setHoldingItem(null);
         setSelectedItem(null);
-        showToast('Water Added!', 'Now turn on the stove burner flame.', 'success');
+        showToast('Water Added! (500ml)', 'Now turn the stove burner knob to ignite heat.', 'success');
         speak(
-          'Great! Water is in the pot. Click the burner knob below the stove to ignite the heat and bring it to a boil.',
+          'Great! 500ml water is in the pot. Click the burner knob below the stove to ignite the heat and bring it to a boil.',
           'thinking',
           {
             badge: 'Ignition Step',
-            hint: 'Click the stove heat control knob.',
+            hint: 'Click the stove heat control knob to ignite flame.',
             hideButton: true,
           }
         );
@@ -56,6 +57,9 @@ export const Mission2Boiling = () => {
         soundManager.playError();
         showToast('Add Water First!', 'Pick up the Water Pitcher to fill the pot.', 'danger');
       }
+    } else if (boilStep === 1) {
+      soundManager.playClick();
+      showToast('Turn Knob to Ignite!', 'Water is ready in the pot. Click the burner knob below to ignite the flame.', 'info');
     } else if (boilStep === 2) {
       if (activeItem?.id === 'sliced_ubod') {
         soundManager.playPour();
@@ -64,7 +68,7 @@ export const Mission2Boiling = () => {
         setHoldingItem(null);
         setSelectedItem(null);
         setIsBoiling(true);
-        showToast('Boiling Ubod!', 'Watch the tenderness gauge.', 'success');
+        showToast('Boiling Ubod Cubes!', 'Softening coconut pith fibers. Watch the tenderness gauge.', 'success');
         speak(
           'The sliced ubod is in boiling water! Watch the tenderness gauge. When it hits the green TENDER zone (between 70% and 90%), click STOP BOILING!',
           'neutral',
@@ -78,24 +82,61 @@ export const Mission2Boiling = () => {
         soundManager.playError();
         showToast('Add Ubod!', 'Pick up the Sliced Ubod and add it to the boiling pot.', 'danger');
       }
+    } else if (boilStep === 4) {
+      handleBlenderClick();
     }
   };
 
   const handleBurnerToggle = () => {
-    if (boilStep === 1) {
-      soundManager.playClick();
-      soundManager.playBoil();
-      setBoilStep(2);
-      showToast('Burner Ignited!', 'Now add the sliced ubod into the pot.', 'success');
+    if (boilStep === 0) {
+      soundManager.playError();
+      setKnobWiggle(true);
+      setTimeout(() => setKnobWiggle(false), 500);
+      showToast('Safety First!', 'Lab Safety: Never heat a dry, empty pot. Pour 500ml water first.', 'warning');
       speak(
-        'The water is heating up! Now select the Sliced Ubod and add it into the boiling stockpot.',
+        'Home Economics Safety Rule: Always add water to the stockpot before turning on the burner to prevent scorching the metal!',
         'thinking',
         {
-          badge: 'Add Ingredients',
+          badge: 'Safety First',
+          hint: 'Select the Water Pitcher from the tray and click the pot.',
+          hideButton: true,
+        }
+      );
+      return;
+    }
+
+    if (boilStep === 1) {
+      soundManager.playIgnite();
+      soundManager.playBoil();
+      setBoilStep(2);
+      showToast('Burner Ignited at High Heat!', 'Flame is ON (100°C). Water is reaching a rolling boil!', 'success');
+      speak(
+        'The burner is roaring at high heat! The water has reached a rolling 100°C boil. Now pick up the Sliced Ubod and drop it into the boiling stockpot.',
+        'happy',
+        {
+          badge: 'Boiling Active',
           hint: 'Select Sliced Ubod from the tray and tap the boiling pot.',
           hideButton: true,
         }
       );
+      return;
+    }
+
+    if (boilStep === 2) {
+      soundManager.playClick();
+      showToast('Flame Active (100°C HIGH)', 'Add the sliced ubod from the tray into the boiling water.', 'info');
+      return;
+    }
+
+    if (boilStep === 3) {
+      // User can click knob to extinguish flame / stop boiling
+      handleStopBoil();
+      return;
+    }
+
+    if (boilStep >= 4) {
+      soundManager.playClick();
+      showToast('Burner Extinguished', 'The burner is turned off and cooled. Ubod is ready for pureeing.', 'info');
     }
   };
 
@@ -173,6 +214,14 @@ export const Mission2Boiling = () => {
     }
   };
 
+  const getStockpotImg = () => {
+    if (boilStep === 0) return '/images/icon_stockpot.png';
+    if (boilStep === 1) return '/images/icon_stockpot_with_water.png';
+    if (boilStep === 2) return '/images/icon_stockpot_with_boiling_water.png';
+    if (boilStep === 3 || boilStep === 4) return '/images/icon_stockpot_boiling_ubod.png';
+    return '/images/icon_stockpot.png';
+  };
+
   return (
     <div className="workstation-scene stage-2-bg">
       <div className="workstation-overlay" />
@@ -189,22 +238,46 @@ export const Mission2Boiling = () => {
           <div className="stovetop-layout">
             {/* The Stockpot */}
             <div
-              className={`dropzone stockpot-zone ${selectedItem ? 'highlight-ready' : ''} ${boilStep >= 2 ? 'simmering' : ''}`}
+              className={`dropzone stockpot-zone ${selectedItem ? 'highlight-ready' : ''} ${boilStep >= 2 && boilStep <= 3 ? 'simmering' : ''}`}
               onClick={handlePotClick}
             >
-              {boilStep >= 2 && <div className="steam-particles"><div className="steam" /><div className="steam" /></div>}
+              {boilStep >= 2 && boilStep <= 3 && (
+                <div className="steam-particles">
+                  <div className="steam s1" />
+                  <div className="steam s2" />
+                  <div className="steam s3" />
+                </div>
+              )}
+
               <div className="pot-graphic">
+                {/* Stove burner flame ring beneath the pot when ignited */}
+                {(boilStep === 2 || boilStep === 3) && (
+                  <div className="burner-flame-underglow">
+                    <div className="flame-corona" />
+                    <div className="gas-flame-ring">
+                      <span className="flame-jet fj1" />
+                      <span className="flame-jet fj2" />
+                      <span className="flame-jet fj3" />
+                      <span className="flame-jet fj4" />
+                      <span className="flame-jet fj5" />
+                      <span className="flame-jet fj6" />
+                      <span className="flame-jet fj7" />
+                    </div>
+                  </div>
+                )}
+
                 <img
-                  src={boilStep >= 2 ? '/images/icon_stockpot_boiling.png' : '/images/icon_stockpot.png'}
+                  src={getStockpotImg()}
                   alt="Stockpot"
-                  className="pot-img"
+                  className={`pot-img ${boilStep >= 2 && boilStep <= 3 ? 'pot-simmering' : ''}`}
                 />
+
                 {boilStep === 0 && <span className="pot-status-text">Empty Stockpot (Needs Water)</span>}
-                {boilStep === 1 && <span className="pot-status-text">Water Added (Needs Heat)</span>}
-                {boilStep === 2 && <span className="pot-status-text">Water Boiling 🔥 (Add Ubod)</span>}
+                {boilStep === 1 && <span className="pot-status-text">Water Added (Turn Knob to Ignite)</span>}
+                {boilStep === 2 && <span className="pot-status-text">Water Boiling at 100°C 🔥 (Add Ubod)</span>}
                 {boilStep === 3 && (
                   <div className="boiling-active-info">
-                    <span className="pot-status-text">Boiling Fibers Tender...</span>
+                    <span className="pot-status-text">Boiling Ubod: Softening Fibers...</span>
                     {/* Tenderness Gauge */}
                     <div className="tenderness-meter">
                       <div className="gauge-track">
@@ -213,20 +286,78 @@ export const Mission2Boiling = () => {
                       </div>
                       <span className="gauge-label">{tenderProgress}% Tender (Target: 70-90%)</span>
                     </div>
-                    <button className="btn-gold btn-stop-boil" onClick={(e) => { e.stopPropagation(); handleStopBoil(); }}>
+                    <button className="btn-gold btn-stop-boil pulse" onClick={(e) => { e.stopPropagation(); handleStopBoil(); }}>
                       Stop Boiling!
                     </button>
                   </div>
                 )}
-                {boilStep >= 4 && <span className="pot-status-text">✓ Softened Ubod Ready</span>}
+                {boilStep === 4 && (
+                  <div className="pot-ready-callout" onClick={(e) => { e.stopPropagation(); handleBlenderClick(); }}>
+                    <span className="pot-status-text">✓ Softened Ubod Ready</span>
+                    <span className="transfer-hint-pill">Click Pot or Blender to Puree ➔</span>
+                  </div>
+                )}
+                {boilStep >= 5 && <span className="pot-status-text">✓ Ubod Pulp Pureed in Blender</span>}
               </div>
 
-              {/* Burner Toggle Control */}
-              <div className="burner-control-panel" onClick={(e) => { e.stopPropagation(); handleBurnerToggle(); }}>
-                <div className={`burner-knob ${boilStep >= 2 ? 'flame-on' : ''}`}>
-                  <span>🔥</span>
+              {/* Enhanced Stove Burner Console with Rotary Knob */}
+              <div
+                className={`stove-burner-console ${boilStep === 1 ? 'ready-to-ignite' : ''} ${boilStep === 2 || boilStep === 3 ? 'flame-active' : ''} ${knobWiggle ? 'knob-shake' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleBurnerToggle();
+                }}
+                role="button"
+                tabIndex={0}
+                title={
+                  boilStep === 0
+                    ? 'Stove Burner (Pour water first)'
+                    : boilStep === 1
+                    ? 'Click to Ignite Burner to HIGH'
+                    : boilStep === 2 || boilStep === 3
+                    ? 'Flame Active at 100°C HIGH'
+                    : 'Stove Burner (Off)'
+                }
+              >
+                <div className="knob-assembly">
+                  {/* Stationary faceplate with -HIGH and tick marks */}
+                  <img
+                    src="/images/stove_knob_base.png"
+                    alt="Knob Faceplate"
+                    className="knob-base-img"
+                  />
+                  {/* Inner rotary cylinder turning from 0deg to 90deg */}
+                  <img
+                    src="/images/stove_knob_rotor.png"
+                    alt="Knob Dial"
+                    className={`knob-rotor-img ${boilStep === 2 || boilStep === 3 ? 'turned-high' : 'turned-off'}`}
+                  />
+                  {/* Glowing invitation ring when ready to ignite */}
+                  {boilStep === 1 && (
+                    <>
+                      <span className="knob-beacon-ring r1" />
+                      <span className="knob-beacon-ring r2" />
+                    </>
+                  )}
                 </div>
-                <span className="burner-label">{boilStep >= 2 ? 'Flame ON (100°C)' : 'Click to Ignite'}</span>
+
+                <div className="burner-panel-text">
+                  <div className="burner-badge-row">
+                    <span className={`burner-led ${boilStep === 1 ? 'blinking' : boilStep === 2 || boilStep === 3 ? 'burning' : 'cold'}`} />
+                    <span className="burner-mode-title">
+                      {boilStep === 0 && 'BURNER: OFF'}
+                      {boilStep === 1 && 'CLICK TO IGNITE'}
+                      {(boilStep === 2 || boilStep === 3) && 'FLAME ON (100°C)'}
+                      {boilStep >= 4 && 'BURNER: OFF'}
+                    </span>
+                  </div>
+                  <span className="burner-action-hint">
+                    {boilStep === 0 && 'Fill water first'}
+                    {boilStep === 1 && '🔥 Click dial to ignite flame'}
+                    {(boilStep === 2 || boilStep === 3) && 'Active Flame • 100°C HIGH'}
+                    {boilStep >= 4 && '✓ Heat extinguished'}
+                  </span>
+                </div>
               </div>
             </div>
 

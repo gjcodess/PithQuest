@@ -36,6 +36,9 @@ export const GameProvider = ({ children }) => {
   useEffect(() => {
     // Reset any held cursor item when changing scenes
     setHoldingItem(null);
+    if (typeof window !== 'undefined') {
+      window.__setPithQuestScene = setScene;
+    }
   }, [scene]);
 
   const [confirmDialog, setConfirmDialog] = useState({

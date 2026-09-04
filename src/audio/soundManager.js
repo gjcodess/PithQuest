@@ -126,6 +126,55 @@ class SoundManager {
     }
   }
 
+  // Stove Burner Gas Ignition Click & Flame Whoosh
+  playIgnite() {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    // Crisp piezo-electric click spark
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(1400, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(250, this.ctx.currentTime + 0.05);
+
+    gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.05);
+
+    // Warm gas ignition whoosh
+    setTimeout(() => {
+      if (this.isMuted) return;
+      const dur = 0.3;
+      const bufferSize = this.ctx.sampleRate * dur;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.sin(i / 12);
+      }
+
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 750;
+
+      const whooshGain = this.ctx.createGain();
+      whooshGain.gain.setValueAtTime(0.22, this.ctx.currentTime);
+      whooshGain.gain.exponentialRampToValueAtTime(0.005, this.ctx.currentTime + dur);
+
+      noise.connect(filter);
+      filter.connect(whooshGain);
+      whooshGain.connect(this.ctx.destination);
+      noise.start();
+    }, 40);
+  }
+
   // Hot Oil Sizzle / Deep Fry
   playSizzle() {
     if (this.isMuted) return;
