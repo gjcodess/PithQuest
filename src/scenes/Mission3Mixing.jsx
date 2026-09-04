@@ -265,15 +265,15 @@ export const Mission3Mixing = () => {
               !isMixed &&
               handleItemClick({
                 id: 'distractor_vinegar',
-                name: 'Cane Vinegar',
+                name: 'Cane Vinegar (50ml)',
                 img: '/images/icon_vinegar.png',
-                actionHint: 'Click mixing bowl to test',
+                actionHint: 'Click mixing bowl to add',
               })
             }
           >
             <img src="/images/icon_vinegar.png" alt="Cane Vinegar" className="card-icon-img" />
             <span className="card-title">Cane Vinegar</span>
-            <span className="card-measure">Distractor</span>
+            <span className="card-measure">50ml</span>
           </div>
         </div>
       </div>
