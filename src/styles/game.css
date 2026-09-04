@@ -821,6 +821,25 @@ body.holding-item-cursor * {
   color: var(--color-warning);
 }
 
+.dialogue-box.is-typing {
+  cursor: pointer;
+}
+
+.dialogue-typing-cursor {
+  display: inline-block;
+  margin-left: 3px;
+  color: var(--color-palm-600);
+  font-size: 0.85em;
+  line-height: 1;
+  vertical-align: baseline;
+  animation: typing-blink 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes typing-blink {
+  from { opacity: 0.2; transform: scaleY(0.9); }
+  to { opacity: 1; transform: scaleY(1.1); }
+}
+
 .dialogue-btn {
   background: linear-gradient(180deg, #fbc02d 0%, var(--color-gold-500) 100%);
   color: #3e2723;
@@ -829,16 +848,39 @@ body.holding-item-cursor * {
   border-radius: var(--radius-pill);
   box-shadow: 0 3px 0 var(--color-gold-700);
   border: 1px solid rgba(0,0,0,0.1);
+  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.dialogue-btn:hover {
+.dialogue-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.06);
 }
 
-.dialogue-btn:active {
+.dialogue-btn:active:not(:disabled) {
   transform: translateY(2px);
   box-shadow: 0 1px 0 var(--color-gold-700);
+}
+
+.dialogue-btn:disabled,
+.dialogue-btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed !important;
+  filter: grayscale(0.5);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12) !important;
+  transform: none !important;
+}
+
+.dialogue-btn.ready:not(:disabled) {
+  animation: dialogue-btn-ready 2.2s infinite;
+}
+
+@keyframes dialogue-btn-ready {
+  0%, 100% {
+    box-shadow: 0 3px 0 var(--color-gold-700);
+  }
+  50% {
+    box-shadow: 0 3px 0 var(--color-gold-700), 0 0 10px rgba(251, 192, 45, 0.65);
+  }
 }
 
 /* ==========================================================================

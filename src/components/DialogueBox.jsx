@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
@@ -13,14 +13,29 @@ export const DialogueBox = () => {
   const { dialogue, scene } = useGame();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const timerRef = useRef(null);
 
   const hasTray = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5'].includes(scene);
 
+  const finishTyping = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setDisplayedText(dialogue.text || '');
+    setIsTyping(false);
+  };
 
   useEffect(() => {
     if (!dialogue.visible || !dialogue.text) {
       setDisplayedText('');
+      setIsTyping(false);
       return;
+    }
+
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
     }
 
     let i = 0;
@@ -28,36 +43,52 @@ export const DialogueBox = () => {
     setDisplayedText('');
     setIsTyping(true);
 
-    const timer = setInterval(() => {
+    timerRef.current = setInterval(() => {
       if (i < fullText.length) {
         setDisplayedText(fullText.slice(0, i + 1));
         i++;
       } else {
-        clearInterval(timer);
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
         setIsTyping(false);
       }
     }, 14);
 
-    return () => clearInterval(timer);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, [dialogue.text, dialogue.visible]);
 
   if (!dialogue.visible || scene === 'title') return null;
 
-  const handleNextClick = () => {
+  const handleNextClick = (e) => {
+    e.stopPropagation();
+    if (isTyping) return; // Prevent proceeding while typing
     soundManager.playClick();
-    if (isTyping) {
-      // Instant reveal on click if still typing
-      setDisplayedText(dialogue.text);
-      setIsTyping(false);
-    } else if (dialogue.onNext) {
+    if (dialogue.onNext) {
       dialogue.onNext();
+    }
+  };
+
+  const handleBoxClick = () => {
+    if (isTyping) {
+      finishTyping();
     }
   };
 
   const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
 
   return (
-    <div className={`dialogue-box ${hasTray ? 'has-tray' : 'no-tray'}`}>
+    <div
+      className={`dialogue-box ${hasTray ? 'has-tray' : 'no-tray'} ${isTyping ? 'is-typing' : ''}`}
+      onClick={handleBoxClick}
+      title={isTyping ? 'Click speech bubble to reveal text instantly' : undefined}
+    >
       <div className="dialogue-avatar-wrapper">
         <img src={avatarSrc} alt="Teacher Mia" className="dialogue-avatar" />
       </div>
@@ -66,11 +97,19 @@ export const DialogueBox = () => {
           <span className="dialogue-name">Teacher Mia</span>
           <span className="dialogue-status-badge">{dialogue.badge}</span>
         </div>
-        <p className="dialogue-text">{displayedText}</p>
+        <p className="dialogue-text">
+          {displayedText}
+          {isTyping && <span className="dialogue-typing-cursor">▌</span>}
+        </p>
         <div className="dialogue-footer">
           <span className="hint-tag">{dialogue.hint ? `💡 ${dialogue.hint}` : ''}</span>
           {!dialogue.hideButton && (
-            <button className="dialogue-btn" onClick={handleNextClick}>
+            <button
+              className={`dialogue-btn ${isTyping ? 'disabled' : 'ready'}`}
+              onClick={handleNextClick}
+              disabled={isTyping}
+              title={isTyping ? 'Please wait for Teacher Mia to finish speaking' : ''}
+            >
               {dialogue.btnText}
             </button>
           )}
@@ -79,3 +118,4 @@ export const DialogueBox = () => {
     </div>
   );
 };
+
