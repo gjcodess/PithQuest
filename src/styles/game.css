@@ -34,7 +34,8 @@
   display: none !important;
 }
 
-.hud-left, .hud-right {
+.hud-left,
+.hud-right {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -200,7 +201,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   color: #78350f;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .star-icon {
@@ -209,8 +210,15 @@
 }
 
 @keyframes star-bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2) rotate(10deg); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
 }
 
 .pts-label {
@@ -292,7 +300,8 @@
   justify-content: center;
   z-index: 5;
   padding: var(--space-md);
-  padding-bottom: 130px; /* Ensures active cards sit above dialogue box */
+  padding-bottom: 130px;
+  /* Ensures active cards sit above dialogue box */
 }
 
 
@@ -372,8 +381,13 @@
 }
 
 @keyframes pulse-border {
-  from { border-color: var(--color-gold-400); }
-  to { border-color: var(--color-palm-500); }
+  from {
+    border-color: var(--color-gold-400);
+  }
+
+  to {
+    border-color: var(--color-palm-500);
+  }
 }
 
 /* ==========================================================================
@@ -473,7 +487,8 @@
   transform: translateY(-5px) scale(1.03) !important;
 }
 
-.drag-card:active, .drag-card.dragging {
+.drag-card:active,
+.drag-card.dragging {
   cursor: grabbing;
   transform: scale(1.1) rotate(-3deg);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
@@ -544,7 +559,9 @@
 /* ==========================================================================
    CUSTOM CHEF GLOVE GAME CURSOR & FLOATING ITEM FOLLOWER
    ========================================================================== */
-html, body, .game-app {
+html,
+body,
+.game-app {
   cursor: url('/assets/cursor_32.png') 2 2, auto;
 }
 
@@ -626,6 +643,7 @@ body.holding-item-cursor * {
     transform: translate(-50%, -50%) scale(0.85);
     opacity: 0.4;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(1.2);
     opacity: 0.85;
@@ -650,6 +668,7 @@ body.holding-item-cursor * {
   0% {
     transform: translate(-50%, -50%) rotate(-4deg) scale(1.02);
   }
+
   100% {
     transform: translate(-50%, -50%) rotate(4deg) scale(1.08);
   }
@@ -740,8 +759,15 @@ body.holding-item-cursor * {
 }
 
 @keyframes slide-up {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .dialogue-avatar-wrapper {
@@ -836,8 +862,15 @@ body.holding-item-cursor * {
 }
 
 @keyframes typing-blink {
-  from { opacity: 0.2; transform: scaleY(0.9); }
-  to { opacity: 1; transform: scaleY(1.1); }
+  from {
+    opacity: 0.2;
+    transform: scaleY(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1.1);
+  }
 }
 
 .dialogue-btn {
@@ -847,7 +880,7 @@ body.holding-item-cursor * {
   padding: 6px 16px;
   border-radius: var(--radius-pill);
   box-shadow: 0 3px 0 var(--color-gold-700);
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   transition: opacity 0.2s ease, filter 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -875,9 +908,12 @@ body.holding-item-cursor * {
 }
 
 @keyframes dialogue-btn-ready {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 3px 0 var(--color-gold-700);
   }
+
   50% {
     box-shadow: 0 3px 0 var(--color-gold-700), 0 0 10px rgba(251, 192, 45, 0.65);
   }
@@ -916,8 +952,15 @@ body.holding-item-cursor * {
 }
 
 @keyframes toast-in {
-  from { transform: translate(-50%, -20px); opacity: 0; }
-  to { transform: translate(-50%, 0); opacity: 1; }
+  from {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
 }
 
 .toast-icon {
@@ -961,8 +1004,13 @@ body.holding-item-cursor * {
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-card {
@@ -980,8 +1028,15 @@ body.holding-item-cursor * {
 }
 
 @keyframes modal-scale {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-header {
@@ -1056,6 +1111,7 @@ body.holding-item-cursor * {
     opacity: 0;
     transform: scale(0.85) translateY(10px);
   }
+
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -1109,9 +1165,19 @@ body.holding-item-cursor * {
 }
 
 @keyframes badge-wobble {
-  0% { transform: scale(0.6) rotate(-10deg); opacity: 0; }
-  70% { transform: scale(1.12) rotate(4deg); }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  0% {
+    transform: scale(0.6) rotate(-10deg);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.12) rotate(4deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 .confirm-icon {
@@ -1243,33 +1309,87 @@ body.holding-item-cursor * {
    ANIMATION KEYFRAMES & UTILITIES
    ========================================================================== */
 @keyframes pop-in {
-  0% { transform: scale(0.85); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes steam-rise {
-  0% { transform: translateY(0) scale(0.8); opacity: 0.8; }
-  50% { transform: translateY(-30px) scale(1.2); opacity: 0.4; }
-  100% { transform: translateY(-60px) scale(1.5); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translateY(-30px) scale(1.2);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translateY(-60px) scale(1.5);
+    opacity: 0;
+  }
 }
 
 @keyframes sizzle-shake {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(-2px, 2px) rotate(-1deg); }
-  50% { transform: translate(2px, -2px) rotate(1deg); }
-  75% { transform: translate(-1px, -1px) rotate(0.5deg); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-2px, 2px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translate(2px, -2px) rotate(1deg);
+  }
+
+  75% {
+    transform: translate(-1px, -1px) rotate(0.5deg);
+  }
 }
 
 @keyframes cracker-puff {
-  0% { transform: scale(0.6); filter: brightness(0.9); }
-  60% { transform: scale(1.3); filter: brightness(1.2); }
-  100% { transform: scale(1); filter: brightness(1); }
+  0% {
+    transform: scale(0.6);
+    filter: brightness(0.9);
+  }
+
+  60% {
+    transform: scale(1.3);
+    filter: brightness(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
 }
 
 @keyframes shake-hint {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-8px); }
-  40%, 80% { transform: translateX(8px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
 }
 
 .shake {
@@ -1379,7 +1499,8 @@ body.holding-item-cursor * {
   text-align: left;
 }
 
-.hero-avatar-box, .hero-snack-box {
+.hero-avatar-box,
+.hero-snack-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1406,7 +1527,8 @@ body.holding-item-cursor * {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.hero-name, .snack-tag {
+.hero-name,
+.snack-tag {
   font-family: var(--font-heading);
   font-size: 0.75rem;
   font-weight: 700;
@@ -1490,19 +1612,24 @@ body.holding-item-cursor * {
   .title-card {
     padding: 20px 16px;
   }
+
   .game-logo {
     font-size: 2.5rem;
   }
+
   .title-hero-grid {
     grid-template-columns: 1fr;
     text-align: center;
   }
+
   .hero-speech-bubble {
     order: 2;
   }
+
   .hero-snack-box {
     display: none;
   }
+
   .hero-avatar-box {
     order: 1;
   }
@@ -1874,9 +2001,19 @@ body.holding-item-cursor * {
 }
 
 @keyframes bowl-pop {
-  0% { transform: scale(0.85); opacity: 0.8; }
-  60% { transform: scale(1.12); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+
+  60% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .zone-hint-text.board-cleared {
@@ -2001,11 +2138,25 @@ body.holding-item-cursor * {
 }
 
 @keyframes pot-rattle {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(-1.5px, -0.5px) rotate(-0.5deg); }
-  50% { transform: translate(1px, 0.5px) rotate(0.5deg); }
-  75% { transform: translate(-1px, 1px) rotate(-0.5deg); }
-  100% { transform: translate(1.5px, -0.5px) rotate(0.5deg); }
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-1.5px, -0.5px) rotate(-0.5deg);
+  }
+
+  50% {
+    transform: translate(1px, 0.5px) rotate(0.5deg);
+  }
+
+  75% {
+    transform: translate(-1px, 1px) rotate(-0.5deg);
+  }
+
+  100% {
+    transform: translate(1.5px, -0.5px) rotate(0.5deg);
+  }
 }
 
 /* Realistic Gas Burner Flame Ring Beneath Pot */
@@ -2047,22 +2198,61 @@ body.holding-item-cursor * {
   animation: jet-burn 0.22s infinite alternate ease-in-out;
 }
 
-.flame-jet.fj1 { animation-delay: 0.03s; height: 14px; }
-.flame-jet.fj2 { animation-delay: 0.12s; height: 18px; }
-.flame-jet.fj3 { animation-delay: 0.07s; height: 19px; }
-.flame-jet.fj4 { animation-delay: 0.15s; height: 21px; }
-.flame-jet.fj5 { animation-delay: 0.05s; height: 19px; }
-.flame-jet.fj6 { animation-delay: 0.18s; height: 17px; }
-.flame-jet.fj7 { animation-delay: 0.09s; height: 14px; }
+.flame-jet.fj1 {
+  animation-delay: 0.03s;
+  height: 14px;
+}
+
+.flame-jet.fj2 {
+  animation-delay: 0.12s;
+  height: 18px;
+}
+
+.flame-jet.fj3 {
+  animation-delay: 0.07s;
+  height: 19px;
+}
+
+.flame-jet.fj4 {
+  animation-delay: 0.15s;
+  height: 21px;
+}
+
+.flame-jet.fj5 {
+  animation-delay: 0.05s;
+  height: 19px;
+}
+
+.flame-jet.fj6 {
+  animation-delay: 0.18s;
+  height: 17px;
+}
+
+.flame-jet.fj7 {
+  animation-delay: 0.09s;
+  height: 14px;
+}
 
 @keyframes jet-burn {
-  0% { transform: scaleY(0.85) scaleX(0.92); }
-  100% { transform: scaleY(1.15) scaleX(1.08); }
+  0% {
+    transform: scaleY(0.85) scaleX(0.92);
+  }
+
+  100% {
+    transform: scaleY(1.15) scaleX(1.08);
+  }
 }
 
 @keyframes flame-flicker {
-  0% { opacity: 0.8; transform: scale(0.96); }
-  100% { opacity: 1; transform: scale(1.04); }
+  0% {
+    opacity: 0.8;
+    transform: scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
 }
 
 .pot-status-text {
@@ -2112,9 +2302,17 @@ body.holding-item-cursor * {
   filter: blur(4px);
 }
 
-.steam.s1 { animation: steam-rise 1.5s infinite ease-out 0s; }
-.steam.s2 { animation: steam-rise 1.7s infinite ease-out 0.4s; }
-.steam.s3 { animation: steam-rise 1.4s infinite ease-out 0.8s; }
+.steam.s1 {
+  animation: steam-rise 1.5s infinite ease-out 0s;
+}
+
+.steam.s2 {
+  animation: steam-rise 1.7s infinite ease-out 0.4s;
+}
+
+.steam.s3 {
+  animation: steam-rise 1.4s infinite ease-out 0.8s;
+}
 
 /* Enhanced Stove Burner Console with Tactile Rotary Knob */
 .stove-burner-console {
@@ -2157,14 +2355,31 @@ body.holding-item-cursor * {
 }
 
 @keyframes console-beacon {
-  from { box-shadow: 0 0 14px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 220, 150, 0.2); }
-  to { box-shadow: 0 0 28px rgba(245, 158, 11, 0.7), inset 0 1px 0 rgba(255, 220, 150, 0.4); }
+  from {
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 220, 150, 0.2);
+  }
+
+  to {
+    box-shadow: 0 0 28px rgba(245, 158, 11, 0.7), inset 0 1px 0 rgba(255, 220, 150, 0.4);
+  }
 }
 
 @keyframes knob-locked-shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
 }
 
 .knob-assembly {
@@ -2220,8 +2435,15 @@ body.holding-item-cursor * {
 }
 
 @keyframes beacon-expand {
-  0% { transform: scale(0.95); opacity: 0.9; }
-  100% { transform: scale(1.4); opacity: 0; }
+  0% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
 }
 
 .burner-panel-text {
@@ -2262,8 +2484,15 @@ body.holding-item-cursor * {
 }
 
 @keyframes led-blink {
-  from { opacity: 0.4; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1.15); }
+  from {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
 .burner-mode-title {
@@ -2368,11 +2597,25 @@ body.holding-item-cursor * {
 }
 
 @keyframes blender-vibrate {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(-2px, 1px) rotate(-1.5deg); }
-  50% { transform: translate(2px, -1px) rotate(1.5deg); }
-  75% { transform: translate(-1px, -1px) rotate(-1deg); }
-  100% { transform: translate(1px, 1px) rotate(1deg); }
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-2px, 1px) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translate(2px, -1px) rotate(1.5deg);
+  }
+
+  75% {
+    transform: translate(-1px, -1px) rotate(-1deg);
+  }
+
+  100% {
+    transform: translate(1px, 1px) rotate(1deg);
+  }
 }
 
 .blender-appliance h4 {
@@ -2533,10 +2776,13 @@ body.holding-item-cursor * {
 }
 
 @keyframes pulse-ring {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
   }
+
   50% {
     transform: scale(1.03);
     box-shadow: 0 6px 22px rgba(217, 119, 6, 0.6);
@@ -3177,9 +3423,12 @@ body.holding-item-cursor * {
   body * {
     visibility: hidden;
   }
-  .certificate-wrapper, .certificate-wrapper * {
+
+  .certificate-wrapper,
+  .certificate-wrapper * {
     visibility: visible;
   }
+
   .certificate-wrapper {
     position: absolute;
     left: 0;
@@ -3188,5 +3437,3 @@ body.holding-item-cursor * {
     box-shadow: none;
   }
 }
-
-
