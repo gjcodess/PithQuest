@@ -4,12 +4,14 @@ import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
+import { FaucetKnobConsole } from '../components/FaucetKnobConsole';
 
 export const Mission1Prep = () => {
   const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
 
   // Wash step: 0: raw ubod in colander, 1: washed ubod
   const [isWashed, setIsWashed] = useState(false);
+  const [isWashingActive, setIsWashingActive] = useState(false);
   // Pot state: 0: empty, 1: +ubod, 2: +water, 3: +salt, 4: boiling, 5: drained
   const [potStep, setPotStep] = useState(0);
   const [isBoilingTimerActive, setIsBoilingTimerActive] = useState(false);
@@ -80,19 +82,26 @@ export const Mission1Prep = () => {
   ];
 
   const handleWashUbod = () => {
+    if (isWashingActive || isWashed) return;
+    setIsWashingActive(true);
     soundManager.playPour();
-    setIsWashed(true);
-    addScore(20);
-    showToast('Ubod Washed!', 'Raw coconut pith is now sanitized and ready for boiling (+20 pts)', 'success');
-    speak(
-      'Great job! The ubod is washed and clean. Now tap or drag the Washed Ubod from your bottom inventory shelf into the stockpot!',
-      'happy',
-      {
-        badge: 'Submerge in Pot',
-        hint: 'Click "Washed Ubod" on the bottom tray, then drop into the stockpot.',
-        hideButton: true,
-      }
-    );
+
+    setTimeout(() => {
+      setIsWashingActive(false);
+      setIsWashed(true);
+      soundManager.playSuccess();
+      addScore(20);
+      showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet (+20 pts)', 'success');
+      speak(
+        'Great job! The ubod is washed and clean. Now tap or drag the Washed Ubod from your bottom inventory shelf into the stockpot!',
+        'happy',
+        {
+          badge: 'Submerge in Pot',
+          hint: 'Click "Washed Ubod" on the bottom tray, then drop into the stockpot.',
+          hideButton: true,
+        }
+      );
+    }, 1200);
   };
 
   const handleItemAccepted = (item, stepIndex) => {
@@ -246,38 +255,88 @@ export const Mission1Prep = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '980px' }}>
-          {/* Left: Washing Sink Station */}
-          <div className="station-side-card washing-station-card" style={{ width: '280px' }}>
-            <div className="card-header-mini">
-              <span>🚰 Washing Station</span>
-              <span className={`station-badge-mini ${isWashed ? 'badge-success' : 'badge-pending'}`}>
-                {isWashed ? '✅ Sanitized' : 'Required'}
-              </span>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+          {/* Left: Washing Sink Station (Unified Multi-State Workstation) */}
+          <div className="multi-state-workstation washing-workstation" style={{ width: '440px' }}>
+            {/* Workstation Header */}
+            <div className="workstation-header">
+              <div className="workstation-titles">
+                <h4 className="workstation-name">🚰 Washing Station</h4>
+                <span className="workstation-sub">Potable rinse & colander station</span>
+              </div>
+              <div
+                className={`workstation-step-badge ${
+                  isWashed ? 'badge-success-glow' : isWashingActive ? 'badge-flow-glow' : ''
+                }`}
+              >
+                {isWashed ? '✅ Sanitized' : isWashingActive ? '💧 Rinsing...' : 'Required'}
+              </div>
             </div>
 
-            <div className="sink-box">
-              <div className="sink-colander-preview">
-                <img
-                  src={potStep >= 1 ? '/assets/sink_colander_empty.png' : isWashed ? '/assets/sink_colander_washing.png' : '/assets/sink_colander_ubod.png'}
-                  alt="Sink Colander"
-                  className="sink-preview-img"
-                />
-                <div className={`sink-status-pill ${potStep >= 1 ? 'washed' : isWashed ? 'washed' : 'unwashed'}`}>
-                  <span>{potStep >= 1 ? '🥣 Empty Colander' : isWashed ? '✨ Washed & Cleaned' : '🌿 Fresh Raw Ubod'}</span>
-                </div>
-              </div>
-
-              {!isWashed ? (
-                <button className="btn-wash-action" onClick={handleWashUbod}>
-                  <span className="wash-action-icon">🚰</span>
-                  <span>Wash Ubod Under Faucet</span>
-                </button>
-              ) : (
-                <div className="wash-complete-hint" style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 700, textAlign: 'center', marginTop: '6px' }}>
-                  ✓ Clean & ready on bottom shelf!
+            {/* Workstation Viewport (270px height, matching Boiling Pot workstation) */}
+            <div
+              className={`workstation-viewport washing-viewport ${
+                !isWashed && !isWashingActive ? 'interactive-sink' : ''
+              }`}
+              style={{ height: '270px' }}
+              onClick={!isWashed && !isWashingActive ? handleWashUbod : undefined}
+              title={!isWashed ? 'Click to wash under running faucet' : 'Sanitized colander'}
+            >
+              {/* Active Water Spray Splash Animation Overlay */}
+              {isWashingActive && (
+                <div className="water-spray-overlay">
+                  <span className="water-drop d1">💧</span>
+                  <span className="water-drop d2">💧</span>
+                  <span className="water-drop d3">💧</span>
                 </div>
               )}
+
+              <div className="container-visual-wrapper">
+                <img
+                  src={
+                    isWashingActive
+                      ? '/assets/sink_colander_washing.png'
+                      : potStep >= 1
+                      ? '/assets/sink_colander_empty.png'
+                      : '/assets/sink_colander_ubod.png'
+                  }
+                  alt="Sink Colander"
+                  className="container-state-img sink-preview-img"
+                />
+              </div>
+
+              <div
+                className={`sink-status-pill ${
+                  isWashingActive
+                    ? 'washing'
+                    : potStep >= 1
+                    ? 'empty'
+                    : isWashed
+                    ? 'washed'
+                    : 'unwashed'
+                }`}
+              >
+                <span>
+                  {isWashingActive
+                    ? '🌊 Rinsing under Running Water...'
+                    : potStep >= 1
+                    ? '🥣 Empty Colander (Ready to Drain)'
+                    : isWashed
+                    ? '✨ Washed & Sanitized'
+                    : '🌿 Fresh Cut Raw Ubod'}
+                </span>
+              </div>
+            </div>
+
+            {/* Workstation Footer holding the Faucet Knob Console */}
+            <div className="workstation-footer has-custom-footer">
+              <FaucetKnobConsole
+                isReady={!isWashed}
+                isFlowing={isWashingActive}
+                isComplete={isWashed}
+                potStep={potStep}
+                onTurnOn={handleWashUbod}
+              />
             </div>
           </div>
 

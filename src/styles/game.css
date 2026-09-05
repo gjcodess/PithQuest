@@ -2769,6 +2769,130 @@ body.holding-item-cursor * {
   justify-content: center;
 }
 
+/* Faucet Water Tap Knob Console */
+.faucet-knob-console {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #0f172a 0%, #032b43 100%);
+  border: 2px solid #0284c7;
+  border-radius: 40px;
+  padding: 6px 18px 6px 8px;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.faucet-knob-console:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  border-color: #38bdf8;
+}
+
+.faucet-knob-console.ready-to-wash {
+  border-color: #0ea5e9;
+  background: linear-gradient(135deg, #082f49 0%, #0c4a6e 100%);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.5), inset 0 1px 0 rgba(186, 230, 253, 0.3);
+  animation: faucet-beacon 1.5s infinite alternate ease-in-out;
+}
+
+.faucet-knob-console.flow-active {
+  border-color: #38bdf8;
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.6), 0 0 40px rgba(2, 132, 199, 0.35);
+}
+
+.faucet-knob-assembly .knob-rotor-img.turned-high {
+  transform: rotate(90deg);
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.8)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes faucet-beacon {
+  from {
+    box-shadow: 0 0 12px rgba(14, 165, 233, 0.35), inset 0 1px 0 rgba(186, 230, 253, 0.2);
+  }
+  to {
+    box-shadow: 0 0 26px rgba(14, 165, 233, 0.75), inset 0 1px 0 rgba(186, 230, 253, 0.4);
+  }
+}
+
+.faucet-beacon-ring {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #38bdf8;
+  border-radius: 50%;
+  animation: beacon-expand 1.6s infinite ease-out;
+  pointer-events: none;
+}
+
+.faucet-beacon-ring.r2 {
+  animation-delay: 0.8s;
+}
+
+.burner-led.blinking-water {
+  background: #0ea5e9;
+  box-shadow: 0 0 10px #0ea5e9;
+  animation: led-blink 0.8s infinite alternate;
+}
+
+.burner-led.flowing {
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8, 0 0 18px #0284c7;
+}
+
+.faucet-title {
+  color: #e0f2fe;
+}
+
+.faucet-knob-console.flow-active .faucet-title {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+
+.faucet-action-hint {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.faucet-action-hint.ready-water-text {
+  color: #7dd3fc;
+  font-weight: 700;
+  animation: pulse-hint 1.2s infinite alternate ease-in-out;
+}
+
+.faucet-action-hint.flowing-text {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+}
+
+.faucet-action-hint.sanitized-text {
+  color: #86efac;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.faucet-action-hint.complete-water-text {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.faucet-knob-console.sanitized-active {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(167, 243, 208, 0.3);
+}
+
+.burner-led.sanitized-led {
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981, 0 0 18px #34d399;
+  animation: led-blink 1.2s infinite alternate;
+}
+
 .tenderness-meter {
   width: 220px;
   margin: 10px auto;
@@ -3807,6 +3931,66 @@ body.holding-item-cursor * {
   border: 1px solid #e2e8f0;
 }
 
+.washing-workstation {
+  flex: 0 0 440px;
+  width: 440px;
+  max-width: 460px;
+}
+
+.washing-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 55%, #f0fdf4 0%, #e0f2fe 100%);
+  overflow: hidden;
+  cursor: default;
+}
+
+.washing-viewport.interactive-sink {
+  cursor: pointer;
+}
+
+.washing-viewport.interactive-sink:hover .sink-preview-img {
+  transform: scale(1.04);
+}
+
+.washing-viewport .sink-preview-img {
+  max-width: 88%;
+  max-height: 82%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.washing-viewport .sink-status-pill {
+  position: absolute;
+  bottom: 12px;
+  z-index: 6;
+  margin-top: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.workstation-step-badge.badge-success-glow {
+  background: #10b981;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+}
+
+.workstation-step-badge.badge-flow-glow {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.6);
+  animation: pulse-wash 0.8s infinite alternate;
+}
+
+.station-side-card.washing-station-card {
+  flex: 0 0 390px;
+  width: 390px;
+  max-width: 420px;
+}
+
 .sink-box {
   display: flex;
   flex-direction: column;
@@ -3821,31 +4005,86 @@ body.holding-item-cursor * {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 14px 10px;
+  justify-content: center;
+  padding: 16px 14px;
   background: linear-gradient(180deg, #f0fdf4 0%, #e0f2fe 100%);
-  border-radius: 16px;
-  border: 1.5px solid #bae6fd;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04);
+  border-radius: 18px;
+  border: 2px solid #bae6fd;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 14px rgba(2, 132, 199, 0.08);
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.sink-colander-preview.interactive-sink {
+  cursor: pointer;
+}
+
+.sink-colander-preview.interactive-sink:hover {
+  transform: translateY(-2px);
+  border-color: #38bdf8;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(2, 132, 199, 0.16);
 }
 
 .sink-preview-img {
-  width: 130px;
-  height: 95px;
+  width: 100%;
+  max-width: 340px;
+  height: 185px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
-  transition: transform 0.25s ease;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.14));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .sink-colander-preview:hover .sink-preview-img {
-  transform: scale(1.05);
+  transform: scale(1.03);
+}
+
+.water-spray-overlay {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.water-drop {
+  font-size: 1.5rem;
+  animation: drop-fall 0.7s infinite ease-in;
+}
+
+.water-drop.d2 {
+  animation-delay: 0.22s;
+}
+
+.water-drop.d3 {
+  animation-delay: 0.44s;
+}
+
+@keyframes drop-fall {
+  0% {
+    transform: translateY(-10px) scale(0.6);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(45px) scale(1.1);
+    opacity: 0;
+  }
 }
 
 .sink-status-pill {
-  margin-top: 8px;
-  font-size: 0.76rem;
+  margin-top: 10px;
+  font-size: 0.8rem;
   font-weight: 700;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .sink-status-pill.unwashed {
@@ -3854,10 +4093,73 @@ body.holding-item-cursor * {
   border: 1px solid #fde68a;
 }
 
+.sink-status-pill.washing {
+  background: #0284c7;
+  color: #ffffff;
+  border: 1px solid #38bdf8;
+  animation: pulse-wash 0.8s infinite alternate;
+}
+
+@keyframes pulse-wash {
+  from {
+    box-shadow: 0 0 6px rgba(2, 132, 199, 0.4);
+  }
+  to {
+    box-shadow: 0 0 16px rgba(2, 132, 199, 0.8);
+  }
+}
+
 .sink-status-pill.washed {
   background: #dcfce7;
   color: #15803d;
   border: 1px solid #86efac;
+}
+
+.sink-status-pill.empty {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+}
+
+.wash-complete-badge {
+  width: 100%;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wash-complete-badge .badge-check {
+  font-size: 1.4rem;
+}
+
+.wash-complete-badge .badge-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.wash-complete-badge .badge-text strong {
+  font-family: var(--font-heading);
+  font-size: 0.86rem;
+  color: #15803d;
+}
+
+.wash-complete-badge .badge-text span {
+  font-size: 0.74rem;
+  color: #166534;
+  font-weight: 600;
+}
+
+.wash-standby-hint {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 4px;
 }
 
 .btn-wash-action {
@@ -3866,9 +4168,9 @@ body.holding-item-cursor * {
   color: #ffffff;
   border: none;
   border-radius: 14px;
-  padding: 12px 16px;
+  padding: 12px 18px;
   font-family: var(--font-heading);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -3879,13 +4181,18 @@ body.holding-item-cursor * {
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-wash-action:hover {
+.btn-wash-action:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45);
   background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
 }
 
-.btn-wash-action:active {
+.btn-wash-action:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-wash-action:active:not(:disabled) {
   transform: translateY(0);
 }
 
