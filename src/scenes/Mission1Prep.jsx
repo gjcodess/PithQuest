@@ -66,7 +66,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 4,
       acceptedItems: ['colander'],
-      prompt: 'Drain boiled ubod into colander to remove water and steam-cool',
+      prompt: 'Boiled tender! Drain ubod into colander to steam-cool',
       img: '/assets/colander_boiled_ubod_draining.png',
       fallbackIcon: '🍲',
       label: 'Fork-Tender Boiled Ubod',
@@ -261,7 +261,7 @@ export const Mission1Prep = () => {
             {/* Workstation Header */}
             <div className="workstation-header">
               <div className="workstation-titles">
-                <h4 className="workstation-name">🚰 Washing Station</h4>
+                <h4 className="workstation-name">Washing Station</h4>
                 <span className="workstation-sub">Potable rinse & colander station</span>
               </div>
               <div
@@ -278,7 +278,7 @@ export const Mission1Prep = () => {
               className={`workstation-viewport washing-viewport ${
                 !isWashed && !isWashingActive ? 'interactive-sink' : ''
               }`}
-              style={{ height: '270px' }}
+              style={{ minHeight: '270px', flex: '1 1 auto' }}
               onClick={!isWashed && !isWashingActive ? handleWashUbod : undefined}
               title={!isWashed ? 'Click to wash under running faucet' : 'Sanitized colander'}
             >
@@ -355,7 +355,7 @@ export const Mission1Prep = () => {
               interactiveAction={
                 potStep === 4
                   ? {
-                      label: '🥣 Drain Boiled Ubod into Colander',
+                      label: 'Drain into Colander',
                       onClick: handleDrainUbod,
                       icon: '🥣',
                     }

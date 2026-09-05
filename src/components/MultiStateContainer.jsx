@@ -118,7 +118,10 @@ export const MultiStateContainer = ({
       </div>
 
       {/* Main Container Viewport */}
-      <div className="workstation-viewport" style={{ height: containerHeight }}>
+      <div
+        className="workstation-viewport"
+        style={{ minHeight: containerHeight, flex: '1 1 auto' }}
+      >
         {/* Animated Visual Effects Overlay */}
         {activeAnimation === 'boiling' && (
           <div className="fx-overlay boiling-fx">
@@ -197,21 +200,34 @@ export const MultiStateContainer = ({
               <span className="status-text">{currentStep.prompt || currentStep.label || 'Ready'}</span>
             </div>
 
-            {interactiveAction && (
-              <button
-                className={`btn-workstation-action ${interactiveAction.disabled ? 'disabled' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (!interactiveAction.disabled && interactiveAction.onClick) {
-                    interactiveAction.onClick();
-                  }
-                }}
-                disabled={interactiveAction.disabled}
-              >
-                {interactiveAction.icon && <span className="action-icon">{interactiveAction.icon}</span>}
-                <span>{interactiveAction.label}</span>
-              </button>
-            )}
+            {interactiveAction && (() => {
+              let icon = interactiveAction.icon;
+              let label = interactiveAction.label || '';
+              if (icon && label.startsWith(icon)) {
+                label = label.slice(icon.length).trim();
+              } else if (!icon) {
+                const emojiMatch = label.match(/^(\p{Extended_Pictographic}|\p{Emoji_Presentation})\s*/u);
+                if (emojiMatch) {
+                  icon = emojiMatch[1];
+                  label = label.slice(emojiMatch[0].length);
+                }
+              }
+              return (
+                <button
+                  className={`btn-workstation-action ${interactiveAction.disabled ? 'disabled' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!interactiveAction.disabled && interactiveAction.onClick) {
+                      interactiveAction.onClick();
+                    }
+                  }}
+                  disabled={interactiveAction.disabled}
+                >
+                  {icon && <span className="action-icon">{icon}</span>}
+                  <span className="action-label">{label}</span>
+                </button>
+              );
+            })()}
           </>
         )}
       </div>
