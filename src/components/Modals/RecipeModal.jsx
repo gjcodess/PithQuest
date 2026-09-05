@@ -10,36 +10,39 @@ export const RecipeModal = () => {
     <div className="modal-overlay" onClick={closeModal}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>🥥 Coconut Pith Crackers Standard Recipe</h2>
+          <h2>🥥 Coconut Pith Crackers Standard Recipe (Ubod Crunch)</h2>
           <button className="close-btn" onClick={closeModal}>&times;</button>
         </div>
         <div className="modal-body">
           <div className="recipe-grid">
             <div className="recipe-col">
-              <h3>📋 Ingredients (Standard Batch)</h3>
+              <h3>📋 Ingredients & Formulations</h3>
               <ul>
-                <li><strong>Fresh Coconut Pith (Ubod):</strong> 200g (washed, sliced, boiled & pureed)</li>
-                <li><strong>Tapioca Starch / Cornstarch:</strong> 100g (binder & puffing agent)</li>
-                <li><strong>Water:</strong> 50ml (for starch hydration)</li>
-                <li><strong>Iodized Salt:</strong> 1 teaspoon (flavor & moisture regulator)</li>
-                <li><strong>Garlic & Onion Powder:</strong> 1 teaspoon (savory aromatics)</li>
-                <li><strong>Refined Sugar:</strong> 1/2 teaspoon (flavor balance)</li>
-                <li><strong>Vegetable Cooking Oil:</strong> 500ml (for deep frying)</li>
+                <li><strong>Fresh Coconut Pith (Ubod):</strong> 2 Cups (washed, cut, boiled & pureed)</li>
+                <li><strong>Erawan Brand Finest Rice Flour:</strong> 2 Cups (1:1 ratio with boiled ubod paste)</li>
+                <li><strong>Pure Sea Salt:</strong> 1 teaspoon per 1 cup boiled ubod (2 tsp total)</li>
+                <li><strong>Potable Water:</strong> 4 cups for boiling + gradual dough hydration</li>
+                <li><strong>Baguio Orchids Vegetable Oil:</strong> 5 cups (for deep frying)</li>
+                <li><strong>Portioning Rule:</strong> 3 Teaspoons per cavity in 24-slot silicone mold</li>
               </ul>
             </div>
             <div className="recipe-col">
-              <h3>🔬 The 3 Core Processing Pillars</h3>
+              <h3>🔬 Processing Science Standards</h3>
               <div className="pillar-item">
-                <span className="p-badge">1. Boiling 🫕</span>
-                <p>Hydrolyzes tough cellulose fibers of the ubod, softening it for smooth pureeing and even blending with starches.</p>
+                <span className="p-badge">1. Pureeing & Mixing ⚙️</span>
+                <p>Pureeing boiled ubod with salt breaks cellulose fibers. Mixing 1:1 with rice flour creates an elastic dough matrix.</p>
               </div>
               <div className="pillar-item">
-                <span className="p-badge">2. Dehydration ☀️</span>
-                <p>Reduces moisture content to under 10%. Creates glassy, hardened pellets suitable for prolonged storage.</p>
+                <span className="p-badge">2. Steaming (10 min) ♨️</span>
+                <p>Steaming gelatinizes the rice starches at 100°C, locking the molded rectangular shapes so they don't crumble.</p>
               </div>
               <div className="pillar-item">
-                <span className="p-badge">3. Deep Frying 🍳</span>
-                <p>180°C hot oil instantly flash-steams residual micro-moisture, puffing the starch matrix into crispy, light crackers!</p>
+                <span className="p-badge">3. Dehydration (90°C / 12h) 💨</span>
+                <p>Reduces moisture to &lt;10% on spaced mesh trays, producing translucent glassy cracker pellets.</p>
+              </div>
+              <div className="pillar-item">
+                <span className="p-badge">4. Flash Frying (10 sec) 🍳</span>
+                <p>180°C oil flash-vaporizes residual moisture into steam, puffing the pellets into airy golden crackers!</p>
               </div>
             </div>
           </div>

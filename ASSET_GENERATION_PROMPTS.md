@@ -408,31 +408,37 @@
   A 2D game asset of a large, deep stainless steel mixing bowl on a clean kitchen counter, empty polished bowl, wide rim, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
-### 6.2 `mixing_bowl_dry_ingredients.png`
+### 6.2 `mixing_bowl_flour_added.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a large stainless steel mixing bowl on a clean kitchen counter filled with 2 cups of fine white Erawan rice flour, soft powdery mound, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  ```
+
+### 6.3 `mixing_bowl_dry_ingredients.png`
 * **Prompt:**
   ```text
   A 2D game asset of a large stainless steel mixing bowl containing 1 cup of fine white rice flour with 1 teaspoon of fine salt sprinkled in the center, dry powdery texture, isometric 3/4 view looking into bowl, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
-### 6.3 `mixing_bowl_paste_added.png`
+### 6.4 `mixing_bowl_paste_added.png`
 * **Prompt:**
   ```text
   A 2D game asset of a stainless steel mixing bowl containing white rice flour and salt, with 1 cup of creamy pureed coconut pith paste added on top, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
-### 6.4 `mixing_bowl_water_pouring.png`
+### 6.5 `mixing_bowl_water_pouring.png`
 * **Prompt:**
   ```text
   A 2D game asset of a stainless steel mixing bowl containing rice flour, salt, and ubod paste, with a stream of clear water being poured in gradually, creating a partially moistened mixture, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
-### 6.5 `mixing_bowl_mixing_in_progress.png`
+### 6.6 `mixing_bowl_mixing_in_progress.png`
 * **Prompt:**
   ```text
   A 2D game asset of a stainless steel mixing bowl with dough being actively mixed, red silicone spatula stirring crumbly moist dough clumps together, hydration in progress, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
-### 6.6 `mixing_bowl_dough_uniform.png`
+### 6.7 `mixing_bowl_dough_uniform.png`
 * **Prompt:**
   ```text
   A 2D game asset of a stainless steel mixing bowl containing a smooth, uniform, cohesive ball of pale ivory coconut pith cracker dough, perfectly kneaded and moist, non-sticky texture, red spatula resting beside, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.

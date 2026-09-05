@@ -1,282 +1,539 @@
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
+import { MultiStateContainer } from '../components/MultiStateContainer';
+import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission3Mixing = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, recordMistake, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
 
-  const [ingredientsInBowl, setIngredientsInBowl] = useState({
-    pulp: false,
-    starch: false,
-    seasonings: false,
-  });
-
-  const [isMixed, setIsMixed] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  // Mixing bowl states:
+  // 0: Empty stainless bowl -> accept rice_flour
+  // 1: Bowl with rice flour -> accept salt
+  // 2: Bowl with flour + salt -> accept ubod_paste
+  // 3: Bowl with flour + salt + paste -> accept water
+  // 4: All ingredients in bowl -> action: fold & knead dough
+  // 5: Kneading in progress
+  // 6: Smooth pliable dough ball ready
+  const [bowlStep, setBowlStep] = useState(0);
+  const [kneadProgress, setKneadProgress] = useState(0);
+  const [isKneading, setIsKneading] = useState(false);
 
   useEffect(() => {
     speak(
-      'Stage 3: Formulation & Mixing! Ubod needs a starch matrix (tapioca starch) to puff, plus savory seasonings. Add Pureed Ubod, Starch, and Seasonings into the mixing bowl.',
+      'Stage 3: Dough Formulation & Mixing! In our large stainless steel bowl, we will formulate our 1:1 recipe using Erawan Rice Flour, Salt, Ubod Paste, and Gradual Water.',
       'neutral',
       {
         badge: 'Stage 3: Formulation',
-        hint: 'Click an ingredient from the tray to hold it, then click the central mixing bowl.',
+        hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
         hideButton: true,
       }
     );
   }, []);
 
-  const handleItemClick = (item) => {
-    if (isMixed) return;
-    soundManager.playClick();
-    if (holdingItem?.id === item.id) {
-      setHoldingItem(null);
-      setSelectedItem(null);
-    } else {
-      setHoldingItem(item);
-      setSelectedItem(item);
-    }
-  };
+  const bowlSteps = [
+    {
+      stepIndex: 0,
+      acceptedItems: ['rice_flour'],
+      prompt: 'Pour Erawan Rice Flour (1:1 ratio base) into the bowl',
+      img: '/assets/mixing_bowl_empty.png',
+      fallbackIcon: '🥣',
+      label: 'Empty Stainless Mixing Bowl',
+    },
+    {
+      stepIndex: 1,
+      acceptedItems: ['salt'],
+      prompt: 'Add measured Pure Sea Salt into the flour',
+      img: '/assets/mixing_bowl_flour_added.png',
+      fallbackIcon: '🌾',
+      label: 'Bowl with Rice Flour',
+    },
+    {
+      stepIndex: 2,
+      acceptedItems: ['ubod_paste'],
+      prompt: 'Add pureed Boiled Ubod Paste into the dry mixture',
+      img: '/assets/mixing_bowl_dry_ingredients.png',
+      fallbackIcon: '🧂',
+      label: 'Flour + Salt Dry Mix',
+    },
+    {
+      stepIndex: 3,
+      acceptedItems: ['water_hydration', 'water'],
+      prompt: 'Add measured potable water gradually to hydrate the starches',
+      img: '/assets/mixing_bowl_paste_added.png',
+      fallbackIcon: '🥥',
+      label: 'Flour + Paste Mixture',
+    },
+    {
+      stepIndex: 4,
+      acceptedItems: ['spatula', 'red_spatula'],
+      prompt: 'All ingredients added! Select Red Spatula on shelf to knead dough',
+      img: '/assets/mixing_bowl_water_pouring.png',
+      fallbackIcon: '💧',
+      label: 'Hydrated Formulation Mix',
+    },
+    {
+      stepIndex: 5,
+      acceptedItems: [],
+      prompt: 'Folding and kneading into a cohesive, non-sticky dough ball...',
+      img: '/assets/mixing_bowl_mixing_in_progress.png',
+      fallbackIcon: '🥯',
+      label: 'Kneading in Progress',
+    },
+    {
+      stepIndex: 6,
+      acceptedItems: [],
+      prompt: 'Pliable, elastic coconut pith dough ball ready for molding!',
+      img: '/assets/mixing_bowl_dough_uniform.png',
+      fallbackIcon: '✨',
+      label: 'Smooth Cracker Dough Ball',
+    },
+  ];
 
-  const handleBowlClick = () => {
-    // If dough is already mixed, re-trigger the proceed dialogue safely
-    if (isMixed) {
-      soundManager.playSuccess();
+  const handleItemAccepted = (item, stepIndex) => {
+    if (stepIndex === 0 && item.id === 'rice_flour') {
+      soundManager.playPour();
+      setBowlStep(1);
+      addScore(20);
+      showToast('Rice Flour Added!', 'Next: Add Sea Salt to distribute evenly in dry mix.', 'success');
       speak(
-        'Superb mixing! The coconut pith cracker dough is ready. Click below to proceed to Stage 4: Dehydration!',
-        'happy',
+        'Rice flour added! Now add the Pure Sea Salt from the bottom shelf so it blends thoroughly into the dry flour particles.',
+        'neutral',
         {
-          badge: 'Stage 3 Cleared',
-          btnText: 'Proceed to Stage 4: Dehydration ➔',
-          onNext: () => setScene('mission4'),
+          badge: 'Dry Blending',
+          hint: 'Select Pure Sea Salt from the bottom shelf and drop it into the bowl.',
+          hideButton: true,
         }
       );
-      return;
-    }
-
-    const activeItem = holdingItem || selectedItem;
-
-    if (!activeItem) {
-      soundManager.playError();
-      showToast('Select an Ingredient', 'Pick up an ingredient from the bottom shelf.', 'warning');
-      return;
-    }
-
-    // Check for distractor items
-    if (activeItem.id === 'distractor_vinegar') {
-      soundManager.playError();
-      recordMistake();
-      setHoldingItem(null);
-      setSelectedItem(null);
-      showToast('Wrong Ingredient!', 'Acid inhibits starch gelatinization!', 'danger');
+    } else if (stepIndex === 1 && item.id === 'salt') {
+      soundManager.playClick();
+      setBowlStep(2);
+      addScore(20);
+      showToast('Salt Added!', 'Next: Add Silky Ubod Paste (1:1 Ratio).', 'success');
       speak(
-        'Careful! Adding acid (like vinegar) breaks down starch molecules and prevents the crackers from puffing during frying. Stick to our recipe ingredients!',
+        'Salt blended! Now add the pureed Boiled Ubod Paste into the bowl to achieve our 1:1 starch-to-pith ratio.',
+        'happy',
+        {
+          badge: '1:1 Ratio Formulation',
+          hint: 'Select Ubod Paste on the bottom shelf and drop it into the bowl.',
+          hideButton: true,
+        }
+      );
+    } else if (stepIndex === 2 && item.id === 'ubod_paste') {
+      soundManager.playPour();
+      setBowlStep(3);
+      addScore(25);
+      showToast('Ubod Paste Added!', 'Next: Add Hydration Water gradually.', 'success');
+      speak(
+        'Paste incorporated! Now add the Hydration Water gradually to hydrate the starch granules for gelatinization.',
+        'neutral',
+        {
+          badge: 'Hydration Control',
+          hint: 'Select Hydration Water and drop it into the bowl.',
+          hideButton: true,
+        }
+      );
+    } else if (stepIndex === 3 && (item.id === 'water_hydration' || item.id === 'water')) {
+      soundManager.playPour();
+      setBowlStep(4);
+      addScore(25);
+      showToast('Hydration Complete!', 'All ingredients added! Fold and knead with spatula.', 'success');
+      speak(
+        'All formulation ingredients are in the bowl! Pick up the Red Silicone Spatula on your bottom shelf and tap the bowl to knead into dough.',
         'thinking',
         {
-          badge: 'Food Chemistry Hint',
-          hint: 'Select Pureed Ubod, Starch, or Seasonings.',
+          badge: 'Dough Kneading',
+          hint: 'Select Red Spatula on the bottom shelf, then tap the mixing bowl.',
           hideButton: true,
         }
       );
-      return;
-    }
-
-    // Valid ingredients
-    if (activeItem.id === 'pureed_ubod' && !ingredientsInBowl.pulp) {
-      soundManager.playPour();
-      addScore(15);
-      setIngredientsInBowl(prev => ({ ...prev, pulp: true }));
-      showToast('Ubod Puree Added!', '+15 Points.', 'success');
-      setHoldingItem(null);
-      setSelectedItem(null);
-    } else if (activeItem.id === 'tapioca_starch' && !ingredientsInBowl.starch) {
-      soundManager.playPour();
-      addScore(15);
-      setIngredientsInBowl(prev => ({ ...prev, starch: true }));
-      showToast('Tapioca Starch Added!', '+15 Points (Puffing Agent).', 'success');
-      setHoldingItem(null);
-      setSelectedItem(null);
-    } else if (activeItem.id === 'seasonings' && !ingredientsInBowl.seasonings) {
-      soundManager.playPour();
-      addScore(15);
-      setIngredientsInBowl(prev => ({ ...prev, seasonings: true }));
-      showToast('Seasonings Added!', '+15 Points (Salt, Garlic, Sugar).', 'success');
-      setHoldingItem(null);
-      setSelectedItem(null);
-    } else {
-      showToast('Already Added!', 'This item is already in the bowl.', 'warning');
-      setHoldingItem(null);
-      setSelectedItem(null);
+    } else if (stepIndex === 4 && (item.id === 'spatula' || item.id === 'red_spatula')) {
+      handleKneadDough();
     }
   };
 
-  const allIngredientsIn = ingredientsInBowl.pulp && ingredientsInBowl.starch && ingredientsInBowl.seasonings;
-
-  useEffect(() => {
-    if (allIngredientsIn && !isMixed) {
-      speak(
-        'All recipe components are inside the bowl! Now click the Spatula to mix and knead everything into a smooth, non-sticky dough.',
-        'happy',
-        {
-          badge: 'Ready to Mix',
-          hint: 'Click the Spatula in the mixing bowl.',
-          hideButton: true,
-        }
-      );
-    }
-  }, [allIngredientsIn]);
-
-  const handleMixAction = () => {
-    if (!allIngredientsIn || isMixed) return;
-
-    soundManager.playPour();
-    soundManager.playSuccess();
-    addScore(30);
-    unlockBadge('precision_formulator', 'Formulation Specialist', '⚖️');
-    setIsMixed(true);
-    setSelectedItem(null);
-    completeMission('mission3');
-    showToast('Dough Ready!', '+30 Points! Pliable cracker dough formed.', 'success');
-    speak(
-      'Superb mixing! The starch granules are uniformly hydrated and bonded with the coconut pith fiber. We are ready for Stage 4: Dehydration!',
-      'happy',
-      {
-        badge: 'Stage 3 Cleared',
-        btnText: 'Proceed to Stage 4: Dehydration ➔',
-        onNext: () => setScene('mission4'),
+  const handleKneadDough = () => {
+    try {
+      if (typeof soundManager.playScrape === 'function') {
+        soundManager.playScrape();
+      } else {
+        soundManager.playClick();
       }
-    );
+    } catch (err) {
+      console.warn(err);
+    }
+    setHoldingItem(null);
+    setIsKneading(true);
+    setBowlStep(5);
+    showToast('Kneading Dough...', 'Forming starch-protein matrix with spatula...', 'info');
+
+    let current = 0;
+    const interval = setInterval(() => {
+      current += 20;
+      setKneadProgress(current);
+      try {
+        if (typeof soundManager.playScrape === 'function') {
+          soundManager.playScrape();
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+      if (current >= 100) {
+        clearInterval(interval);
+        setIsKneading(false);
+        setBowlStep(6);
+        soundManager.playSuccess();
+        addScore(35);
+        unlockBadge('dough_master', 'Starch Formulation Chemist', '🥯');
+        completeMission('mission3');
+        showToast('Dough Ball Formed!', 'Pliable, elastic, non-sticky dough ready (+35 pts)', 'success');
+        speak(
+          'Masterpiece! The dough has achieved the exact desired texture: smooth, elastic, and completely non-sticky. Ready for rectangular molding in Stage 4!',
+          'happy',
+          {
+            badge: 'Stage 3 Complete',
+            btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
+            onNext: () => setScene('mission4'),
+          }
+        );
+      }
+    }, 600);
   };
+
+  const stage3Inventory = [
+    {
+      id: 'rice_flour',
+      name: 'Erawan Rice Flour',
+      measure: '2 Cups (1:1 Base)',
+      img: '/assets/portion_rice_flour_1cup.png',
+      fallbackIcon: '🌾',
+      isUsed: bowlStep >= 1,
+      isNext: bowlStep === 0,
+      tooltip: 'Erawan brand fine white rice flour',
+    },
+    {
+      id: 'salt',
+      name: 'Pure Sea Salt',
+      measure: '1 tsp (Sea Salt)',
+      img: '/assets/ing_salt_fresh.png',
+      fallbackIcon: '🧂',
+      isUsed: bowlStep >= 2,
+      isNext: bowlStep === 1,
+      tooltip: '1 tsp pure white sea salt',
+    },
+    {
+      id: 'ubod_paste',
+      name: 'Silky Ubod Paste',
+      measure: '2 Cups Puree',
+      img: '/assets/portion_ubod_paste_1cup.png',
+      fallbackIcon: '🥥',
+      isUsed: bowlStep >= 3,
+      isNext: bowlStep === 2,
+      tooltip: 'Smooth boiled coconut pith puree',
+    },
+    {
+      id: 'water_hydration',
+      name: 'Hydration Water',
+      measure: 'Gradual Addition',
+      img: '/assets/portion_water_1cup.png',
+      fallbackIcon: '💧',
+      isUsed: bowlStep >= 4,
+      isNext: bowlStep === 3,
+      tooltip: 'Clean potable water for starch hydration',
+    },
+    {
+      id: 'spatula',
+      name: 'Red Spatula',
+      measure: 'Fold & Knead',
+      img: '/assets/tool_spatula_red.png',
+      fallbackIcon: '🥄',
+      isUsed: bowlStep >= 6,
+      isNext: bowlStep === 4,
+      tooltip: 'Red silicone spatula for dough folding',
+    },
+  ];
 
   return (
-    <div className="workstation-scene stage-3-bg">
+    <div className="workstation-scene mixing-scene">
       <div className="workstation-overlay" />
+
+      {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="active-vessel-card mixing-workstation">
-          <div className="vessel-header">
-            <span className="vessel-title">
-              <img src="/images/icon_prep_bowl.png" alt="" className="vessel-header-icon" />
-              Formulation Bench: Mixing Bowl
-            </span>
-            <span className="vessel-badge">{Object.values(ingredientsInBowl).filter(Boolean).length}/3 Ingredients</span>
+        <div className="stage-content-row" style={{ maxWidth: '920px' }}>
+          {/* Center: Stainless Mixing Bowl MultiStateContainer */}
+          <div className="station-center-card">
+            <MultiStateContainer
+              containerId="mixing_bowl"
+              title="Stainless Steel Mixing Bowl"
+              subtitle="1:1 Ratio Formulation with Red Spatula"
+              currentStepIndex={bowlStep}
+              steps={bowlSteps}
+              onItemAccepted={handleItemAccepted}
+              containerWidth="460px"
+              containerHeight="280px"
+              activeAnimation={isKneading ? 'mixing' : null}
+              statusDotClass={bowlStep >= 6 ? 'dot-success' : bowlStep === 5 ? 'dot-amber' : ''}
+              statusText={
+                bowlStep === 5
+                  ? `Folding and kneading dough matrix... (${kneadProgress}%)`
+                  : undefined
+              }
+              specBadge={
+                <span
+                  className={`spec-badge ${
+                    bowlStep >= 6 ? 'spec-success' : bowlStep === 4 ? 'spec-amber' : ''
+                  }`}
+                >
+                  {bowlStep >= 6
+                    ? 'DOUGH: READY'
+                    : bowlStep === 5
+                    ? `KNEAD: ${kneadProgress}%`
+                    : bowlStep === 4
+                    ? 'TOOL: SPATULA'
+                    : 'CAP: 4 QT'}
+                </span>
+              }
+            >
+              {/* Step 4 Spatula Guidance Guide */}
+              {bowlStep === 4 && !isKneading && (
+                <div
+                  className="spatula-scrape-guide"
+                  onClick={() => {
+                    if (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') {
+                      handleKneadDough();
+                    } else {
+                      soundManager.playClick();
+                      showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap the bowl!', 'info');
+                      speak(
+                        'Pick up the red silicone spatula from your bottom shelf first, then tap the bowl to knead the dough!',
+                        'thinking',
+                        {
+                          badge: 'Select Spatula',
+                          hint: 'Tap "Red Spatula" on the bottom tray, then tap the bowl.',
+                        }
+                      );
+                    }
+                  }}
+                  title="Tap with Red Spatula to knead"
+                >
+                  <span>
+                    🥄 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap Bowl to Knead Dough' : 'Pick Up Red Spatula Below'}
+                  </span>
+                </div>
+              )}
+            </MultiStateContainer>
           </div>
 
+          {/* Right Side: Recipe Formulation & QC Workstation */}
           <div
-            className={`dropzone mixing-bowl-zone ${selectedItem ? 'highlight-ready' : ''} ${isMixed ? 'dough-ready-zone' : ''}`}
-            onClick={handleBowlClick}
+            className={`multi-state-workstation qc-workstation ${
+              bowlStep === 4 && (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') ? 'compatible-target' : ''
+            }`}
+            style={{
+              width: '380px',
+              cursor: bowlStep === 4 ? 'pointer' : 'default',
+            }}
+            onClick={() => {
+              if (bowlStep === 4) {
+                if (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') {
+                  handleKneadDough();
+                } else {
+                  soundManager.playClick();
+                  showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap to knead!', 'info');
+                  speak(
+                    'Pick up the red silicone spatula from your bottom shelf first, then tap to fold and knead the formulation!',
+                    'thinking',
+                    {
+                      badge: 'Select Spatula',
+                      hint: 'Tap "Red Spatula" on the bottom tray first.',
+                    }
+                  );
+                }
+              }
+            }}
+            onDragOver={(e) => {
+              if (bowlStep === 4) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+              }
+            }}
+            onDrop={(e) => {
+              if (bowlStep === 4) {
+                e.preventDefault();
+                try {
+                  const data = e.dataTransfer.getData('text/plain');
+                  if (!data) return;
+                  const item = JSON.parse(data);
+                  if (item.id === 'spatula' || item.id === 'red_spatula') {
+                    handleKneadDough();
+                  }
+                } catch (err) {
+                  console.error(err);
+                }
+              }
+            }}
+            title={bowlStep === 4 ? 'Click to knead formulation into dough ball' : 'Recipe Formulation & QC Monitor'}
           >
-            <div className="bowl-stage-visual">
-              <img
-                src="/images/icon_prep_bowl.png"
-                alt="Mixing Bowl"
-                className="mixing-bowl-img"
-              />
-              <div className="bowl-contents-summary">
-                {ingredientsInBowl.pulp && <span className="ingredient-tag-pill">✓ 200g Boiled Ubod Pulp</span>}
-                {ingredientsInBowl.starch && <span className="ingredient-tag-pill">✓ 100g Tapioca Starch</span>}
-                {ingredientsInBowl.seasonings && <span className="ingredient-tag-pill">✓ Salt, Garlic & Sugar</span>}
+            {/* Workstation Header */}
+            <div className="workstation-header">
+              <div className="workstation-titles">
+                <h4 className="workstation-name">Recipe Formulation & QC</h4>
+                <span className="workstation-sub">1:1 Ubod-to-Starch Calibration</span>
+              </div>
+              <div
+                className={`workstation-step-badge ${
+                  bowlStep >= 6
+                    ? 'badge-success-glow'
+                    : bowlStep === 5
+                    ? 'badge-flow-glow'
+                    : bowlStep === 4
+                    ? 'badge-flow-glow'
+                    : ''
+                }`}
+              >
+                {bowlStep >= 6
+                  ? '✅ Cohesive Matrix'
+                  : bowlStep === 5
+                  ? `⚡ Kneading (${kneadProgress}%)`
+                  : bowlStep === 4
+                  ? '🥄 Ready to Knead'
+                  : `${bowlStep}/4 Added`}
+              </div>
+            </div>
+
+            {/* Workstation Viewport */}
+            <div className="workstation-viewport qc-viewport" style={{ minHeight: '280px', flex: '1 1 auto' }}>
+              {/* Recipe Calibration Checklist */}
+              <div className="qc-recipe-list">
+                <div className="qc-list-title">
+                  <span>Standard 1:1 Formulation</span>
+                  <span className="qc-step-counter">{Math.min(4, bowlStep)} of 4</span>
+                </div>
+
+                {/* Ingredient 1: Rice Flour */}
+                <div className={`qc-item-row ${bowlStep >= 1 ? 'completed' : bowlStep === 0 ? 'current-target' : ''}`}>
+                  <div className="qc-item-icon-box">
+                    <img src="/assets/portion_rice_flour_1cup.png" alt="Rice Flour" />
+                  </div>
+                  <div className="qc-item-meta">
+                    <strong>Erawan Rice Flour</strong>
+                    <span>2 Cups • 1:1 Starch Base</span>
+                  </div>
+                  <div className={`qc-status-chip ${bowlStep >= 1 ? 'chip-done' : bowlStep === 0 ? 'chip-next' : ''}`}>
+                    {bowlStep >= 1 ? '✓ Added' : bowlStep === 0 ? '👉 Next' : 'Pending'}
+                  </div>
+                </div>
+
+                {/* Ingredient 2: Sea Salt */}
+                <div className={`qc-item-row ${bowlStep >= 2 ? 'completed' : bowlStep === 1 ? 'current-target' : ''}`}>
+                  <div className="qc-item-icon-box">
+                    <img src="/assets/ing_salt_fresh.png" alt="Sea Salt" />
+                  </div>
+                  <div className="qc-item-meta">
+                    <strong>Pure Sea Salt</strong>
+                    <span>1 tsp • Ionic Stabilizer</span>
+                  </div>
+                  <div className={`qc-status-chip ${bowlStep >= 2 ? 'chip-done' : bowlStep === 1 ? 'chip-next' : ''}`}>
+                    {bowlStep >= 2 ? '✓ Added' : bowlStep === 1 ? '👉 Next' : 'Pending'}
+                  </div>
+                </div>
+
+                {/* Ingredient 3: Ubod Paste */}
+                <div className={`qc-item-row ${bowlStep >= 3 ? 'completed' : bowlStep === 2 ? 'current-target' : ''}`}>
+                  <div className="qc-item-icon-box">
+                    <img src="/assets/portion_ubod_paste_1cup.png" alt="Ubod Paste" />
+                  </div>
+                  <div className="qc-item-meta">
+                    <strong>Silky Ubod Paste</strong>
+                    <span>2 Cups • 1:1 Puree Base</span>
+                  </div>
+                  <div className={`qc-status-chip ${bowlStep >= 3 ? 'chip-done' : bowlStep === 2 ? 'chip-next' : ''}`}>
+                    {bowlStep >= 3 ? '✓ Added' : bowlStep === 2 ? '👉 Next' : 'Pending'}
+                  </div>
+                </div>
+
+                {/* Ingredient 4: Potable Water */}
+                <div className={`qc-item-row ${bowlStep >= 4 ? 'completed' : bowlStep === 3 ? 'current-target' : ''}`}>
+                  <div className="qc-item-icon-box">
+                    <img src="/assets/portion_water_1cup.png" alt="Water" />
+                  </div>
+                  <div className="qc-item-meta">
+                    <strong>Potable Water</strong>
+                    <span>Gradual • Starch Hydration</span>
+                  </div>
+                  <div className={`qc-status-chip ${bowlStep >= 4 ? 'chip-done' : bowlStep === 3 ? 'chip-next' : ''}`}>
+                    {bowlStep >= 4 ? '✓ Added' : bowlStep === 3 ? '👉 Next' : 'Pending'}
+                  </div>
+                </div>
               </div>
 
-              {allIngredientsIn && !isMixed && (
-                <div className="mix-prompt-overlay" onClick={(e) => { e.stopPropagation(); handleMixAction(); }}>
-                  <button className="btn-gold btn-stir">
-                    <img src="/images/icon_spatula.png" alt="" className="stir-icon-img" />
-                    <span>Stir & Knead Dough!</span>
-                  </button>
+              {/* Dough Rheology & Cohesiveness Meter */}
+              <div className="qc-rheology-card">
+                <div className="qc-rheology-header">
+                  <span className="qc-rheology-label">Dough Cohesiveness:</span>
+                  <span className="qc-rheology-pct">{Math.round((bowlStep / 6) * 100)}%</span>
                 </div>
-              )}
+                <div className="qc-progress-track">
+                  <div
+                    className="qc-progress-fill"
+                    style={{
+                      width: `${Math.round((bowlStep / 6) * 100)}%`,
+                    }}
+                  />
+                </div>
+                <div className={`qc-texture-badge ${bowlStep >= 6 ? 'texture-perfect' : bowlStep === 4 ? 'texture-ready' : ''}`}>
+                  {bowlStep < 4
+                    ? 'Awaiting Ingredients'
+                    : bowlStep === 4
+                    ? '🥣 Ready to Fold & Knead'
+                    : bowlStep === 5
+                    ? '🔄 Kneading Starch Matrix...'
+                    : '✨ Pliable & Non-Sticky'}
+                </div>
+              </div>
+            </div>
 
-              {isMixed && (
-                <div className="dough-finished-badge pop-in">
-                  <img src="/images/icon_dough.png" alt="Coconut Pith Cracker Dough" className="dough-img" />
-                  <h4>✓ Uniform Coconut Pith Cracker Dough</h4>
-                  <p>Ready to roll, steam, and dehydrate</p>
-                </div>
-              )}
+            {/* Workstation Footer (86px) */}
+            <div className="workstation-footer">
+              <div className="workstation-status">
+                <span
+                  className={`status-dot ${
+                    bowlStep >= 6 ? 'dot-success' : bowlStep >= 4 ? 'dot-amber' : ''
+                  }`}
+                />
+                <span className="status-text">
+                  {bowlStep === 0
+                    ? 'Add 2 cups Erawan Rice Flour into bowl'
+                    : bowlStep === 1
+                    ? 'Add 1 tsp Pure Sea Salt to dry flour'
+                    : bowlStep === 2
+                    ? 'Add 2 cups Boiled Ubod Paste for 1:1 ratio'
+                    : bowlStep === 3
+                    ? 'Add potable water gradually for hydration'
+                    : bowlStep === 4
+                    ? 'Tap Red Spatula on shelf, then tap bowl to knead'
+                    : bowlStep === 5
+                    ? 'Forming cohesive starch-protein matrix...'
+                    : '1:1 dough ball calibrated for rectangular molding'}
+                </span>
+              </div>
+              <span
+                className={`spec-badge ${
+                  bowlStep >= 6 ? 'spec-success' : bowlStep === 4 ? 'spec-amber' : ''
+                }`}
+              >
+                {bowlStep >= 6 ? 'TEXTURE: NON-STICKY' : bowlStep === 5 ? `DEV: ${kneadProgress}%` : bowlStep === 4 ? 'ACTION: KNEAD' : 'RATIO: 1:1'}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Inventory Tray */}
-      <div className="inventory-tray">
-        <div className="tray-title-bar">
-          <span className="tray-label">🧰 Formulation Ingredients:</span>
-          <span className="tray-hint">{isMixed ? 'Dough is complete! Proceed to Stage 4' : 'Click ingredient, then click mixing bowl'}</span>
-        </div>
-        <div className="items-carousel">
-          <div
-            className={`drag-card ${(holdingItem?.id === 'pureed_ubod' || selectedItem?.id === 'pureed_ubod') ? 'lifted selected-tap' : ''} ${ingredientsInBowl.pulp || isMixed ? 'used' : ''}`}
-            onClick={() =>
-              !ingredientsInBowl.pulp &&
-              !isMixed &&
-              handleItemClick({
-                id: 'pureed_ubod',
-                name: 'Pureed Ubod (200g)',
-                img: '/images/icon_ubod_puree.png',
-                actionHint: 'Click mixing bowl to add',
-              })
-            }
-          >
-            <img src="/images/icon_ubod_puree.png" alt="Pureed Ubod" className="card-icon-img" />
-            <span className="card-title">Pureed Ubod</span>
-            <span className="card-measure">200g</span>
-          </div>
-
-          <div
-            className={`drag-card ${(holdingItem?.id === 'tapioca_starch' || selectedItem?.id === 'tapioca_starch') ? 'lifted selected-tap' : ''} ${ingredientsInBowl.starch || isMixed ? 'used' : ''}`}
-            onClick={() =>
-              !ingredientsInBowl.starch &&
-              !isMixed &&
-              handleItemClick({
-                id: 'tapioca_starch',
-                name: 'Tapioca Starch (100g)',
-                img: '/images/icon_tapioca_starch.png',
-                actionHint: 'Click mixing bowl to add',
-              })
-            }
-          >
-            <img src="/images/icon_tapioca_starch.png" alt="Starch" className="card-icon-img" />
-            <span className="card-title">Tapioca Starch</span>
-            <span className="card-measure">100g</span>
-          </div>
-
-          <div
-            className={`drag-card ${(holdingItem?.id === 'seasonings' || selectedItem?.id === 'seasonings') ? 'lifted selected-tap' : ''} ${ingredientsInBowl.seasonings || isMixed ? 'used' : ''}`}
-            onClick={() =>
-              !ingredientsInBowl.seasonings &&
-              !isMixed &&
-              handleItemClick({
-                id: 'seasonings',
-                name: 'Seasonings (1 tsp)',
-                img: '/images/icon_seasonings.png',
-                actionHint: 'Click mixing bowl to add',
-              })
-            }
-          >
-            <img src="/images/icon_seasonings.png" alt="Seasonings" className="card-icon-img" />
-            <span className="card-title">Seasonings</span>
-            <span className="card-measure">1 tsp blend</span>
-          </div>
-
-          <div
-            className={`drag-card distractor ${(holdingItem?.id === 'distractor_vinegar' || selectedItem?.id === 'distractor_vinegar') ? 'lifted selected-tap' : ''} ${isMixed ? 'used' : ''}`}
-            onClick={() =>
-              !isMixed &&
-              handleItemClick({
-                id: 'distractor_vinegar',
-                name: 'Cane Vinegar (50ml)',
-                img: '/images/icon_vinegar.png',
-                actionHint: 'Click mixing bowl to add',
-              })
-            }
-          >
-            <img src="/images/icon_vinegar.png" alt="Cane Vinegar" className="card-icon-img" />
-            <span className="card-title">Cane Vinegar</span>
-            <span className="card-measure">50ml</span>
-          </div>
-        </div>
-      </div>
+      {/* DOCKED BOTTOM INVENTORY SHELF */}
+      <InventoryTray
+        title="Station 3 Formulation Ingredients & Tools"
+        items={stage3Inventory}
+      />
     </div>
   );
 };

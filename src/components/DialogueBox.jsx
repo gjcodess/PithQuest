@@ -13,9 +13,10 @@ export const DialogueBox = () => {
   const { dialogue, scene } = useGame();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const timerRef = useRef(null);
 
-  const hasTray = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5'].includes(scene);
+  const hasTray = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5', 'mission6', 'mission7', 'mission8'].includes(scene);
 
   const finishTyping = () => {
     if (timerRef.current) {
@@ -25,6 +26,13 @@ export const DialogueBox = () => {
     setDisplayedText(dialogue.text || '');
     setIsTyping(false);
   };
+
+  // Auto-expand when a primary mission transition button appears
+  useEffect(() => {
+    if (dialogue.btnText) {
+      setIsCollapsed(false);
+    }
+  }, [dialogue.btnText]);
 
   useEffect(() => {
     if (!dialogue.visible || !dialogue.text) {
@@ -83,6 +91,45 @@ export const DialogueBox = () => {
 
   const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
 
+  // Render Collapsed Mini-Pill Bar
+  if (isCollapsed) {
+    return (
+      <div
+        className={`dialogue-box collapsed ${hasTray ? 'has-tray' : 'no-tray'}`}
+        onClick={() => {
+          soundManager.playClick();
+          setIsCollapsed(false);
+        }}
+        title="Click anywhere to expand Teacher Mia's speech"
+        role="button"
+        tabIndex={0}
+      >
+        <div className="dialogue-mini-avatar-wrapper">
+          <img src={avatarSrc} alt="Teacher Mia" className="dialogue-mini-avatar" />
+        </div>
+        <div className="dialogue-collapsed-info">
+          <span className="dialogue-mini-name">Teacher Mia:</span>
+          <span className="dialogue-mini-snippet">
+            {displayedText || dialogue.text}
+          </span>
+        </div>
+        <button
+          className="dialogue-toggle-btn expand"
+          onClick={(e) => {
+            e.stopPropagation();
+            soundManager.playClick();
+            setIsCollapsed(false);
+          }}
+          title="Expand Teacher Mia Dialogue"
+          aria-label="Expand Teacher Mia Dialogue"
+        >
+          <span>▲ Expand</span>
+        </button>
+      </div>
+    );
+  }
+
+  // Render Full Expanded Dialogue Box
   return (
     <div
       className={`dialogue-box ${hasTray ? 'has-tray' : 'no-tray'} ${isTyping ? 'is-typing' : ''}`}
@@ -94,8 +141,22 @@ export const DialogueBox = () => {
       </div>
       <div className="dialogue-content">
         <div className="dialogue-header">
-          <span className="dialogue-name">Teacher Mia</span>
-          <span className="dialogue-status-badge">{dialogue.badge}</span>
+          <div className="dialogue-header-left">
+            <span className="dialogue-name">Teacher Mia</span>
+            {dialogue.badge && <span className="dialogue-status-badge">{dialogue.badge}</span>}
+          </div>
+          <button
+            className="dialogue-toggle-btn collapse"
+            onClick={(e) => {
+              e.stopPropagation();
+              soundManager.playClick();
+              setIsCollapsed(true);
+            }}
+            title="Minimize speech bubble"
+            aria-label="Minimize Dialogue"
+          >
+            <span>▼ Minimize</span>
+          </button>
         </div>
         <p className="dialogue-text">
           {displayedText}

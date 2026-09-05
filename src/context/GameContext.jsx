@@ -62,13 +62,15 @@ export const GameProvider = ({ children }) => {
   });
 
   const [missionsCompleted, setMissionsCompleted] = useState({
-
     orientation: false,
     mission1: false,
     mission2: false,
     mission3: false,
     mission4: false,
     mission5: false,
+    mission6: false,
+    mission7: false,
+    mission8: false,
   });
 
   // Sound Mute Toggle
@@ -191,6 +193,9 @@ export const GameProvider = ({ children }) => {
       mission3: false,
       mission4: false,
       mission5: false,
+      mission6: false,
+      mission7: false,
+      mission8: false,
     });
     hideDialogue();
     setScene('title');
