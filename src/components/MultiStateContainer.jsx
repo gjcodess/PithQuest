@@ -17,6 +17,7 @@ export const MultiStateContainer = ({
   onWrongItem,
   activeAnimation = null, // 'boiling' | 'steaming' | 'sizzling' | 'blending' | null
   interactiveAction = null, // { label: string, onClick: func, icon?: string, disabled?: boolean }
+  customFooter = null,
   className = '',
   containerWidth = '320px',
   containerHeight = '280px',
@@ -186,26 +187,32 @@ export const MultiStateContainer = ({
       </div>
 
       {/* Footer / Status / Action */}
-      <div className="workstation-footer">
-        <div className="workstation-status">
-          <span className="status-dot" />
-          <span className="status-text">{currentStep.prompt || currentStep.label || 'Ready'}</span>
-        </div>
+      <div className={`workstation-footer ${customFooter ? 'has-custom-footer' : ''}`}>
+        {customFooter ? (
+          customFooter
+        ) : (
+          <>
+            <div className="workstation-status">
+              <span className="status-dot" />
+              <span className="status-text">{currentStep.prompt || currentStep.label || 'Ready'}</span>
+            </div>
 
-        {interactiveAction && (
-          <button
-            className={`btn-workstation-action ${interactiveAction.disabled ? 'disabled' : ''}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!interactiveAction.disabled && interactiveAction.onClick) {
-                interactiveAction.onClick();
-              }
-            }}
-            disabled={interactiveAction.disabled}
-          >
-            {interactiveAction.icon && <span className="action-icon">{interactiveAction.icon}</span>}
-            <span>{interactiveAction.label}</span>
-          </button>
+            {interactiveAction && (
+              <button
+                className={`btn-workstation-action ${interactiveAction.disabled ? 'disabled' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!interactiveAction.disabled && interactiveAction.onClick) {
+                    interactiveAction.onClick();
+                  }
+                }}
+                disabled={interactiveAction.disabled}
+              >
+                {interactiveAction.icon && <span className="action-icon">{interactiveAction.icon}</span>}
+                <span>{interactiveAction.label}</span>
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

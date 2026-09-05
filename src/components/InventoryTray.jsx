@@ -15,7 +15,8 @@ export const InventoryTray = ({
   const { holdingItem, setHoldingItem } = useGame();
 
   const handleCardClick = (item) => {
-    if (item.isUsed || item.disabled) return;
+    if (item.isUsed) return;
+    if (item.disabled && !item.onClick) return;
     soundManager.playClick();
 
     if (item.onClick) {
@@ -55,7 +56,7 @@ export const InventoryTray = ({
           return (
             <div
               key={item.id}
-              className={`drag-card ${isHeld ? 'selected-tap' : ''} ${isUsed ? 'used' : ''} ${isNext ? 'guide-pulse' : ''}`}
+              className={`drag-card ${isHeld ? 'lifted selected-tap' : ''} ${isUsed ? 'used' : ''} ${isNext ? 'guide-pulse' : ''} ${item.disabled ? 'card-disabled' : ''}`}
               onClick={() => handleCardClick(item)}
               draggable={!isUsed && !item.disabled}
               onDragStart={(e) => {

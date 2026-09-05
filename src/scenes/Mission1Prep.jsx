@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
+import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 
 export const Mission1Prep = () => {
   const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
@@ -190,19 +191,27 @@ export const Mission1Prep = () => {
   const stage1Inventory = [
     {
       id: 'washed_ubod',
-      name: isWashed ? 'Washed Ubod' : 'Raw Ubod',
-      measure: isWashed ? '1 Cup (Clean)' : 'Needs Washing',
-      img: isWashed ? '/assets/portion_ubod_raw_1cup.png' : '/assets/portion_ubod_raw_1cup.png',
+      name: isWashed ? 'Washed Ubod' : 'Raw Ubod Strips',
+      measure: isWashed ? '1 Cup (Sanitized)' : 'Wash at Sink First',
+      img: isWashed ? '/assets/portion_ubod_raw_1cup.png' : '/assets/ing_ubod_fresh.png',
       fallbackIcon: '🥥',
       isUsed: potStep >= 1,
       isNext: potStep === 0 && isWashed,
       disabled: !isWashed,
-      tooltip: isWashed ? '1 Cup Clean Washed Ubod' : 'Wash ubod under faucet first',
+      onClick: !isWashed ? () => {
+        soundManager.playClick();
+        showToast('Wash Ubod First', 'Click "Wash Ubod Under Faucet" at the washing station on the left.', 'info');
+        speak('Please wash the raw cut ubod strips under running water at the sink station first!', 'thinking', {
+          badge: 'Washing Station',
+          hint: 'Tap "Wash Ubod Under Faucet" in the washing station card on the left.',
+        });
+      } : undefined,
+      tooltip: isWashed ? '1 Cup clean washed ubod' : 'Wash raw ubod under faucet first',
     },
     {
       id: 'water_pitcher',
       name: 'Potable Water',
-      measure: '4 Cups (Submerge)',
+      measure: '4 Cups (To Submerge)',
       img: '/assets/portion_water_1cup.png',
       fallbackIcon: '💧',
       isUsed: potStep >= 2,
@@ -212,22 +221,22 @@ export const Mission1Prep = () => {
     {
       id: 'sea_salt',
       name: 'Pure Sea Salt',
-      measure: '1 tsp (Pinch Dish)',
-      img: '/assets/tool_small_dish_salt.png',
+      measure: '1 tsp (Sea Salt)',
+      img: '/assets/ing_salt_fresh.png',
       fallbackIcon: '🧂',
       isUsed: potStep >= 3,
       isNext: potStep === 2,
-      tooltip: '1 tsp sea salt for seasoning & osmosis',
+      tooltip: '1 tsp pure white sea salt for seasoning & osmosis',
     },
     {
       id: 'colander',
       name: 'Stainless Colander',
-      measure: 'Drain & Cool Rinse',
+      measure: 'Drain & Rinse',
       img: '/assets/tool_colander_safe.png',
       fallbackIcon: '🥣',
       isUsed: potStep >= 5,
       isNext: potStep === 4,
-      tooltip: 'Perforated colander for draining boiling water',
+      tooltip: 'Perforated colander for draining boiling water and cooling rinse',
     },
   ];
 
@@ -283,21 +292,42 @@ export const Mission1Prep = () => {
               onItemAccepted={handleItemAccepted}
               activeAnimation={isBoilingTimerActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
               containerWidth="460px"
-              containerHeight="300px"
+              containerHeight="270px"
               interactiveAction={
-                potStep === 3
-                  ? {
-                      label: isBoilingTimerActive ? `Boiling... ${boilProgress}%` : '🔥 Ignite Burner (High Heat)',
-                      onClick: handleIgniteBurner,
-                      disabled: isBoilingTimerActive,
-                    }
-                  : potStep === 4
+                potStep === 4
                   ? {
                       label: '🥣 Drain Boiled Ubod into Colander',
                       onClick: handleDrainUbod,
                       icon: '🥣',
                     }
                   : null
+              }
+              customFooter={
+                potStep <= 3 || isBoilingTimerActive ? (
+                  <StoveBurnerConsole
+                    isReady={potStep === 3 && !isBoilingTimerActive}
+                    isIgnited={isBoilingTimerActive}
+                    isComplete={potStep >= 4}
+                    progress={boilProgress}
+                    onIgnite={handleIgniteBurner}
+                    onLockedClick={() => {
+                      showToast(
+                        'Pot Not Ready',
+                        'Add Ubod, Water, and Sea Salt into the pot before turning on the burner!',
+                        'warning'
+                      );
+                      speak(
+                        'Safety first! Always ensure the cut ubod strips, potable water, and sea salt are inside the pot before igniting the burner flame.',
+                        'thinking',
+                        {
+                          badge: 'Stove Safety',
+                          hint: 'Place all ingredients into the pot first.',
+                        }
+                      );
+                    }}
+                    disabled={isBoilingTimerActive}
+                  />
+                ) : null
               }
             />
           </div>

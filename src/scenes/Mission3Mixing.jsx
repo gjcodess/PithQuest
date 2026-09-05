@@ -196,12 +196,12 @@ export const Mission3Mixing = () => {
     {
       id: 'salt',
       name: 'Pure Sea Salt',
-      measure: '1 tsp (Pinch Dish)',
-      img: '/assets/tool_small_dish_salt.png',
+      measure: '1 tsp (Sea Salt)',
+      img: '/assets/ing_salt_fresh.png',
       fallbackIcon: '🧂',
       isUsed: bowlStep >= 2,
       isNext: bowlStep === 1,
-      tooltip: '1 tsp sea salt in pinch dish',
+      tooltip: '1 tsp pure white sea salt',
     },
     {
       id: 'ubod_paste',
