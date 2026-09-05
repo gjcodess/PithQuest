@@ -4,13 +4,16 @@ import { soundManager } from '../audio/soundManager';
 import { RestartIcon } from './Icons';
 
 const STAGE_CONFIG = {
-  orientation: { num: 'Prep', title: 'Lab Safety & Intro', step: 0 },
-  mission1: { num: 'Stage 1', title: 'Raw Prep & Slicing', step: 1 },
-  mission2: { num: 'Stage 2', title: 'Boiling & Softening', step: 2 },
-  mission3: { num: 'Stage 3', title: 'Formulation & Mixing', step: 3 },
-  mission4: { num: 'Stage 4', title: 'Dehydration', step: 4 },
-  mission5: { num: 'Stage 5', title: 'Deep Frying', step: 5 },
-  evaluation: { num: 'Mastery', title: 'Sensory & Certificate', step: 6 },
+  orientation: { num: 'Prep', title: 'Orientation & Safety', step: 0 },
+  mission1: { num: 'Stage 1', title: 'Washing & Boiling', step: 1 },
+  mission2: { num: 'Stage 2', title: 'Pureeing & Grinding', step: 2 },
+  mission3: { num: 'Stage 3', title: 'Dough Formulation', step: 3 },
+  mission4: { num: 'Stage 4', title: 'Rectangular Molding', step: 4 },
+  mission5: { num: 'Stage 5', title: 'Starch Steaming', step: 5 },
+  mission6: { num: 'Stage 6', title: 'Cabinet Dehydration', step: 6 },
+  mission7: { num: 'Stage 7', title: 'Deep Frying', step: 7 },
+  mission8: { num: 'Stage 8', title: 'Packaging & Labeling', step: 8 },
+  evaluation: { num: 'Mastery', title: 'Sensory & Certificate', step: 9 },
 };
 
 export const HeaderHUD = () => {
@@ -19,7 +22,17 @@ export const HeaderHUD = () => {
   if (scene === 'title') return null;
 
   const currentStage = STAGE_CONFIG[scene] || { num: 'Lab', title: 'Activity', step: 1 };
-  const isStageScene = ['orientation', 'mission1', 'mission2', 'mission3', 'mission4', 'mission5'].includes(scene);
+  const isStageScene = [
+    'orientation',
+    'mission1',
+    'mission2',
+    'mission3',
+    'mission4',
+    'mission5',
+    'mission6',
+    'mission7',
+    'mission8',
+  ].includes(scene);
 
   const handleHomeClick = () => {
     soundManager.playClick();
@@ -63,9 +76,9 @@ export const HeaderHUD = () => {
         </div>
       </div>
 
-      {/* Stepper (1 to 5) */}
+      {/* Stepper (1 to 8) */}
       <div className="hud-stepper">
-        {[1, 2, 3, 4, 5].map((stepNum, idx) => {
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((stepNum, idx) => {
           const isCompleted = currentStage.step > stepNum;
           const isActive = currentStage.step === stepNum;
           const nodeClass = `step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
@@ -76,7 +89,7 @@ export const HeaderHUD = () => {
               <div className={nodeClass} title={`Stage ${stepNum}`}>
                 <span>{stepNum}</span>
               </div>
-              {idx < 4 && <div className={lineClass} />}
+              {idx < 7 && <div className={lineClass} />}
             </React.Fragment>
           );
         })}

@@ -35,6 +35,22 @@
     grid-template-columns: 1fr;
     gap: 16px;
   }
+
+  .concept-card-expanded {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .concept-icon-big {
+    width: 64px;
+    height: 64px;
+    font-size: 2.2rem;
+  }
+
+  .active-vessel-card.orientation-card {
+    padding: 18px;
+    width: 98%;
+  }
 }
 
 /* Small Devices (Mobile Phones, max-width: 640px) */

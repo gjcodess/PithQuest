@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
+import { SequencingActivity } from '../components/SequencingActivity';
 
 export const EvaluationScene = () => {
   const { studentName, score, stars, badges, resetGame, speak } = useGame();
   const certRef = useRef(null);
+  const [sequencingCompleted, setSequencingCompleted] = useState(false);
 
   const currentDate = new Date().toLocaleDateString('en-US', {
     month: 'long',
@@ -27,41 +29,46 @@ export const EvaluationScene = () => {
             <span>LABORATORY MASTERY ACHIEVED</span>
           </div>
           <div className="eval-hero-showcase">
-            <img src="/images/icon_cracker_platter.png" alt="Finished Coconut Pith Crackers" className="eval-platter-img" />
+            <img src="/assets/platter_crackers_cooled.png" alt="Finished Coconut Pith Crackers" className="eval-platter-img" />
           </div>
           <h2>Coconut Pith Crackers Quality Audit</h2>
-          <p className="eval-sub">Evaluation Report & Official Laboratory Certificate</p>
+          <p className="eval-sub">NUDAZAR HONORE - Ubod CRUNCH Comprehensive Evaluation Report</p>
         </div>
 
         {/* Sensory Evaluation Checklist & Score Breakdown */}
         <div className="eval-metrics-grid">
           <div className="metric-box">
             <span className="metric-icon">✨</span>
-            <h4>Appearance & Color</h4>
+            <h4>Appearance & Uniformity</h4>
             <div className="stars-row">⭐⭐⭐⭐⭐</div>
-            <p>Golden yellow, uniform surface without dark scorch marks.</p>
+            <p>Pale golden rectangular wafers, uniform 50mm x 25mm dimensions without scorching.</p>
           </div>
 
           <div className="metric-box">
             <span className="metric-icon">🔊</span>
-            <h4>Crispiness & Texture</h4>
+            <h4>Crispiness & Fracture Snap</h4>
             <div className="stars-row">⭐⭐⭐⭐⭐</div>
-            <p>Airy, brittle, high acoustic crunch with no gummy core.</p>
+            <p>Airy, brittle, high acoustic crunch with no gummy or chewy core.</p>
           </div>
 
           <div className="metric-box">
             <span className="metric-icon">🪶</span>
-            <h4>Puff & Expansion</h4>
+            <h4>Starch Matrix Expansion</h4>
             <div className="stars-row">⭐⭐⭐⭐⭐</div>
-            <p>Starch matrix successfully expanded 3x in hot oil.</p>
+            <p>Rice flour and pureed ubod matrix successfully puffed 3x upon 10-sec flash frying.</p>
           </div>
 
           <div className="metric-box">
             <span className="metric-icon">🧼</span>
-            <h4>Oil Retention</h4>
+            <h4>Packaging & Oil Drainage</h4>
             <div className="stars-row">⭐⭐⭐⭐⭐</div>
-            <p>Drained effectively on cooling rack, dry to the touch.</p>
+            <p>Drained effectively in colander, hermetically heat-sealed in branded kraft pouch.</p>
           </div>
+        </div>
+
+        {/* Bonus Chronological Sequencing Activity */}
+        <div className="eval-sequencing-section">
+          <SequencingActivity onComplete={() => setSequencingCompleted(true)} />
         </div>
 
         {/* The Official Certificate (Printable) */}
@@ -72,11 +79,12 @@ export const EvaluationScene = () => {
                 <span className="cert-dept">DEPARTMENT OF HOME ECONOMICS • FOOD PROCESSING TECHNOLOGY</span>
                 <h1 className="cert-title">Certificate of Laboratory Completion</h1>
                 <p className="cert-presented">This certifies that</p>
-                <h2 className="cert-student-name">{studentName || 'Food Tech Student'}</h2>
+                <h2 className="cert-student-name">{studentName || 'Food Technology Student'}</h2>
                 <p className="cert-body">
-                  has successfully performed and demonstrated comprehensive mastery in the complete food processing lifecycle of
-                  <strong> Coconut Pith Crackers (Ubod ng Niyog)</strong>, including raw preparation, thermal softening (boiling), starch formulation,
-                  cabinet dehydration, and deep-frying expansion.
+                  has successfully performed and demonstrated comprehensive mastery in the complete 8-stage food processing lifecycle of
+                  <strong> Coconut Pith Crackers (Ubod ng Niyog - Ubod Crunch)</strong>, including hygiene inspection, washing & boiling, food processing puree,
+                  1:1 Erawan rice flour dough formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
+                  10-second flash deep-frying expansion, and airtight barrier packaging.
                 </p>
               </div>
 
@@ -107,10 +115,10 @@ export const EvaluationScene = () => {
 
                 <div className="cert-sig-block">
                   <div className="sig-line">
-                    <span className="sig-handwritten">PITHQUEST</span>
+                    <span className="sig-handwritten">NUDAZAR HONORE</span>
                   </div>
-                  <span className="sig-title">Food Technology Panel</span>
-                  <span className="sig-role">Quality Evaluator</span>
+                  <span className="sig-title">Nudazar Honore</span>
+                  <span className="sig-role">Master Food Technologist</span>
                 </div>
               </div>
             </div>

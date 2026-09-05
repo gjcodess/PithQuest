@@ -1,194 +1,433 @@
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
+import { LECTURE_CONCEPTS, PPE_ITEMS, HANDWASHING_STEPS } from '../data/orientationData';
+import { TOOL_INSPECTION_ITEMS, INGREDIENT_INSPECTION_ITEMS } from '../data/inspectionData';
+import { MinigameInspection } from '../components/MinigameInspection';
 
 export const OrientationScene = () => {
-  const { studentName, setScene, addScore, unlockBadge, speak, completeMission } = useGame();
+  const { studentName, setScene, addScore, unlockBadge, speak, completeMission, showToast } = useGame();
 
-  const [ppeStatus, setPpeStatus] = useState({
+  // Sub-phases: 'lecture' | 'ppe' | 'sanitation' | 'tool_inspection' | 'ingredient_inspection' | 'ready'
+  const [phase, setPhase] = useState('lecture');
+  const [activeConceptIndex, setActiveConceptIndex] = useState(0);
+
+  // PPE states
+  const [ppeEquipped, setPpeEquipped] = useState({
     hairnet: false,
     apron: false,
-    hands: false,
+    mask: false,
+    gloves: false,
   });
 
-  const [phase, setPhase] = useState('intro'); // 'intro', 'benefits', 'ppe', 'ready'
+  // Handwashing states
+  const [completedHandwashSteps, setCompletedHandwashSteps] = useState([]);
 
   useEffect(() => {
-    if (phase === 'intro') {
+    if (phase === 'lecture') {
       speak(
-        `Welcome to our Food Processing Laboratory, ${studentName}! Today, we will explore the science of converting nutritious Coconut Pith (Ubod ng Niyog) into crispy crackers.`,
+        `Welcome to our Food Technology Laboratory, ${studentName}! Review these essential science concepts before we begin processing Coconut Pith Crackers.`,
         'neutral',
         {
-          badge: 'Day 1: Orientation',
-          btnText: 'Learn the Benefits ➔',
-          onNext: () => setPhase('benefits'),
-        }
-      );
-    } else if (phase === 'benefits') {
-      speak(
-        'Coconut Pith (Ubod ng Niyog) is a nutrient-dense agricultural treasure! Review its nutritional profile above, then let\'s proceed to our sanitation check.',
-        'neutral',
-        {
-          badge: 'Nutritional Science',
-          btnText: 'Proceed to Hygiene Check ➔',
+          badge: 'Orientation: Science Concepts',
+          btnText: 'Equip Laboratory PPE ➔',
           onNext: () => setPhase('ppe'),
         }
       );
     } else if (phase === 'ppe') {
       speak(
-        'Before touching any food items, we must observe strict Home Economics hygiene standards. Equip all 3 PPE items below to enter the workstation!',
+        'Before entering the food preparation area, equip all personal protective equipment (PPE) to uphold strict hygiene standards.',
         'thinking',
         {
-          badge: 'Sanitation Check',
-          hint: 'Click each hygiene item to put it on and sanitize your hands.',
+          badge: 'Hygiene & Attire',
+          hint: 'Click each piece of PPE attire to equip it.',
           hideButton: true,
+        }
+      );
+    } else if (phase === 'sanitation') {
+      speak(
+        'Excellent! Now execute the official 7-step handwashing protocol before handling any food contact surfaces.',
+        'happy',
+        {
+          badge: 'Sanitation Protocol',
+          hint: 'Tap the handwashing steps in order to thoroughly cleanse your hands.',
+          hideButton: true,
+        }
+      );
+    } else if (phase === 'tool_inspection') {
+      speak(
+        'Equipment inspection time! Before touching food, inspect each tool. Select the safe, food-grade option. Avoid hazardous or damaged tools!',
+        'neutral',
+        {
+          badge: 'Tool Safety Clearance',
+          hideButton: true,
+        }
+      );
+    } else if (phase === 'ingredient_inspection') {
+      speak(
+        'Ingredient Quality Check! Inspect each ingredient pair. Choose the fresh, uncontaminated food items for our recipe.',
+        'neutral',
+        {
+          badge: 'Ingredient Quality Clearance',
+          hideButton: true,
+        }
+      );
+    } else if (phase === 'ready') {
+      speak(
+        'Outstanding work! You have mastered the science concepts, donned your PPE, sanitized your hands, and cleared all safety inspections. You are fully certified to begin Stage 1!',
+        'happy',
+        {
+          badge: 'Laboratory Certified',
+          btnText: 'Start Stage 1: Washing & Boiling ➔',
+          onNext: () => setScene('mission1'),
         }
       );
     }
   }, [phase, studentName]);
 
-  const handleBenefitsNext = () => {
-    soundManager.playClick();
-    setPhase('ppe');
-  };
-
-
-  const togglePpe = (key, label) => {
-    if (ppeStatus[key]) return;
-
+  // PPE handler
+  const handleEquipPpe = (itemId) => {
+    if (ppeEquipped[itemId]) return;
     soundManager.playSuccess();
-    const updated = { ...ppeStatus, [key]: true };
-    setPpeStatus(updated);
+    const updated = { ...ppeEquipped, [itemId]: true };
+    setPpeEquipped(updated);
+    addScore(15);
+    showToast('PPE Equipped', `Put on ${itemId} (+15 pts)`, 'success');
 
-    const allEquipped = updated.hairnet && updated.apron && updated.hands;
-    if (allEquipped) {
-      addScore(50);
-      unlockBadge('sanitation_star', 'Sanitation Guardian', '🧼');
-      setPhase('ready');
-      completeMission('orientation');
-      speak(
-        'Outstanding! Your hairnet is secure, apron is clean, and hands are sanitized. +50 Points! We are ready to begin Stage 1!',
-        'happy',
-        {
-          badge: 'Sanitation Approved',
-          btnText: 'Start Stage 1: Raw Prep ➔',
-          onNext: () => setScene('mission1'),
-        }
-      );
+    if (Object.values(updated).every(Boolean)) {
+      unlockBadge('ppe_certified', 'PPE Certified', '🥼');
+      setTimeout(() => {
+        setPhase('sanitation');
+      }, 800);
     }
   };
 
-  const equippedCount = Object.values(ppeStatus).filter(Boolean).length;
+  // Handwashing handler
+  const handleHandwashStep = (stepNumber) => {
+    if (completedHandwashSteps.includes(stepNumber)) return;
+    const nextExpected = completedHandwashSteps.length + 1;
+    if (stepNumber !== nextExpected) {
+      soundManager.playError();
+      showToast('Follow Sequence', `Please follow step ${nextExpected} next!`, 'warning');
+      return;
+    }
+
+    soundManager.playClick();
+    const nextSteps = [...completedHandwashSteps, stepNumber];
+    setCompletedHandwashSteps(nextSteps);
+    addScore(10);
+
+    if (nextSteps.length === HANDWASHING_STEPS.length) {
+      soundManager.playFanfare();
+      unlockBadge('handwash_master', 'Sanitation Guardian', '🧼');
+      showToast('Handwashing Complete', 'Hands thoroughly sanitized! (+70 pts total)', 'success');
+      setTimeout(() => {
+        setPhase('tool_inspection');
+      }, 1000);
+    }
+  };
 
   return (
     <div className="workstation-scene orientation-scene">
       <div className="workstation-overlay" />
+
+      {/* Sub-phase navigation indicator */}
+      <div className="orientation-subnav-container">
+        <nav className="orientation-subnav" aria-label="Laboratory Orientation Stages">
+          <button
+            className={`subnav-pill ${phase === 'lecture' ? 'active' : ''}`}
+            onClick={() => {
+              soundManager.playClick();
+              setPhase('lecture');
+            }}
+          >
+            <span className="subnav-pill-icon">📚</span>
+            <span className="subnav-pill-label">1. Science Concepts</span>
+          </button>
+          <button
+            className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${Object.values(ppeEquipped).every(Boolean) ? 'completed' : ''}`}
+            onClick={() => {
+              soundManager.playClick();
+              setPhase('ppe');
+            }}
+          >
+            <span className="subnav-pill-icon">🥼</span>
+            <span className="subnav-pill-label">2. PPE Attire</span>
+            {Object.values(ppeEquipped).every(Boolean) && <span className="subnav-pill-check">✓</span>}
+          </button>
+          <button
+            className={`subnav-pill ${phase === 'sanitation' ? 'active' : ''} ${completedHandwashSteps.length === HANDWASHING_STEPS.length ? 'completed' : ''}`}
+            onClick={() => {
+              soundManager.playClick();
+              setPhase('sanitation');
+            }}
+          >
+            <span className="subnav-pill-icon">🧼</span>
+            <span className="subnav-pill-label">3. Handwashing</span>
+            {completedHandwashSteps.length === HANDWASHING_STEPS.length && <span className="subnav-pill-check">✓</span>}
+          </button>
+          <button
+            className={`subnav-pill ${phase === 'tool_inspection' ? 'active' : ''}`}
+            onClick={() => {
+              soundManager.playClick();
+              setPhase('tool_inspection');
+            }}
+          >
+            <span className="subnav-pill-icon">🔍</span>
+            <span className="subnav-pill-label">4. Tool Safety</span>
+          </button>
+          <button
+            className={`subnav-pill ${phase === 'ingredient_inspection' ? 'active' : ''}`}
+            onClick={() => {
+              soundManager.playClick();
+              setPhase('ingredient_inspection');
+            }}
+          >
+            <span className="subnav-pill-icon">🥥</span>
+            <span className="subnav-pill-label">5. Quality Inspection</span>
+          </button>
+        </nav>
+      </div>
+
       <div className="stage-center-zone">
-        {phase === 'intro' && (
+        {/* PHASE 1: LECTURE & SCIENCE CONCEPTS */}
+        {phase === 'lecture' && (
           <div className="active-vessel-card orientation-card">
             <div className="vessel-header">
-              <span className="vessel-title">👋 Welcome, {studentName}!</span>
-              <span className="vessel-badge">Orientation</span>
+              <span className="vessel-title">📚 Laboratory Science & Definitions</span>
+              <span className="vessel-badge">Concept {activeConceptIndex + 1} of {LECTURE_CONCEPTS.length}</span>
+            </div>
+
+            <div className="lecture-display-area">
+              <div className="concept-card-expanded">
+                <div className="concept-icon-big">{LECTURE_CONCEPTS[activeConceptIndex].icon}</div>
+                <div className="concept-content">
+                  <span className="concept-tag">{LECTURE_CONCEPTS[activeConceptIndex].tag}</span>
+                  <h3 className="concept-heading">{LECTURE_CONCEPTS[activeConceptIndex].title}</h3>
+                  <p className="concept-summary">{LECTURE_CONCEPTS[activeConceptIndex].summary}</p>
+                  <div className="concept-deepdive">
+                    <strong>Laboratory Significance:</strong> {LECTURE_CONCEPTS[activeConceptIndex].details}
+                  </div>
+                </div>
+              </div>
+
+              {/* Concept Selector Buttons */}
+              <div className="concept-pagination-row">
+                {LECTURE_CONCEPTS.map((concept, idx) => (
+                  <button
+                    key={concept.id}
+                    className={`concept-bullet ${idx === activeConceptIndex ? 'active' : ''}`}
+                    onClick={() => {
+                      soundManager.playClick();
+                      setActiveConceptIndex(idx);
+                    }}
+                  >
+                    <span>{concept.icon} {concept.title}</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="orientation-btn-row">
+                <button
+                  className="btn-secondary"
+                  disabled={activeConceptIndex === 0}
+                  onClick={() => {
+                    soundManager.playClick();
+                    setActiveConceptIndex((prev) => Math.max(0, prev - 1));
+                  }}
+                  style={{
+                    opacity: activeConceptIndex === 0 ? 0.35 : 1,
+                    cursor: activeConceptIndex === 0 ? 'not-allowed' : 'pointer',
+                    padding: '8px 16px',
+                    fontSize: '0.88rem'
+                  }}
+                >
+                  ◀ Previous
+                </button>
+
+                <div className="concept-dots-indicator">
+                  {LECTURE_CONCEPTS.map((_, idx) => (
+                    <span
+                      key={idx}
+                      className={`concept-dot ${idx === activeConceptIndex ? 'active' : ''}`}
+                      onClick={() => {
+                        soundManager.playClick();
+                        setActiveConceptIndex(idx);
+                      }}
+                      title={`Jump to Concept ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {activeConceptIndex < LECTURE_CONCEPTS.length - 1 ? (
+                  <button
+                    className="btn-primary"
+                    onClick={() => {
+                      soundManager.playClick();
+                      setActiveConceptIndex((prev) => prev + 1);
+                    }}
+                    style={{ padding: '8px 20px', fontSize: '0.88rem' }}
+                  >
+                    Next Concept ▶
+                  </button>
+                ) : (
+                  <button
+                    className="btn-primary btn-gold"
+                    onClick={() => {
+                      soundManager.playClick();
+                      setPhase('ppe');
+                    }}
+                    style={{ padding: '8px 20px', fontSize: '0.88rem' }}
+                  >
+                    Proceed to PPE Attire ➔
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PHASE 2: PPE DRESSING */}
+        {phase === 'ppe' && (
+          <div className="active-vessel-card orientation-card">
+            <div className="vessel-header">
+              <span className="vessel-title">🥼 Personal Protective Equipment (PPE)</span>
+              <span className="vessel-badge">
+                {Object.values(ppeEquipped).filter(Boolean).length}/4 Equipped
+              </span>
+            </div>
+
+            <p className="section-instruction">
+              Click each piece of protective gear to wear it before entering the cooking lab:
+            </p>
+
+            <div className="ppe-items-grid">
+              {PPE_ITEMS.map((item) => {
+                const isWorn = ppeEquipped[item.id];
+                return (
+                  <div
+                    key={item.id}
+                    className={`ppe-box ${isWorn ? 'equipped' : ''}`}
+                    onClick={() => handleEquipPpe(item.id)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <img src={item.img} alt={item.name} className="ppe-icon-img" />
+                    <div className="gear-details" style={{ textAlign: 'center' }}>
+                      <h4 style={{ margin: '4px 0 2px', fontSize: '0.88rem', fontWeight: 700 }}>{item.name}</h4>
+                      <p style={{ margin: 0, fontSize: '0.74rem', color: '#64748b', lineHeight: 1.3 }}>{item.role}</p>
+                    </div>
+                    <div className="gear-status-badge" style={{ marginTop: '10px', fontSize: '0.78rem', fontWeight: 700, color: isWorn ? '#16a34a' : '#d97706' }}>
+                      {isWorn ? '✅ Equipped' : '👆 Click to Wear'}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* PHASE 3: HANDWASHING PROTOCOL */}
+        {phase === 'sanitation' && (
+          <div className="active-vessel-card orientation-card">
+            <div className="vessel-header">
+              <span className="vessel-title">🧼 7-Step Sanitary Handwashing Protocol</span>
+              <span className="vessel-badge">
+                Step {completedHandwashSteps.length + 1} of {HANDWASHING_STEPS.length}
+              </span>
+            </div>
+
+            <p className="section-instruction">
+              Tap each handwashing step in strict chronological order to properly sanitize:
+            </p>
+
+            <div className="handwashing-steps-list">
+              {HANDWASHING_STEPS.map((step) => {
+                const isDone = completedHandwashSteps.includes(step.step);
+                const isCurrent = completedHandwashSteps.length + 1 === step.step;
+
+                return (
+                  <div
+                    key={step.step}
+                    className={`hw-step-item ${isDone ? 'completed' : ''} ${isCurrent ? 'current-target' : ''}`}
+                    onClick={() => handleHandwashStep(step.step)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="hw-num">{step.step}</div>
+                    <div className="hw-icon">{step.icon}</div>
+                    <div className="hw-info">
+                      <strong>{step.action}</strong>
+                      <span>{step.desc}</span>
+                    </div>
+                    <div className="hw-check">{isDone ? '✅' : isCurrent ? '👉 Tap' : '⏳'}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* PHASE 4: TOOL SAFETY INSPECTION MINIGAME */}
+        {phase === 'tool_inspection' && (
+          <div className="active-vessel-card orientation-card inspection-card-wrapper">
+            <MinigameInspection
+              title="Tool & Equipment Safety Inspection"
+              mode="tools"
+              items={TOOL_INSPECTION_ITEMS}
+              onComplete={() => {
+                showToast('Tool Safety Cleared!', 'All tools verified safe for lab work (+125 pts)', 'success');
+                setTimeout(() => setPhase('ingredient_inspection'), 1200);
+              }}
+            />
+          </div>
+        )}
+
+        {/* PHASE 5: INGREDIENT QUALITY INSPECTION MINIGAME */}
+        {phase === 'ingredient_inspection' && (
+          <div className="active-vessel-card orientation-card inspection-card-wrapper">
+            <MinigameInspection
+              title="Ingredient Quality Inspection"
+              mode="ingredients"
+              items={INGREDIENT_INSPECTION_ITEMS}
+              onComplete={() => {
+                showToast('Quality Clearance Complete!', 'All ingredients verified fresh & food-grade!', 'success');
+                completeMission('orientation');
+                unlockBadge('inspection_pro', 'Certified Quality Inspector', '🔍');
+                setTimeout(() => setPhase('ready'), 1200);
+              }}
+            />
+          </div>
+        )}
+
+        {/* READY / CERTIFIED SCREEN */}
+        {phase === 'ready' && (
+          <div className="active-vessel-card orientation-card ready-card">
+            <div className="vessel-header">
+              <span className="vessel-title">🎉 Laboratory Clearance Approved!</span>
+              <span className="vessel-badge">All Inspections Cleared</span>
             </div>
             <div className="orientation-body">
-              <img src="/images/teacher_mia_neutral.png" alt="Teacher Mia" className="orientation-hero-img" />
+              <img src="/images/teacher_mia_happy.png" alt="Teacher Mia" className="orientation-hero-img" />
               <div className="orientation-text">
-                <h3>Home Economics Food Technology Class</h3>
+                <h3>Welcome to the Production Floor, {studentName}!</h3>
                 <p>
-                  Today, you will experience the complete food processing lifecycle of <strong>Coconut Pith Crackers</strong>.
-                  You will actively perform the 3 core food-processing methods:
+                  You have successfully demonstrated complete mastery of food safety regulations, PPE compliance, and quality control inspection.
                 </p>
-                <div className="method-pills">
-                  <span className="m-pill">1. Boiling 🫕</span>
-                  <span className="m-pill">2. Dehydration ☀️</span>
-                  <span className="m-pill">3. Deep Frying 🍳</span>
+                <div className="clearance-checklist">
+                  <div className="clearance-item">✅ <strong>Science Knowledge:</strong> Gelatinization & Puffing concepts understood</div>
+                  <div className="clearance-item">✅ <strong>Hygiene:</strong> Hairnet, Apron, Mask, Gloves equipped</div>
+                  <div className="clearance-item">✅ <strong>Sanitation:</strong> 7-Step Handwashing protocol executed</div>
+                  <div className="clearance-item">✅ <strong>Safety:</strong> Chipped/frayed hazards rejected</div>
+                  <div className="clearance-item">✅ <strong>Freshness:</strong> Grade-A ubod, flour, and oil inspected</div>
+                </div>
+                <div className="orientation-btn-row">
+                  <button className="btn-primary" onClick={() => setScene('mission1')}>
+                    Start Stage 1: Washing & Boiling Ubod ➔
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {phase === 'benefits' && (
-          <div className="active-vessel-card orientation-card">
-            <div className="vessel-header">
-              <span className="vessel-title">🥥 Nutritional & Economic Significance</span>
-              <span className="vessel-badge">Agricultural Science</span>
-            </div>
-            <div className="benefits-hero-banner">
-              <img src="/images/icon_fresh_ubod.png" alt="Fresh Ubod" className="benefits-ubod-img" />
-            </div>
-            <div className="benefits-grid">
-              <div className="benefit-item">
-                <span className="b-icon">🌾</span>
-                <h4>Rich in Dietary Fiber</h4>
-                <p>Coconut pith contains insoluble dietary fiber that aids digestion and provides a satisfying, healthy crunch.</p>
-              </div>
-              <div className="benefit-item">
-                <span className="b-icon">⚡</span>
-                <h4>Potassium & Minerals</h4>
-                <p>Natural electrolyte source supporting balanced blood pressure and metabolic functions.</p>
-              </div>
-              <div className="benefit-item">
-                <span className="b-icon">♻️</span>
-                <h4>Waste Valorization</h4>
-                <p>Utilizes the tender heart of felled coconut palms, turning agricultural surplus into commercial food products.</p>
-              </div>
-            </div>
-            <div className="card-actions-center">
-              <button className="btn-primary" onClick={handleBenefitsNext}>
-                Proceed to Laboratory Hygiene Check ➔
-              </button>
-            </div>
-          </div>
-        )}
-
-        {(phase === 'ppe' || phase === 'ready') && (
-          <div className="active-vessel-card ppe-card">
-            <div className="vessel-header">
-              <span className="vessel-title">🧼 Laboratory PPE & Sanitation Protocol</span>
-              <span className="vessel-badge">{equippedCount}/3 Completed</span>
-            </div>
-            <p className="ppe-prompt">Equip all mandatory protective items before entering the preparation bench:</p>
-
-            <div className="ppe-items-grid">
-              <div
-                className={`ppe-box ${ppeStatus.hairnet ? 'equipped' : ''}`}
-                onClick={() => togglePpe('hairnet', 'Hairnet')}
-              >
-                <img src="/images/icon_hairnet.png" alt="Sanitary Hairnet" className="ppe-icon-img" />
-                <span className="ppe-name">Sanitary Hairnet</span>
-                <span className="ppe-desc">Prevents hair strand contamination</span>
-                <span className="ppe-status-pill">{ppeStatus.hairnet ? '✓ Equipped' : 'Click to Wear'}</span>
-              </div>
-
-              <div
-                className={`ppe-box ${ppeStatus.apron ? 'equipped' : ''}`}
-                onClick={() => togglePpe('apron', 'Clean Apron')}
-              >
-                <img src="/images/icon_apron.png" alt="Clean Apron" className="ppe-icon-img" />
-                <span className="ppe-name">Clean Laboratory Apron</span>
-                <span className="ppe-desc">Protects food from clothing dust</span>
-                <span className="ppe-status-pill">{ppeStatus.apron ? '✓ Equipped' : 'Click to Wear'}</span>
-              </div>
-
-              <div
-                className={`ppe-box ${ppeStatus.hands ? 'equipped' : ''}`}
-                onClick={() => togglePpe('hands', 'Sanitize Hands')}
-              >
-                <img src="/images/icon_sanitizer.png" alt="Hand Sanitizer" className="ppe-icon-img" />
-                <span className="ppe-name">Handwashing & Sanitizer</span>
-                <span className="ppe-desc">20-second antibacterial scrub</span>
-                <span className="ppe-status-pill">{ppeStatus.hands ? '✓ Sanitized' : 'Click to Wash'}</span>
-              </div>
-            </div>
-
-            {phase === 'ready' && (
-              <div className="card-actions-center">
-                <button className="btn-gold" onClick={() => setScene('mission1')}>
-                  ✨ Enter Stage 1: Raw Prep & Slicing ➔
-                </button>
-              </div>
-            )}
           </div>
         )}
       </div>
