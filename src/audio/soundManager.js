@@ -205,6 +205,63 @@ class SoundManager {
     noise.start();
   }
 
+  // Food Processor Motor Whirl & Blade Puree Sound
+  playBlend() {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    // High-speed motor whine
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(360, this.ctx.currentTime + 0.3);
+    osc.frequency.exponentialRampToValueAtTime(420, this.ctx.currentTime + 0.8);
+    osc.frequency.exponentialRampToValueAtTime(180, this.ctx.currentTime + 1.2);
+
+    gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.2, this.ctx.currentTime + 0.9);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.3);
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(1800, this.ctx.currentTime + 0.4);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 1.3);
+
+    // Chopping texture noise
+    const dur = 1.2;
+    const bufferSize = this.ctx.sampleRate * dur;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.sin(i / 10);
+    }
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+    const noiseFilter = this.ctx.createBiquadFilter();
+    noiseFilter.type = 'bandpass';
+    noiseFilter.frequency.value = 1400;
+
+    const noiseGain = this.ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+    noiseGain.gain.linearRampToValueAtTime(0.18, this.ctx.currentTime + 0.2);
+    noiseGain.gain.exponentialRampToValueAtTime(0.005, this.ctx.currentTime + dur);
+
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(this.ctx.destination);
+    noise.start();
+  }
+
   // Crispy Crunch (Tasting)
   playCrunch() {
     if (this.isMuted) return;

@@ -17,6 +17,7 @@ export const Mission2Grinding = () => {
   const [processorStep, setProcessorStep] = useState(0);
   const [blendProgress, setBlendProgress] = useState(0);
   const [isBlending, setIsBlending] = useState(false);
+  const [isLidLocked, setIsLidLocked] = useState(false);
 
   useEffect(() => {
     speak(
@@ -50,10 +51,12 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 2,
       acceptedItems: [],
-      prompt: 'Lock safety lid and press Pulse/Blend to puree',
+      prompt: isLidLocked
+        ? 'Safety interlock locked! Press Pulse/Blend to puree'
+        : 'Align & lock safety lid onto bowl to engage interlock',
       img: '/assets/processor_with_ubod_salt.png',
       fallbackIcon: '🌀',
-      label: 'Ubod + Salt Ready to Puree',
+      label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Lid Open)',
     },
     {
       stepIndex: 3,
@@ -92,21 +95,46 @@ export const Mission2Grinding = () => {
       soundManager.playClick();
       setProcessorStep(2);
       addScore(25);
-      showToast('Salt Added!', 'Safety lid ready. Press Blend to puree the ubod.', 'success');
+      showToast('Salt Added!', 'Ingredients loaded. Now lock the safety lid to engage the interlock.', 'success');
       speak(
-        'Lock the safety lid and press "Start High-Speed Puree" to grind the fibers into a completely smooth paste.',
+        'Ingredients loaded! Now align and lock the transparent safety lid onto the bowl to engage the motor safety interlock.',
         'thinking',
         {
-          badge: 'Safety Interlock Engaged',
-          hint: 'Tap the "Start High-Speed Puree" button on the processor.',
+          badge: 'Safety Interlock Required',
+          hint: 'Click "Lock Safety Lid" to engage the interlock switch.',
           hideButton: true,
         }
       );
     }
   };
 
+  const handleLockLid = () => {
+    soundManager.playClick();
+    soundManager.playSuccess();
+    setIsLidLocked(true);
+    addScore(15);
+    showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready! (+15 pts)', 'success');
+    speak(
+      'Safety interlock engaged! The motor is armed. Now press the Orange High-Speed Puree button on the console to start blending!',
+      'happy',
+      {
+        badge: 'Motor Armed',
+        hint: 'Press the Orange High-Speed Puree button on the control console.',
+        hideButton: true,
+      }
+    );
+  };
+
   const handleStartBlending = () => {
-    soundManager.playBlend();
+    try {
+      if (typeof soundManager.playBlend === 'function') {
+        soundManager.playBlend();
+      } else {
+        soundManager.playClick();
+      }
+    } catch (err) {
+      console.warn('Audio playback error', err);
+    }
     setIsBlending(true);
     setProcessorStep(3);
     showToast('Pureeing Ubod...', 'Stainless S-blade spinning at 3,000 RPM...', 'info');
@@ -219,24 +247,59 @@ export const Mission2Grinding = () => {
               containerHeight="290px"
               interactiveAction={
                 processorStep === 2
-                  ? {
-                      label: '⚙️ Start High-Speed Puree',
-                      onClick: handleStartBlending,
-                    }
+                  ? (!isLidLocked
+                      ? {
+                          label: 'Twist & Lock Safety Lid',
+                          onClick: handleLockLid,
+                          icon: '🔒',
+                          variant: 'interlock-lock',
+                        }
+                      : {
+                          label: 'High-Speed Puree',
+                          onClick: handleStartBlending,
+                          icon: '⚡',
+                          variant: 'processor-pulse',
+                          onKeyClick: (key) => {
+                            soundManager.playClick();
+                            if (key === 'stop') {
+                              showToast('Safety Switch', 'Appliance is in standby. Press the Orange High-Speed button to puree!', 'info');
+                            } else if (key === 'low') {
+                              showToast('Speed Control', 'Recipe standard requires High-Speed Puree for fine cracker paste.', 'warning');
+                            }
+                          },
+                        })
                   : processorStep === 3
                   ? {
                       label: `Pureeing... ${blendProgress}%`,
                       disabled: true,
+                      icon: '⚡',
+                      variant: 'processor-pulse',
+                      isActive: true,
                     }
                   : processorStep === 4
                   ? {
-                      label: '🥣 Scrape Paste into Prep Bowl',
+                      label: 'Scrape Paste into Prep Bowl',
                       onClick: handleScrapePaste,
                       icon: '🥣',
                     }
                   : null
               }
-            />
+            >
+              {processorStep === 2 && !isLidLocked && (
+                <div
+                  className="lid-interlock-guide"
+                  onClick={handleLockLid}
+                  title="Click to lock transparent safety lid"
+                >
+                  <span>🔒 Click to Lock Safety Lid</span>
+                </div>
+              )}
+              {processorStep === 2 && isLidLocked && (
+                <div className="interlock-status-badge">
+                  <span>✅ Safety Interlock: LOCKED</span>
+                </div>
+              )}
+            </MultiStateContainer>
           </div>
 
           {/* Right Side: Extraction Vessel Card */}

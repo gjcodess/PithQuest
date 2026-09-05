@@ -4584,6 +4584,235 @@ body.holding-item-cursor * {
 }
 
 /* ==========================================================================
+   RETRO SANYO FOOD PROCESSOR PUSH BUTTON (Stage 2)
+   ========================================================================== */
+
+/* Primary Active Mechanical Push-Button (Capsule shape like machine's button) */
+.btn-processor-pulse {
+  background: linear-gradient(180deg, #fb923c 0%, #f97316 40%, #ea580c 75%, #c2410c 100%);
+  color: #ffffff;
+  border: 2px solid #7c2d12;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: 
+    0 4px 0 #7c2d12,
+    0 6px 14px rgba(0, 0, 0, 0.35),
+    inset 0 2px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.35);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  position: relative;
+  animation: pulse-puree-btn 1.6s infinite alternate ease-in-out;
+}
+
+.btn-processor-pulse:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 5px 0 #7c2d12,
+    0 8px 16px rgba(234, 88, 12, 0.5),
+    inset 0 2.5px 1.5px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.08);
+}
+
+.btn-processor-pulse:active:not(.disabled),
+.btn-processor-pulse.is-active-puree {
+  transform: translateY(3px);
+  box-shadow: 
+    0 1px 0 #7c2d12,
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1.5px 2px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, #ea580c 0%, #c2410c 60%, #9a3412 100%);
+}
+
+.btn-processor-pulse.is-active-puree {
+  animation: puree-motor-vibrate 0.12s infinite alternate ease-in-out;
+}
+
+.btn-processor-pulse.disabled {
+  opacity: 0.9;
+  cursor: wait;
+}
+
+.btn-processor-pulse .action-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes puree-motor-vibrate {
+  0% { transform: translateY(3px) translateX(-0.5px); }
+  100% { transform: translateY(3px) translateX(0.5px); }
+}
+
+@keyframes pulse-puree-btn {
+  0% {
+    box-shadow: 
+      0 4px 0 #7c2d12,
+      0 6px 12px rgba(0, 0, 0, 0.35),
+      0 0 0 rgba(249, 115, 22, 0);
+  }
+  100% {
+    box-shadow: 
+      0 4px 0 #7c2d12,
+      0 6px 12px rgba(0, 0, 0, 0.35),
+      0 0 12px rgba(249, 115, 22, 0.6);
+  }
+}
+
+/* ==========================================================================
+   SAFETY INTERLOCK TWIST-LOCK BUTTON (Stage 2)
+   ========================================================================== */
+
+.btn-interlock-lock {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 40%, #0369a1 75%, #075985 100%);
+  color: #ffffff;
+  border: 2px solid #0c4a6e;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: 
+    0 4px 0 #0c4a6e,
+    0 6px 14px rgba(2, 132, 199, 0.4),
+    inset 0 2px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.35);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  user-select: none;
+  position: relative;
+  animation: pulse-interlock-beacon 1.8s infinite alternate ease-in-out;
+}
+
+.btn-interlock-lock:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 5px 0 #0c4a6e,
+    0 10px 20px rgba(2, 132, 199, 0.6),
+    inset 0 2.5px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.08);
+}
+
+.btn-interlock-lock:active {
+  transform: translateY(3px);
+  box-shadow: 
+    0 1px 0 #0c4a6e,
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 2px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 60%, #075985 100%);
+}
+
+.btn-interlock-lock .interlock-pip-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  border: 1.5px solid #fef08a;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: led-blink 0.9s infinite alternate;
+  flex-shrink: 0;
+}
+
+.btn-interlock-lock .action-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  transition: transform 0.25s ease;
+}
+
+.btn-interlock-lock:hover .action-icon {
+  transform: rotate(-15deg) scale(1.15);
+}
+
+@keyframes pulse-interlock-beacon {
+  0% {
+    box-shadow: 
+      0 4px 0 #0c4a6e,
+      0 6px 14px rgba(2, 132, 199, 0.35),
+      0 0 0 rgba(14, 165, 233, 0);
+  }
+  100% {
+    box-shadow: 
+      0 4px 0 #0c4a6e,
+      0 8px 18px rgba(2, 132, 199, 0.55),
+      0 0 16px rgba(14, 165, 233, 0.7);
+  }
+}
+
+.lid-interlock-guide {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lid-interlock-guide:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
+}
+
+.interlock-status-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #15803d;
+  border: 1.5px solid #86efac;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* ==========================================================================
    MINIGAME: TOOL & INGREDIENT INSPECTION
    ========================================================================== */
 

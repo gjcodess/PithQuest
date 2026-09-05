@@ -21,6 +21,7 @@ export const MultiStateContainer = ({
   className = '',
   containerWidth = '320px',
   containerHeight = '280px',
+  children = null,
 }) => {
   const { holdingItem, setHoldingItem, showToast, recordMistake } = useGame();
   const [isDragOver, setIsDragOver] = useState(false);
@@ -187,6 +188,9 @@ export const MultiStateContainer = ({
             <span>Tap or Drop {holdingItem.name} here!</span>
           </div>
         )}
+
+        {/* Custom Station Overlays (e.g. Interlock status, badges, guides) */}
+        {children}
       </div>
 
       {/* Footer / Status / Action */}
@@ -201,6 +205,9 @@ export const MultiStateContainer = ({
             </div>
 
             {interactiveAction && (() => {
+              if (typeof interactiveAction.render === 'function') {
+                return interactiveAction.render();
+              }
               let icon = interactiveAction.icon;
               let label = interactiveAction.label || '';
               if (icon && label.startsWith(icon)) {
@@ -212,9 +219,53 @@ export const MultiStateContainer = ({
                   label = label.slice(emojiMatch[0].length);
                 }
               }
+
+              // Special retro food processor switch variant matching Sanyo machine
+              if (interactiveAction.variant === 'processor-pulse') {
+                return (
+                  <button
+                    className={`btn-processor-pulse ${interactiveAction.disabled ? 'disabled' : ''} ${interactiveAction.isActive ? 'is-active-puree' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!interactiveAction.disabled && interactiveAction.onClick) {
+                        interactiveAction.onClick();
+                      }
+                    }}
+                    disabled={interactiveAction.disabled}
+                    title="HIGH / PULSE (Push to Puree)"
+                  >
+                    {icon && <span className="action-icon">{icon}</span>}
+                    <span className="action-label">{label}</span>
+                  </button>
+                );
+              }
+
+              // Special safety interlock button variant
+              if (interactiveAction.variant === 'interlock-lock') {
+                return (
+                  <button
+                    className={`btn-interlock-lock ${interactiveAction.disabled ? 'disabled' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!interactiveAction.disabled && interactiveAction.onClick) {
+                        interactiveAction.onClick();
+                      }
+                    }}
+                    disabled={interactiveAction.disabled}
+                    title="Twist & lock safety lid to engage motor interlock"
+                  >
+                    <span className="interlock-pip-indicator" />
+                    {icon && <span className="action-icon">{icon}</span>}
+                    <span className="action-label">{label}</span>
+                  </button>
+                );
+              }
+
+              const customClass = interactiveAction.className || interactiveAction.variant || '';
+
               return (
                 <button
-                  className={`btn-workstation-action ${interactiveAction.disabled ? 'disabled' : ''}`}
+                  className={`btn-workstation-action ${customClass} ${interactiveAction.disabled ? 'disabled' : ''}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!interactiveAction.disabled && interactiveAction.onClick) {
