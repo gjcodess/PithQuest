@@ -18,6 +18,9 @@ export const MultiStateContainer = ({
   activeAnimation = null, // 'boiling' | 'steaming' | 'sizzling' | 'blending' | null
   interactiveAction = null, // { label: string, onClick: func, icon?: string, disabled?: boolean }
   customFooter = null,
+  specBadge = null,
+  statusDotClass = '',
+  statusText = null,
   className = '',
   containerWidth = '320px',
   containerHeight = '280px',
@@ -151,6 +154,15 @@ export const MultiStateContainer = ({
           </div>
         )}
 
+        {activeAnimation === 'mixing' && (
+          <div className="fx-overlay mixing-fx">
+            <div className="mixing-whirl whirl-1" />
+            <div className="mixing-whirl whirl-2" />
+            <div className="knead-puff kp-1">💨</div>
+            <div className="knead-puff kp-2">✨</div>
+          </div>
+        )}
+
         {/* Primary Asset Image / Visual State */}
         <div className="container-visual-wrapper">
           {currentStep.img ? (
@@ -194,8 +206,8 @@ export const MultiStateContainer = ({
         ) : (
           <>
             <div className="workstation-status">
-              <span className="status-dot" />
-              <span className="status-text">{currentStep.prompt || currentStep.label || 'Ready'}</span>
+              <span className={`status-dot ${statusDotClass}`} />
+              <span className="status-text">{statusText || currentStep.prompt || currentStep.label || 'Ready'}</span>
             </div>
 
             {interactiveAction && (() => {
@@ -273,6 +285,14 @@ export const MultiStateContainer = ({
                 </button>
               );
             })()}
+
+            {specBadge && !interactiveAction && (
+              typeof specBadge === 'string' ? (
+                <span className="spec-badge">{specBadge}</span>
+              ) : (
+                specBadge
+              )
+            )}
           </>
         )}
       </div>

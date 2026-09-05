@@ -4497,6 +4497,130 @@ body.holding-item-cursor * {
   }
 }
 
+/* Rhythmic Dough Mixing & Kneading Motion */
+.container-state-img.anim-mixing {
+  animation: doughMixingKnead 0.32s infinite ease-in-out;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.22));
+}
+
+@keyframes doughMixingKnead {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  20% {
+    transform: translate(-3px, -2px) rotate(-1.5deg) scale(1.012);
+  }
+  40% {
+    transform: translate(2px, -3px) rotate(-0.5deg) scale(1.018);
+  }
+  60% {
+    transform: translate(3px, 2px) rotate(1.8deg) scale(1);
+  }
+  80% {
+    transform: translate(-2px, 3px) rotate(0.8deg) scale(0.992);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+.mixing-fx {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.mixing-whirl {
+  position: absolute;
+  width: 110px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2.5px dashed rgba(255, 255, 255, 0.85);
+  border-top-color: rgba(245, 158, 11, 0.9);
+  border-bottom-color: rgba(16, 185, 129, 0.7);
+  top: 42%;
+  left: 48%;
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+}
+
+.whirl-1 {
+  animation: whirlRotate 0.5s infinite linear;
+}
+
+.whirl-2 {
+  width: 80px;
+  height: 44px;
+  animation: whirlRotateRev 0.4s infinite linear;
+}
+
+@keyframes whirlRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.9);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+@keyframes whirlRotateRev {
+  0% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(1.05);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(0.92);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.knead-puff {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: kneadPuffFloat 0.7s infinite ease-out;
+}
+
+.kp-1 {
+  top: 36%;
+  left: 38%;
+  animation-delay: 0.1s;
+}
+
+.kp-2 {
+  top: 40%;
+  left: 56%;
+  animation-delay: 0.35s;
+}
+
+@keyframes kneadPuffFloat {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-24px) scale(1.1);
+    opacity: 0;
+  }
+}
+
 .dropzone-guide-pill {
   position: absolute;
   bottom: 12px;
@@ -5046,6 +5170,689 @@ body.holding-item-cursor * {
   background: #10b981;
   border-color: #86efac;
   box-shadow: 0 0 10px #10b981;
+}
+
+/* ==========================================================================
+   FORMULATION & QC WORKSTATION STYLING (Stage 3)
+   ========================================================================== */
+
+.qc-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.qc-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+  background: radial-gradient(circle at 50% 30%, #ffffff 0%, #f8fafc 100%);
+}
+
+.qc-recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.qc-list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+
+.qc-step-counter {
+  background: #e0f2fe;
+  color: #0284c7;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.7rem;
+}
+
+.qc-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9px;
+  padding: 4px 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.qc-item-row:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.qc-item-row.completed {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+.qc-item-row.current-target {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+  animation: pulseGuide 1.8s infinite ease-in-out;
+}
+
+.qc-item-icon-box {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.qc-item-icon-box img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.qc-item-meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.qc-item-meta strong {
+  font-size: 0.78rem;
+  color: #0f172a;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qc-item-meta span {
+  font-size: 0.67rem;
+  color: #64748b;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qc-status-chip {
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.qc-status-chip.chip-done {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
+  font-weight: 800;
+}
+
+.qc-status-chip.chip-next {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+  font-weight: 800;
+  animation: chipPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes chipPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.qc-rheology-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  margin-top: 2px;
+}
+
+.qc-rheology-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.qc-rheology-pct {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: #0284c7;
+  font-size: 0.75rem;
+}
+
+.qc-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.qc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #10b981 100%);
+  border-radius: 6px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.qc-texture-badge {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0284c7;
+  background: #f0f9ff;
+  border-radius: 7px;
+  padding: 3px 6px;
+  border: 1px dashed #bae6fd;
+  transition: all 0.3s ease;
+}
+
+.qc-texture-badge.texture-ready {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fcd34d;
+  font-weight: 800;
+  animation: pulseGuide 2s infinite ease-in-out;
+}
+
+.qc-texture-badge.texture-perfect {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+  border-style: solid;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);
+}
+
+.badge-success-glow {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
+}
+
+.badge-flow-glow {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5) !important;
+}
+
+.dot-amber {
+  background: #f59e0b !important;
+  border-color: #fef3c7 !important;
+  box-shadow: 0 0 8px #f59e0b !important;
+}
+
+.spec-amber {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+  border-color: #f59e0b !important;
+}
+
+/* ==========================================================================
+   PORTIONING & MOLDING WORKSTATION STYLING (Stage 4)
+   ========================================================================== */
+
+.molding-scene .stage-center-zone {
+  align-items: flex-start;
+  padding-top: 24px;
+  padding-bottom: 20px;
+}
+
+.molding-scene .stage-content-row {
+  margin-top: 0;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.molding-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.molding-qc-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 280px;
+  min-height: 280px;
+  gap: 8px;
+  background: radial-gradient(circle at 50% 30%, #ffffff 0%, #f8fafc 100%);
+}
+
+.molding-spec-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.molding-spec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid #f1f5f9;
+}
+
+.molding-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.molding-spec-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.molding-spec-item .spec-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.molding-spec-item .spec-val {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.wafer-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+.wafer-profile-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.wafer-profile-visual img {
+  width: 48px;
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.wafer-tag-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.wafer-profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.profile-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.74rem;
+}
+
+.profile-detail-item .detail-label {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.profile-detail-item .detail-val {
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.molding-science-note {
+  font-size: 0.7rem;
+  color: #334155;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  padding: 4px 8px;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.molding-science-note strong {
+  color: #0284c7;
+}
+
+.btn-fill-remaining {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1.5px solid #0284c7;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-fill-remaining:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.45);
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+}
+
+.btn-fill-remaining:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mold-scraping-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.mold-leveling-anim {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+  animation: spatulaMoldScrape 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes spatulaMoldScrape {
+  0% {
+    transform: translate(-80px, -40px) rotate(-35deg) scale(0.9);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(0px, 0px) rotate(10deg) scale(1.05);
+  }
+  75% {
+    transform: translate(60px, 30px) rotate(45deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(90px, 50px) rotate(60deg) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   STARCH STEAMING & GELATINIZATION WORKSTATION STYLING (Stage 5)
+   ========================================================================== */
+
+.steaming-scene .stage-center-zone {
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.steaming-scene .stage-content-row {
+  margin-top: 0;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.steaming-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.steaming-scene .workstation-footer {
+  min-height: 56px;
+  padding: 8px 16px;
+}
+
+.steaming-scene .workstation-header {
+  padding: 8px 16px;
+}
+
+.steaming-qc-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
+  gap: 6px;
+  background: radial-gradient(circle at 50% 30%, #ffffff 0%, #f8fafc 100%);
+}
+
+.steaming-spec-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.steaming-spec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding-bottom: 2px;
+  border-bottom: 1.5px solid #f1f5f9;
+}
+
+.steaming-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.steaming-spec-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  padding: 3px 6px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.steaming-spec-item .spec-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.steaming-spec-item .spec-val {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.steaming-progress-row {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.steaming-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.steaming-progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.steaming-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.steaming-texture-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.texture-compare-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 3px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: left;
+}
+
+.texture-compare-box.active-state {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 1px #0284c7;
+}
+
+.texture-box-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.texture-compare-box.active-state .texture-box-tag {
+  color: #0284c7;
+}
+
+.texture-box-desc {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.steaming-science-note {
+  font-size: 0.68rem;
+  color: #334155;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  padding: 4px 6px;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.steaming-science-note strong {
+  color: #0284c7;
 }
 
 /* ==========================================================================
