@@ -16,7 +16,7 @@ export const DialogueBox = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const timerRef = useRef(null);
 
-  const hasTray = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5'].includes(scene);
+  const hasTray = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5', 'mission6', 'mission7', 'mission8'].includes(scene);
 
   const finishTyping = () => {
     if (timerRef.current) {

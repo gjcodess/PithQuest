@@ -82,7 +82,7 @@ export const MinigameInspection = ({
         <h3>Inspection Clearance Complete!</h3>
         <p>All items have been verified according to Home Economics hygiene & safety standards.</p>
         <div className="inspection-badge-pill">
-          <span>✨ Safety Verified (5/5 Cleared)</span>
+          <span>✨ Safety Verified ({items.length}/{items.length} Cleared)</span>
         </div>
       </div>
     );

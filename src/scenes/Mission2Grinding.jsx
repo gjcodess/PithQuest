@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
+import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission2Grinding = () => {
   const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
@@ -23,7 +24,7 @@ export const Mission2Grinding = () => {
       'neutral',
       {
         badge: 'Stage 2: Food Processing',
-        hint: 'Drop the Drained Boiled Ubod into the food processor bowl.',
+        hint: 'Drop the Drained Boiled Ubod from your bottom inventory shelf into the food processor bowl.',
         hideButton: true,
       }
     );
@@ -79,11 +80,11 @@ export const Mission2Grinding = () => {
       addScore(25);
       showToast('Boiled Ubod Loaded!', 'Now add salt according to client ratio (1 tsp per cup).', 'success');
       speak(
-        'Great! Now add 1 teaspoon of Pure Sea Salt per cup of boiled ubod to season the mixture and assist cellular breakdown.',
+        'Great! Now add 1 teaspoon of Pure Sea Salt from the bottom tray into the processor bowl.',
         'neutral',
         {
           badge: 'Calibrated Salting',
-          hint: 'Select Salt Portion and drop it into the processor bowl.',
+          hint: 'Select Measured Sea Salt from the bottom shelf and drop it into the processor.',
           hideButton: true,
         }
       );
@@ -97,7 +98,7 @@ export const Mission2Grinding = () => {
         'thinking',
         {
           badge: 'Safety Interlock Engaged',
-          hint: 'Tap the "Start High-Speed Puree" button.',
+          hint: 'Tap the "Start High-Speed Puree" button on the processor.',
           hideButton: true,
         }
       );
@@ -105,28 +106,28 @@ export const Mission2Grinding = () => {
   };
 
   const handleStartBlending = () => {
-    soundManager.playBoil();
+    soundManager.playBlend();
     setIsBlending(true);
     setProcessorStep(3);
-    showToast('Pureeing Ubod...', 'S-blade spinning at high RPM...', 'info');
+    showToast('Pureeing Ubod...', 'Stainless S-blade spinning at 3,000 RPM...', 'info');
 
-    let progress = 0;
+    let current = 0;
     const interval = setInterval(() => {
-      progress += 25;
-      setBlendProgress(progress);
-      if (progress >= 100) {
+      current += 20;
+      setBlendProgress(current);
+      if (current >= 100) {
         clearInterval(interval);
         setIsBlending(false);
         setProcessorStep(4);
         soundManager.playSuccess();
-        addScore(35);
-        showToast('Pureeing Complete!', 'Ubod fibers turned into silky creamy paste (+35 pts)', 'success');
+        addScore(30);
+        showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste (+30 pts)', 'success');
         speak(
-          'Incredible texture! All stringy fibers have vanished into a silky, cohesive coconut pith puree. Now scrape the paste into the stainless prep bowl.',
+          'Perfect consistency! All cellulose fibers are completely broken down. Now use the red silicone spatula on your bottom shelf to scrape the paste into the stainless bowl.',
           'happy',
           {
-            badge: 'Puree Extraction',
-            hint: 'Select the Prep Bowl / Spatula to collect the finished paste.',
+            badge: 'Puree Complete',
+            hint: 'Select Red Spatula on the shelf (or click Scrape Paste below).',
             hideButton: true,
           }
         );
@@ -136,13 +137,14 @@ export const Mission2Grinding = () => {
 
   const handleScrapePaste = () => {
     soundManager.playPour();
+    soundManager.playSuccess();
     setProcessorStep(5);
-    addScore(35);
-    unlockBadge('puree_specialist', 'Puree Milling Specialist', '⚙️');
+    addScore(30);
+    unlockBadge('puree_artisan', 'Micro-Fiber Milling Artisan', '⚙️');
     completeMission('mission2');
-    showToast('Paste Collected!', 'Ready for dough formulation (+35 pts)', 'success');
+    showToast('Paste Collected!', 'Silky ubod puree transferred to bowl (+30 pts)', 'success');
     speak(
-      'Outstanding work! Your pureed coconut pith paste is ready in the prep bowl. Now let\'s formulate our dough with Erawan rice flour in Stage 3!',
+      'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Dough Formulation & Mixing!',
       'happy',
       {
         badge: 'Stage 2 Complete',
@@ -152,119 +154,131 @@ export const Mission2Grinding = () => {
     );
   };
 
+  const stage2Inventory = [
+    {
+      id: 'boiled_ubod',
+      name: 'Boiled Ubod',
+      measure: '1 Cup (Tender)',
+      img: '/assets/colander_boiled_ubod_ready.png',
+      fallbackIcon: '🥥',
+      isUsed: processorStep >= 1,
+      isNext: processorStep === 0,
+      tooltip: 'Fork-tender boiled coconut pith',
+    },
+    {
+      id: 'salt_portion',
+      name: 'Measured Sea Salt',
+      measure: '1 tsp (Per Cup)',
+      img: '/assets/portion_salt_1tsp.png',
+      fallbackIcon: '🧂',
+      isUsed: processorStep >= 2,
+      isNext: processorStep === 1,
+      tooltip: '1 tsp pure sea salt',
+    },
+    {
+      id: 'spatula',
+      name: 'Red Spatula',
+      measure: 'Scrape & Clean',
+      img: '/assets/tool_spatula_red.png',
+      fallbackIcon: '🥄',
+      isUsed: processorStep >= 5,
+      isNext: processorStep === 4,
+      onClick: processorStep === 4 ? handleScrapePaste : undefined,
+      tooltip: 'Red silicone spatula for bowl scraping',
+    },
+    {
+      id: 'prep_bowl',
+      name: 'Stainless Prep Bowl',
+      measure: 'Collection Vessel',
+      img: '/assets/tool_mixing_bowl_large.png',
+      fallbackIcon: '🥣',
+      isUsed: processorStep >= 5,
+      isNext: false,
+      tooltip: 'Sanitized large mixing bowl for collecting puree',
+    },
+  ];
+
   return (
     <div className="workstation-scene grinding-scene">
       <div className="workstation-overlay" />
 
-      <div className="stage-content-row">
-        {/* Left Side: Ingredients to Load */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>🥗 Boiled Ingredients</span>
-          </div>
-          <div className="inventory-vertical-list">
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'boiled_ubod' ? 'active-held' : ''} ${processorStep === 0 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'boiled_ubod' ? null : { id: 'boiled_ubod', name: 'Boiled Ubod', img: '/assets/colander_boiled_ubod_ready.png', icon: '🥥' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'boiled_ubod', name: 'Boiled Ubod' }));
-              }}
-            >
-              <img src="/assets/colander_boiled_ubod_ready.png" alt="Boiled Ubod" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
-              <div className="disp-info">
-                <strong>Boiled Ubod</strong>
-                <span>Fork-Tender & Drained</span>
-              </div>
-            </div>
-
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'salt_portion' ? 'active-held' : ''} ${processorStep === 1 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'salt_portion' ? null : { id: 'salt_portion', name: 'Salt (1 tsp/cup)', img: '/assets/portion_salt_1tsp.png', icon: '🧂' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'salt_portion', name: 'Salt (1 tsp/cup)' }));
-              }}
-            >
-              <img src="/assets/portion_salt_1tsp.png" alt="Salt" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
-              <div className="disp-info">
-                <strong>Measured Sea Salt</strong>
-                <span>1 tsp per Cup of Ubod</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Center: Food Processor MultiStateContainer */}
-        <div className="station-center-card">
-          <MultiStateContainer
-            containerId="food_processor"
-            title="Electric Food Processor"
-            subtitle="Retro Sanyo with Stainless S-Blade"
-            currentStepIndex={processorStep}
-            steps={processorSteps}
-            onItemAccepted={handleItemAccepted}
-            activeAnimation={isBlending ? 'blending' : null}
-            containerWidth="380px"
-            containerHeight="260px"
-            interactiveAction={
-              processorStep === 2
-                ? {
-                    label: '⚙️ Start High-Speed Puree',
-                    onClick: handleStartBlending,
-                  }
-                : processorStep === 3
-                ? {
-                    label: `Pureeing... ${blendProgress}%`,
-                    disabled: true,
-                  }
-                : processorStep === 4
-                ? {
-                    label: '🥣 Scrape Paste into Prep Bowl',
-                    onClick: handleScrapePaste,
-                    icon: '🥣',
-                  }
-                : null
-            }
-          />
-        </div>
-
-        {/* Right Side: Extraction Vessel */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>🥣 Collection Bowl</span>
-          </div>
-          <div className="collection-preview-box" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '12px' }}>
-            <img
-              src="/assets/bowl_ubod_paste_fresh.png"
-              alt="Ubod Paste Bowl"
-              style={{
-                width: '120px',
-                height: '100px',
-                objectFit: 'contain',
-                opacity: processorStep >= 4 ? 1 : 0.4,
-                filter: processorStep >= 4 ? 'drop-shadow(0 6px 14px rgba(0,0,0,0.15))' : 'grayscale(1)',
-                transition: 'all 0.3s ease',
-              }}
+      {/* Main Center Cooking Countertop */}
+      <div className="stage-center-zone">
+        <div className="stage-content-row" style={{ maxWidth: '880px' }}>
+          {/* Center: Food Processor MultiStateContainer */}
+          <div className="station-center-card">
+            <MultiStateContainer
+              containerId="food_processor"
+              title="Electric Food Processor"
+              subtitle="Retro Sanyo with Stainless S-Blade"
+              currentStepIndex={processorStep}
+              steps={processorSteps}
+              onItemAccepted={handleItemAccepted}
+              activeAnimation={isBlending ? 'blending' : null}
+              containerWidth="440px"
+              containerHeight="290px"
+              interactiveAction={
+                processorStep === 2
+                  ? {
+                      label: '⚙️ Start High-Speed Puree',
+                      onClick: handleStartBlending,
+                    }
+                  : processorStep === 3
+                  ? {
+                      label: `Pureeing... ${blendProgress}%`,
+                      disabled: true,
+                    }
+                  : processorStep === 4
+                  ? {
+                      label: '🥣 Scrape Paste into Prep Bowl',
+                      onClick: handleScrapePaste,
+                      icon: '🥣',
+                    }
+                  : null
+              }
             />
-            <div className="bowl-status-text">
-              {processorStep >= 5 ? (
-                <span className="badge-ready">✨ Filled with Silky Ubod Paste</span>
-              ) : processorStep === 4 ? (
-                <span className="badge-ready">👉 Ready to Scrape Paste</span>
-              ) : (
-                <span className="badge-waiting">Awaiting Puree Extraction</span>
-              )}
+          </div>
+
+          {/* Right Side: Extraction Vessel Card */}
+          <div className="station-side-card" style={{ width: '280px' }}>
+            <div className="card-header-mini">
+              <span>🥣 Extraction Vessel</span>
+              <span className={`station-badge-mini ${processorStep >= 5 ? 'badge-success' : 'badge-pending'}`}>
+                {processorStep >= 5 ? '✅ Collected' : 'Ready'}
+              </span>
+            </div>
+            <div className="collection-preview-box" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '16px' }}>
+              <img
+                src="/assets/bowl_ubod_paste_fresh.png"
+                alt="Ubod Paste Bowl"
+                style={{
+                  width: '120px',
+                  height: '100px',
+                  objectFit: 'contain',
+                  opacity: processorStep >= 4 ? 1 : 0.35,
+                  filter: processorStep >= 4 ? 'drop-shadow(0 6px 14px rgba(0,0,0,0.15))' : 'grayscale(1)',
+                  transition: 'all 0.3s ease',
+                }}
+              />
+              <div className="bowl-status-text" style={{ textAlign: 'center', fontSize: '0.82rem', fontWeight: 700 }}>
+                {processorStep >= 5 ? (
+                  <span style={{ color: '#16a34a' }}>✨ Silky Ubod Paste Collected</span>
+                ) : processorStep === 4 ? (
+                  <span style={{ color: '#0284c7' }}>👉 Ready to Scrape into Bowl</span>
+                ) : (
+                  <span style={{ color: '#64748b' }}>Awaiting Pureed Mixture</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* DOCKED BOTTOM INVENTORY SHELF */}
+      <InventoryTray
+        title="Station 2 Inventory & Pureeing Tools"
+        items={stage2Inventory}
+      />
     </div>
   );
 };

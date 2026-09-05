@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
+import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission7Frying = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
@@ -11,8 +12,9 @@ export const Mission7Frying = () => {
   // 1: Wok with oil -> action: heat oil to 180°C (medium heat)
   // 2: Hot oil ready (shimmering) -> accept dehydrated_pellets
   // 3: 10-Second Flash Puffing Animation (expansion from hard pellet to airy cracker)
-  // 4: Golden puffed crackers floating -> action: scoop into colander to drain
-  // 5: Complete
+  // 4: Golden puffed cracker lifted with tongs -> action: scoop into colander to drain
+  // 5: Draining in colander -> action: transfer to cooled platter
+  // 6: Cooled golden crackers on platter -> complete & proceed to packaging
   const [fryStep, setFryStep] = useState(0);
   const [oilTemp, setOilTemp] = useState(25);
   const [isHeatingOil, setIsHeatingOil] = useState(false);
@@ -21,11 +23,11 @@ export const Mission7Frying = () => {
 
   useEffect(() => {
     speak(
-      'Stage 7: Deep Frying & Oil Draining! Pour 5 cups of Baguio Orchids Vegetable Oil into the deep wok, preheat to medium heat (~180°C), and drop the chips for a 10-second rapid flash puff!',
+      'Stage 7: Deep Frying & Oil Draining! Select the 5 cups of Vegetable Oil from the bottom inventory, pour into the deep wok, and preheat to 180°C.',
       'neutral',
       {
         badge: 'Stage 7: Flash Frying',
-        hint: 'First, pour the Vegetable Cooking Oil into the empty wok.',
+        hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
         hideButton: true,
       }
     );
@@ -50,7 +52,7 @@ export const Mission7Frying = () => {
     },
     {
       stepIndex: 2,
-      acceptedItems: ['dehydrated_pellets', 'pellets'],
+      acceptedItems: ['dehydrated_pellets', 'pellets', 'tongs_chip'],
       prompt: 'Oil is at optimal 180°C! Drop dehydrated ubod pellets with tongs',
       img: '/assets/frying_pan_oil_hot.png',
       fallbackIcon: '🔥',
@@ -66,11 +68,27 @@ export const Mission7Frying = () => {
     },
     {
       stepIndex: 4,
+      acceptedItems: [],
+      prompt: 'Puffed golden cracker lifted with stainless tongs! Crisp and airy',
+      img: '/assets/tongs_holding_puffed_cracker.png',
+      fallbackIcon: '🥢',
+      label: 'Expanded Cracker Lifted with Tongs',
+    },
+    {
+      stepIndex: 5,
       acceptedItems: ['skimmer', 'colander'],
-      prompt: 'Scoop golden puffed crackers with skimmer into colander to drain oil',
+      prompt: 'Scoop batch into colander lined with paper towels to drain excess surface oil',
       img: '/assets/colander_fried_crackers_draining.png',
+      fallbackIcon: '🥣',
+      label: 'Draining Oil in Colander',
+    },
+    {
+      stepIndex: 6,
+      acceptedItems: [],
+      prompt: 'Cooled, airy, crispy golden Ubod Crunch crackers ready for packaging!',
+      img: '/assets/platter_crackers_cooled.png',
       fallbackIcon: '✨',
-      label: 'Puffed Ubod Crackers (Ready)',
+      label: 'Golden Crackers on Serving Platter',
     },
   ];
 
@@ -89,7 +107,7 @@ export const Mission7Frying = () => {
           hideButton: true,
         }
       );
-    } else if (stepIndex === 2 && (item.id === 'dehydrated_pellets' || item.id === 'pellets')) {
+    } else if (stepIndex === 2 && (item.id === 'dehydrated_pellets' || item.id === 'pellets' || item.id === 'tongs_chip')) {
       soundManager.playSizzle();
       setFryStep(3);
       setIsPuffing(true);
@@ -108,7 +126,7 @@ export const Mission7Frying = () => {
           addScore(35);
           showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers (+35 pts)', 'success');
           speak(
-            '10 seconds exactly! The crackers have fully expanded into light, golden wafers with thousands of micro-air pockets. Scoop them with the spider skimmer into the colander to drain surface oil!',
+            '10 seconds exactly! The crackers have fully expanded into light, golden wafers with thousands of micro-air pockets. Scoop them with the skimmer into the colander to drain surface oil!',
             'happy',
             {
               badge: 'Flash Expansion Complete',
@@ -139,11 +157,11 @@ export const Mission7Frying = () => {
         addScore(20);
         showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone (+20 pts)', 'success');
         speak(
-          'Target temperature reached: 180°C! Now pick up the Dehydrated Pellets with tongs and drop them into the hot shimmering oil.',
+          'Target temperature reached: 180°C! Now select the Dehydrated Pellets with tongs from your bottom shelf and drop them into the hot shimmering oil.',
           'happy',
           {
             badge: '180°C Ready',
-            hint: 'Select Dehydrated Pellets and drop into the wok.',
+            hint: 'Select Dehydrated Pellets from bottom shelf and drop into the wok.',
             hideButton: true,
           }
         );
@@ -151,13 +169,29 @@ export const Mission7Frying = () => {
     }, 400);
   };
 
-  const handleDrainOil = () => {
+  const handleLiftToDrain = () => {
     soundManager.playClick();
     setFryStep(5);
+    addScore(20);
+    showToast('Draining Oil...', 'Surface oil draining through perforated colander', 'info');
+    speak(
+      'The crackers are draining in the colander lined with paper towels. Once excess surface oil is removed, click below to transfer them to the presentation platter!',
+      'neutral',
+      {
+        badge: 'Oil Drainage',
+        hint: 'Click "Transfer to Presentation Platter".',
+        hideButton: true,
+      }
+    );
+  };
+
+  const handleTransferToPlatter = () => {
+    soundManager.playClick();
+    setFryStep(6);
     addScore(35);
     unlockBadge('puff_master', 'Aeration Expansion Master', '🍳');
     completeMission('mission7');
-    showToast('Crackers Drained!', 'Oil drained in colander lined with paper towels (+35 pts)', 'success');
+    showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy (+35 pts)', 'success');
     speak(
       'Outstanding frying! The crackers are golden, crisp, and properly drained of excess oil. Now let\'s package and heat-seal our final product in Stage 8!',
       'happy',
@@ -169,124 +203,162 @@ export const Mission7Frying = () => {
     );
   };
 
+  const stage7Inventory = [
+    {
+      id: 'cooking_oil',
+      name: 'Vegetable Cooking Oil',
+      measure: '5 Cups (Deep Frying)',
+      img: '/assets/portion_oil_5cups.png',
+      fallbackIcon: '🫗',
+      isUsed: fryStep >= 1,
+      isNext: fryStep === 0,
+      tooltip: '5 cups fresh vegetable cooking oil for deep submerging',
+    },
+    {
+      id: 'dehydrated_pellets',
+      name: 'Dehydrated Chip Container',
+      measure: 'Airtight Glassy Pellets',
+      img: '/assets/container_dehydrated_chips.png',
+      fallbackIcon: '📦',
+      isUsed: fryStep >= 3,
+      isNext: fryStep === 2,
+      tooltip: 'Dry translucent pellets held in airtight clip container',
+    },
+    {
+      id: 'tongs_chip',
+      name: fryStep >= 2 ? 'Tongs Gripping Pellet' : 'Stainless Kitchen Tongs',
+      measure: fryStep >= 2 ? 'Ready to Drop in Oil' : 'Precision Heat Handling',
+      img: fryStep >= 2 ? '/assets/tongs_holding_chip.png' : '/assets/tool_tongs_stainless.png',
+      fallbackIcon: '🥢',
+      isUsed: fryStep >= 3,
+      isNext: fryStep === 2,
+      tooltip: 'Long stainless steel tongs for safe drop and pickup in hot oil',
+    },
+    {
+      id: 'colander',
+      name: 'Draining Colander',
+      measure: 'Paper Towel Lined',
+      img: '/assets/colander_fried_crackers_draining.png',
+      fallbackIcon: '🥣',
+      isUsed: fryStep >= 6,
+      isNext: fryStep === 4,
+      tooltip: 'Perforated colander to drain surface oil quickly',
+    },
+    {
+      id: 'platter',
+      name: 'Presentation Platter',
+      measure: 'Finished Batch Platter',
+      img: '/assets/platter_crackers_cooled.png',
+      fallbackIcon: '✨',
+      isUsed: fryStep >= 6,
+      isNext: fryStep === 5,
+      tooltip: 'Cooled, crunchy, golden crackers ready for packaging',
+    },
+  ];
+
   return (
     <div className="workstation-scene frying-scene">
       <div className="workstation-overlay" />
 
-      <div className="stage-content-row">
-        {/* Left Side: Ingredients & Temperature Thermometer */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>🫗 Frying Medium & Pellets</span>
-          </div>
-          <div className="inventory-vertical-list">
-            {/* Oil */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'cooking_oil' ? 'active-held' : ''} ${fryStep === 0 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'cooking_oil' ? null : { id: 'cooking_oil', name: 'Vegetable Oil', img: '/assets/portion_oil_5cups.png', icon: '🫗' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'cooking_oil', name: 'Vegetable Oil' }));
-              }}
-            >
-              <img src="/assets/portion_oil_5cups.png" alt="Vegetable Oil" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
-              <div className="disp-info">
-                <strong>Vegetable Oil</strong>
-                <span>5 Cups (Deep Frying)</span>
-              </div>
+      {/* Main Center Cooking Countertop */}
+      <div className="stage-center-zone">
+        <div className="stage-content-row" style={{ maxWidth: '980px' }}>
+          {/* Left Side: Temperature Thermometer & Fry Status */}
+          <div className="station-side-card" style={{ width: '280px' }}>
+            <div className="card-header-mini">
+              <span>🌡️ Oil Thermometer</span>
+              <span className={`station-badge-mini ${oilTemp >= 175 ? 'badge-success' : 'badge-pending'}`}>
+                {oilTemp >= 175 ? '180°C Ready' : `${oilTemp}°C`}
+              </span>
             </div>
 
-            {/* Pellets */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'dehydrated_pellets' ? 'active-held' : ''} ${fryStep === 2 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'dehydrated_pellets' ? null : { id: 'dehydrated_pellets', name: 'Dehydrated Pellets', img: '/assets/tongs_holding_chip.png', icon: '🧈' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'dehydrated_pellets', name: 'Dehydrated Pellets' }));
-              }}
-            >
-              <img src="/assets/tongs_holding_chip.png" alt="Tongs with Pellets" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
-              <div className="disp-info">
-                <strong>Dehydrated Pellets</strong>
-                <span>Hard Translucent Chips</span>
+            <div className="thermometer-card-box" style={{ marginTop: '12px' }}>
+              <div className="thermo-label">Frying Oil Temperature:</div>
+              <div className="thermo-value" style={{ fontSize: '2rem', fontWeight: 800, color: oilTemp >= 175 ? '#10b981' : '#f59e0b' }}>
+                {oilTemp}°C
               </div>
-            </div>
-
-            {/* Thermometer Display */}
-            <div className="thermometer-card-box">
-              <div className="thermo-label">Oil Temperature:</div>
-              <div className="thermo-value">{oilTemp}°C</div>
-              <div className="progress-bar-bg">
+              <div className="progress-bar-bg" style={{ margin: '8px 0' }}>
                 <div
                   className={`progress-bar-fill ${oilTemp >= 175 ? 'temp-optimal' : 'temp-heating'}`}
                   style={{ width: `${(oilTemp / 200) * 100}%` }}
                 />
               </div>
-              <span className="thermo-sub">
-                {oilTemp < 175 ? 'Heating up...' : oilTemp <= 185 ? '✨ Optimal Green Zone (180°C)' : 'Too Hot (Smoking)!'}
+              <span className="thermo-sub" style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                {oilTemp < 175 ? 'Heating up burner...' : oilTemp <= 185 ? '✨ Optimal Green Zone (180°C)' : 'Too Hot (Smoking)!'}
               </span>
             </div>
-          </div>
-        </div>
 
-        {/* Center: Multi-State Frying Wok */}
-        <div className="station-center-card">
-          <MultiStateContainer
-            containerId="wok"
-            title="Deep Frying Heavy Wok"
-            subtitle="180°C Thermal Flash Expansion (10 Seconds)"
-            currentStepIndex={fryStep}
-            steps={wokSteps}
-            onItemAccepted={handleItemAccepted}
-            activeAnimation={fryStep >= 2 && fryStep < 4 ? 'sizzling' : null}
-            containerWidth="380px"
-            containerHeight="260px"
-            interactiveAction={
-              fryStep === 1
-                ? {
-                    label: isHeatingOil ? `Preheating... ${oilTemp}°C` : '🔥 Preheat Oil to 180°C',
-                    onClick: handlePreheatOil,
-                    disabled: isHeatingOil,
-                  }
-                : fryStep === 3
-                ? {
-                    label: `Flash Puffing... ${puffProgress}% (10s)`,
-                    disabled: true,
-                  }
-                : fryStep === 4
-                ? {
-                    label: '🥣 Scoop into Colander to Drain Oil',
-                    onClick: handleDrainOil,
-                    icon: '🥣',
-                  }
-                : null
-            }
-          />
-        </div>
-
-        {/* Right Side: Science Concept Card */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>🔬 Aeration Physics</span>
-          </div>
-          <div className="specs-card-content">
-            <div className="spec-point">
-              <strong>10-Second Rule:</strong>
-              <p>Because residual moisture is under 8%, steam forms instantly upon contact with 180°C oil. Frying longer than 10 seconds causes oil absorption and darkening!</p>
+            <div className="spec-point" style={{ marginTop: '16px' }}>
+              <strong>Flash Frying Duration:</strong>
+              <p>Exactly 10 seconds. Rapid expansion occurs instantaneously.</p>
             </div>
-            <div className="spec-point">
-              <strong>Colander Drainage:</strong>
-              <p>Draining immediately in a colander lined with paper towels ensures a light, non-greasy texture with maximum crispness.</p>
+          </div>
+
+          {/* Center: Multi-State Frying Wok */}
+          <div className="station-center-card">
+            <MultiStateContainer
+              containerId="wok"
+              title="Deep Frying Heavy Wok"
+              subtitle="180°C Thermal Flash Expansion (10 Seconds)"
+              currentStepIndex={fryStep}
+              steps={wokSteps}
+              onItemAccepted={handleItemAccepted}
+              activeAnimation={fryStep >= 2 && fryStep < 4 ? 'sizzling' : null}
+              containerWidth="380px"
+              containerHeight="260px"
+              interactiveAction={
+                fryStep === 1
+                  ? {
+                      label: isHeatingOil ? `Preheating... ${oilTemp}°C` : '🔥 Preheat Oil to 180°C',
+                      onClick: handlePreheatOil,
+                      disabled: isHeatingOil,
+                    }
+                  : fryStep === 3
+                  ? {
+                      label: `Flash Puffing... ${puffProgress}% (10s)`,
+                      disabled: true,
+                    }
+                  : fryStep === 4
+                  ? {
+                      label: '🥢 Scoop into Colander to Drain Oil',
+                      onClick: handleLiftToDrain,
+                      icon: '🥣',
+                    }
+                  : fryStep === 5
+                  ? {
+                      label: '✨ Transfer to Cooled Serving Platter',
+                      onClick: handleTransferToPlatter,
+                      icon: '✨',
+                    }
+                  : null
+              }
+            />
+          </div>
+
+          {/* Right Side: Science Concept Card */}
+          <div className="station-side-card" style={{ width: '280px' }}>
+            <div className="card-header-mini">
+              <span>🔬 Aeration Physics</span>
+            </div>
+            <div className="specs-card-content">
+              <div className="spec-point">
+                <strong>10-Second Expansion:</strong>
+                <p>Because residual moisture is under 8%, steam forms instantly upon contact with 180°C oil. Frying longer than 10 seconds causes oil absorption and darkening!</p>
+              </div>
+              <div className="spec-point" style={{ marginTop: '12px' }}>
+                <strong>Colander Drainage:</strong>
+                <p>Draining immediately in a colander lined with paper towels ensures a light, non-greasy texture with maximum crispness.</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* DOCKED BOTTOM INVENTORY SHELF */}
+      <InventoryTray
+        title="Station 7 Frying Cookware & Pellets"
+        items={stage7Inventory}
+      />
     </div>
   );
 };

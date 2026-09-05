@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
+import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission1Prep = () => {
   const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
@@ -19,7 +20,7 @@ export const Mission1Prep = () => {
       'neutral',
       {
         badge: 'Stage 1: Washing',
-        hint: 'Tap "Wash Ubod" under the sink, then pick up the clean washed ubod.',
+        hint: 'Tap "Wash Ubod Under Faucet", then pick up the clean washed ubod from the bottom shelf.',
         hideButton: true,
       }
     );
@@ -67,6 +68,14 @@ export const Mission1Prep = () => {
       fallbackIcon: '🍲',
       label: 'Fork-Tender Boiled Ubod',
     },
+    {
+      stepIndex: 5,
+      acceptedItems: [],
+      prompt: 'Boiled ubod drained & cooled under clean rinse to stop carryover heat',
+      img: '/assets/colander_boiled_ubod_cooling_rinse.png',
+      fallbackIcon: '✨',
+      label: 'Drained & Cooled Boiled Ubod',
+    },
   ];
 
   const handleWashUbod = () => {
@@ -75,11 +84,11 @@ export const Mission1Prep = () => {
     addScore(20);
     showToast('Ubod Washed!', 'Raw coconut pith is now sanitized and ready for boiling (+20 pts)', 'success');
     speak(
-      'Great job! The ubod is washed and clean. Now tap or drag the Washed Ubod into the empty stockpot!',
+      'Great job! The ubod is washed and clean. Now tap or drag the Washed Ubod from your bottom inventory shelf into the stockpot!',
       'happy',
       {
         badge: 'Submerge in Pot',
-        hint: 'Click "Washed Ubod" in inventory, then drop into the stockpot.',
+        hint: 'Click "Washed Ubod" on the bottom tray, then drop into the stockpot.',
         hideButton: true,
       }
     );
@@ -92,11 +101,11 @@ export const Mission1Prep = () => {
       addScore(20);
       showToast('Ubod Added!', 'Now pour clean potable water to submerge the ubod.', 'success');
       speak(
-        'Excellent! Coconut pith is loaded. Now pick up the Water Pitcher and pour clean water until the ubod is fully submerged.',
+        'Excellent! Coconut pith is loaded. Now pick up the Potable Water from your bottom shelf and pour until submerged.',
         'neutral',
         {
           badge: 'Water Hydration',
-          hint: 'Select the Water Pitcher and drop it into the stockpot.',
+          hint: 'Select Potable Water from the bottom shelf and drop into the pot.',
           hideButton: true,
         }
       );
@@ -106,11 +115,11 @@ export const Mission1Prep = () => {
       addScore(20);
       showToast('Water Added!', 'Now add Sea Salt to season and regulate osmotic moisture.', 'success');
       speak(
-        'Perfect liquid level! Now add measured Pure Sea Salt into the pot.',
+        'Perfect liquid level! Now add measured Pure Sea Salt from the bottom tray into the pot.',
         'neutral',
         {
           badge: 'Salting Step',
-          hint: 'Select Sea Salt and drop it into the pot.',
+          hint: 'Select Pure Sea Salt on the shelf and drop it into the pot.',
           hideButton: true,
         }
       );
@@ -148,11 +157,11 @@ export const Mission1Prep = () => {
         addScore(30);
         showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent (+30 pts)', 'success');
         speak(
-          'Boiling complete! The tough cellulose fibers have softened into translucent, tender pieces. Now use the colander to drain all boiling liquid.',
+          'Boiling complete! The tough cellulose fibers have softened into translucent, tender pieces. Now use the stainless colander on your bottom shelf to drain boiling liquid.',
           'happy',
           {
             badge: 'Drain & Cool',
-            hint: 'Select the Colander and drop it into the pot (or tap Drain).',
+            hint: 'Select Stainless Colander on the bottom shelf (or click Drain below).',
             hideButton: true,
           }
         );
@@ -178,170 +187,129 @@ export const Mission1Prep = () => {
     );
   };
 
+  const stage1Inventory = [
+    {
+      id: 'washed_ubod',
+      name: isWashed ? 'Washed Ubod' : 'Raw Ubod',
+      measure: isWashed ? '1 Cup (Clean)' : 'Needs Washing',
+      img: isWashed ? '/assets/portion_ubod_raw_1cup.png' : '/assets/portion_ubod_raw_1cup.png',
+      fallbackIcon: '🥥',
+      isUsed: potStep >= 1,
+      isNext: potStep === 0 && isWashed,
+      disabled: !isWashed,
+      tooltip: isWashed ? '1 Cup Clean Washed Ubod' : 'Wash ubod under faucet first',
+    },
+    {
+      id: 'water_pitcher',
+      name: 'Potable Water',
+      measure: '4 Cups (Submerge)',
+      img: '/assets/portion_water_1cup.png',
+      fallbackIcon: '💧',
+      isUsed: potStep >= 2,
+      isNext: potStep === 1,
+      tooltip: 'Clean potable water for boiling',
+    },
+    {
+      id: 'sea_salt',
+      name: 'Pure Sea Salt',
+      measure: '1 tsp (Pinch Dish)',
+      img: '/assets/tool_small_dish_salt.png',
+      fallbackIcon: '🧂',
+      isUsed: potStep >= 3,
+      isNext: potStep === 2,
+      tooltip: '1 tsp sea salt for seasoning & osmosis',
+    },
+    {
+      id: 'colander',
+      name: 'Stainless Colander',
+      measure: 'Drain & Cool Rinse',
+      img: '/assets/tool_colander_safe.png',
+      fallbackIcon: '🥣',
+      isUsed: potStep >= 5,
+      isNext: potStep === 4,
+      tooltip: 'Perforated colander for draining boiling water',
+    },
+  ];
+
   return (
     <div className="workstation-scene prep-scene">
       <div className="workstation-overlay" />
 
-      {/* Main Countertop Layout */}
-      <div className="stage-content-row">
-        {/* Left Side: Washing Station */}
-        <div className="station-side-card washing-station-card">
-          <div className="card-header-mini">
-            <span>🚰 Washing Station</span>
-            <span className={`station-badge-mini ${isWashed ? 'badge-success' : 'badge-pending'}`}>
-              {isWashed ? '✅ Sanitized' : 'Required'}
-            </span>
-          </div>
-
-          <div className="sink-box">
-            <div className="sink-colander-preview">
-              <img
-                src={isWashed ? '/assets/sink_colander_washing.png' : '/assets/sink_colander_ubod.png'}
-                alt="Sink Colander"
-                className="sink-preview-img"
-              />
-              <div className={`sink-status-pill ${isWashed ? 'washed' : 'unwashed'}`}>
-                <span>{isWashed ? '✨ Washed & Starch-Rinsed' : '🌿 Fresh Raw Ubod'}</span>
-              </div>
+      {/* Main Center Cooking Countertop */}
+      <div className="stage-center-zone">
+        <div className="stage-content-row" style={{ maxWidth: '980px' }}>
+          {/* Left: Washing Sink Station */}
+          <div className="station-side-card washing-station-card" style={{ width: '280px' }}>
+            <div className="card-header-mini">
+              <span>🚰 Washing Station</span>
+              <span className={`station-badge-mini ${isWashed ? 'badge-success' : 'badge-pending'}`}>
+                {isWashed ? '✅ Sanitized' : 'Required'}
+              </span>
             </div>
 
-            {!isWashed ? (
-              <button className="btn-wash-action" onClick={handleWashUbod}>
-                <span className="wash-action-icon">🚰</span>
-                <span>Wash Ubod Under Faucet</span>
-              </button>
-            ) : (
-              <div
-                className={`dispenser-card ready-item ${holdingItem?.id === 'washed_ubod' ? 'active-held' : 'guide-pulse'}`}
-                onClick={() => {
-                  soundManager.playClick();
-                  setHoldingItem(holdingItem?.id === 'washed_ubod' ? null : { id: 'washed_ubod', name: 'Washed Ubod', img: '/assets/portion_ubod_raw_1cup.png', icon: '🥥' });
-                }}
-                draggable
-                onDragStart={(e) => {
-                  e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'washed_ubod', name: 'Washed Ubod' }));
-                }}
-                title="Tap or drag washed ubod into the pot"
-                role="button"
-                tabIndex={0}
-              >
-                <img src="/assets/portion_ubod_raw_1cup.png" alt="Washed Ubod" className="disp-img" />
-                <div className="disp-info">
-                  <strong>Washed Ubod</strong>
-                  <span>1 Cup (Ready to Submerge)</span>
+            <div className="sink-box">
+              <div className="sink-colander-preview">
+                <img
+                  src={potStep >= 1 ? '/assets/sink_colander_empty.png' : isWashed ? '/assets/sink_colander_washing.png' : '/assets/sink_colander_ubod.png'}
+                  alt="Sink Colander"
+                  className="sink-preview-img"
+                />
+                <div className={`sink-status-pill ${potStep >= 1 ? 'washed' : isWashed ? 'washed' : 'unwashed'}`}>
+                  <span>{potStep >= 1 ? '🥣 Empty Colander' : isWashed ? '✨ Washed & Cleaned' : '🌿 Fresh Raw Ubod'}</span>
                 </div>
-                <span className="disp-badge-tap">Drop ➔</span>
               </div>
-            )}
-          </div>
-        </div>
 
-        {/* Center: Multi-State Stockpot Workstation */}
-        <div className="station-center-card">
-          <MultiStateContainer
-            containerId="stockpot"
-            title="Stainless Steel Boiling Pot"
-            subtitle="Thermal softening on gas burner"
-            currentStepIndex={potStep}
-            steps={potSteps}
-            onItemAccepted={handleItemAccepted}
-            activeAnimation={isBoilingTimerActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
-            containerWidth="440px"
-            containerHeight="290px"
-            interactiveAction={
-              potStep === 3
-                ? {
-                    label: isBoilingTimerActive ? `Boiling... ${boilProgress}%` : '🔥 Ignite Burner (High Heat)',
-                    onClick: handleIgniteBurner,
-                    disabled: isBoilingTimerActive,
-                  }
-                : potStep === 4
-                ? {
-                    label: '🥣 Drain Boiled Ubod into Colander',
-                    onClick: handleDrainUbod,
-                    icon: '🥣',
-                  }
-                : null
-            }
-          />
-        </div>
-
-        {/* Right Side: Ingredient & Tool Dispensers */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>📦 Station Inventory</span>
-            <span className="station-badge-mini badge-count">3 Items</span>
+              {!isWashed ? (
+                <button className="btn-wash-action" onClick={handleWashUbod}>
+                  <span className="wash-action-icon">🚰</span>
+                  <span>Wash Ubod Under Faucet</span>
+                </button>
+              ) : (
+                <div className="wash-complete-hint" style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 700, textAlign: 'center', marginTop: '6px' }}>
+                  ✓ Clean & ready on bottom shelf!
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="inventory-vertical-list">
-            {/* Water Pitcher */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'water_pitcher' ? 'active-held' : ''} ${potStep === 1 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'water_pitcher' ? null : { id: 'water_pitcher', name: 'Water Pitcher', img: '/assets/portion_water_1cup.png', icon: '💧' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'water_pitcher', name: 'Water Pitcher' }));
-              }}
-              role="button"
-              tabIndex={0}
-            >
-              <img src="/assets/portion_water_1cup.png" alt="Water" className="disp-img" />
-              <div className="disp-info">
-                <strong>Potable Water</strong>
-                <span>4 Cups for Submerging</span>
-              </div>
-              <span className="disp-badge-tap">{potStep === 1 ? 'Next' : 'Use'}</span>
-            </div>
-
-            {/* Pure Sea Salt */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'sea_salt' ? 'active-held' : ''} ${potStep === 2 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'sea_salt' ? null : { id: 'sea_salt', name: 'Pure Sea Salt', img: '/assets/portion_salt_1tsp.png', icon: '🧂' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'sea_salt', name: 'Pure Sea Salt' }));
-              }}
-              role="button"
-              tabIndex={0}
-            >
-              <img src="/assets/portion_salt_1tsp.png" alt="Salt" className="disp-img" />
-              <div className="disp-info">
-                <strong>Pure Sea Salt</strong>
-                <span>1 tsp Seasoning & Osmosis</span>
-              </div>
-              <span className="disp-badge-tap">{potStep === 2 ? 'Next' : 'Use'}</span>
-            </div>
-
-            {/* Colander for draining */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'colander' ? 'active-held' : ''} ${potStep === 4 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'colander' ? null : { id: 'colander', name: 'Stainless Colander', img: '/assets/tool_colander_safe.png', icon: '🥣' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'colander', name: 'Stainless Colander' }));
-              }}
-              role="button"
-              tabIndex={0}
-            >
-              <img src="/assets/tool_colander_safe.png" alt="Colander" className="disp-img" />
-              <div className="disp-info">
-                <strong>Stainless Colander</strong>
-                <span>For Water Drainage</span>
-              </div>
-              <span className="disp-badge-tap">{potStep === 4 ? 'Next' : 'Use'}</span>
-            </div>
+          {/* Center: Multi-State Stockpot Workstation */}
+          <div className="station-center-card">
+            <MultiStateContainer
+              containerId="stockpot"
+              title="Stainless Steel Boiling Pot"
+              subtitle="Thermal softening on gas burner"
+              currentStepIndex={potStep}
+              steps={potSteps}
+              onItemAccepted={handleItemAccepted}
+              activeAnimation={isBoilingTimerActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
+              containerWidth="460px"
+              containerHeight="300px"
+              interactiveAction={
+                potStep === 3
+                  ? {
+                      label: isBoilingTimerActive ? `Boiling... ${boilProgress}%` : '🔥 Ignite Burner (High Heat)',
+                      onClick: handleIgniteBurner,
+                      disabled: isBoilingTimerActive,
+                    }
+                  : potStep === 4
+                  ? {
+                      label: '🥣 Drain Boiled Ubod into Colander',
+                      onClick: handleDrainUbod,
+                      icon: '🥣',
+                    }
+                  : null
+              }
+            />
           </div>
         </div>
       </div>
+
+      {/* DOCKED BOTTOM INVENTORY SHELF */}
+      <InventoryTray
+        title="Station 1 Inventory & Cookware"
+        items={stage1Inventory}
+      />
     </div>
   );
 };
+

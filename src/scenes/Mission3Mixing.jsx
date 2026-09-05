@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
+import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission3Mixing = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
@@ -24,7 +25,7 @@ export const Mission3Mixing = () => {
       'neutral',
       {
         badge: 'Stage 3: Formulation',
-        hint: 'First, add the Erawan Rice Flour into the stainless mixing bowl.',
+        hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
         hideButton: true,
       }
     );
@@ -96,39 +97,39 @@ export const Mission3Mixing = () => {
       addScore(20);
       showToast('Rice Flour Added!', 'Next: Add Sea Salt to distribute evenly in dry mix.', 'success');
       speak(
-        'Rice flour added! Now add the Pure Sea Salt so it blends thoroughly into the dry flour particles.',
+        'Rice flour added! Now add the Pure Sea Salt from the bottom shelf so it blends thoroughly into the dry flour particles.',
         'neutral',
         {
-          badge: 'Dry Mixing',
-          hint: 'Select Sea Salt and drop it into the bowl.',
+          badge: 'Dry Blending',
+          hint: 'Select Pure Sea Salt from the bottom shelf and drop it into the bowl.',
           hideButton: true,
         }
       );
-    } else if (stepIndex === 1 && (item.id === 'salt' || item.id === 'sea_salt')) {
+    } else if (stepIndex === 1 && item.id === 'salt') {
       soundManager.playClick();
       setBowlStep(2);
       addScore(20);
-      showToast('Salt Added!', 'Next: Add the pureed Boiled Ubod Paste.', 'success');
+      showToast('Salt Added!', 'Next: Add Silky Ubod Paste (1:1 Ratio).', 'success');
       speak(
-        'Dry seasoning combined! Now drop in the pureed Coconut Pith Paste from Stage 2.',
-        'neutral',
+        'Salt blended! Now add the pureed Boiled Ubod Paste into the bowl to achieve our 1:1 starch-to-pith ratio.',
+        'happy',
         {
-          badge: 'Pulp Addition',
-          hint: 'Select Ubod Paste and drop it into the mixing bowl.',
+          badge: '1:1 Ratio Formulation',
+          hint: 'Select Ubod Paste on the bottom shelf and drop it into the bowl.',
           hideButton: true,
         }
       );
     } else if (stepIndex === 2 && item.id === 'ubod_paste') {
       soundManager.playPour();
       setBowlStep(3);
-      addScore(20);
-      showToast('Ubod Paste Added!', 'Now add gradual water to hydrate the starches.', 'success');
+      addScore(25);
+      showToast('Ubod Paste Added!', 'Next: Add Hydration Water gradually.', 'success');
       speak(
-        'Great 1:1 proportion! Finally, add the calibrated Water to hydrate the rice starch granules.',
+        'Paste incorporated! Now add the Hydration Water gradually to hydrate the starch granules for gelatinization.',
         'neutral',
         {
-          badge: 'Starch Hydration',
-          hint: 'Select Water and drop it into the mixing bowl.',
+          badge: 'Hydration Control',
+          hint: 'Select Hydration Water and drop it into the bowl.',
           hideButton: true,
         }
       );
@@ -136,13 +137,13 @@ export const Mission3Mixing = () => {
       soundManager.playPour();
       setBowlStep(4);
       addScore(25);
-      showToast('Formulation Complete!', 'Click "Fold & Knead Dough" to form the dough ball.', 'success');
+      showToast('Hydration Complete!', 'All ingredients added! Fold and knead with spatula.', 'success');
       speak(
-        'All formulation ingredients are in the bowl! Use the red silicone spatula to fold and knead the mixture until smooth and non-sticky.',
-        'happy',
+        'All formulation ingredients are in the bowl! Now click the "Fold & Knead Dough" button to develop a non-sticky, pliable dough ball.',
+        'thinking',
         {
-          badge: 'Kneading Stage',
-          hint: 'Click the "Fold & Knead Dough" button on the workstation.',
+          badge: 'Dough Kneading',
+          hint: 'Click "Fold & Knead Dough with Spatula".',
           hideButton: true,
         }
       );
@@ -153,27 +154,27 @@ export const Mission3Mixing = () => {
     soundManager.playClick();
     setIsKneading(true);
     setBowlStep(5);
-    showToast('Kneading Dough...', 'Folding starch and ubod fibers together...', 'info');
+    showToast('Kneading Dough...', 'Forming starch-protein matrix with spatula...', 'info');
 
-    let progress = 0;
+    let current = 0;
     const interval = setInterval(() => {
-      progress += 25;
-      setKneadProgress(progress);
-      if (progress >= 100) {
+      current += 20;
+      setKneadProgress(current);
+      if (current >= 100) {
         clearInterval(interval);
         setIsKneading(false);
         setBowlStep(6);
         soundManager.playSuccess();
         addScore(35);
-        unlockBadge('dough_artisan', 'Dough Matrix Artisan', '🥯');
+        unlockBadge('dough_master', 'Starch Formulation Chemist', '🥯');
         completeMission('mission3');
-        showToast('Dough Formed!', 'Smooth, pliable dough ball ready for molding (+35 pts)', 'success');
+        showToast('Dough Ball Formed!', 'Pliable, elastic, non-sticky dough ready (+35 pts)', 'success');
         speak(
-          'Outstanding kneading! The dough is perfectly cohesive, non-sticky, and pliable. The rice flour starch matrix is fully hydrated and ready for rectangular portioning in Stage 4!',
+          'Masterpiece! The dough has achieved the exact desired texture: smooth, elastic, and completely non-sticky. Ready for rectangular molding in Stage 4!',
           'happy',
           {
             badge: 'Stage 3 Complete',
-            btnText: 'Proceed to Stage 4: Rectangular Molding ➔',
+            btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
             onNext: () => setScene('mission4'),
           }
         );
@@ -181,154 +182,166 @@ export const Mission3Mixing = () => {
     }, 600);
   };
 
+  const stage3Inventory = [
+    {
+      id: 'rice_flour',
+      name: 'Erawan Rice Flour',
+      measure: '2 Cups (1:1 Base)',
+      img: '/assets/portion_rice_flour_1cup.png',
+      fallbackIcon: '🌾',
+      isUsed: bowlStep >= 1,
+      isNext: bowlStep === 0,
+      tooltip: 'Erawan brand fine white rice flour',
+    },
+    {
+      id: 'salt',
+      name: 'Pure Sea Salt',
+      measure: '1 tsp (Pinch Dish)',
+      img: '/assets/tool_small_dish_salt.png',
+      fallbackIcon: '🧂',
+      isUsed: bowlStep >= 2,
+      isNext: bowlStep === 1,
+      tooltip: '1 tsp sea salt in pinch dish',
+    },
+    {
+      id: 'ubod_paste',
+      name: 'Silky Ubod Paste',
+      measure: '2 Cups Puree',
+      img: '/assets/portion_ubod_paste_1cup.png',
+      fallbackIcon: '🥥',
+      isUsed: bowlStep >= 3,
+      isNext: bowlStep === 2,
+      tooltip: 'Smooth boiled coconut pith puree',
+    },
+    {
+      id: 'water_hydration',
+      name: 'Hydration Water',
+      measure: 'Gradual Addition',
+      img: '/assets/portion_water_1cup.png',
+      fallbackIcon: '💧',
+      isUsed: bowlStep >= 4,
+      isNext: bowlStep === 3,
+      tooltip: 'Clean potable water for starch hydration',
+    },
+    {
+      id: 'spatula',
+      name: 'Red Spatula',
+      measure: 'Fold & Knead',
+      img: '/assets/tool_spatula_red.png',
+      fallbackIcon: '🥄',
+      isUsed: bowlStep >= 6,
+      isNext: bowlStep === 4,
+      onClick: bowlStep === 4 ? handleKneadDough : undefined,
+      tooltip: 'Red silicone spatula for dough folding',
+    },
+    {
+      id: 'measuring_cups',
+      name: 'Measuring Cups',
+      measure: '1:1 Volume Ratio',
+      img: '/assets/tool_measuring_cups.png',
+      fallbackIcon: '📏',
+      isUsed: bowlStep >= 2,
+      isNext: false,
+      tooltip: 'Stainless steel measuring cups for exact 1:1 flour-to-puree ratio',
+    },
+    {
+      id: 'mixing_bowl',
+      name: 'Large Mixing Bowl',
+      measure: 'Stainless Steel',
+      img: '/assets/tool_mixing_bowl_large.png',
+      fallbackIcon: '🥣',
+      isUsed: false,
+      isNext: false,
+      tooltip: 'Safe stainless steel commercial mixing bowl',
+    },
+  ];
+
   return (
     <div className="workstation-scene mixing-scene">
       <div className="workstation-overlay" />
 
-      <div className="stage-content-row">
-        {/* Left Side: Recipe Formulations */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>📋 Formulation Tray</span>
+      {/* Main Center Cooking Countertop */}
+      <div className="stage-center-zone">
+        <div className="stage-content-row" style={{ maxWidth: '880px' }}>
+          {/* Center: Stainless Mixing Bowl MultiStateContainer */}
+          <div className="station-center-card">
+            <MultiStateContainer
+              containerId="mixing_bowl"
+              title="Stainless Steel Mixing Bowl"
+              subtitle="1:1 Ratio Formulation with Red Spatula"
+              currentStepIndex={bowlStep}
+              steps={bowlSteps}
+              onItemAccepted={handleItemAccepted}
+              containerWidth="440px"
+              containerHeight="290px"
+              interactiveAction={
+                bowlStep === 4
+                  ? {
+                      label: '🥣 Fold & Knead Dough with Spatula',
+                      onClick: handleKneadDough,
+                      icon: '🥣',
+                    }
+                  : bowlStep === 5
+                  ? {
+                      label: `Kneading... ${kneadProgress}%`,
+                      disabled: true,
+                    }
+                  : null
+              }
+            />
           </div>
-          <div className="inventory-vertical-list">
-            {/* Rice Flour */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'rice_flour' ? 'active-held' : ''} ${bowlStep === 0 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'rice_flour' ? null : { id: 'rice_flour', name: 'Erawan Rice Flour', img: '/assets/tool_measuring_cups.png', icon: '🌾' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'rice_flour', name: 'Erawan Rice Flour' }));
-              }}
-            >
-              <img src="/assets/tool_measuring_cups.png" alt="Rice Flour" className="disp-img" />
-              <div className="disp-info">
-                <strong>Erawan Rice Flour</strong>
-                <span>2 Cups (1:1 Ratio)</span>
-              </div>
-              <span className="disp-badge-tap">{bowlStep === 0 ? 'Next' : 'Use'}</span>
+
+          {/* Right Side: Tool & Dough Preview Card */}
+          <div className="station-side-card" style={{ width: '280px' }}>
+            <div className="card-header-mini">
+              <span>🥄 Tools & Dough Status</span>
             </div>
-
-            {/* Salt Dish */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'salt' ? 'active-held' : ''} ${bowlStep === 1 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'salt' ? null : { id: 'salt', name: 'Pure Sea Salt', img: '/assets/tool_small_dish_salt.png', icon: '🧂' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'salt', name: 'Pure Sea Salt' }));
-              }}
-            >
-              <img src="/assets/tool_small_dish_salt.png" alt="Sea Salt" className="disp-img" />
-              <div className="disp-info">
-                <strong>Pure Sea Salt</strong>
-                <span>1 tsp in Pinch Dish</span>
+            <div className="tool-preview-box">
+              <div className="spatula-badge" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <img src="/assets/tool_spatula_red.png" alt="Red Spatula" style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                <div className="spat-text">
+                  <strong>Red Silicone Spatula</strong>
+                  <span style={{ fontSize: '0.74rem', color: '#64748b' }}>For folding & kneading</span>
+                </div>
               </div>
-              <span className="disp-badge-tap">{bowlStep === 1 ? 'Next' : 'Use'}</span>
-            </div>
 
-            {/* Ubod Paste */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'ubod_paste' ? 'active-held' : ''} ${bowlStep === 2 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'ubod_paste' ? null : { id: 'ubod_paste', name: 'Ubod Paste', img: '/assets/portion_ubod_paste_1cup.png', icon: '🥥' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'ubod_paste', name: 'Ubod Paste' }));
-              }}
-            >
-              <img src="/assets/portion_ubod_paste_1cup.png" alt="Ubod Paste" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
-              <div className="disp-info">
-                <strong>Silky Ubod Paste</strong>
-                <span>From Food Processor</span>
+              <div className="spatula-badge" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
+                <img src="/assets/tool_measuring_cups.png" alt="Measuring Cups" style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                <div className="spat-text">
+                  <strong>Measuring Cups</strong>
+                  <span style={{ fontSize: '0.74rem', color: '#64748b' }}>1:1 Standard ratio</span>
+                </div>
               </div>
-            </div>
 
-            {/* Hydration Water */}
-            <div
-              className={`dispenser-card ${holdingItem?.id === 'water_hydration' ? 'active-held' : ''} ${bowlStep === 3 ? 'guide-pulse' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'water_hydration' ? null : { id: 'water_hydration', name: 'Hydration Water', img: '/assets/portion_water_1cup.png', icon: '💧' });
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'water_hydration', name: 'Hydration Water' }));
-              }}
-            >
-              <img src="/assets/portion_water_1cup.png" alt="Water" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
-              <div className="disp-info">
-                <strong>Hydration Water</strong>
-                <span>Gradual Addition</span>
+              <div className="dough-texture-indicator" style={{ marginTop: '16px' }}>
+                <div className="texture-label" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
+                  Dough Cohesiveness:
+                </div>
+                <div className="progress-bar-bg" style={{ height: '8px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
+                  <div
+                    className="progress-bar-fill"
+                    style={{
+                      width: `${(bowlStep / 6) * 100}%`,
+                      height: '100%',
+                      background: 'linear-gradient(90deg, #f59e0b 0%, #10b981 100%)',
+                      transition: 'width 0.4s ease',
+                    }}
+                  />
+                </div>
+                <div className="texture-desc" style={{ marginTop: '8px', fontSize: '0.78rem', fontWeight: 700, textAlign: 'center', color: bowlStep >= 6 ? '#16a34a' : '#0284c7' }}>
+                  {bowlStep < 4 ? 'Awaiting Ingredients' : bowlStep < 6 ? 'Hydrated & Mixing' : '✨ Pliable & Non-Sticky'}
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Center: Stainless Mixing Bowl MultiStateContainer */}
-        <div className="station-center-card">
-          <MultiStateContainer
-            containerId="mixing_bowl"
-            title="Stainless Steel Mixing Bowl"
-            subtitle="1:1 Ratio Formulation with Red Spatula"
-            currentStepIndex={bowlStep}
-            steps={bowlSteps}
-            onItemAccepted={handleItemAccepted}
-            containerWidth="380px"
-            containerHeight="260px"
-            interactiveAction={
-              bowlStep === 4
-                ? {
-                    label: '🥣 Fold & Knead Dough with Spatula',
-                    onClick: handleKneadDough,
-                    icon: '🥣',
-                  }
-                : bowlStep === 5
-                ? {
-                    label: `Kneading... ${kneadProgress}%`,
-                    disabled: true,
-                  }
-                : null
-            }
-          />
-        </div>
-
-        {/* Right Side: Tool & Dough Preview */}
-        <div className="station-side-card">
-          <div className="card-header-mini">
-            <span>🥄 Tools & Dough Status</span>
-          </div>
-          <div className="tool-preview-box">
-            <div className="spatula-badge" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <img src="/assets/tool_spatula_red.png" alt="Red Spatula" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
-              <div className="spat-text">
-                <strong>Red Silicone Spatula</strong>
-                <span>For clean bowl scraping & folding</span>
-              </div>
-            </div>
-
-            <div className="dough-texture-indicator">
-              <div className="texture-label">Dough Cohesiveness:</div>
-              <div className="progress-bar-bg">
-                <div
-                  className="progress-bar-fill"
-                  style={{ width: `${(bowlStep / 6) * 100}%` }}
-                />
-              </div>
-              <span className="texture-desc">
-                {bowlStep < 4 ? 'Awaiting Ingredients' : bowlStep < 6 ? 'Hydrated & Mixing' : '✨ Pliable & Non-Sticky'}
-              </span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* DOCKED BOTTOM INVENTORY SHELF */}
+      <InventoryTray
+        title="Station 3 Formulation Ingredients & Tools"
+        items={stage3Inventory}
+      />
     </div>
   );
 };

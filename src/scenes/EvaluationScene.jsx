@@ -29,7 +29,18 @@ export const EvaluationScene = () => {
             <span>LABORATORY MASTERY ACHIEVED</span>
           </div>
           <div className="eval-hero-showcase">
-            <img src="/assets/platter_crackers_cooled.png" alt="Finished Coconut Pith Crackers" className="eval-platter-img" />
+            <div className="eval-showcase-item">
+              <img src="/assets/platter_crackers_cooled.png" alt="Freshly Fried Ubod Crackers" className="eval-showcase-img" />
+              <span className="eval-showcase-label">Golden Crisp Ubod Crunch</span>
+            </div>
+            <div className="eval-showcase-item">
+              <img src="/assets/pouch_sealed_labeled.png" alt="Branded Kraft Pouch" className="eval-showcase-img" />
+              <span className="eval-showcase-label">Airtight Stand-Up Pouch (50g)</span>
+            </div>
+            <div className="eval-showcase-item">
+              <img src="/assets/box_of_packaged_crackers.png" alt="Retail Master Carton" className="eval-showcase-img" />
+              <span className="eval-showcase-label">Retail Display Box (8 Pouches)</span>
+            </div>
           </div>
           <h2>Coconut Pith Crackers Quality Audit</h2>
           <p className="eval-sub">NUDAZAR HONORE - Ubod CRUNCH Comprehensive Evaluation Report</p>
