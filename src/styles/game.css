@@ -3989,9 +3989,12 @@ body.holding-item-cursor * {
 .washing-viewport .sink-status-pill {
   position: absolute;
   bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 6;
   margin-top: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
 }
 
 .workstation-step-badge.badge-success-glow {
@@ -4465,19 +4468,33 @@ body.holding-item-cursor * {
   50% { transform: scale(1.3) rotate(20deg); opacity: 1; }
 }
 
-.blending-fx .vortex-spinner {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  top: calc(50% - 45px);
-  left: calc(50% - 45px);
-  border: 4px dashed #0284c7;
-  border-radius: 50%;
-  animation: spinVortex 0.4s linear infinite;
+/* High-Speed Appliance Motor Vibration (Pureeing) */
+.container-state-img.anim-blending {
+  animation: applianceMotorShake 0.07s infinite alternate ease-in-out;
+  transform-origin: 50% 85%;
+  will-change: transform;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.24));
 }
 
-@keyframes spinVortex {
-  100% { transform: rotate(360deg); }
+@keyframes applianceMotorShake {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  20% {
+    transform: translate(-2px, 1px) rotate(-0.5deg);
+  }
+  40% {
+    transform: translate(1.8px, -1px) rotate(0.5deg);
+  }
+  60% {
+    transform: translate(-1.2px, -0.8px) rotate(-0.3deg);
+  }
+  80% {
+    transform: translate(2px, 0.8px) rotate(0.4deg);
+  }
+  100% {
+    transform: translate(-0.8px, 1.2px) rotate(-0.2deg);
+  }
 }
 
 .dropzone-guide-pill {
@@ -4810,6 +4827,225 @@ body.holding-item-cursor * {
   align-items: center;
   gap: 6px;
   animation: fadeIn 0.3s ease;
+}
+
+.sink-drain-guidance-pill {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sink-drain-guidance-pill:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
+}
+
+/* Red Spatula Scraping Guide & Motion Animation */
+.spatula-scrape-guide {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spatula-scrape-guide:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+}
+
+.spatula-scraping-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.spatula-wiping-anim {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+  animation: spatulaBowlWipe 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes spatulaBowlWipe {
+  0% {
+    transform: translate(65px, -45px) rotate(-40deg) scale(0.85);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-10px, 15px) rotate(15deg) scale(1.1);
+  }
+  80% {
+    transform: translate(-55px, -25px) rotate(50deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-75px, -45px) rotate(65deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   EXTRACTION VESSEL (STAINLESS PREP BOWL) STYLING (Stage 2)
+   ========================================================================== */
+
+.extraction-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.extraction-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.extraction-viewport .container-visual-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
+.extraction-viewport .sink-status-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  margin-top: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+}
+
+.extraction-workstation.compatible-target {
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.3), 0 20px 40px rgba(16, 185, 129, 0.15);
+  transform: translateY(-4px);
+}
+
+.interactive-vessel {
+  cursor: pointer;
+}
+
+.vessel-transfer-guide {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vessel-transfer-guide:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
+}
+
+.paste-collected-pop {
+  animation: pasteCollectedPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pasteCollectedPop {
+  0% { transform: scale(0.8); opacity: 0.4; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.bowl-resting {
+  opacity: 0.95;
+  transition: all 0.3s ease;
+}
+
+.extraction-workstation:hover .bowl-resting {
+  transform: scale(1.03);
+}
+
+.spec-badge {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1.5px solid #cbd5e1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.spec-badge.spec-success {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #86efac;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.status-dot.dot-success {
+  background: #10b981;
+  border-color: #86efac;
+  box-shadow: 0 0 10px #10b981;
 }
 
 /* ==========================================================================

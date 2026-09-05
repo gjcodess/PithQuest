@@ -66,18 +66,18 @@ export const Mission1Prep = () => {
     {
       stepIndex: 4,
       acceptedItems: ['colander'],
-      prompt: 'Boiled tender! Drain ubod into colander to steam-cool',
-      img: '/assets/colander_boiled_ubod_draining.png',
+      prompt: 'Boiled tender! Select Stainless Colander from bottom shelf to drain in sink',
+      img: '/assets/pot_with_ubod_water_salt.png',
       fallbackIcon: '🍲',
       label: 'Fork-Tender Boiled Ubod',
     },
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'Boiled ubod drained & cooled under clean rinse to stop carryover heat',
-      img: '/assets/colander_boiled_ubod_cooling_rinse.png',
+      prompt: 'Boiled ubod drained into colander & steam-cooling in sink',
+      img: '/assets/pot_empty.png',
       fallbackIcon: '✨',
-      label: 'Drained & Cooled Boiled Ubod',
+      label: 'Emptied Stockpot (Contents Drained)',
     },
   ];
 
@@ -147,6 +147,8 @@ export const Mission1Prep = () => {
           hideButton: true,
         }
       );
+    } else if (stepIndex === 4 && (item.id === 'colander' || item.id === 'stainless_colander')) {
+      handleDrainUbod();
     }
   };
 
@@ -167,11 +169,11 @@ export const Mission1Prep = () => {
         addScore(30);
         showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent (+30 pts)', 'success');
         speak(
-          'Boiling complete! The tough cellulose fibers have softened into translucent, tender pieces. Now use the stainless colander on your bottom shelf to drain boiling liquid.',
+          'Boiling complete! The tough cellulose fibers have softened into translucent, tender pieces. Now pick up the stainless colander from your bottom shelf and tap the sink to drain the hot water!',
           'happy',
           {
             badge: 'Drain & Cool',
-            hint: 'Select Stainless Colander on the bottom shelf (or click Drain below).',
+            hint: 'Select Stainless Colander on the bottom shelf, then tap the washing sink to drain.',
             hideButton: true,
           }
         );
@@ -182,12 +184,13 @@ export const Mission1Prep = () => {
   const handleDrainUbod = () => {
     soundManager.playPour();
     setPotStep(5);
+    setHoldingItem(null);
     addScore(30);
     unlockBadge('boil_master', 'Thermal Softening Specialist', '🫕');
     completeMission('mission1');
-    showToast('Drained & Cooled!', 'Boiled ubod drained in colander (+30 pts)', 'success');
+    showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander (+30 pts)', 'success');
     speak(
-      'Outstanding! The boiled ubod is drained and cooling. The softened fibers are now ready for food processing into a fine paste!',
+      'Outstanding! The boiled ubod is drained and steam-cooling in the colander. The softened fibers are now ready for food processing into a fine paste!',
       'happy',
       {
         badge: 'Stage 1 Complete',
@@ -195,6 +198,53 @@ export const Mission1Prep = () => {
         onNext: () => setScene('mission2'),
       }
     );
+  };
+
+  const handleSinkClick = () => {
+    if (!isWashed && !isWashingActive) {
+      handleWashUbod();
+      return;
+    }
+
+    if (potStep === 4) {
+      if (holdingItem?.id === 'colander') {
+        handleDrainUbod();
+      } else {
+        soundManager.playClick();
+        showToast('Select Colander First', 'Click the Stainless Colander on the bottom shelf, then tap the sink!', 'info');
+        speak(
+          'Pick up the stainless colander from your bottom shelf first, then tap the sink to drain the boiling pot!',
+          'thinking',
+          {
+            badge: 'Select Colander',
+            hint: 'Tap "Stainless Colander" on the bottom tray, then tap the sink.',
+          }
+        );
+      }
+    }
+  };
+
+  const handleSinkDragOver = (e) => {
+    if (potStep === 4) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+    }
+  };
+
+  const handleSinkDrop = (e) => {
+    if (potStep === 4) {
+      e.preventDefault();
+      try {
+        const data = e.dataTransfer.getData('text/plain');
+        if (!data) return;
+        const item = JSON.parse(data);
+        if (item.id === 'colander') {
+          handleDrainUbod();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
   const stage1Inventory = [
@@ -257,7 +307,12 @@ export const Mission1Prep = () => {
       <div className="stage-center-zone">
         <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Left: Washing Sink Station (Unified Multi-State Workstation) */}
-          <div className="multi-state-workstation washing-workstation" style={{ width: '440px' }}>
+          <div
+            className={`multi-state-workstation washing-workstation ${
+              potStep === 4 && holdingItem?.id === 'colander' ? 'compatible-target' : ''
+            }`}
+            style={{ width: '440px' }}
+          >
             {/* Workstation Header */}
             <div className="workstation-header">
               <div className="workstation-titles">
@@ -266,21 +321,45 @@ export const Mission1Prep = () => {
               </div>
               <div
                 className={`workstation-step-badge ${
-                  isWashed ? 'badge-success-glow' : isWashingActive ? 'badge-flow-glow' : ''
+                  potStep >= 5
+                    ? 'badge-success-glow'
+                    : isWashed
+                    ? 'badge-success-glow'
+                    : isWashingActive
+                    ? 'badge-flow-glow'
+                    : ''
                 }`}
               >
-                {isWashed ? '✅ Sanitized' : isWashingActive ? '💧 Rinsing...' : 'Required'}
+                {potStep >= 5
+                  ? '♨️ Ubod Draining'
+                  : isWashed
+                  ? '✅ Sanitized'
+                  : isWashingActive
+                  ? '💧 Rinsing...'
+                  : 'Required'}
               </div>
             </div>
 
             {/* Workstation Viewport (270px height, matching Boiling Pot workstation) */}
             <div
               className={`workstation-viewport washing-viewport ${
-                !isWashed && !isWashingActive ? 'interactive-sink' : ''
+                (!isWashed && !isWashingActive) || potStep === 4 ? 'interactive-sink' : ''
               }`}
               style={{ minHeight: '270px', flex: '1 1 auto' }}
-              onClick={!isWashed && !isWashingActive ? handleWashUbod : undefined}
-              title={!isWashed ? 'Click to wash under running faucet' : 'Sanitized colander'}
+              onClick={handleSinkClick}
+              onDragOver={handleSinkDragOver}
+              onDrop={handleSinkDrop}
+              title={
+                !isWashed
+                  ? 'Click to wash under running faucet'
+                  : potStep === 4
+                  ? holdingItem?.id === 'colander'
+                    ? 'Tap sink to drain boiled ubod into colander'
+                    : 'Select Stainless Colander first, then tap sink'
+                  : potStep >= 5
+                  ? 'Drained & cooling boiled ubod'
+                  : 'Sanitized colander'
+              }
             >
               {/* Active Water Spray Splash Animation Overlay */}
               {isWashingActive && (
@@ -291,11 +370,26 @@ export const Mission1Prep = () => {
                 </div>
               )}
 
+              {/* Step 4 Drain Guidance Pill */}
+              {potStep === 4 && (
+                <div
+                  className="sink-drain-guidance-pill"
+                  onClick={handleSinkClick}
+                  title="Click to drain boiled ubod"
+                >
+                  <span>
+                    🥣 {holdingItem?.id === 'colander' ? 'Tap Sink to Drain' : 'Pick Up Colander Below'}
+                  </span>
+                </div>
+              )}
+
               <div className="container-visual-wrapper">
                 <img
                   src={
                     isWashingActive
                       ? '/assets/sink_colander_washing.png'
+                      : potStep >= 5
+                      ? '/assets/colander_boiled_ubod_draining.png'
                       : potStep >= 1
                       ? '/assets/sink_colander_empty.png'
                       : '/assets/sink_colander_ubod.png'
@@ -309,6 +403,8 @@ export const Mission1Prep = () => {
                 className={`sink-status-pill ${
                   isWashingActive
                     ? 'washing'
+                    : potStep >= 5
+                    ? 'washed'
                     : potStep >= 1
                     ? 'empty'
                     : isWashed
@@ -319,6 +415,8 @@ export const Mission1Prep = () => {
                 <span>
                   {isWashingActive
                     ? '🌊 Rinsing under Running Water...'
+                    : potStep >= 5
+                    ? '♨️ Boiled Ubod Draining & Steam-Cooling'
                     : potStep >= 1
                     ? '🥣 Empty Colander (Ready to Drain)'
                     : isWashed
@@ -352,41 +450,30 @@ export const Mission1Prep = () => {
               activeAnimation={isBoilingTimerActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
               containerWidth="460px"
               containerHeight="270px"
-              interactiveAction={
-                potStep === 4
-                  ? {
-                      label: 'Drain into Colander',
-                      onClick: handleDrainUbod,
-                      icon: '🥣',
-                    }
-                  : null
-              }
               customFooter={
-                potStep <= 3 || isBoilingTimerActive ? (
-                  <StoveBurnerConsole
-                    isReady={potStep === 3 && !isBoilingTimerActive}
-                    isIgnited={isBoilingTimerActive}
-                    isComplete={potStep >= 4}
-                    progress={boilProgress}
-                    onIgnite={handleIgniteBurner}
-                    onLockedClick={() => {
-                      showToast(
-                        'Pot Not Ready',
-                        'Add Ubod, Water, and Sea Salt into the pot before turning on the burner!',
-                        'warning'
-                      );
-                      speak(
-                        'Safety first! Always ensure the cut ubod strips, potable water, and sea salt are inside the pot before igniting the burner flame.',
-                        'thinking',
-                        {
-                          badge: 'Stove Safety',
-                          hint: 'Place all ingredients into the pot first.',
-                        }
-                      );
-                    }}
-                    disabled={isBoilingTimerActive}
-                  />
-                ) : null
+                <StoveBurnerConsole
+                  isReady={potStep === 3 && !isBoilingTimerActive}
+                  isIgnited={isBoilingTimerActive}
+                  isComplete={potStep >= 4}
+                  progress={boilProgress}
+                  onIgnite={handleIgniteBurner}
+                  onLockedClick={() => {
+                    showToast(
+                      'Pot Not Ready',
+                      'Add Ubod, Water, and Sea Salt into the pot before turning on the burner!',
+                      'warning'
+                    );
+                    speak(
+                      'Safety first! Always ensure the cut ubod strips, potable water, and sea salt are inside the pot before igniting the burner flame.',
+                      'thinking',
+                      {
+                        badge: 'Stove Safety',
+                        hint: 'Place all ingredients into the pot first.',
+                      }
+                    );
+                  }}
+                  disabled={isBoilingTimerActive || potStep >= 4}
+                />
               }
             />
           </div>

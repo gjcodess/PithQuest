@@ -151,12 +151,6 @@ export const MultiStateContainer = ({
           </div>
         )}
 
-        {activeAnimation === 'blending' && (
-          <div className="fx-overlay blending-fx">
-            <div className="vortex-spinner" />
-          </div>
-        )}
-
         {/* Primary Asset Image / Visual State */}
         <div className="container-visual-wrapper">
           {currentStep.img ? (

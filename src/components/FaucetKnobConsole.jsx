@@ -121,6 +121,10 @@ export const FaucetKnobConsole = ({
             <span className="faucet-action-hint ready-water-text">
               👉 Turn cross handle 90° to -FLOW
             </span>
+          ) : potStep >= 5 ? (
+            <span className="faucet-action-hint complete-water-text">
+              ✓ Boiled ubod drained & steam-cooling
+            </span>
           ) : (
             <span className="faucet-action-hint complete-water-text">
               ✓ Ready for cooling boiled ubod
