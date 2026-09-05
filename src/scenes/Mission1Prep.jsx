@@ -47,17 +47,17 @@ export const Mission1Prep = () => {
       stepIndex: 2,
       acceptedItems: ['sea_salt', 'salt'],
       prompt: 'Add sea salt into the pot for moisture regulation & seasoning',
-      img: '/assets/pot_with_ubod_water_salt.png',
-      fallbackIcon: '🧂',
-      label: 'Submerged Ubod + Salt',
+      img: '/assets/pot_with_ubod_water.png',
+      fallbackIcon: '💧',
+      label: 'Submerged Ubod in Water',
     },
     {
       stepIndex: 3,
       acceptedItems: [],
       prompt: 'Ignite stove burner to bring water to a rolling boil',
-      img: '/assets/pot_boiling_on_stove.png',
+      img: isBoilingTimerActive ? '/assets/pot_boiling_on_stove.png' : '/assets/pot_with_ubod_water_salt.png',
       fallbackIcon: '♨️',
-      label: 'Rolling Boil (100°C)',
+      label: isBoilingTimerActive ? 'Rolling Boil (100°C)' : 'Seasoned Ubod Ready to Boil',
     },
     {
       stepIndex: 4,
@@ -185,29 +185,34 @@ export const Mission1Prep = () => {
       {/* Main Countertop Layout */}
       <div className="stage-content-row">
         {/* Left Side: Washing Station */}
-        <div className="station-side-card">
+        <div className="station-side-card washing-station-card">
           <div className="card-header-mini">
             <span>🚰 Washing Station</span>
+            <span className={`station-badge-mini ${isWashed ? 'badge-success' : 'badge-pending'}`}>
+              {isWashed ? '✅ Sanitized' : 'Required'}
+            </span>
           </div>
+
           <div className="sink-box">
             <div className="sink-colander-preview">
               <img
                 src={isWashed ? '/assets/sink_colander_washing.png' : '/assets/sink_colander_ubod.png'}
                 alt="Sink Colander"
                 className="sink-preview-img"
-                style={{ width: '110px', height: '90px', objectFit: 'contain' }}
               />
-              <div className={`sink-ubod-item ${isWashed ? 'washed' : ''}`}>
-                <span>{isWashed ? '✨ Washed Ubod' : '🌿 Cut Raw Ubod'}</span>
+              <div className={`sink-status-pill ${isWashed ? 'washed' : 'unwashed'}`}>
+                <span>{isWashed ? '✨ Washed & Starch-Rinsed' : '🌿 Fresh Raw Ubod'}</span>
               </div>
             </div>
+
             {!isWashed ? (
               <button className="btn-wash-action" onClick={handleWashUbod}>
-                <span>💧 Wash Ubod Under Faucet</span>
+                <span className="wash-action-icon">🚰</span>
+                <span>Wash Ubod Under Faucet</span>
               </button>
             ) : (
               <div
-                className={`inventory-draggable-pill ${holdingItem?.id === 'washed_ubod' ? 'active-held' : ''}`}
+                className={`dispenser-card ready-item ${holdingItem?.id === 'washed_ubod' ? 'active-held' : 'guide-pulse'}`}
                 onClick={() => {
                   soundManager.playClick();
                   setHoldingItem(holdingItem?.id === 'washed_ubod' ? null : { id: 'washed_ubod', name: 'Washed Ubod', img: '/assets/portion_ubod_raw_1cup.png', icon: '🥥' });
@@ -216,9 +221,16 @@ export const Mission1Prep = () => {
                 onDragStart={(e) => {
                   e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'washed_ubod', name: 'Washed Ubod' }));
                 }}
+                title="Tap or drag washed ubod into the pot"
+                role="button"
+                tabIndex={0}
               >
-                <img src="/assets/portion_ubod_raw_1cup.png" alt="Washed Ubod" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-                <span>Washed Ubod (Ready)</span>
+                <img src="/assets/portion_ubod_raw_1cup.png" alt="Washed Ubod" className="disp-img" />
+                <div className="disp-info">
+                  <strong>Washed Ubod</strong>
+                  <span>1 Cup (Ready to Submerge)</span>
+                </div>
+                <span className="disp-badge-tap">Drop ➔</span>
               </div>
             )}
           </div>
@@ -234,8 +246,8 @@ export const Mission1Prep = () => {
             steps={potSteps}
             onItemAccepted={handleItemAccepted}
             activeAnimation={isBoilingTimerActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
-            containerWidth="380px"
-            containerHeight="260px"
+            containerWidth="440px"
+            containerHeight="290px"
             interactiveAction={
               potStep === 3
                 ? {
@@ -258,7 +270,9 @@ export const Mission1Prep = () => {
         <div className="station-side-card">
           <div className="card-header-mini">
             <span>📦 Station Inventory</span>
+            <span className="station-badge-mini badge-count">3 Items</span>
           </div>
+
           <div className="inventory-vertical-list">
             {/* Water Pitcher */}
             <div
@@ -271,12 +285,15 @@ export const Mission1Prep = () => {
               onDragStart={(e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'water_pitcher', name: 'Water Pitcher' }));
               }}
+              role="button"
+              tabIndex={0}
             >
-              <img src="/assets/portion_water_1cup.png" alt="Water" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              <img src="/assets/portion_water_1cup.png" alt="Water" className="disp-img" />
               <div className="disp-info">
                 <strong>Potable Water</strong>
                 <span>4 Cups for Submerging</span>
               </div>
+              <span className="disp-badge-tap">{potStep === 1 ? 'Next' : 'Use'}</span>
             </div>
 
             {/* Pure Sea Salt */}
@@ -290,12 +307,15 @@ export const Mission1Prep = () => {
               onDragStart={(e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'sea_salt', name: 'Pure Sea Salt' }));
               }}
+              role="button"
+              tabIndex={0}
             >
-              <img src="/assets/portion_salt_1tsp.png" alt="Salt" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              <img src="/assets/portion_salt_1tsp.png" alt="Salt" className="disp-img" />
               <div className="disp-info">
                 <strong>Pure Sea Salt</strong>
-                <span>Seasoning & Osmosis</span>
+                <span>1 tsp Seasoning & Osmosis</span>
               </div>
+              <span className="disp-badge-tap">{potStep === 2 ? 'Next' : 'Use'}</span>
             </div>
 
             {/* Colander for draining */}
@@ -309,12 +329,15 @@ export const Mission1Prep = () => {
               onDragStart={(e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'colander', name: 'Stainless Colander' }));
               }}
+              role="button"
+              tabIndex={0}
             >
-              <img src="/assets/tool_colander_safe.png" alt="Colander" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              <img src="/assets/tool_colander_safe.png" alt="Colander" className="disp-img" />
               <div className="disp-info">
                 <strong>Stainless Colander</strong>
                 <span>For Water Drainage</span>
               </div>
+              <span className="disp-badge-tap">{potStep === 4 ? 'Next' : 'Use'}</span>
             </div>
           </div>
         </div>

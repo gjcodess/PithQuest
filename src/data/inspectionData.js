@@ -96,6 +96,44 @@ export const TOOL_INSPECTION_ITEMS = [
       fallbackIcon: "🔥",
       reason: "Fire Hazard! Scorched plugs indicate past electrical shorting, and clogged vents will overheat the unit."
     }
+  },
+  {
+    id: "stockpot",
+    name: "Stainless Boiling Pot",
+    toolType: "Boiling Cookware",
+    safe: {
+      name: "Heavy-Gauge Stainless Pot",
+      description: "Solid induction clad base, securely riveted handles, smooth mirror-finish interior.",
+      img: "/assets/equip_cooking_pot_safe.png",
+      fallbackIcon: "🫕",
+      reason: "Safe to use! Thick clad base distributes heat evenly for stable rolling boiling without scorching."
+    },
+    damaged: {
+      name: "Pitted & Loose-Handle Pot",
+      description: "Wobbly loose handle, heavy pitting and chemical corrosion on interior bottom.",
+      img: "/assets/tool_colander_damaged.png",
+      fallbackIcon: "⚠️",
+      reason: "Scald Hazard! Loose handles can detach when carrying boiling water, causing severe burn injuries."
+    }
+  },
+  {
+    id: "frying_wok",
+    name: "Deep Frying Wok",
+    toolType: "High-Heat Frying Cookware",
+    safe: {
+      name: "Seasoned Deep Frying Pan",
+      description: "High curved splash walls, sturdy heat-insulated handle, flat stable base ring.",
+      img: "/assets/equip_frying_pan_safe.png",
+      fallbackIcon: "🍳",
+      reason: "Safe to use! Deep sloping walls keep 180°C hot oil safely contained during flash puffing."
+    },
+    damaged: {
+      name: "Dented Rocking Pan",
+      description: "Severely warped rocking bottom, cracked rim, charred loose handle.",
+      img: "/assets/tool_knife_damaged.png",
+      fallbackIcon: "🔥",
+      reason: "Fire & Burn Hazard! An unstable pan easily tips on the burner, spilling 180°C boiling oil onto open flames."
+    }
   }
 ];
 

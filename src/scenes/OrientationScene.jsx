@@ -355,7 +355,13 @@ export const OrientationScene = () => {
                     tabIndex={0}
                   >
                     <div className="hw-num">{step.step}</div>
-                    <div className="hw-icon">{step.icon}</div>
+                    <div className="hw-icon">
+                      {step.img ? (
+                        <img src={step.img} alt={step.action} style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
+                      ) : (
+                        step.icon
+                      )}
+                    </div>
                     <div className="hw-info">
                       <strong>{step.action}</strong>
                       <span>{step.desc}</span>

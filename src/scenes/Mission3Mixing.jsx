@@ -197,37 +197,39 @@ export const Mission3Mixing = () => {
               className={`dispenser-card ${holdingItem?.id === 'rice_flour' ? 'active-held' : ''} ${bowlStep === 0 ? 'guide-pulse' : ''}`}
               onClick={() => {
                 soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'rice_flour' ? null : { id: 'rice_flour', name: 'Erawan Rice Flour', img: '/assets/portion_rice_flour_1cup.png', icon: '🌾' });
+                setHoldingItem(holdingItem?.id === 'rice_flour' ? null : { id: 'rice_flour', name: 'Erawan Rice Flour', img: '/assets/tool_measuring_cups.png', icon: '🌾' });
               }}
               draggable
               onDragStart={(e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'rice_flour', name: 'Erawan Rice Flour' }));
               }}
             >
-              <img src="/assets/portion_rice_flour_1cup.png" alt="Rice Flour" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              <img src="/assets/tool_measuring_cups.png" alt="Rice Flour" className="disp-img" />
               <div className="disp-info">
                 <strong>Erawan Rice Flour</strong>
                 <span>2 Cups (1:1 Ratio)</span>
               </div>
+              <span className="disp-badge-tap">{bowlStep === 0 ? 'Next' : 'Use'}</span>
             </div>
 
-            {/* Salt */}
+            {/* Salt Dish */}
             <div
               className={`dispenser-card ${holdingItem?.id === 'salt' ? 'active-held' : ''} ${bowlStep === 1 ? 'guide-pulse' : ''}`}
               onClick={() => {
                 soundManager.playClick();
-                setHoldingItem(holdingItem?.id === 'salt' ? null : { id: 'salt', name: 'Pure Sea Salt', img: '/assets/portion_salt_1tsp.png', icon: '🧂' });
+                setHoldingItem(holdingItem?.id === 'salt' ? null : { id: 'salt', name: 'Pure Sea Salt', img: '/assets/tool_small_dish_salt.png', icon: '🧂' });
               }}
               draggable
               onDragStart={(e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify({ id: 'salt', name: 'Pure Sea Salt' }));
               }}
             >
-              <img src="/assets/portion_salt_1tsp.png" alt="Sea Salt" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              <img src="/assets/tool_small_dish_salt.png" alt="Sea Salt" className="disp-img" />
               <div className="disp-info">
                 <strong>Pure Sea Salt</strong>
-                <span>Dry Seasoning</span>
+                <span>1 tsp in Pinch Dish</span>
               </div>
+              <span className="disp-badge-tap">{bowlStep === 1 ? 'Next' : 'Use'}</span>
             </div>
 
             {/* Ubod Paste */}

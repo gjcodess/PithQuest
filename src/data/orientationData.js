@@ -54,9 +54,9 @@ export const PPE_ITEMS = [
   },
   {
     id: "apron",
-    name: "Laboratory Apron / Gown",
+    name: "Clean Lab Gown / Apron",
     icon: "🥼",
-    img: "/assets/icon_apron.png",
+    img: "/assets/ppe_clean_apron.png",
     role: "Shields clothing fibers and outdoor dust from contaminating sanitized prep surfaces.",
     critical: true
   },
@@ -65,7 +65,7 @@ export const PPE_ITEMS = [
     name: "Clear Spit Guard / Mask",
     icon: "😷",
     img: "/assets/ppe_spit_guard.png",
-    role: "Prevents oral droplet dispersal while speaking or breathing near open food bowls.",
+    role: "Prevents oral droplet dispersal while speaking near open food vessels.",
     critical: true
   },
   {
@@ -73,17 +73,33 @@ export const PPE_ITEMS = [
     name: "Food-Grade Vinyl Gloves",
     icon: "🧤",
     img: "/assets/ppe_food_gloves.png",
-    role: "Essential during post-frying packaging to maintain sterile contact with ready-to-eat crackers.",
+    role: "Maintains sterile contact with ingredients and ready-to-eat crackers.",
+    critical: true
+  },
+  {
+    id: "heat_gloves",
+    name: "Thermal Heat Mitts",
+    icon: "🧤",
+    img: "/assets/ppe_heat_gloves.png",
+    role: "Protects hands from burns during high-heat steaming and deep frying operations.",
+    critical: true
+  },
+  {
+    id: "shoes",
+    name: "Non-Slip Safety Shoes",
+    icon: "👟",
+    img: "/assets/ppe_shoes.png",
+    role: "Closed-toe non-skid footwear prevents slips and protects from hot liquid spills.",
     critical: true
   }
 ];
 
 export const HANDWASHING_STEPS = [
   { step: 1, action: "Wet Hands", desc: "Wet hands with clean running potable water.", icon: "🚰" },
-  { step: 2, action: "Apply Antibacterial Soap", desc: "Dispense enough soap to cover all hand surfaces.", icon: "🧼" },
+  { step: 2, action: "Apply Antibacterial Soap", desc: "Dispense enough soap to cover all hand surfaces.", icon: "🧼", img: "/assets/sanitation_handwash_soap.png" },
   { step: 3, action: "Rub Palms & Interlace Fingers", desc: "Rub palm to palm and scrub between webbed fingers.", icon: "👐" },
   { step: 4, action: "Scrub Backs of Hands & Thumbs", desc: "Clean dorsal surfaces and rotational rubbing of thumbs.", icon: "✋" },
   { step: 5, action: "Scrub Nails & Fingertips", desc: "Rub fingertips into opposite palms to clean under nail beds.", icon: "💅" },
   { step: 6, action: "Rinse for 20 Seconds", desc: "Thoroughly rinse all soap lather away under flowing water.", icon: "💧" },
-  { step: 7, action: "Dry with Clean Towel", desc: "Dry with single-use paper towel and turn off faucet with elbow.", icon: "🧻" }
+  { step: 7, action: "Dry with Clean Towel", desc: "Dry with single-use paper towel and turn off faucet with elbow.", icon: "🧻", img: "/assets/sanitation_spray_cloth.png" }
 ];
