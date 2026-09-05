@@ -22,13 +22,17 @@ export const MinigameInspection = ({
 
   const currentItem = items[currentIndex] || items[0];
 
-  // Shuffle the safe and damaged item randomly to left and right positions
+  // Randomize Option A and Option B positions (50% chance safe is A, 50% chance safe is B)
   useEffect(() => {
     if (!currentItem) return;
-    const isSafeLeft = Math.random() > 0.5;
+    const isSafeFirst = Math.random() < 0.5;
     setShuffledPair([
-      { ...currentItem.safe, isSafe: true, side: 'left', original: isSafeLeft ? currentItem.safe : currentItem.damaged },
-      { ...currentItem.damaged, isSafe: false, side: 'right', original: isSafeLeft ? currentItem.damaged : currentItem.safe },
+      isSafeFirst
+        ? { ...currentItem.safe, isSafe: true, side: 'left' }
+        : { ...currentItem.damaged, isSafe: false, side: 'left' },
+      isSafeFirst
+        ? { ...currentItem.damaged, isSafe: false, side: 'right' }
+        : { ...currentItem.safe, isSafe: true, side: 'right' },
     ]);
     setSelectedSide(null);
     setRevealedResult(null);
@@ -38,7 +42,7 @@ export const MinigameInspection = ({
       'neutral',
       { hint: 'Look closely for chips, rust, cracks, contamination, or discolored defects.' }
     );
-  }, [currentIndex]);
+  }, [currentIndex, currentItem]);
 
   const handleCardClick = (card) => {
     if (revealedResult && revealedResult.isSafe) return; // already advanced

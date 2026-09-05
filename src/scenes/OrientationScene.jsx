@@ -12,18 +12,29 @@ export const OrientationScene = () => {
   const [phase, setPhase] = useState('lecture');
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
 
-  // PPE states
+  // PPE states (all 6 equipment items)
   const [ppeEquipped, setPpeEquipped] = useState({
     hairnet: false,
     apron: false,
     mask: false,
     gloves: false,
+    heat_gloves: false,
+    shoes: false,
   });
 
   // Handwashing states
   const [completedHandwashSteps, setCompletedHandwashSteps] = useState([]);
 
+  // Sub-phase completion states for subnav checkmarks
+  const [scienceDone, setScienceDone] = useState(false);
+  const [toolSafetyDone, setToolSafetyDone] = useState(false);
+  const [qualityInspectionDone, setQualityInspectionDone] = useState(false);
+
   useEffect(() => {
+    if (phase !== 'lecture') {
+      setScienceDone(true);
+    }
+
     if (phase === 'lecture') {
       speak(
         `Welcome to our Food Technology Laboratory, ${studentName}! Review these essential science concepts before we begin processing Coconut Pith Crackers.`,
@@ -31,7 +42,10 @@ export const OrientationScene = () => {
         {
           badge: 'Orientation: Science Concepts',
           btnText: 'Equip Laboratory PPE ➔',
-          onNext: () => setPhase('ppe'),
+          onNext: () => {
+            setScienceDone(true);
+            setPhase('ppe');
+          },
         }
       );
     } else if (phase === 'ppe') {
@@ -135,7 +149,7 @@ export const OrientationScene = () => {
       <div className="orientation-subnav-container">
         <nav className="orientation-subnav" aria-label="Laboratory Orientation Stages">
           <button
-            className={`subnav-pill ${phase === 'lecture' ? 'active' : ''}`}
+            className={`subnav-pill ${phase === 'lecture' ? 'active' : ''} ${scienceDone ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
               setPhase('lecture');
@@ -143,6 +157,7 @@ export const OrientationScene = () => {
           >
             <span className="subnav-pill-icon">📚</span>
             <span className="subnav-pill-label">1. Science Concepts</span>
+            {scienceDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
             className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${Object.values(ppeEquipped).every(Boolean) ? 'completed' : ''}`}
@@ -167,7 +182,7 @@ export const OrientationScene = () => {
             {completedHandwashSteps.length === HANDWASHING_STEPS.length && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
-            className={`subnav-pill ${phase === 'tool_inspection' ? 'active' : ''}`}
+            className={`subnav-pill ${phase === 'tool_inspection' ? 'active' : ''} ${toolSafetyDone ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
               setPhase('tool_inspection');
@@ -175,9 +190,10 @@ export const OrientationScene = () => {
           >
             <span className="subnav-pill-icon">🔍</span>
             <span className="subnav-pill-label">4. Tool Safety</span>
+            {toolSafetyDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
-            className={`subnav-pill ${phase === 'ingredient_inspection' ? 'active' : ''}`}
+            className={`subnav-pill ${phase === 'ingredient_inspection' ? 'active' : ''} ${qualityInspectionDone ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
               setPhase('ingredient_inspection');
@@ -185,6 +201,7 @@ export const OrientationScene = () => {
           >
             <span className="subnav-pill-icon">🥥</span>
             <span className="subnav-pill-label">5. Quality Inspection</span>
+            {qualityInspectionDone && <span className="subnav-pill-check">✓</span>}
           </button>
         </nav>
       </div>
@@ -264,7 +281,11 @@ export const OrientationScene = () => {
                     className="btn-primary"
                     onClick={() => {
                       soundManager.playClick();
-                      setActiveConceptIndex((prev) => prev + 1);
+                      const nextIdx = activeConceptIndex + 1;
+                      setActiveConceptIndex(nextIdx);
+                      if (nextIdx === LECTURE_CONCEPTS.length - 1) {
+                        setScienceDone(true);
+                      }
                     }}
                     style={{ padding: '8px 20px', fontSize: '0.88rem' }}
                   >
@@ -275,11 +296,12 @@ export const OrientationScene = () => {
                     className="btn-primary btn-gold"
                     onClick={() => {
                       soundManager.playClick();
+                      setScienceDone(true);
                       setPhase('ppe');
                     }}
                     style={{ padding: '8px 20px', fontSize: '0.88rem' }}
                   >
-                    Proceed to PPE Attire ➔
+                    Equip PPE Attire ➔
                   </button>
                 )}
               </div>
@@ -289,11 +311,11 @@ export const OrientationScene = () => {
 
         {/* PHASE 2: PPE DRESSING */}
         {phase === 'ppe' && (
-          <div className="active-vessel-card orientation-card">
+          <div className="active-vessel-card orientation-card ppe-card">
             <div className="vessel-header">
               <span className="vessel-title">🥼 Personal Protective Equipment (PPE)</span>
               <span className="vessel-badge">
-                {Object.values(ppeEquipped).filter(Boolean).length}/4 Equipped
+                {Object.values(ppeEquipped).filter(Boolean).length}/{PPE_ITEMS.length} Equipped
               </span>
             </div>
 
@@ -313,11 +335,11 @@ export const OrientationScene = () => {
                     tabIndex={0}
                   >
                     <img src={item.img} alt={item.name} className="ppe-icon-img" />
-                    <div className="gear-details" style={{ textAlign: 'center' }}>
-                      <h4 style={{ margin: '4px 0 2px', fontSize: '0.88rem', fontWeight: 700 }}>{item.name}</h4>
-                      <p style={{ margin: 0, fontSize: '0.74rem', color: '#64748b', lineHeight: 1.3 }}>{item.role}</p>
+                    <div className="gear-details">
+                      <h4 className="ppe-name">{item.name}</h4>
+                      <p className="ppe-desc">{item.role}</p>
                     </div>
-                    <div className="gear-status-badge" style={{ marginTop: '10px', fontSize: '0.78rem', fontWeight: 700, color: isWorn ? '#16a34a' : '#d97706' }}>
+                    <div className={`gear-status-badge ${isWorn ? 'worn' : 'pending'}`}>
                       {isWorn ? '✅ Equipped' : '👆 Click to Wear'}
                     </div>
                   </div>
@@ -382,6 +404,7 @@ export const OrientationScene = () => {
               mode="tools"
               items={TOOL_INSPECTION_ITEMS}
               onComplete={() => {
+                setToolSafetyDone(true);
                 showToast('Tool Safety Cleared!', 'All tools verified safe for lab work (+125 pts)', 'success');
                 setTimeout(() => setPhase('ingredient_inspection'), 1200);
               }}
@@ -397,6 +420,7 @@ export const OrientationScene = () => {
               mode="ingredients"
               items={INGREDIENT_INSPECTION_ITEMS}
               onComplete={() => {
+                setQualityInspectionDone(true);
                 showToast('Quality Clearance Complete!', 'All ingredients verified fresh & food-grade!', 'success');
                 completeMission('orientation');
                 unlockBadge('inspection_pro', 'Certified Quality Inspector', '🔍');
