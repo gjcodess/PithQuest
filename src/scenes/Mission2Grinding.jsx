@@ -56,7 +56,7 @@ export const Mission2Grinding = () => {
       prompt: isLidLocked
         ? 'Safety interlock locked! Press Pulse/Blend to puree'
         : 'Align & lock safety lid onto bowl to engage interlock',
-      img: '/assets/processor_with_ubod_salt.png',
+      img: isLidLocked ? '/assets/processor_close_lid.png' : '/assets/processor_with_ubod_salt.png',
       fallbackIcon: '🌀',
       label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Lid Open)',
     },
