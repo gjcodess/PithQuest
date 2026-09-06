@@ -100,7 +100,7 @@ export const Mission7Frying = () => {
       setFryStep(1);
       addScore(25);
       setHoldingItem(null);
-      showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner (+25 pts)', 'success');
+      showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner', 'success');
       speak(
         'Oil is loaded! Click the stove dial below to ignite the burner and preheat oil to medium heat (~180°C).',
         'neutral',
@@ -136,7 +136,7 @@ export const Mission7Frying = () => {
         setFryStep(2);
         soundManager.playSuccess();
         addScore(20);
-        showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone (+20 pts)', 'success');
+        showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone', 'success');
         speak(
           'Step 20: Carefully fry the dehydrated ubod pieces for approximately 10 seconds or until they become crispy. Drop the dehydrated pellets into the hot oil!',
           'happy',
@@ -169,7 +169,7 @@ export const Mission7Frying = () => {
         setFryStep(4);
         soundManager.playSuccess();
         addScore(35);
-        showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers (+35 pts)', 'success');
+        showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers', 'success');
         speak(
           'Step 21: Using tongs, remove the fried ubod crackers and transfer them to a colander to drain the excess oil.',
           'happy',
@@ -189,7 +189,7 @@ export const Mission7Frying = () => {
     setFryStep(5);
     setHoldingItem(null);
     addScore(20);
-    showToast('Draining Oil...', 'Surface oil draining through paper towel lined colander (+20 pts)', 'info');
+    showToast('Draining Oil...', 'Surface oil draining through paper towel lined colander', 'info');
     speak(
       'Step 22: Allow the crackers to cool completely before proceeding to the packaging stage. Select the Presentation Platter to arrange the crackers!',
       'neutral',
@@ -209,7 +209,7 @@ export const Mission7Frying = () => {
     addScore(35);
     unlockBadge('puff_master', 'Aeration Expansion Master', '🍳');
     completeMission('mission7');
-    showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy (+35 pts)', 'success');
+    showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy', 'success');
     speak(
       'Outstanding frying! The crackers are golden, crispy, and thoroughly cooled. Now let’s move on to the Packaging Process in Stage 8!',
       'happy',

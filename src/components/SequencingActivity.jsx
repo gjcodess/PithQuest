@@ -139,7 +139,7 @@ export const SequencingActivity = ({ onComplete }) => {
       addScore(100);
       unlockBadge('master_sequencer', 'Master Food Technologist');
       setIsSolved(true);
-      showToast('Mastery Achieved!', 'Perfect chronological order! (+100 PTS)', 'success');
+      showToast('Mastery Achieved!', 'Perfect chronological order verified!', 'success');
       if (onComplete) onComplete();
     } else {
       soundManager.playError();
@@ -262,7 +262,7 @@ export const SequencingActivity = ({ onComplete }) => {
             <span className="solved-icon">🏆</span>
             <div className="solved-text-stack">
               <strong>Perfect Food Technology Sequencing! (8/8 Steps Verified)</strong>
-              <span>+100 PTS Awarded • Master Food Technologist Badge Unlocked</span>
+              <span>Master Food Technologist Badge Unlocked</span>
             </div>
           </div>
         )}

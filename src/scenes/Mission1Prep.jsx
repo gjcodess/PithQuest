@@ -94,7 +94,7 @@ export const Mission1Prep = () => {
     setIsUbodInColander(true);
     setHoldingItem(null);
     addScore(15);
-    showToast('Loaded into Colander!', 'Raw ubod placed in colander (+15 pts). Now turn on faucet to rinse!', 'success');
+    showToast('Loaded into Colander!', 'Raw ubod placed in colander. Now turn on faucet to rinse!', 'success');
     speak(
       'Great! Raw coconut pith is loaded into the colander. Now click or turn the cross handle on the faucet knob below to rinse under running water!',
       'happy',
@@ -117,7 +117,7 @@ export const Mission1Prep = () => {
       setIsWashed(true);
       soundManager.playSuccess();
       addScore(20);
-      showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet (+20 pts)', 'success');
+      showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet', 'success');
       speak(
         'Step 2: After washing, transfer the ubod to a pan/stockpot. Pick up the Washed Ubod from your bottom shelf and transfer it into the pot!',
         'happy',
@@ -197,7 +197,7 @@ export const Mission1Prep = () => {
         setPotStep(4);
         soundManager.playSuccess();
         addScore(30);
-        showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent (+30 pts)', 'success');
+        showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent', 'success');
         speak(
           'Step 5: Use a colander to drain the water from the boiled ubod. Pick up the stainless colander and tap the sink to drain!',
           'happy',
@@ -219,7 +219,7 @@ export const Mission1Prep = () => {
     addScore(30);
     unlockBadge('boil_master', 'Thermal Softening Specialist', '🫕');
     completeMission('mission1');
-    showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander (+30 pts)', 'success');
+    showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander', 'success');
     speak(
       'Steps 6 & 7: While the ubod is in the colander, wash it again to remove unwanted residue and cool it down. Drain the ubod properly before proceeding!',
       'happy',

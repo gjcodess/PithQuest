@@ -96,11 +96,6 @@
     display: none; /* Compact pill */
   }
 
-  .score-display {
-    padding: 4px 10px;
-    font-size: 0.95rem;
-  }
-
   .hud-zoom-control {
     padding: 2px 4px;
     gap: 2px;

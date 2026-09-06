@@ -112,7 +112,7 @@ export const OrientationScene = () => {
     const updated = { ...ppeEquipped, [itemId]: true };
     setPpeEquipped(updated);
     addScore(15);
-    showToast('PPE Equipped', `Put on ${itemId} (+15 pts)`, 'success');
+    showToast('PPE Equipped', `Put on ${itemId}`, 'success');
 
     if (Object.values(updated).every(Boolean)) {
       unlockBadge('ppe_certified', 'PPE Certified', '🥼');
@@ -140,7 +140,7 @@ export const OrientationScene = () => {
     if (nextSteps.length === HANDWASHING_STEPS.length) {
       soundManager.playFanfare();
       unlockBadge('handwash_master', 'Sanitation Guardian', '🧼');
-      showToast('Handwashing Complete', 'Hands thoroughly sanitized! (+70 pts total)', 'success');
+      showToast('Handwashing Complete', 'Hands thoroughly sanitized!', 'success');
       setTimeout(() => {
         setPhase('tool_inspection');
       }, 1000);
@@ -411,7 +411,7 @@ export const OrientationScene = () => {
               items={TOOL_INSPECTION_ITEMS}
               onComplete={() => {
                 setToolSafetyDone(true);
-                showToast('Tool Safety Cleared!', 'All tools verified safe for lab work (+125 pts)', 'success');
+                showToast('Tool Safety Cleared!', 'All tools verified safe for lab work!', 'success');
                 setTimeout(() => setPhase('ingredient_inspection'), 1200);
               }}
             />

@@ -70,7 +70,7 @@ export const Mission8Packaging = () => {
       setPackStep(1);
       addScore(25);
       setHoldingItem(null);
-      showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label (+25 pts)', 'success');
+      showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
         'Great portioning! Now select the Brand Label or click "Impulse Seal & Apply Label" to hermetically weld the rim at 150°C.',
         'neutral',
@@ -106,7 +106,7 @@ export const Mission8Packaging = () => {
         setPackStep(2);
         soundManager.playSuccess();
         addScore(40);
-        showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete (+40 pts)', 'success');
+        showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
           'Airtight thermal weld complete with authentic product seal! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
           'happy',
@@ -128,7 +128,7 @@ export const Mission8Packaging = () => {
     addScore(35);
     unlockBadge('packaging_specialist', 'Packaging & Quality Assurance Specialist', '🏷️');
     completeMission('mission8');
-    showToast('Retail Display Ready!', '8 pouches packed in master display box (+35 pts)', 'success');
+    showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
     speak(
       'Perfection! We are now done with our Laboratory Activity! All 8 food processing stages are complete. Let us test your complete knowledge in our Bonus Sequencing Activity!',
       'happy',

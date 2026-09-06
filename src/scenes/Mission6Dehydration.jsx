@@ -98,7 +98,7 @@ export const Mission6Dehydration = () => {
       setDehydrateStep(1);
       addScore(20);
       setHoldingItem(null);
-      showToast('Tray Prepared!', 'Stainless wire mesh placed on counter (+20 pts)', 'success');
+      showToast('Tray Prepared!', 'Stainless wire mesh placed on counter', 'success');
       speak(
         'Great! The wire mesh grid provides 360° airflow. Now select the Steamed Ubod Wafers from inventory and arrange them with space between each piece.',
         'neutral',
@@ -114,7 +114,7 @@ export const Mission6Dehydration = () => {
       setDehydrateStep(2);
       addScore(25);
       setHoldingItem(null);
-      showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps (+25 pts)', 'success');
+      showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps', 'success');
       speak(
         'Step 17: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Select the Cabinet Dehydrator to insert the tray.',
         'neutral',
@@ -137,7 +137,7 @@ export const Mission6Dehydration = () => {
     setDehydrateStep(3);
     addScore(20);
     setHoldingItem(null);
-    showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator (+20 pts)', 'success');
+    showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator', 'success');
     speak(
       'The tray is secure inside the cabinet. Set the thermostat to 90°C and press "Start 12-Hour Dehydration Cycle"!',
       'thinking',
@@ -182,7 +182,7 @@ export const Mission6Dehydration = () => {
         setDehydrateStep(5);
         soundManager.playSuccess();
         addScore(40);
-        showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed (+40 pts)', 'success');
+        showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed', 'success');
         speak(
           'Step 18: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Airtight Chip Box to store them!',
           'happy',
@@ -204,7 +204,7 @@ export const Mission6Dehydration = () => {
     addScore(30);
     unlockBadge('vitrification_master', 'Moisture Reduction Expert', '💨');
     completeMission('mission6');
-    showToast('Airtight Storage!', 'Protected from ambient humidity (+30 pts)', 'success');
+    showToast('Airtight Storage!', 'Protected from ambient humidity', 'success');
     speak(
       'Superb work! The dehydrated chips are sealed in the clean, dry container. They are now ready for rapid frying in Stage 7!',
       'happy',

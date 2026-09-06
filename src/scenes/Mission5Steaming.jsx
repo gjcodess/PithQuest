@@ -98,7 +98,7 @@ export const Mission5Steaming = () => {
       setSteamerStep(1);
       addScore(15);
       setHoldingItem(null);
-      showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier (+15 pts)', 'success');
+      showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier', 'success');
       speak(
         'Water is loaded in the base! Now select the Perforated Steam Tier from your bottom inventory and place it onto the pot.',
         'neutral',
@@ -114,7 +114,7 @@ export const Mission5Steaming = () => {
       setSteamerStep(2);
       addScore(15);
       setHoldingItem(null);
-      showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray (+15 pts)', 'success');
+      showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray', 'success');
       speak(
         'The steam vent tier is in place! Now select the Molded Ubod Tray from your inventory and place it inside the perforated tier.',
         'neutral',
@@ -130,7 +130,7 @@ export const Mission5Steaming = () => {
       setSteamerStep(3);
       addScore(20);
       setHoldingItem(null);
-      showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam (+20 pts)', 'success');
+      showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam', 'success');
       speak(
         'Step 14: Steam the molded ubod pieces for approximately 10 minutes. Turn the rotary stove knob to begin steaming!',
         'thinking',
@@ -172,7 +172,7 @@ export const Mission5Steaming = () => {
         setSteamerStep(5);
         soundManager.playSuccess();
         addScore(30);
-        showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set (+30 pts)', 'success');
+        showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set', 'success');
         speak(
           'Step 15: Allow the molded ubod pieces to cool before transferring them to the dehydrator trays. Don your silicone heat mitts and transfer the hot mold to the cooling rack!',
           'happy',
@@ -194,7 +194,7 @@ export const Mission5Steaming = () => {
     addScore(20);
     unlockBadge('steam_artisan', 'Gelatinization Specialist', '♨️');
     completeMission('mission5');
-    showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts (+20 pts)', 'success');
+    showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts', 'success');
     speak(
       'Outstanding steaming! The crackers are cooling on the wire rack. Allowing the pieces to cool prevents them from tearing or sticking during dehydrator tray loading in Stage 6!',
       'happy',

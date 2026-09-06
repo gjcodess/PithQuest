@@ -69,7 +69,7 @@ export const Mission4Molding = () => {
       setMoldStep(1);
       addScore(25);
       setHoldingItem(null);
-      showToast('Cavity Calibrated!', 'First cavity filled with 3 tsp portion (+25 pts)', 'success');
+      showToast('Cavity Calibrated!', 'First cavity filled with 3 tsp portion', 'success');
       speak(
         'Excellent portion control! Exactly 3 teaspoons produces our standard uniform thickness. Continue filling or click "Fill Remaining Tray"!',
         'happy',
@@ -92,7 +92,7 @@ export const Mission4Molding = () => {
     setMoldStep(2);
     addScore(25);
     setHoldingItem(null);
-    showToast('Batch Portioned!', 'All 24 cavities filled! Now level flat with spatula (+25 pts)', 'success');
+    showToast('Batch Portioned!', 'All 24 cavities filled! Now level flat with spatula', 'success');
     speak(
       'All 24 cavities filled! Now take the Red Leveling Spatula from your shelf and scrape across the surface to level them completely flush.',
       'thinking',
@@ -126,7 +126,7 @@ export const Mission4Molding = () => {
       addScore(50);
       unlockBadge('molding_master', 'Geometric Portioning Master', '🧈');
       completeMission('mission4');
-      showToast('Mold Leveled!', 'All 24 rectangular cavities uniformly flat (+50 pts)', 'success');
+      showToast('Mold Leveled!', 'All 24 rectangular cavities uniformly flat', 'success');
       speak(
         'Superb work! All 24 rectangular crackers are molded to exact uniform thickness. Now let\'s transfer the tray to our steamer in Stage 5!',
         'happy',

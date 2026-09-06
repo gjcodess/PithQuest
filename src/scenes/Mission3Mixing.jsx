@@ -191,7 +191,7 @@ export const Mission3Mixing = () => {
         addScore(35);
         unlockBadge('dough_master', 'Starch Formulation Chemist', '🥯');
         completeMission('mission3');
-        showToast('Dough Ball Formed!', 'Pliable, elastic, non-sticky dough ready (+35 pts)', 'success');
+        showToast('Dough Ball Formed!', 'Pliable, elastic, non-sticky dough ready', 'success');
         speak(
           'Masterpiece! The dough has achieved the exact desired texture: smooth, elastic, and uniform. Ready for molding in Stage 4!',
           'happy',

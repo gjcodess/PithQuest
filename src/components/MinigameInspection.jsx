@@ -54,7 +54,7 @@ export const MinigameInspection = ({
       addScore(25);
       setRevealedResult({ isSafe: true, reason: card.reason });
       speak(card.reason, 'happy', { badge: 'Quality Inspector' });
-      showToast('Approved!', 'Sanitary & Safe choice verified (+25 pts)', 'success');
+      showToast('Approved!', 'Sanitary & Safe choice verified', 'success');
     } else {
       soundManager.playError();
       recordMistake();

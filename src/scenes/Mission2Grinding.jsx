@@ -127,7 +127,7 @@ export const Mission2Grinding = () => {
     soundManager.playSuccess();
     setIsLidLocked(true);
     addScore(15);
-    showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready! (+15 pts)', 'success');
+    showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready!', 'success');
     speak(
       'Step 9: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
       'happy',
@@ -164,7 +164,7 @@ export const Mission2Grinding = () => {
         setProcessorStep(4);
         soundManager.playSuccess();
         addScore(30);
-        showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste (+30 pts)', 'success');
+        showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste', 'success');
         speak(
           'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Pick up the red silicone spatula to scrape!',
           'happy',
@@ -201,7 +201,7 @@ export const Mission2Grinding = () => {
       addScore(30);
       unlockBadge('puree_artisan', 'Micro-Fiber Milling Artisan', '⚙️');
       completeMission('mission2');
-      showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl (+30 pts)', 'success');
+      showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl', 'success');
       speak(
         'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Dough Formulation & Mixing!',
         'happy',

@@ -208,12 +208,6 @@ export const HeaderHUD = () => {
           </button>
         </div>
 
-        <div className="score-display">
-          <span className="star-icon">⭐</span>
-          <span>{score}</span>
-          <span className="pts-label">PTS</span>
-        </div>
-
         {isStageScene && (
           <button className="hud-btn hud-btn-restart" onClick={handleRestartClick} title="Restart Current Stage">
             <span className="icon"><RestartIcon size={17} strokeWidth={2.5} /></span>
