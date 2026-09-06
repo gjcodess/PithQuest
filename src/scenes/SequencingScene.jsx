@@ -47,7 +47,6 @@ export const SequencingScene = () => {
         {/* Header Hero Banner */}
         <div className="sequencing-hero-header">
           <div className="hero-exam-badge">
-            <span className="exam-icon">🧪</span>
             <span>FINAL STEP • PROCESS SEQUENCE VALIDATION EXAM</span>
           </div>
           <h2 className="hero-exam-title">Coconut Pith Crackers Pipeline Validation</h2>
@@ -65,7 +64,7 @@ export const SequencingScene = () => {
         {isCompleted && (
           <div className="sequencing-success-cta">
             <div className="success-badge-card">
-              <span className="success-medal">🏅</span>
+              <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="success-medal-img" />
               <div className="success-text-info">
                 <h3>Laboratory Validation Completed!</h3>
                 <p>All 8 production stages verified. Your final sensory report and certificate are ready.</p>

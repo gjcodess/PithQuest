@@ -56,7 +56,7 @@ const CORRECT_ORDER = [
     id: 'packaging',
     stepNum: 8,
     title: 'Packaging & Labeling',
-    img: '/assets/pouch_sealed_labeled.png',
+    img: '/assets/card_step_packaging.png',
     desc: 'Heat-seal 50g into airtight barrier pouches and pack 8 pouches into retail carton.',
   },
 ];
@@ -150,10 +150,10 @@ export const SequencingActivity = ({ onComplete }) => {
   return (
     <div className="sequencing-activity-card">
       <div className="sequencing-header">
-        <div className="sec-tag">🧠 Food Processing Pipeline Validation</div>
+        <div className="sec-tag">Food Processing Pipeline Validation</div>
         <h3>Chronological Step Sequencing Puzzle</h3>
         <p className="sec-subtitle">
-          🖐️ <strong>Drag and drop</strong> the cards to arrange all 8 manufacturing stages in their authentic chronological order (from <strong>Stage 1</strong> on the left to <strong>Stage 8</strong> on the right).
+          Drag and drop the cards to arrange all 8 manufacturing stages in their authentic chronological order (from <strong>Stage 1</strong> on the left to <strong>Stage 8</strong> on the right).
         </p>
       </div>
 
@@ -175,11 +175,9 @@ export const SequencingActivity = ({ onComplete }) => {
                 onDrop={handleDrop}
               >
                 {/* Timeline Position Header */}
-                <div className={`seq-timeline-header ${isItemCorrect ? 'header-correct' : ''}`}>
+                <div className={`seq-timeline-header ${isItemCorrect ? 'header-correct' : isVerified && !isItemCorrect ? 'header-wrong' : ''}`}>
                   <span className="seq-pos-num">#{index + 1}</span>
-                  <span className="seq-pos-label">
-                    {index === 0 ? 'First' : index === 7 ? 'Final' : `Step ${index + 1}`}
-                  </span>
+                  <span className="seq-pos-label">Stage {index + 1}</span>
                 </div>
 
                 <div
@@ -192,18 +190,18 @@ export const SequencingActivity = ({ onComplete }) => {
                   title={!isSolved ? 'Drag to reorder' : 'Step verified'}
                 >
                   {/* Status Indicator Badge */}
-                  {isSolved && <div className="seq-status-badge badge-correct">✅ Stage {index + 1}</div>}
+                  {isSolved && <div className="seq-status-badge badge-correct">✓ Stage {index + 1}</div>}
                   {!isSolved && isVerified && isItemCorrect && (
-                    <div className="seq-status-badge badge-correct">✅ Correct</div>
+                    <div className="seq-status-badge badge-correct">✓ Correct</div>
                   )}
                   {!isSolved && isVerified && !isItemCorrect && (
-                    <div className="seq-status-badge badge-wrong">⚠️ Misplaced</div>
+                    <div className="seq-status-badge badge-wrong">⚠ Misplaced</div>
                   )}
 
                   {/* Grip Handle Indicator */}
                   {!isSolved && (
                     <div className="seq-drag-handle">
-                      <span className="grip-dots">⠿</span>
+                      <span className="grip-dots">⋮⋮</span>
                       <span className="grip-text">Drag</span>
                     </div>
                   )}
@@ -228,7 +226,7 @@ export const SequencingActivity = ({ onComplete }) => {
         <div className="sequencing-hint-bar">
           <div className="hint-content">
             <span className="hint-badge">
-              🎯 {verificationResult.correctCount} / 8 Steps in Correct Position
+              {verificationResult.correctCount} / 8 Steps in Correct Position
             </span>
             <span className="hint-text">
               {verificationResult.correctCount >= 6
@@ -244,7 +242,7 @@ export const SequencingActivity = ({ onComplete }) => {
         {!isSolved ? (
           <div className="actions-button-row">
             <button className="btn-primary btn-check-sequence" onClick={checkOrder}>
-              <span>🔍 Verify Chronological Order ➔</span>
+              <span>Verify Chronological Order ➔</span>
             </button>
             <button
               className="btn-secondary btn-reshuffle"
@@ -254,12 +252,12 @@ export const SequencingActivity = ({ onComplete }) => {
               }}
               title="Reset and reshuffle puzzle"
             >
-              <span>🔀 Reshuffle</span>
+              <span>Reshuffle</span>
             </button>
           </div>
         ) : (
           <div className="solved-banner">
-            <span className="solved-icon">🏆</span>
+            <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="solved-medal-img" />
             <div className="solved-text-stack">
               <strong>Perfect Food Technology Sequencing! (8/8 Steps Verified)</strong>
               <span>Master Food Technologist Badge Unlocked</span>
