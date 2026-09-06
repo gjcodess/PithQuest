@@ -1321,7 +1321,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 6px 6px 10px 6px;
+  padding: 12px 8px 14px 8px;
   background: rgba(20, 11, 6, 0.35);
   border-radius: 14px;
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -1360,6 +1360,7 @@
   align-items: center;
   justify-content: flex-start;
   padding: 10px 12px;
+  margin: 3px 0;
   gap: 12px;
   background: linear-gradient(180deg, #ffffff 0%, #fdfcf9 60%, #f7f2e9 100%);
   border: 2px solid #e0d2c0;
@@ -1369,14 +1370,13 @@
   user-select: none;
   touch-action: none;
   position: relative;
-  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 .right-inventory-rack .drag-card.horizontal-item-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 0 #15803d, 0 8px 18px rgba(21, 128, 61, 0.3);
   border-color: #22c55e;
-  background: #ffffff;
 }
 
 .card-icon-col {
@@ -1484,8 +1484,8 @@
 .right-inventory-rack .drag-card.selected-tap::after {
   content: '✋ HOLDING';
   position: absolute;
-  top: -9px;
-  right: 14px;
+  top: -8px;
+  right: 12px;
   background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-700));
   color: #ffffff;
   font-family: var(--font-heading);
@@ -1496,7 +1496,7 @@
   letter-spacing: 0.5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   pointer-events: none;
-  z-index: 25;
+  z-index: 30;
 }
 
 /* Active / Dragging State */
@@ -1507,14 +1507,43 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+/* Used / Added Card in Right Rack */
 .right-inventory-rack .drag-card.used {
-  opacity: 0.35;
-  filter: grayscale(0.85);
+  opacity: 0.65;
   cursor: not-allowed;
   transform: none !important;
-  box-shadow: none !important;
-  background: #23150d !important;
-  border-color: #422819 !important;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) !important;
+  background: linear-gradient(180deg, #fbf8f2 0%, #ede5d8 100%) !important;
+  border: 1.5px dashed #bfad97 !important;
+  pointer-events: none;
+}
+
+.right-inventory-rack .drag-card.used .card-icon-col {
+  background: #e8ded0 !important;
+  border-color: #d2c3af !important;
+  opacity: 0.65;
+}
+
+.right-inventory-rack .drag-card.used .card-icon-img {
+  filter: grayscale(0.4) opacity(0.65) !important;
+}
+
+.right-inventory-rack .drag-card.used .card-title {
+  color: #735b44 !important;
+  text-decoration: line-through;
+  text-decoration-color: #15803d;
+  text-decoration-thickness: 1.5px;
+}
+
+.right-inventory-rack .drag-card.used .card-measure {
+  background: #e8f5e9 !important;
+  color: #166534 !important;
+  border-color: #86efac !important;
+  opacity: 0.85;
+}
+
+.right-inventory-rack .drag-card.used .card-desc-text {
+  color: #947e68 !important;
 }
 
 /* Floating ADDED Badge on top border */
@@ -1522,18 +1551,19 @@
   content: '✓ ADDED';
   position: absolute;
   top: -8px;
-  right: 14px;
-  background: var(--color-palm-600, #15803d);
+  right: 12px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
   color: #ffffff;
   font-family: var(--font-heading);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 2px 9px;
   border-radius: var(--radius-pill);
-  letter-spacing: 0.4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 1px solid #86efac;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(21, 128, 61, 0.4);
   pointer-events: none;
-  z-index: 25;
+  z-index: 30;
 }
 
 /* Collapsed Right Drawer Tab */
@@ -1701,7 +1731,7 @@
   touch-action: none;
   flex-shrink: 0;
   position: relative;
-  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 .drag-card:hover {
@@ -1810,8 +1840,9 @@
 
 /* Card disabled */
 .drag-card.card-disabled {
-  opacity: 0.78;
-  background: #fafaf9;
+  opacity: 0.75;
+  background: #fdfbf7;
+  border-color: #dfcfb9;
 }
 
 .drag-card.card-disabled .card-measure {
@@ -1820,29 +1851,52 @@
   border-color: #fde68a;
 }
 
-/* Used / Disabled Card State */
+/* Used / Added Card State */
 .drag-card.used {
-  opacity: 0.42;
-  filter: grayscale(0.85);
+  opacity: 0.65;
   cursor: not-allowed;
   transform: none !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15) !important;
+  background: linear-gradient(180deg, #fbf8f2 0%, #ede5d8 100%) !important;
+  border: 1.5px dashed #bfad97 !important;
+  pointer-events: none;
+}
+
+.drag-card.used .card-title {
+  color: #735b44 !important;
+  text-decoration: line-through;
+  text-decoration-color: #15803d;
+  text-decoration-thickness: 1.5px;
+}
+
+.drag-card.used .card-measure {
+  background: #e8f5e9 !important;
+  color: #166534 !important;
+  border-color: #86efac !important;
+  opacity: 0.85;
+}
+
+.drag-card.used .card-icon-img {
+  filter: grayscale(0.4) opacity(0.65) !important;
 }
 
 .drag-card.used::after {
   content: '✓ ADDED';
   position: absolute;
-  top: -7px;
-  background: #10b981;
+  top: -8px;
+  right: 12px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
   color: #ffffff;
   font-family: var(--font-heading);
-  font-size: 0.55rem;
+  font-size: 0.60rem;
   font-weight: 800;
-  padding: 1px 6px;
-  border-radius: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #86efac;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 5px rgba(21, 128, 61, 0.35);
   pointer-events: none;
+  z-index: 25;
 }
 
 /* ==========================================================================
