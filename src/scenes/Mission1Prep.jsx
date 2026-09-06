@@ -7,32 +7,47 @@ import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { FaucetKnobConsole } from '../components/FaucetKnobConsole';
 
 export const Mission1Prep = () => {
-  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
+  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission1);
 
   // Wash step states:
   // 1. isUbodInColander (false -> place ing_ubod_fresh into sink_colander_empty -> becomes sink_colander_ubod)
   // 2. isWashingActive (running water animation with sink_colander_washing)
   // 3. isWashed (true -> ubod sanitized, ready to load in pot)
-  const [isUbodInColander, setIsUbodInColander] = useState(false);
-  const [isWashed, setIsWashed] = useState(false);
+  const [isUbodInColander, setIsUbodInColander] = useState(() => isAlreadyCompleted);
+  const [isWashed, setIsWashed] = useState(() => isAlreadyCompleted);
   const [isWashingActive, setIsWashingActive] = useState(false);
 
   // Pot state: 0: empty, 1: +ubod, 2: +water, 3: +salt, 4: boiling, 5: drained
-  const [potStep, setPotStep] = useState(0);
+  const [potStep, setPotStep] = useState(() => (isAlreadyCompleted ? 5 : 0));
   const [isBoilingTimerActive, setIsBoilingTimerActive] = useState(false);
   const [boilProgress, setBoilProgress] = useState(0);
 
   useEffect(() => {
-    speak(
-      'Stage 1: Washing & Pre-Cooking! Step 1: Wash the ubod thoroughly. Pick up the fresh cut raw coconut pith from your bottom inventory shelf and place it into the sink colander.',
-      'neutral',
-      {
-        badge: 'Step 1: Raw Preparation',
-        note: 'Always wash the raw ubod thoroughly under clean running water to remove surface dirt, debris, and impurities.',
-        hint: 'Tap "Raw Ubod Strips" on the bottom shelf, then click or drop onto the empty sink colander.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 1 Completed! You have prepared, boiled, and drained the tender coconut pith. You can review your work or proceed to Stage 2.',
+        'happy',
+        {
+          badge: 'Stage 1 Complete',
+          note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
+          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          onNext: () => setScene('mission2'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 1: Washing & Pre-Cooking! Step 1: Wash the ubod thoroughly. Pick up the fresh cut raw coconut pith from your bottom inventory shelf and place it into the sink colander.',
+        'neutral',
+        {
+          badge: 'Step 1: Raw Preparation',
+          note: 'Always wash the raw ubod thoroughly under clean running water to remove surface dirt, debris, and impurities.',
+          hint: 'Tap "Raw Ubod Strips" on the bottom shelf, then click or drop onto the empty sink colander.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   // MultiStateContainer step configurations
@@ -94,7 +109,7 @@ export const Mission1Prep = () => {
     setIsUbodInColander(true);
     setHoldingItem(null);
     addScore(15);
-    showToast('Loaded into Colander!', 'Raw ubod placed in colander (+15 pts). Now turn on faucet to rinse!', 'success');
+    showToast('Loaded into Colander!', 'Raw ubod placed in colander. Now turn on faucet to rinse!', 'success');
     speak(
       'Great! Raw coconut pith is loaded into the colander. Now click or turn the cross handle on the faucet knob below to rinse under running water!',
       'happy',
@@ -117,7 +132,7 @@ export const Mission1Prep = () => {
       setIsWashed(true);
       soundManager.playSuccess();
       addScore(20);
-      showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet (+20 pts)', 'success');
+      showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet', 'success');
       speak(
         'Step 2: After washing, transfer the ubod to a pan/stockpot. Pick up the Washed Ubod from your bottom shelf and transfer it into the pot!',
         'happy',
@@ -197,7 +212,7 @@ export const Mission1Prep = () => {
         setPotStep(4);
         soundManager.playSuccess();
         addScore(30);
-        showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent (+30 pts)', 'success');
+        showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent', 'success');
         speak(
           'Step 5: Use a colander to drain the water from the boiled ubod. Pick up the stainless colander and tap the sink to drain!',
           'happy',
@@ -219,7 +234,7 @@ export const Mission1Prep = () => {
     addScore(30);
     unlockBadge('boil_master', 'Thermal Softening Specialist', '🫕');
     completeMission('mission1');
-    showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander (+30 pts)', 'success');
+    showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander', 'success');
     speak(
       'Steps 6 & 7: While the ubod is in the colander, wash it again to remove unwanted residue and cool it down. Drain the ubod properly before proceeding!',
       'happy',
@@ -433,15 +448,29 @@ export const Mission1Prep = () => {
                     : ''
                 }`}
               >
-                {potStep >= 5
-                  ? '♨️ Ubod Draining'
-                  : isWashed
-                  ? '✅ Sanitized'
-                  : isWashingActive
-                  ? '💧 Rinsing...'
-                  : isUbodInColander
-                  ? 'Ready to Wash'
-                  : '1. Load Ubod'}
+                {potStep >= 5 ? (
+                  <>
+                    <span className="badge-icon">♨️</span>
+                    <span>Ubod Draining</span>
+                  </>
+                ) : isWashed ? (
+                  <>
+                    <span className="badge-icon-check">✓</span>
+                    <span>Sanitized</span>
+                  </>
+                ) : isWashingActive ? (
+                  <>
+                    <span className="badge-icon">💧</span>
+                    <span>Rinsing...</span>
+                  </>
+                ) : isUbodInColander ? (
+                  <>
+                    <span className="badge-icon">🌿</span>
+                    <span>Ready to Wash</span>
+                  </>
+                ) : (
+                  <span>1. Load Ubod</span>
+                )}
               </div>
             </div>
 

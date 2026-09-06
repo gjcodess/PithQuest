@@ -6,7 +6,9 @@ import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission7Frying = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission7);
 
   // Frying states:
   // 0: Empty wok on stove -> accept cooking_oil
@@ -16,23 +18,36 @@ export const Mission7Frying = () => {
   // 4: Golden puffed cracker lifted with tongs -> accept colander to drain
   // 5: Draining in colander -> accept platter to transfer to cooled platter
   // 6: Cooled golden crackers on platter -> complete & proceed to packaging
-  const [fryStep, setFryStep] = useState(0);
-  const [oilTemp, setOilTemp] = useState(25);
+  const [fryStep, setFryStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
+  const [oilTemp, setOilTemp] = useState(() => (isAlreadyCompleted ? 180 : 25));
   const [isHeatingOil, setIsHeatingOil] = useState(false);
   const [isPuffing, setIsPuffing] = useState(false);
   const [puffProgress, setPuffProgress] = useState(0);
 
   useEffect(() => {
-    speak(
-      'Stage 7: Deep Frying & Oil Draining! Step 19: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
-      'neutral',
-      {
-        badge: 'Step 19: Oil Preheat',
-        note: 'Safety Note: Keep a safe distance from the hot oil and use tongs when handling the crackers.',
-        hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 7 Completed! Golden crisp Ubod Crunch crackers have undergone 3x flash expansion and cooled on the serving platter.',
+        'happy',
+        {
+          badge: 'Stage 7 Complete',
+          note: 'Rapid vapor expansion at 180°C creates the signature airy honeycomb structure and audible fracture crunch.',
+          btnText: 'Proceed to Stage 8: Packaging & Labeling ➔',
+          onNext: () => setScene('mission8'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 7: Deep Frying & Oil Draining! Step 19: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
+        'neutral',
+        {
+          badge: 'Step 19: Oil Preheat',
+          note: 'Safety Note: Keep a safe distance from the hot oil and use tongs when handling the crackers.',
+          hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const wokSteps = [
@@ -78,7 +93,7 @@ export const Mission7Frying = () => {
     },
     {
       stepIndex: 5,
-      acceptedItems: ['platter', 'icon_cracker_platter'],
+      acceptedItems: ['platter', 'icon_cracker_platter', 'platter_empty'],
       prompt: 'Draining surface oil. Transfer to platter',
       img: '/assets/colander_fried_crackers_draining.png',
       fallbackIcon: '🥣',
@@ -100,7 +115,7 @@ export const Mission7Frying = () => {
       setFryStep(1);
       addScore(25);
       setHoldingItem(null);
-      showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner (+25 pts)', 'success');
+      showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner', 'success');
       speak(
         'Oil is loaded! Click the stove dial below to ignite the burner and preheat oil to medium heat (~180°C).',
         'neutral',
@@ -115,7 +130,7 @@ export const Mission7Frying = () => {
       handleDropPellets();
     } else if (stepIndex === 4 && (item.id === 'colander' || item.id === 'tool_colander_safe' || item.id === 'skimmer')) {
       handleLiftToDrain();
-    } else if (stepIndex === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter')) {
+    } else if (stepIndex === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter' || item.id === 'platter_empty')) {
       handleTransferToPlatter();
     }
   };
@@ -136,7 +151,7 @@ export const Mission7Frying = () => {
         setFryStep(2);
         soundManager.playSuccess();
         addScore(20);
-        showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone (+20 pts)', 'success');
+        showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone', 'success');
         speak(
           'Step 20: Carefully fry the dehydrated ubod pieces for approximately 10 seconds or until they become crispy. Drop the dehydrated pellets into the hot oil!',
           'happy',
@@ -169,7 +184,7 @@ export const Mission7Frying = () => {
         setFryStep(4);
         soundManager.playSuccess();
         addScore(35);
-        showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers (+35 pts)', 'success');
+        showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers', 'success');
         speak(
           'Step 21: Using tongs, remove the fried ubod crackers and transfer them to a colander to drain the excess oil.',
           'happy',
@@ -189,7 +204,7 @@ export const Mission7Frying = () => {
     setFryStep(5);
     setHoldingItem(null);
     addScore(20);
-    showToast('Draining Oil...', 'Surface oil draining through paper towel lined colander (+20 pts)', 'info');
+    showToast('Draining Oil...', 'Surface oil draining through paper towel lined colander', 'info');
     speak(
       'Step 22: Allow the crackers to cool completely before proceeding to the packaging stage. Select the Presentation Platter to arrange the crackers!',
       'neutral',
@@ -209,7 +224,7 @@ export const Mission7Frying = () => {
     addScore(35);
     unlockBadge('puff_master', 'Aeration Expansion Master', '🍳');
     completeMission('mission7');
-    showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy (+35 pts)', 'success');
+    showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy', 'success');
     speak(
       'Outstanding frying! The crackers are golden, crispy, and thoroughly cooled. Now let’s move on to the Packaging Process in Stage 8!',
       'happy',
@@ -257,7 +272,7 @@ export const Mission7Frying = () => {
       id: 'platter',
       name: 'Presentation Platter',
       measure: 'Finished Batch Platter',
-      img: '/assets/platter_crackers_cooled.png',
+      img: '/assets/platter_empty.png',
       fallbackIcon: '✨',
       isUsed: fryStep >= 6,
       isNext: fryStep === 5,
@@ -380,7 +395,7 @@ export const Mission7Frying = () => {
                   const item = JSON.parse(data);
                   if (fryStep === 4 && (item.id === 'colander' || item.id === 'tool_colander_safe' || item.id === 'skimmer')) {
                     handleLiftToDrain();
-                  } else if (fryStep === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter')) {
+                  } else if (fryStep === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter' || item.id === 'platter_empty')) {
                     handleTransferToPlatter();
                   }
                 } catch (err) {
@@ -410,7 +425,7 @@ export const Mission7Frying = () => {
                 }`}
               >
                 {fryStep >= 6
-                  ? '✨ Cooled & Crispy'
+                  ? '✓ Cooled & Crispy'
                   : fryStep === 5
                   ? '🥣 Oil Draining'
                   : fryStep === 4

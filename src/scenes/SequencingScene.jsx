@@ -4,24 +4,40 @@ import { soundManager } from '../audio/soundManager';
 import { SequencingActivity } from '../components/SequencingActivity';
 
 export const SequencingScene = () => {
-  const { studentName, setScene, speak, hideDialogue } = useGame();
-  const [isCompleted, setIsCompleted] = useState(false);
+  const { studentName, setScene, speak, hideDialogue, missionsCompleted, completeMission, maxUnlockedStage } = useGame();
+  const isAlreadyCompleted = Boolean(missionsCompleted?.sequencing);
+  const [isCompleted, setIsCompleted] = useState(() => isAlreadyCompleted);
 
   useEffect(() => {
-    speak(
-      `Bonus Activity, ${studentName || 'Food Technologist'}! Arrange the processing stages in their correct chronological sequence from left to right.`,
-      'thinking',
-      {
-        badge: 'Bonus Activity: Sequence Exam',
-        note: 'Recall our laboratory journey: from preparing raw ingredients to finished packaged crackers. Think about which processing stage comes first!',
-        hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      completeMission('sequencing');
+      speak(
+        `Validation Exam Completed, ${studentName || 'Master Food Technologist'}! All 8 processing stages are verified in sequence. You are officially cleared for graduation!`,
+        'happy',
+        {
+          badge: 'Mastery Validated',
+          note: 'Congratulations! You have demonstrated mastery over ingredients, tools, PPE, and the full processing sequence of Coconut Pith Crackers.',
+          btnText: 'View Sensory Audit, Achievements & Certificate ➔',
+          onNext: () => setScene('evaluation'),
+        }
+      );
+    } else {
+      speak(
+        `Bonus Activity, ${studentName || 'Food Technologist'}! Arrange the processing stages in their correct chronological sequence from left to right.`,
+        'thinking',
+        {
+          badge: 'Bonus Activity: Sequence Exam',
+          note: 'Recall our laboratory journey: from preparing raw ingredients to finished packaged crackers. Think about which processing stage comes first!',
+          hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const handleSequenceCompleted = () => {
     setIsCompleted(true);
+    completeMission('sequencing');
     soundManager.playFanfare();
     speak(
       `YOU COMPLETED THE PITHQUEST, ${studentName || 'Master Food Technologist'}! You have verified the complete 8-stage food processing pipeline without a flaw. You are now officially cleared for graduation!`,
@@ -38,6 +54,7 @@ export const SequencingScene = () => {
   const handleProceedToEvaluation = () => {
     soundManager.playClick();
     hideDialogue();
+    completeMission('sequencing');
     setScene('evaluation');
   };
 
@@ -47,7 +64,6 @@ export const SequencingScene = () => {
         {/* Header Hero Banner */}
         <div className="sequencing-hero-header">
           <div className="hero-exam-badge">
-            <span className="exam-icon">🧪</span>
             <span>FINAL STEP • PROCESS SEQUENCE VALIDATION EXAM</span>
           </div>
           <h2 className="hero-exam-title">Coconut Pith Crackers Pipeline Validation</h2>
@@ -65,7 +81,7 @@ export const SequencingScene = () => {
         {isCompleted && (
           <div className="sequencing-success-cta">
             <div className="success-badge-card">
-              <span className="success-medal">🏅</span>
+              <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="success-medal-img" />
               <div className="success-text-info">
                 <h3>Laboratory Validation Completed!</h3>
                 <p>All 8 production stages verified. Your final sensory report and certificate are ready.</p>

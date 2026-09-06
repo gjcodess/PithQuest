@@ -126,7 +126,7 @@ export const INGREDIENT_INSPECTION_ITEMS = [
       description: "Fine silky white powder, dry free-flowing, clean sealed bag, neutral aroma.",
       img: "/assets/ing_rice_flour_clean.png",
       fallbackIcon: "🌾",
-      reason: "Prime Quality! Dry, bug-free rice flour creates an elastic dough matrix that puffs evenly in hot oil."
+      reason: "Prime Quality! Dry, bug-free rice flour creates an elastic paste matrix that puffs evenly in hot oil."
     },
     damaged: {
       name: "Pest-Infested Flour",
@@ -187,7 +187,7 @@ export const INGREDIENT_INSPECTION_ITEMS = [
       description: "Gray discolored clumps with moisture pooling and embedded dirt specs.",
       img: "/assets/ing_salt_defective.png",
       fallbackIcon: "🌑",
-      reason: "Contaminated! Damp, soiled salt alters measured salinity and introduces grit into the cracker dough."
+      reason: "Contaminated! Damp, soiled salt alters measured salinity and introduces grit into the cracker paste."
     }
   }
 ];

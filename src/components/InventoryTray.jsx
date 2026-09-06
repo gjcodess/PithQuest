@@ -76,7 +76,9 @@ export const InventoryTray = ({
       {/* Header Bar */}
       <div className="rack-header">
         <div className="rack-title-group">
-          <img src="/assets/icon_inventory_crate.png" alt="Inventory" className="rack-icon-img" />
+          <div className="rack-icon-box">
+            <img src="/assets/icon_inventory_crate.png" alt="Inventory" className="rack-icon-img" />
+          </div>
           <div className="rack-titles">
             <span className="rack-title-text">{title}</span>
             <span className="rack-count-pill">{items.filter(i => !i.isUsed).length} Available</span>
@@ -95,6 +97,7 @@ export const InventoryTray = ({
           <span>▶</span>
         </button>
       </div>
+      <div className="rack-header-divider" />
 
       <div className="rack-hint-bar">
         <span>{hint}</span>

@@ -68,59 +68,38 @@ export const GameProvider = ({ children }) => {
   const [isInventoryCollapsed, setIsInventoryCollapsed] = useState(false);
 
   const [stageKey, setStageKey] = useState(0);
-  const [maxUnlockedStage, setMaxUnlockedStage] = useState(1);
+  const [maxUnlockedStage, setMaxUnlockedStage] = useState(0);
 
-  // Zoom level state (persisted in localStorage, default 1.0 = 100%)
-  const [zoomLevel, setZoomLevel] = useState(() => {
+  // Zoom level state (default 1.0 = 100%, mapped to 0.8 baseline scale)
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const effectiveZoom = Math.round(zoomLevel * 0.8 * 1000) / 1000;
+
+  useEffect(() => {
     try {
-      const saved = localStorage.getItem('pithquest_zoom');
-      if (saved) {
-        const parsed = parseFloat(saved);
-        if (!isNaN(parsed) && parsed >= 0.5 && parsed <= 1.6) {
-          return parsed;
-        }
-      }
+      localStorage.removeItem('pithquest_zoom');
     } catch {}
-    return 1;
-  });
+  }, []);
 
   const updateZoom = (val) => {
     const clamped = Math.min(Math.max(val, 0.5), 1.6);
     const rounded = Math.round(clamped * 100) / 100;
     setZoomLevel(rounded);
-    try {
-      localStorage.setItem('pithquest_zoom', rounded.toString());
-    } catch {}
   };
 
   const zoomIn = () => updateZoom(zoomLevel + 0.05);
   const zoomOut = () => updateZoom(zoomLevel - 0.05);
-  const resetZoom = () => updateZoom(1.0);
+  const resetZoom = () => {
+    try {
+      localStorage.removeItem('pithquest_zoom');
+    } catch {}
+    setZoomLevel(1.0);
+  };
 
   useEffect(() => {
     // Reset any held cursor item when changing scenes
     setHoldingItem(null);
     if (typeof window !== 'undefined') {
       window.__setPithQuestScene = setScene;
-    }
-
-    // Auto-expand highest unlocked stage as player progresses
-    const STAGE_STEPS = {
-      orientation: 0,
-      mission1: 1,
-      mission2: 2,
-      mission3: 3,
-      mission4: 4,
-      mission5: 5,
-      mission6: 6,
-      mission7: 7,
-      mission8: 8,
-      sequencing: 9,
-      evaluation: 10,
-    };
-    const currentStep = STAGE_STEPS[scene];
-    if (currentStep !== undefined && currentStep >= 1) {
-      setMaxUnlockedStage(prev => Math.max(prev, currentStep));
     }
   }, [scene]);
 
@@ -159,6 +138,7 @@ export const GameProvider = ({ children }) => {
     mission7: false,
     mission8: false,
     sequencing: false,
+    evaluation: false,
   });
 
   // Sound Mute Toggle
@@ -193,6 +173,22 @@ export const GameProvider = ({ children }) => {
 
   const completeMission = (missionKey) => {
     setMissionsCompleted(prev => ({ ...prev, [missionKey]: true }));
+    const NEXT_STAGE_UNLOCKED = {
+      orientation: 1,
+      mission1: 2,
+      mission2: 3,
+      mission3: 4,
+      mission4: 5,
+      mission5: 6,
+      mission6: 7,
+      mission7: 8,
+      mission8: 9,
+      sequencing: 10,
+      evaluation: 10,
+    };
+    if (NEXT_STAGE_UNLOCKED[missionKey] !== undefined) {
+      setMaxUnlockedStage(prev => Math.max(prev, NEXT_STAGE_UNLOCKED[missionKey]));
+    }
   };
 
   const speak = (text, avatar = 'neutral', options = {}) => {
@@ -300,7 +296,7 @@ export const GameProvider = ({ children }) => {
       sequencing: 0,
     });
     setBadges([]);
-    setMaxUnlockedStage(1);
+    setMaxUnlockedStage(0);
     setMissionsCompleted({
       orientation: false,
       mission1: false,
@@ -312,6 +308,7 @@ export const GameProvider = ({ children }) => {
       mission7: false,
       mission8: false,
       sequencing: false,
+      evaluation: false,
     });
     setHoldingItem(null);
     setStageKey(prev => prev + 1);
@@ -363,6 +360,7 @@ export const GameProvider = ({ children }) => {
         maxUnlockedStage,
         setMaxUnlockedStage,
         zoomLevel,
+        effectiveZoom,
         setZoomLevel: updateZoom,
         zoomIn,
         zoomOut,

@@ -6,7 +6,9 @@ import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 
 export const Mission5Steaming = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission5);
 
   // Steamer states:
   // 0: Empty aluminum steamer base on stove -> accept potable water pitcher
@@ -16,21 +18,34 @@ export const Mission5Steaming = () => {
   // 4: Active rolling steam at 100°C (10-minute cycle with progress meter)
   // 5: Steaming complete, cooked translucent pieces -> accept heat mitts / Don Mitts action
   // 6: Mold cooling on wire rack -> Stage 5 complete!
-  const [steamerStep, setSteamerStep] = useState(0);
+  const [steamerStep, setSteamerStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
   const [steamProgress, setSteamProgress] = useState(0);
   const [isSteaming, setIsSteaming] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes. First, pour clean potable water into the empty steamer base.',
-      'neutral',
-      {
-        badge: 'Step 14: Steaming Setup',
-        note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
-        hint: 'First, select the Potable Water Pitcher from your bottom inventory and pour it into the empty steamer base.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 5 Completed! Starch matrix has been gelatinized and cooled on the wire rack.',
+        'happy',
+        {
+          badge: 'Stage 5 Complete',
+          note: 'Gelatinization binds amylose and amylopectin starches, creating the structural foundation required for crisp expansion.',
+          btnText: 'Proceed to Stage 6: Cabinet Dehydration ➔',
+          onNext: () => setScene('mission6'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes. First, pour clean potable water into the empty steamer base.',
+        'neutral',
+        {
+          badge: 'Step 14: Steaming Setup',
+          note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
+          hint: 'First, select the Potable Water Pitcher from your bottom inventory and pour it into the empty steamer base.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const steamerSteps = [
@@ -98,7 +113,7 @@ export const Mission5Steaming = () => {
       setSteamerStep(1);
       addScore(15);
       setHoldingItem(null);
-      showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier (+15 pts)', 'success');
+      showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier', 'success');
       speak(
         'Water is loaded in the base! Now select the Perforated Steam Tier from your bottom inventory and place it onto the pot.',
         'neutral',
@@ -114,7 +129,7 @@ export const Mission5Steaming = () => {
       setSteamerStep(2);
       addScore(15);
       setHoldingItem(null);
-      showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray (+15 pts)', 'success');
+      showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray', 'success');
       speak(
         'The steam vent tier is in place! Now select the Molded Ubod Tray from your inventory and place it inside the perforated tier.',
         'neutral',
@@ -130,7 +145,7 @@ export const Mission5Steaming = () => {
       setSteamerStep(3);
       addScore(20);
       setHoldingItem(null);
-      showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam (+20 pts)', 'success');
+      showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam', 'success');
       speak(
         'Step 14: Steam the molded ubod pieces for approximately 10 minutes. Turn the rotary stove knob to begin steaming!',
         'thinking',
@@ -172,7 +187,7 @@ export const Mission5Steaming = () => {
         setSteamerStep(5);
         soundManager.playSuccess();
         addScore(30);
-        showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set (+30 pts)', 'success');
+        showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set', 'success');
         speak(
           'Step 15: Allow the molded ubod pieces to cool before transferring them to the dehydrator trays. Don your silicone heat mitts and transfer the hot mold to the cooling rack!',
           'happy',
@@ -194,7 +209,7 @@ export const Mission5Steaming = () => {
     addScore(20);
     unlockBadge('steam_artisan', 'Gelatinization Specialist', '♨️');
     completeMission('mission5');
-    showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts (+20 pts)', 'success');
+    showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts', 'success');
     speak(
       'Outstanding steaming! The crackers are cooling on the wire rack. Allowing the pieces to cool prevents them from tearing or sticking during dehydrator tray loading in Stage 6!',
       'happy',
@@ -236,7 +251,7 @@ export const Mission5Steaming = () => {
       fallbackIcon: '🧈',
       isUsed: steamerStep >= 3,
       isNext: steamerStep === 2,
-      tooltip: '24 leveled dough portions loaded for 10-minute starch gelatinization.',
+      tooltip: '24 leveled paste portions loaded for 10-minute starch gelatinization.',
     },
     {
       id: 'heat_mitts',
@@ -312,7 +327,7 @@ export const Mission5Steaming = () => {
                         'warning'
                       );
                       speak(
-                        'Safety first! Place the molded dough tray into the middle tier before turning on the burner.',
+                        'Safety first! Place the molded paste tray into the middle tier before turning on the burner.',
                         'thinking',
                         {
                           badge: 'Steamer Safety',
@@ -394,7 +409,7 @@ export const Mission5Steaming = () => {
                 }`}
               >
                 {steamerStep >= 6
-                  ? '✅ Cooled & Set'
+                  ? '✓ Cooled & Set'
                   : steamerStep === 5
                   ? '🧤 Safe Transfer'
                   : steamerStep === 4
@@ -449,7 +464,7 @@ export const Mission5Steaming = () => {
               {/* Before & After Texture Comparison */}
               <div className="steaming-texture-compare">
                 <div className={`texture-compare-box ${steamerStep < 4 ? 'active-state' : ''}`}>
-                  <span className="texture-box-tag">Raw Dough</span>
+                  <span className="texture-box-tag">Raw Paste</span>
                   <span className="texture-box-desc">Opaque White • Crumbly</span>
                 </div>
                 <div className={`texture-compare-box ${steamerStep >= 5 ? 'active-state' : ''}`}>

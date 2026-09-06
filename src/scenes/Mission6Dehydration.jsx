@@ -5,7 +5,9 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission6Dehydration = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission6);
 
   // Dehydration states:
   // 0: Empty counter -> accept mesh_tray (place stainless wire mesh tray)
@@ -15,22 +17,35 @@ export const Mission6Dehydration = () => {
   // 4: Dehydrating (12-hour time-lapse, moisture gauge: 70% -> 8%)
   // 5: Translucent brittle cracker pellets ready on tray -> accept storage_container
   // 6: Sealed in airtight storage container -> complete & proceed to frying
-  const [dehydrateStep, setDehydrateStep] = useState(0);
+  const [dehydrateStep, setDehydrateStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
   const [dehydrateProgress, setDehydrateProgress] = useState(0);
-  const [moistureLevel, setMoistureLevel] = useState(70);
+  const [moistureLevel, setMoistureLevel] = useState(() => (isAlreadyCompleted ? 8 : 70));
   const [isDehydrating, setIsDehydrating] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 6: Cooling & Cabinet Dehydration! Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-      'neutral',
-      {
-        badge: 'Step 16: Tray Spacing',
-        note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-        hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 6 Completed! Cracker pellets are vitrified (<8% moisture) and sealed in an airtight storage container.',
+        'happy',
+        {
+          badge: 'Stage 6 Complete',
+          note: 'Maintaining low moisture prevents fungal spoilage and guarantees rapid expansion during deep frying.',
+          btnText: 'Proceed to Stage 7: Deep Frying ➔',
+          onNext: () => setScene('mission7'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 6: Cooling & Cabinet Dehydration! Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+        'neutral',
+        {
+          badge: 'Step 16: Tray Spacing',
+          note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+          hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const dehydratorSteps = [
@@ -76,7 +91,7 @@ export const Mission6Dehydration = () => {
     },
     {
       stepIndex: 5,
-      acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips'],
+      acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips', 'container_empty'],
       prompt: 'Hard, translucent, brittle cracker pellets ready (<8% H2O)! Transfer to airtight container',
       img: '/assets/dehydrator_tray_dried.png',
       fallbackIcon: '✨',
@@ -98,7 +113,7 @@ export const Mission6Dehydration = () => {
       setDehydrateStep(1);
       addScore(20);
       setHoldingItem(null);
-      showToast('Tray Prepared!', 'Stainless wire mesh placed on counter (+20 pts)', 'success');
+      showToast('Tray Prepared!', 'Stainless wire mesh placed on counter', 'success');
       speak(
         'Great! The wire mesh grid provides 360° airflow. Now select the Steamed Ubod Wafers from inventory and arrange them with space between each piece.',
         'neutral',
@@ -114,7 +129,7 @@ export const Mission6Dehydration = () => {
       setDehydrateStep(2);
       addScore(25);
       setHoldingItem(null);
-      showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps (+25 pts)', 'success');
+      showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps', 'success');
       speak(
         'Step 17: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Select the Cabinet Dehydrator to insert the tray.',
         'neutral',
@@ -127,7 +142,7 @@ export const Mission6Dehydration = () => {
       );
     } else if (stepIndex === 2 && (item.id === 'dehydrator_cabinet' || item.id === 'equip_dehydrator_safe')) {
       handleSlideIntoCabinet();
-    } else if (stepIndex === 5 && (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips')) {
+    } else if (stepIndex === 5 && (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips' || item.id === 'container_empty')) {
       handleTransferToStorage();
     }
   };
@@ -137,7 +152,7 @@ export const Mission6Dehydration = () => {
     setDehydrateStep(3);
     addScore(20);
     setHoldingItem(null);
-    showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator (+20 pts)', 'success');
+    showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator', 'success');
     speak(
       'The tray is secure inside the cabinet. Set the thermostat to 90°C and press "Start 12-Hour Dehydration Cycle"!',
       'thinking',
@@ -182,7 +197,7 @@ export const Mission6Dehydration = () => {
         setDehydrateStep(5);
         soundManager.playSuccess();
         addScore(40);
-        showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed (+40 pts)', 'success');
+        showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed', 'success');
         speak(
           'Step 18: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Airtight Chip Box to store them!',
           'happy',
@@ -204,7 +219,7 @@ export const Mission6Dehydration = () => {
     addScore(30);
     unlockBadge('vitrification_master', 'Moisture Reduction Expert', '💨');
     completeMission('mission6');
-    showToast('Airtight Storage!', 'Protected from ambient humidity (+30 pts)', 'success');
+    showToast('Airtight Storage!', 'Protected from ambient humidity', 'success');
     speak(
       'Superb work! The dehydrated chips are sealed in the clean, dry container. They are now ready for rapid frying in Stage 7!',
       'happy',
@@ -252,7 +267,7 @@ export const Mission6Dehydration = () => {
       id: 'storage_container',
       name: 'Airtight Chip Box',
       measure: 'Hermetic Seal (<10%)',
-      img: '/assets/container_dehydrated_chips.png',
+      img: '/assets/container_empty.png',
       fallbackIcon: '📦',
       isUsed: dehydrateStep >= 6,
       isNext: dehydrateStep === 5,
@@ -335,7 +350,36 @@ export const Mission6Dehydration = () => {
                   >
                     <div className="dehydrator-dial-assembly">
                       <span className={`dehydrator-dial-icon ${dehydrateStep === 4 ? 'spinning' : ''}`}>
-                        {dehydrateStep === 4 ? '🌀' : '⏻'}
+                        {dehydrateStep === 4 ? (
+                          <svg
+                            className="convection-turbine-svg"
+                            viewBox="0 0 24 24"
+                            width="28"
+                            height="28"
+                            fill="none"
+                          >
+                            <circle cx="12" cy="12" r="3" fill="#6ee7b7" stroke="#059669" strokeWidth="1" />
+                            <path d="M12 9 C11 4.5 15 2.5 17.5 3 C17 6.5 14.5 8.5 12 9 Z" fill="#34d399" />
+                            <path d="M15 12 C19.5 11 21.5 15 21 17.5 C17.5 17 15.5 14.5 15 12 Z" fill="#10b981" />
+                            <path d="M12 15 C13 19.5 9 21.5 6.5 21 C7 17.5 9.5 15.5 12 15 Z" fill="#34d399" />
+                            <path d="M9 12 C4.5 13 2.5 9 3 6.5 C6.5 7 8.5 9.5 9 12 Z" fill="#10b981" />
+                          </svg>
+                        ) : (
+                          <svg
+                            className="power-btn-svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                            <line x1="12" y1="2" x2="12" y2="12" />
+                          </svg>
+                        )}
                       </span>
                       {dehydrateStep === 3 && (
                         <>
@@ -368,9 +412,10 @@ export const Mission6Dehydration = () => {
                                 style={{ width: `${dehydrateProgress}%` }}
                               />
                             </div>
-                            <span className="dehydrator-progress-label">
-                              {dehydrateProgress}% Complete • {Math.max(1, Math.round(12 * (1 - dehydrateProgress / 100)))}h Remaining
-                            </span>
+                            <div className="dehydrator-progress-label-row">
+                              <span className="progress-pct-badge">{dehydrateProgress}% Complete</span>
+                              <span className="progress-time-remaining">⏳ {Math.max(1, Math.round(12 * (1 - dehydrateProgress / 100)))}h Remaining</span>
+                            </div>
                           </div>
                         ) : (
                           <span className="dehydrator-action-hint">
@@ -414,7 +459,7 @@ export const Mission6Dehydration = () => {
                   const data = e.dataTransfer.getData('text/plain');
                   if (!data) return;
                   const item = JSON.parse(data);
-                  if (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips') {
+                  if (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips' || item.id === 'container_empty') {
                     handleTransferToStorage();
                   }
                 } catch (err) {
@@ -444,7 +489,7 @@ export const Mission6Dehydration = () => {
                 }`}
               >
                 {dehydrateStep >= 6
-                  ? '✅ Vitrified & Sealed'
+                  ? '✓ Vitrified & Sealed'
                   : dehydrateStep === 5
                   ? '✨ Ready to Store'
                   : dehydrateStep === 4

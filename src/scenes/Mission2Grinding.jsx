@@ -5,7 +5,9 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission2Grinding = () => {
-  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
+  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission2);
 
   // Processor states: 
   // 0: Empty bowl on motor base -> accept boiled_ubod
@@ -14,23 +16,36 @@ export const Mission2Grinding = () => {
   // 3: Blending active (spinning vortex)
   // 4: Smooth ubod paste ready -> action: scrape into prep bowl
   // 5: Complete
-  const [processorStep, setProcessorStep] = useState(0);
+  const [processorStep, setProcessorStep] = useState(() => (isAlreadyCompleted ? 5 : 0));
   const [blendProgress, setBlendProgress] = useState(0);
   const [isBlending, setIsBlending] = useState(false);
-  const [isLidLocked, setIsLidLocked] = useState(false);
+  const [isLidLocked, setIsLidLocked] = useState(() => isAlreadyCompleted);
   const [isScraping, setIsScraping] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 2: Food Processing & Pureeing! Step 8: Transfer the boiled ubod to a food processor. Add 1 teaspoon of salt for every 1 cup of ubod.',
-      'neutral',
-      {
-        badge: 'Step 8: Load Processor',
-        note: 'Safety Check: Check first the wiring, outlet, and the food processor itself before operating.',
-        hint: 'Drop the Drained Boiled Ubod from your bottom inventory shelf into the food processor bowl.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 2 Completed! Smooth pureed coconut pith paste has been milled and collected into the prep bowl.',
+        'happy',
+        {
+          badge: 'Stage 2 Complete',
+          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive paste structure.',
+          btnText: 'Proceed to Stage 3: Paste Formulation ➔',
+          onNext: () => setScene('mission3'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 2: Food Processing & Pureeing! Step 8: Transfer the boiled ubod to a food processor. Add 1 teaspoon of salt for every 1 cup of ubod.',
+        'neutral',
+        {
+          badge: 'Step 8: Load Processor',
+          note: 'Safety Check: Check first the wiring, outlet, and the food processor itself before operating.',
+          hint: 'Drop the Drained Boiled Ubod from your bottom inventory shelf into the food processor bowl.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const processorSteps = [
@@ -56,7 +71,7 @@ export const Mission2Grinding = () => {
       prompt: isLidLocked
         ? 'Safety interlock locked! Press Pulse/Blend to puree'
         : 'Align & lock safety lid onto bowl to engage interlock',
-      img: '/assets/processor_with_ubod_salt.png',
+      img: isLidLocked ? '/assets/processor_close_lid.png' : '/assets/processor_with_ubod_salt.png',
       fallbackIcon: '🌀',
       label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Lid Open)',
     },
@@ -127,7 +142,7 @@ export const Mission2Grinding = () => {
     soundManager.playSuccess();
     setIsLidLocked(true);
     addScore(15);
-    showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready! (+15 pts)', 'success');
+    showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready!', 'success');
     speak(
       'Step 9: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
       'happy',
@@ -164,7 +179,7 @@ export const Mission2Grinding = () => {
         setProcessorStep(4);
         soundManager.playSuccess();
         addScore(30);
-        showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste (+30 pts)', 'success');
+        showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste', 'success');
         speak(
           'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Pick up the red silicone spatula to scrape!',
           'happy',
@@ -201,14 +216,14 @@ export const Mission2Grinding = () => {
       addScore(30);
       unlockBadge('puree_artisan', 'Micro-Fiber Milling Artisan', '⚙️');
       completeMission('mission2');
-      showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl (+30 pts)', 'success');
+      showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl', 'success');
       speak(
-        'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Dough Formulation & Mixing!',
+        'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Paste Formulation & Mixing!',
         'happy',
         {
           badge: 'Stage 2 Complete',
-          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive dough structure.',
-          btnText: 'Proceed to Stage 3: Dough Formulation ➔',
+          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive paste structure.',
+          btnText: 'Proceed to Stage 3: Paste Formulation ➔',
           onNext: () => setScene('mission3'),
         }
       );
@@ -432,7 +447,7 @@ export const Mission2Grinding = () => {
                     : ''
                 }`}
               >
-                {processorStep >= 5 ? '✅ Collected' : processorStep === 4 ? '🥣 Ready to Scrape' : 'Standby'}
+                {processorStep >= 5 ? '✓ Collected' : processorStep === 4 ? '🥣 Ready to Scrape' : 'Standby'}
               </div>
             </div>
 

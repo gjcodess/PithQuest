@@ -54,7 +54,7 @@ export const MinigameInspection = ({
       addScore(25);
       setRevealedResult({ isSafe: true, reason: card.reason });
       speak(card.reason, 'happy', { badge: 'Quality Inspector' });
-      showToast('Approved!', 'Sanitary & Safe choice verified (+25 pts)', 'success');
+      showToast('Approved!', 'Sanitary & Safe choice verified', 'success');
     } else {
       soundManager.playError();
       recordMistake();
@@ -90,13 +90,22 @@ export const MinigameInspection = ({
 
   return (
     <div className="inspection-minigame-container">
+      <div className="vessel-top-badge">
+        {mode === 'tools' ? 'Workstation Quality & Tool Clearance' : 'Raw Material & Freshness Quality Control'}
+      </div>
+      <div className="vessel-header">
+        <span className="vessel-title">{title}</span>
+        <span className="vessel-badge">Item {currentIndex + 1} of {items.length}</span>
+      </div>
+      <div className="vessel-header-divider" />
+
       <div className="inspection-header-row">
         <div className="inspection-title-box">
           <span className="mode-badge">{mode === 'tools' ? '🛠️ Tools & Equipment' : '🥥 Ingredient Freshness'}</span>
           <h3 className="item-target-title">Target: {currentItem?.name}</h3>
         </div>
         <div className="inspection-counter">
-          Item {currentIndex + 1} of {items.length}
+          Verified {currentIndex} / {items.length}
         </div>
       </div>
 

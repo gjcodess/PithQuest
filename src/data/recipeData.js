@@ -40,7 +40,7 @@ export const RECIPE_DATA = {
       id: "water",
       name: "Clean Potable Water",
       portion: "4 Cups for boiling + 1/4 Cup gradual hydration",
-      purpose: "Medium for thermal boiling and starch gluten/dough hydration",
+      purpose: "Medium for thermal boiling and starch/paste hydration",
       prepNote: "Crystal clear drinking-grade water",
       img: "/assets/icon_water_pitcher.png",
       fallbackIcon: "💧"

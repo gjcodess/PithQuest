@@ -3,10 +3,12 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 export const EvaluationScene = () => {
-  const { studentName, score, stars, badges, resetGame, speak, setScene } = useGame();
+  const { studentName, score, stars, badges, resetGame, speak, setScene, completeMission } = useGame();
   const certRef = useRef(null);
 
   useEffect(() => {
+    completeMission('sequencing');
+    completeMission('evaluation');
     soundManager.playFanfare();
     speak(
       `Congratulations, ${studentName || 'Food Technologist'}! You have successfully mastered all 8 stages of Coconut Pith Cracker (Ubod CRUNCH) processing and passed the chronological sequencing examination! Review your sensory audit, inspect all earned laboratory badges, and print your official Certificate of Laboratory Completion!`,
@@ -37,7 +39,7 @@ export const EvaluationScene = () => {
         {/* Header Banner */}
         <div className="eval-header-card">
           <div className="cert-ribbon">
-            <img src="/images/icon_gold_medal.png" alt="Medal" className="eval-ribbon-medal-img" />
+            <img src="/assets/icon_gold_medal_front.png" alt="Medal" className="eval-ribbon-medal-img" />
             <span>LABORATORY MASTERY ACHIEVED</span>
           </div>
           <div className="eval-hero-showcase">
@@ -101,7 +103,7 @@ export const EvaluationScene = () => {
                 <p className="cert-body">
                   has successfully performed and demonstrated comprehensive mastery in the complete 8-stage food processing lifecycle of
                   <strong> Coconut Pith Crackers (Ubod ng Niyog - Ubod Crunch)</strong>, including hygiene inspection, washing & boiling, food processing puree,
-                  1:1 Erawan rice flour dough formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
+                  1:1 Erawan rice flour paste formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
                   10-second flash deep-frying expansion, airtight barrier packaging, and pipeline sequence validation.
                 </p>
               </div>
@@ -146,13 +148,13 @@ export const EvaluationScene = () => {
         {/* Action Buttons */}
         <div className="eval-actions">
           <button className="btn-gold btn-print" onClick={handlePrintCertificate}>
-            🖨️ Print / Save Certificate as PDF
+            <span>Print / Save Certificate as PDF</span>
           </button>
           <button className="btn-primary" onClick={() => setScene('sequencing')}>
-            🧩 Review Step Sequence Challenge
+            <span>Review Step Sequence Challenge</span>
           </button>
           <button className="btn-secondary" onClick={resetGame}>
-            🔄 Process Another Batch
+            <span>Process Another Batch</span>
           </button>
         </div>
 

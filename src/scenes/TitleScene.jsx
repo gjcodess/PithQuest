@@ -38,7 +38,7 @@ export const TitleScene = () => {
             </div>
             <div className="hero-snack-box">
               <img src="/images/icon_puffed_crackers.png" alt="Coconut Pith Crackers" className="hero-snack" />
-              <span className="snack-tag">✨ Golden Crisp Target</span>
+              <span className="snack-tag">Golden Crisp Target</span>
             </div>
           </div>
 

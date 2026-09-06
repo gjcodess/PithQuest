@@ -5,28 +5,43 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission8Packaging = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission8);
 
   // Streamlined 3-step packaging flow:
   // 0: Empty stand-up kraft pouch -> accept crispy_crackers (50g)
   // 1: Pouch filled with crackers -> accept brand_label OR click "Seal & Apply Label" (combined 150°C weld + label)
   // 2: Branded commercial pouch -> accept retail_box OR click "Pack into Retail Carton" (8 pouches)
   // 3: Retail countertop display box packed (8 pouches) -> complete
-  const [packStep, setPackStep] = useState(0);
+  const [packStep, setPackStep] = useState(() => (isAlreadyCompleted ? 3 : 0));
   const [isSealing, setIsSealing] = useState(false);
   const [sealProgress, setSealProgress] = useState(0);
 
   useEffect(() => {
-    speak(
-      'Stage 8: Packaging Process! Step 23: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers using clean packaging materials.',
-      'neutral',
-      {
-        badge: 'Step 23: Packaging',
-        note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
-        hint: 'Select Crispy Ubod Crackers from bottom shelf and drop into the open pouch.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 8 Completed! Ubod CRUNCH crackers are portioned (50g), hermetically heat-sealed, labeled, and packed into the retail carton box (8 pouches).',
+        'happy',
+        {
+          badge: 'Stage 8 Complete',
+          note: 'Proper packaging protects crackers from moisture absorption, rancidity, and mechanical breakage during transit.',
+          btnText: 'Proceed to Process Sequencing Exam ➔',
+          onNext: () => setScene('sequencing'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 8: Packaging Process! Step 23: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers using clean packaging materials.',
+        'neutral',
+        {
+          badge: 'Step 23: Packaging',
+          note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
+          hint: 'Select Crispy Ubod Crackers from bottom shelf and drop into the open pouch.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const pouchSteps = [
@@ -70,7 +85,7 @@ export const Mission8Packaging = () => {
       setPackStep(1);
       addScore(25);
       setHoldingItem(null);
-      showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label (+25 pts)', 'success');
+      showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
         'Great portioning! Now select the Brand Label or click "Impulse Seal & Apply Label" to hermetically weld the rim at 150°C.',
         'neutral',
@@ -106,7 +121,7 @@ export const Mission8Packaging = () => {
         setPackStep(2);
         soundManager.playSuccess();
         addScore(40);
-        showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete (+40 pts)', 'success');
+        showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
           'Airtight thermal weld complete with authentic product seal! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
           'happy',
@@ -128,7 +143,7 @@ export const Mission8Packaging = () => {
     addScore(35);
     unlockBadge('packaging_specialist', 'Packaging & Quality Assurance Specialist', '🏷️');
     completeMission('mission8');
-    showToast('Retail Display Ready!', '8 pouches packed in master display box (+35 pts)', 'success');
+    showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
     speak(
       'Perfection! We are now done with our Laboratory Activity! All 8 food processing stages are complete. Let us test your complete knowledge in our Bonus Sequencing Activity!',
       'happy',
@@ -292,9 +307,9 @@ export const Mission8Packaging = () => {
                 }`}
               >
                 {packStep >= 3
-                  ? '✨ Master Box Complete'
+                  ? '✓ Master Box Complete'
                   : packStep === 2
-                  ? '🏷️ Branded & Sealed'
+                  ? '✓ Branded & Sealed'
                   : packStep === 1
                   ? '⚖️ 50g Portioned'
                   : 'Standby'}

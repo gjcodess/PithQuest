@@ -133,7 +133,7 @@ export const DialogueBox = () => {
         </div>
         <div className="assistant-title-group">
           <span className="assistant-name">Teacher Mia</span>
-          {dialogue.badge && <span className="assistant-status-badge">{dialogue.badge}</span>}
+          <span className="assistant-status-badge">{dialogue.badge || 'Laboratory Mentor'}</span>
         </div>
         <button
           className="assistant-collapse-btn"
@@ -148,6 +148,7 @@ export const DialogueBox = () => {
           <span>◀</span>
         </button>
       </div>
+      <div className="assistant-header-divider" />
 
       {/* Speech Content */}
       <div className="assistant-speech-body">

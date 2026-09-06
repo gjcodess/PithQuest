@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { useGame } from '../../context/GameContext';
 
 export const ObjectivesModal = () => {
@@ -6,7 +7,7 @@ export const ObjectivesModal = () => {
 
   if (activeModal !== 'objectives') return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={closeModal}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
@@ -15,22 +16,23 @@ export const ObjectivesModal = () => {
         </div>
         <div className="modal-body">
           <div className="objective-card cognitive">
-            <h4>🧠 Cognitive Domain</h4>
-            <p>Identify raw coconut pith properties, nutritional benefits (fiber & potassium), and explain the food-processing science of boiling, dehydration, and frying.</p>
+            <h4>🧠 1. Identification & Knowledge (Cognitive)</h4>
+            <p><strong>Objective 1:</strong> Identify the ingredients, tools, equipment, and Personal Protective Equipment (PPE) needed in making <strong>Coconut Pith Crunch (Ubod Crunch)</strong>.</p>
           </div>
           <div className="objective-card psychomotor">
-            <h4>🛠️ Psychomotor Domain</h4>
-            <p>Virtually execute correct kitchen sanitation, knife handling, ingredient formulation, temperature control, and deep-frying timing.</p>
+            <h4>🛠️ 2. Methodological Demonstration (Psychomotor)</h4>
+            <p><strong>Objective 2:</strong> Demonstrate the proper procedures and food-processing methods in producing Coconut Pith Crunch — from raw preparation, boiling, grinding, mixing, and molding to steaming, dehydration, and frying.</p>
           </div>
           <div className="objective-card affective">
-            <h4>🤝 Affective Domain</h4>
-            <p>Demonstrate workplace safety, proper PPE adherence, food hygiene, and appreciate agricultural waste valorization into healthy snacks.</p>
+            <h4>🤝 3. Safety & Sanitation Practice (Affective)</h4>
+            <p><strong>Objective 3:</strong> Apply proper food safety, kitchen sanitation, hazard prevention, and PPE practices throughout the preparation and processing of the product.</p>
           </div>
         </div>
         <div className="modal-footer">
           <button className="btn-primary" onClick={closeModal}>Start Learning</button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
