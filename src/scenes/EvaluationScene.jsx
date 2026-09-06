@@ -37,7 +37,7 @@ export const EvaluationScene = () => {
         {/* Header Banner */}
         <div className="eval-header-card">
           <div className="cert-ribbon">
-            <img src="/images/icon_gold_medal.png" alt="Medal" className="eval-ribbon-medal-img" />
+            <img src="/assets/icon_gold_medal_front.png" alt="Medal" className="eval-ribbon-medal-img" />
             <span>LABORATORY MASTERY ACHIEVED</span>
           </div>
           <div className="eval-hero-showcase">
@@ -146,13 +146,13 @@ export const EvaluationScene = () => {
         {/* Action Buttons */}
         <div className="eval-actions">
           <button className="btn-gold btn-print" onClick={handlePrintCertificate}>
-            🖨️ Print / Save Certificate as PDF
+            <span>Print / Save Certificate as PDF</span>
           </button>
           <button className="btn-primary" onClick={() => setScene('sequencing')}>
-            🧩 Review Step Sequence Challenge
+            <span>Review Step Sequence Challenge</span>
           </button>
           <button className="btn-secondary" onClick={resetGame}>
-            🔄 Process Another Batch
+            <span>Process Another Batch</span>
           </button>
         </div>
 
