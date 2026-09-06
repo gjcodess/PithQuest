@@ -145,7 +145,7 @@ export const Mission4Molding = () => {
       fallbackIcon: '🥯',
       isUsed: moldStep >= 2,
       isNext: moldStep < 2,
-      tooltip: 'Formulated dough from Stage 3. Click to hold 3 tsp portion, then tap the mold.',
+      tooltip: 'Formulated dough batch. Calibrated 3 tsp portion per 50mm × 25mm cavity.',
     },
     {
       id: 'leveling_spatula',
@@ -155,7 +155,7 @@ export const Mission4Molding = () => {
       fallbackIcon: '📐',
       isUsed: moldStep >= 3,
       isNext: moldStep === 2,
-      tooltip: 'Red silicone spatula for leveling dough flush with cavity rim',
+      tooltip: 'Flat straight-edge scraper to level dough flush with silicone rims for identical thickness.',
     },
   ];
 

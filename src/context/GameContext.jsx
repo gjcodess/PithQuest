@@ -33,6 +33,10 @@ export const GameProvider = ({ children }) => {
   const [activeModal, setActiveModal] = useState(null); // 'recipe', 'objectives', null
   const [holdingItem, setHoldingItem] = useState(null); // { id, name, img, ... }
 
+  // Sidebar collapse states for 3-zone panoramic layout
+  const [isDialogueCollapsed, setIsDialogueCollapsed] = useState(false);
+  const [isInventoryCollapsed, setIsInventoryCollapsed] = useState(false);
+
   const [stageKey, setStageKey] = useState(0);
   const [maxUnlockedStage, setMaxUnlockedStage] = useState(1);
 
@@ -250,6 +254,10 @@ export const GameProvider = ({ children }) => {
         closeConfirm,
         holdingItem,
         setHoldingItem,
+        isDialogueCollapsed,
+        setIsDialogueCollapsed,
+        isInventoryCollapsed,
+        setIsInventoryCollapsed,
         isMuted,
         toggleSound,
         resetGame,

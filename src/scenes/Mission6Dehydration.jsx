@@ -219,7 +219,7 @@ export const Mission6Dehydration = () => {
       fallbackIcon: '🔲',
       isUsed: dehydrateStep >= 1,
       isNext: dehydrateStep === 0,
-      tooltip: 'Fine wire grid mesh allowing 360° horizontal cross-flow airflow',
+      tooltip: 'Stainless wire mesh tray enabling 360° horizontal convection air distribution.',
     },
     {
       id: 'steamed_pieces',
@@ -229,7 +229,7 @@ export const Mission6Dehydration = () => {
       fallbackIcon: '🧈',
       isUsed: dehydrateStep >= 2,
       isNext: dehydrateStep === 1,
-      tooltip: 'Firm, gelatinized rectangular pieces ready for arrangement on mesh tray',
+      tooltip: 'Firm, gelatinized translucent wafers arranged with 1cm spacing for dehydration.',
     },
     {
       id: 'dehydrator_cabinet',
@@ -239,7 +239,7 @@ export const Mission6Dehydration = () => {
       fallbackIcon: '💨',
       isUsed: dehydrateStep >= 4,
       isNext: dehydrateStep === 2,
-      tooltip: 'Commercial cabinet food dehydrator with thermal fan circulation',
+      tooltip: 'Forced-air cabinet dehydrator drying pellets at 90°C to achieve <8% residual moisture.',
     },
     {
       id: 'storage_container',
@@ -249,7 +249,7 @@ export const Mission6Dehydration = () => {
       fallbackIcon: '📦',
       isUsed: dehydrateStep >= 6,
       isNext: dehydrateStep === 5,
-      tooltip: 'Hermetic clip container to protect glassy pellets from rehydration',
+      tooltip: 'Hermetically sealed container preventing vitrified glassy pellets from moisture uptake.',
     },
   ];
 

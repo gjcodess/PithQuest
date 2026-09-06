@@ -10,13 +10,10 @@ const AVATARS = {
 };
 
 export const DialogueBox = () => {
-  const { dialogue, scene } = useGame();
+  const { dialogue, scene, isDialogueCollapsed, setIsDialogueCollapsed } = useGame();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const timerRef = useRef(null);
-
-  const hasTray = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5', 'mission6', 'mission7', 'mission8'].includes(scene);
 
   const finishTyping = () => {
     if (timerRef.current) {
@@ -30,9 +27,9 @@ export const DialogueBox = () => {
   // Auto-expand when a primary mission transition button appears
   useEffect(() => {
     if (dialogue.btnText) {
-      setIsCollapsed(false);
+      setIsDialogueCollapsed(false);
     }
-  }, [dialogue.btnText]);
+  }, [dialogue.btnText, setIsDialogueCollapsed]);
 
   useEffect(() => {
     if (!dialogue.visible || !dialogue.text) {
@@ -91,92 +88,93 @@ export const DialogueBox = () => {
 
   const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
 
-  // Render Collapsed Mini-Pill Bar
-  if (isCollapsed) {
+  // Render Collapsed Slim Vertical Tab (Left Edge)
+  if (isDialogueCollapsed) {
     return (
       <div
-        className={`dialogue-box collapsed ${hasTray ? 'has-tray' : 'no-tray'}`}
+        className="left-assistant-panel collapsed"
         onClick={() => {
           soundManager.playClick();
-          setIsCollapsed(false);
+          setIsDialogueCollapsed(false);
         }}
-        title="Click anywhere to expand Teacher Mia's speech"
+        title="Click to open Teacher Mia's guidance (▶)"
         role="button"
         tabIndex={0}
       >
-        <div className="dialogue-mini-avatar-wrapper">
-          <img src={avatarSrc} alt="Teacher Mia" className="dialogue-mini-avatar" />
+        <div className="assistant-tab-avatar-wrapper">
+          <img src={avatarSrc} alt="Teacher Mia" className="assistant-tab-avatar" />
+          <span className="assistant-tab-beacon" />
         </div>
-        <div className="dialogue-collapsed-info">
-          <span className="dialogue-mini-name">Teacher Mia:</span>
-          <span className="dialogue-mini-snippet">
-            {displayedText || dialogue.text}
-          </span>
+        <div className="assistant-tab-label-stack">
+          <span className="assistant-tab-name">MIA</span>
+          <span className="assistant-tab-sub">GUIDE</span>
         </div>
-        <button
-          className="dialogue-toggle-btn expand"
-          onClick={(e) => {
-            e.stopPropagation();
-            soundManager.playClick();
-            setIsCollapsed(false);
-          }}
-          title="Expand Teacher Mia Dialogue"
-          aria-label="Expand Teacher Mia Dialogue"
-        >
-          <span>▲ Expand</span>
-        </button>
+        <div className="assistant-tab-chevron-box">
+          <span className="assistant-tab-chevron">▶</span>
+        </div>
       </div>
     );
   }
 
-  // Render Full Expanded Dialogue Box
+  // Render Full Expanded Left Assistant Sidebar
   return (
     <div
-      className={`dialogue-box ${hasTray ? 'has-tray' : 'no-tray'} ${isTyping ? 'is-typing' : ''}`}
+      className={`left-assistant-panel expanded ${isTyping ? 'is-typing' : ''}`}
       onClick={handleBoxClick}
       title={isTyping ? 'Click speech bubble to reveal text instantly' : undefined}
     >
-      <div className="dialogue-avatar-wrapper">
-        <img src={avatarSrc} alt="Teacher Mia" className="dialogue-avatar" />
-      </div>
-      <div className="dialogue-content">
-        <div className="dialogue-header">
-          <div className="dialogue-header-left">
-            <span className="dialogue-name">Teacher Mia</span>
-            {dialogue.badge && <span className="dialogue-status-badge">{dialogue.badge}</span>}
-          </div>
-          <button
-            className="dialogue-toggle-btn collapse"
-            onClick={(e) => {
-              e.stopPropagation();
-              soundManager.playClick();
-              setIsCollapsed(true);
-            }}
-            title="Minimize speech bubble"
-            aria-label="Minimize Dialogue"
-          >
-            <span>▼ Minimize</span>
-          </button>
+      {/* Header Bar */}
+      <div className="assistant-header">
+        <div className="assistant-avatar-container">
+          <img src={avatarSrc} alt="Teacher Mia" className="assistant-avatar-img" />
+          <span className={`assistant-mood-indicator ${dialogue.avatar || 'neutral'}`} />
         </div>
-        <p className="dialogue-text">
+        <div className="assistant-title-group">
+          <span className="assistant-name">Teacher Mia</span>
+          {dialogue.badge && <span className="assistant-status-badge">{dialogue.badge}</span>}
+        </div>
+        <button
+          className="assistant-collapse-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            soundManager.playClick();
+            setIsDialogueCollapsed(true);
+          }}
+          title="Minimize Teacher Mia guidance (◀)"
+          aria-label="Minimize Dialogue"
+        >
+          <span>◀</span>
+        </button>
+      </div>
+
+      {/* Speech Content */}
+      <div className="assistant-speech-body">
+        <p className="assistant-dialogue-text">
           {displayedText}
           {isTyping && <span className="dialogue-typing-cursor">▌</span>}
         </p>
-        <div className="dialogue-footer">
-          <span className="hint-tag">{dialogue.hint ? `💡 ${dialogue.hint}` : ''}</span>
-          {!dialogue.hideButton && (
-            <button
-              className={`dialogue-btn ${isTyping ? 'disabled' : 'ready'}`}
-              onClick={handleNextClick}
-              disabled={isTyping}
-              title={isTyping ? 'Please wait for Teacher Mia to finish speaking' : ''}
-            >
-              {dialogue.btnText}
-            </button>
-          )}
-        </div>
+
+        {dialogue.hint && (
+          <div className="assistant-hint-callout">
+            <span className="hint-icon">💡</span>
+            <span className="hint-text">{dialogue.hint}</span>
+          </div>
+        )}
       </div>
+
+      {/* Footer / Transition Button */}
+      {!dialogue.hideButton && dialogue.btnText && (
+        <div className="assistant-footer">
+          <button
+            className={`assistant-action-btn ${isTyping ? 'disabled' : 'ready'}`}
+            onClick={handleNextClick}
+            disabled={isTyping}
+            title={isTyping ? 'Please wait for Teacher Mia to finish speaking' : ''}
+          >
+            <span>{dialogue.btnText}</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
-

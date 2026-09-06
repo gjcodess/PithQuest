@@ -265,7 +265,7 @@ export const Mission1Prep = () => {
           hint: 'Tap "Wash Ubod Under Faucet" in the washing station card on the left.',
         });
       } : undefined,
-      tooltip: isWashed ? '1 Cup clean washed ubod' : 'Wash raw ubod under faucet first',
+      tooltip: isWashed ? 'Sanitized coconut pith strips, rinsed clean of surface soil & starch residues.' : 'Raw cut coconut pith strips. Wash under running water before cooking.',
     },
     {
       id: 'water_pitcher',
@@ -275,7 +275,7 @@ export const Mission1Prep = () => {
       fallbackIcon: '💧',
       isUsed: potStep >= 2,
       isNext: potStep === 1,
-      tooltip: 'Clean potable water for boiling',
+      tooltip: 'Clean potable water to fully submerge ubod for uniform thermal softening.',
     },
     {
       id: 'sea_salt',
@@ -285,7 +285,7 @@ export const Mission1Prep = () => {
       fallbackIcon: '🧂',
       isUsed: potStep >= 3,
       isNext: potStep === 2,
-      tooltip: '1 tsp pure white sea salt for seasoning & osmosis',
+      tooltip: 'Pure mineral sea salt for osmotic balance, seasoning, and fiber tenderization.',
     },
     {
       id: 'colander',
@@ -295,7 +295,7 @@ export const Mission1Prep = () => {
       fallbackIcon: '🥣',
       isUsed: potStep >= 5,
       isNext: potStep === 4,
-      tooltip: 'Perforated colander for draining boiling water and cooling rinse',
+      tooltip: 'Perforated stainless colander to drain boiling water and allow steam-cooling in sink.',
     },
   ];
 

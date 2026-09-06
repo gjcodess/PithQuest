@@ -146,7 +146,7 @@ export const Mission8Packaging = () => {
       fallbackIcon: '✨',
       isUsed: packStep >= 1,
       isNext: packStep === 0,
-      tooltip: 'Golden, crispy, cooled crackers ready for bagging',
+      tooltip: 'Golden, crispy, room-temperature crackers ready for calibrated 50g pouch filling.',
     },
     {
       id: 'brand_label',
@@ -156,7 +156,7 @@ export const Mission8Packaging = () => {
       fallbackIcon: '🏷️',
       isUsed: packStep >= 2,
       isNext: packStep === 1,
-      tooltip: 'NUDAZAR HONORE - Ubod CRUNCH authentic product label and 150°C seal',
+      tooltip: 'NUDAZAR HONORE - Ubod CRUNCH brand label & 150°C impulse moisture-barrier heat seal.',
     },
     {
       id: 'retail_box',
@@ -166,7 +166,7 @@ export const Mission8Packaging = () => {
       fallbackIcon: '📦',
       isUsed: packStep >= 3,
       isNext: packStep === 2,
-      tooltip: 'Countertop display box for 8 retail pouches',
+      tooltip: 'Corrugated master retail display box packed with 8 sealed pouches for commercial distribution.',
     },
   ];
 

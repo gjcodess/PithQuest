@@ -209,7 +209,7 @@ export const Mission5Steaming = () => {
       fallbackIcon: '💧',
       isUsed: steamerStep >= 1,
       isNext: steamerStep === 0,
-      tooltip: 'Clean potable water to produce 100°C rolling steam in the base tier',
+      tooltip: 'Potable water poured into base tier to generate 100°C saturated steam.',
     },
     {
       id: 'perforated_tier',
@@ -219,7 +219,7 @@ export const Mission5Steaming = () => {
       fallbackIcon: '♨️',
       isUsed: steamerStep >= 2,
       isNext: steamerStep === 1,
-      tooltip: 'Middle tier rack with steam vent holes to distribute rolling steam evenly',
+      tooltip: 'Perforated aluminum tier allowing 360° convection steam penetration.',
     },
     {
       id: 'molded_tray',
@@ -229,7 +229,7 @@ export const Mission5Steaming = () => {
       fallbackIcon: '🧈',
       isUsed: steamerStep >= 3,
       isNext: steamerStep === 2,
-      tooltip: 'Silicone mold filled with uniform 3 tsp portions of ubod dough',
+      tooltip: '24 leveled dough portions loaded for 10-minute starch gelatinization.',
     },
     {
       id: 'heat_mitts',
@@ -239,7 +239,7 @@ export const Mission5Steaming = () => {
       fallbackIcon: '🧤',
       isUsed: steamerStep >= 6,
       isNext: steamerStep === 5,
-      tooltip: 'Heavy heat-resistant mitts required for safely handling 100°C hot steamer tiers',
+      tooltip: 'Certified thermal PPE gloves to safely transfer hot 100°C silicone molds to cooling racks.',
     },
   ];
 

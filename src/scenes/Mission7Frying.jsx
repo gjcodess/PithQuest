@@ -225,7 +225,7 @@ export const Mission7Frying = () => {
       fallbackIcon: '🫗',
       isUsed: fryStep >= 1,
       isNext: fryStep === 0,
-      tooltip: '5 cups fresh vegetable cooking oil for deep submerging',
+      tooltip: 'High smoke-point vegetable oil heated to 180°C–190°C for instantaneous expansion.',
     },
     {
       id: 'dehydrated_pellets',
@@ -235,7 +235,7 @@ export const Mission7Frying = () => {
       fallbackIcon: '📦',
       isUsed: fryStep >= 3,
       isNext: fryStep === 2,
-      tooltip: 'Dry translucent pellets held in airtight clip container ready for hot oil',
+      tooltip: 'Glassy dry pellets whose internal moisture flashes to steam, ballooning the cracker.',
     },
     {
       id: 'colander',
@@ -245,7 +245,7 @@ export const Mission7Frying = () => {
       fallbackIcon: '🥣',
       isUsed: fryStep >= 5,
       isNext: fryStep === 4,
-      tooltip: 'Perforated colander lined with paper towels to drain surface oil quickly',
+      tooltip: 'Perforated colander with absorbent paper to drain excess oil and preserve crispness.',
     },
     {
       id: 'platter',
@@ -255,7 +255,7 @@ export const Mission7Frying = () => {
       fallbackIcon: '✨',
       isUsed: fryStep >= 6,
       isNext: fryStep === 5,
-      tooltip: 'Cooled, crunchy, golden crackers ready for packaging',
+      tooltip: 'Sanitized tray for cooling golden, airy, non-greasy ubod kropek crackers.',
     },
   ];
 

@@ -22,7 +22,7 @@ import { Mission8Packaging } from './scenes/Mission8Packaging';
 import { EvaluationScene } from './scenes/EvaluationScene';
 
 export const App = () => {
-  const { scene, stageKey } = useGame();
+  const { scene, stageKey, isDialogueCollapsed, isInventoryCollapsed } = useGame();
 
   const renderScene = () => {
     switch (scene) {
@@ -56,7 +56,13 @@ export const App = () => {
   return (
     <div className="game-app">
       <HeaderHUD />
-      <main className="game-viewport">
+      <main
+        className={`game-viewport ${
+          isDialogueCollapsed ? 'dialogue-collapsed' : 'dialogue-expanded'
+        } ${
+          isInventoryCollapsed ? 'inventory-collapsed' : 'inventory-expanded'
+        }`}
+      >
         <div className="scene-container">
           {renderScene()}
         </div>

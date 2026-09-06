@@ -218,7 +218,7 @@ export const Mission2Grinding = () => {
       fallbackIcon: '🥥',
       isUsed: processorStep >= 1,
       isNext: processorStep === 0,
-      tooltip: 'Fork-tender boiled coconut pith',
+      tooltip: 'Fork-tender boiled coconut pith strips ready for mechanical fiber disintegration.',
     },
     {
       id: 'salt_portion',
@@ -228,7 +228,7 @@ export const Mission2Grinding = () => {
       fallbackIcon: '🧂',
       isUsed: processorStep >= 2,
       isNext: processorStep === 1,
-      tooltip: '1 tsp pure sea salt',
+      tooltip: '1 tsp pure sea salt to enhance natural sweetness and homogenize cell pureeing.',
     },
     {
       id: 'spatula',
@@ -238,7 +238,7 @@ export const Mission2Grinding = () => {
       fallbackIcon: '🥄',
       isUsed: processorStep >= 5,
       isNext: processorStep === 4,
-      tooltip: 'Red silicone spatula for bowl scraping',
+      tooltip: 'Flexible silicone spatula to thoroughly scrape pureed paste from processor walls.',
     },
     {
       id: 'prep_bowl',
@@ -248,7 +248,7 @@ export const Mission2Grinding = () => {
       fallbackIcon: '🥣',
       isUsed: processorStep >= 5,
       isNext: false,
-      tooltip: 'Sanitized large mixing bowl for collecting puree',
+      tooltip: 'Sanitized stainless mixing bowl to collect and weigh 1 cup of smooth pureed paste.',
     },
   ];
 

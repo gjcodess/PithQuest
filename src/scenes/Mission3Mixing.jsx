@@ -209,7 +209,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🌾',
       isUsed: bowlStep >= 1,
       isNext: bowlStep === 0,
-      tooltip: 'Erawan brand fine white rice flour',
+      tooltip: 'Fine white rice flour providing amylose and amylopectin starches for structural expansion.',
     },
     {
       id: 'salt',
@@ -219,7 +219,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🧂',
       isUsed: bowlStep >= 2,
       isNext: bowlStep === 1,
-      tooltip: '1 tsp pure white sea salt',
+      tooltip: '1 tsp pure sea salt to enhance savoriness and reinforce dough gluten-free binding.',
     },
     {
       id: 'ubod_paste',
@@ -229,7 +229,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🥥',
       isUsed: bowlStep >= 3,
       isNext: bowlStep === 2,
-      tooltip: 'Smooth boiled coconut pith puree',
+      tooltip: 'Smooth boiled ubod puree adding dietary fiber, moisture, and delicate flavor notes.',
     },
     {
       id: 'water_hydration',
@@ -239,7 +239,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '💧',
       isUsed: bowlStep >= 4,
       isNext: bowlStep === 3,
-      tooltip: 'Clean potable water for starch hydration',
+      tooltip: 'Potable water added incrementally to hydrate starch granules into pliable dough.',
     },
     {
       id: 'spatula',
@@ -249,7 +249,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🥄',
       isUsed: bowlStep >= 6,
       isNext: bowlStep === 4,
-      tooltip: 'Red silicone spatula for dough folding',
+      tooltip: 'Silicone dough spatula for thorough folding, kneading, and homogeneous blending.',
     },
   ];
 
