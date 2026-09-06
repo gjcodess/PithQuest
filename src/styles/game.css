@@ -1018,12 +1018,17 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .scene-container {
   width: 100%;
   height: 100%;
   position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ==========================================================================
@@ -1032,6 +1037,7 @@
 .workstation-scene {
   width: 100%;
   height: 100%;
+  min-height: 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1076,18 +1082,22 @@
 
 /* The Main Interactive Work Zone (Center) */
 .stage-center-zone {
-  flex: 1;
+  flex: 1 1 0%;
+  min-height: 0;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   z-index: 5;
   width: 100%;
-  height: 100%;
   box-sizing: border-box;
-  padding: 12px 350px 12px 350px;
+  padding: 16px 350px 36px 350px;
   overflow-y: auto;
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
   transition: padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1121,6 +1131,8 @@
   position: relative;
   max-width: 680px;
   width: 90%;
+  margin: auto 0;
+  flex-shrink: 0;
   animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -5740,10 +5752,11 @@ body.holding-item-cursor * {
   gap: 22px;
   width: 100%;
   max-width: 1140px;
-  margin: 0 auto;
+  margin: auto 0;
   padding: 8px 16px;
   z-index: 5;
   position: relative;
+  flex-shrink: 0;
 }
 
 .station-side-card {
@@ -7578,16 +7591,11 @@ body.holding-item-cursor * {
    PORTIONING & MOLDING WORKSTATION STYLING (Stage 4)
    ========================================================================== */
 
-.molding-scene .stage-center-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .molding-scene .stage-content-row {
-  margin: 0 auto;
+  margin: auto 0;
   gap: 16px;
   align-items: stretch;
+  flex-shrink: 0;
 }
 
 .molding-workstation {
@@ -7833,9 +7841,10 @@ body.holding-item-cursor * {
 }
 
 .steaming-scene .stage-content-row {
-  margin: 0 auto;
+  margin: auto 0;
   gap: 16px;
   align-items: stretch;
+  flex-shrink: 0;
 }
 
 .steaming-workstation {
@@ -7871,14 +7880,14 @@ body.holding-item-cursor * {
   height: 330px;
   min-height: 330px;
   max-height: 330px;
-  gap: 10px;
+  gap: 8px;
   background: radial-gradient(circle at 50% 30%, #fffdfa 0%, #f7f1e6 100%);
   overflow: hidden;
 }
 
 .steaming-scene .container-state-img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 86%;
+  max-height: 86%;
   object-fit: contain;
   transform: none;
   transform-origin: center center;
@@ -7888,7 +7897,7 @@ body.holding-item-cursor * {
   background: #ffffff;
   border: 2px solid #dfcfb9;
   border-radius: 10px;
-  padding: 8px 10px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -7926,7 +7935,7 @@ body.holding-item-cursor * {
 }
 
 .steaming-spec-item .spec-title {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: #735b44;
   text-transform: uppercase;
@@ -7934,34 +7943,34 @@ body.holding-item-cursor * {
 }
 
 .steaming-spec-item .spec-val {
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 800;
   color: #3d2612;
 }
 
-.steaming-progress-row {
+.steaming-cycle-row {
   background: #fbf8f1;
   border: 1.5px solid #dfcfb9;
   border-radius: 6px;
-  padding: 4px 8px;
+  padding: 3px 6px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   box-shadow: 0 1.5px 0 #cfbc9f;
 }
 
-.steaming-progress-header {
+.steaming-cycle-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 800;
   color: #3d2612;
 }
 
-.steaming-progress-bar-bg {
+.steaming-cycle-bar-bg {
   width: 100%;
-  height: 7px;
+  height: 6px;
   background: #f2e7d5;
   border: 1px solid #dfcfb9;
   border-radius: 4px;
@@ -7969,11 +7978,26 @@ body.holding-item-cursor * {
   box-shadow: inset 0 1.5px 2px rgba(78, 52, 28, 0.12);
 }
 
-.steaming-progress-bar-fill {
+.steaming-cycle-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+  background: linear-gradient(90deg, #38bdf8 0%, #10b981 100%);
   border-radius: 4px;
   transition: width 0.3s ease;
+}
+
+.steaming-thermal-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #15803d;
+  box-shadow: 0 1.5px 0 #86efac;
 }
 
 .steaming-texture-compare {
@@ -8023,7 +8047,7 @@ body.holding-item-cursor * {
 }
 
 .steaming-science-note {
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   color: #1e3a8a;
   background: #f0f9ff;
   border: 1.5px solid #bae6fd;
@@ -8049,9 +8073,10 @@ body.holding-item-cursor * {
 }
 
 .dehydration-scene .stage-content-row {
-  margin: 0 auto;
+  margin: auto 0;
   gap: 16px;
   align-items: stretch;
+  flex-shrink: 0;
 }
 
 .dehydration-scene .workstation-footer {
@@ -8340,8 +8365,214 @@ body.holding-item-cursor * {
   border: 1px solid #86efac;
 }
 
-.dehydration-scene .workstation-header {
-  padding: 12px 18px;
+/* ==========================================================================
+   STARCH STEAMING & GELATINIZATION WORKSTATION STYLING (Stage 5)
+   ========================================================================== */
+
+.steaming-scene .stage-content-row {
+  margin: auto 0;
+  gap: 16px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.steaming-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.steaming-scene .workstation-footer:not(.has-custom-footer) {
+  min-height: 86px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 2.5px solid #d5c3ab;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 40%, #f2e7d5 80%, #dfcfb9 100%);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.95), 0 -2px 6px rgba(78, 52, 28, 0.04);
+}
+
+.steaming-scene .container-state-img {
+  max-width: 86%;
+  max-height: 86%;
+  object-fit: contain;
+  transform: none;
+  transform-origin: center center;
+}
+
+.steaming-qc-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 330px;
+  min-height: 330px;
+  max-height: 330px;
+  gap: 8px;
+  background: radial-gradient(circle at 50% 30%, #fffdfa 0%, #f7f1e6 100%);
+  overflow: hidden;
+}
+
+/* Steaming Timer & Expansion Spec Card */
+.steaming-spec-card {
+  background: #ffffff;
+  border: 2px solid #dfcfb9;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2.5px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
+}
+
+.steaming-spec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #3d2612;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid #dfcfb9;
+}
+
+.steaming-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.steaming-spec-item {
+  background: #fbf8f1;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.steaming-spec-item .spec-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #735b44;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.steaming-spec-item .spec-val {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+/* 10-Minute Steam Cycle Progress Row */
+.steaming-cycle-row {
+  background: #fbf8f1;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  padding: 3px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.steaming-cycle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.steaming-cycle-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #f2e7d5;
+  border: 1px solid #dfcfb9;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1.5px 2px rgba(78, 52, 28, 0.12);
+}
+
+.steaming-cycle-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8 0%, #10b981 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Steam Heat Flow Waves */
+.steaming-thermal-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #15803d;
+  box-shadow: 0 1.5px 0 #86efac;
+}
+
+.steaming-science-note {
+  font-size: 0.66rem;
+  color: #1e3a8a;
+  background: #f0f9ff;
+  border: 1.5px solid #bae6fd;
+  border-radius: 6px;
+  padding: 6px 8px;
+  line-height: 1.35;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #7dd3fc;
+}
+
+.steaming-science-note strong {
+  color: #0284c7;
+}
+
+/* ==========================================================================
+   STAGE 6: COOLING & CABINET DEHYDRATION WORKSTATION STYLING
+   ========================================================================== */
+
+.dehydration-scene .stage-content-row {
+  margin: auto 0;
+  gap: 16px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.dehydration-scene .workstation-footer {
+  min-height: 86px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 2.5px solid #d5c3ab;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 40%, #f2e7d5 80%, #dfcfb9 100%);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.95), 0 -2px 6px rgba(78, 52, 28, 0.04);
+}
+
+.dehydration-scene .container-state-img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  transform: none;
+  transform-origin: center center;
 }
 
 .dehydration-qc-viewport {
@@ -8360,15 +8591,7 @@ body.holding-item-cursor * {
   overflow: hidden;
 }
 
-.dehydration-scene .container-state-img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-  transform: none;
-  transform-origin: center center;
-}
-
-/* Dehydration Parameters & Moisture Card */
+/* Dehydration Spec Card */
 .dehydration-spec-card {
   background: #ffffff;
   border: 2px solid #dfcfb9;
@@ -8424,7 +8647,7 @@ body.holding-item-cursor * {
   color: #3d2612;
 }
 
-/* 12-Hour Cycle Row */
+/* 12-Hour Moisture Reduction Progress Row */
 .dehydration-cycle-row {
   background: #fbf8f1;
   border: 1.5px solid #dfcfb9;
@@ -8432,7 +8655,7 @@ body.holding-item-cursor * {
   padding: 3px 6px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   box-shadow: 0 1.5px 0 #cfbc9f;
 }
 
@@ -8440,7 +8663,7 @@ body.holding-item-cursor * {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -8457,60 +8680,54 @@ body.holding-item-cursor * {
 
 .dehydration-cycle-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+  background: linear-gradient(90deg, #f59e0b 0%, #10b981 100%);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
 
-/* Texture Comparison */
+/* Texture Comparison (Rubbery Gel -> Glassy Vitrified Pellet) */
 .dehydration-texture-compare {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 5px;
 }
 
-.texture-compare-box {
+.texture-box {
   background: #ffffff;
   border: 1.5px solid #dfcfb9;
   border-radius: 6px;
-  padding: 4px 6px;
+  padding: 3px 6px;
   display: flex;
   flex-direction: column;
-  text-align: left;
-  gap: 2px;
-  box-shadow: 0 1.5px 0 #cfbc9f;
-  transition: all 0.2s ease;
+  align-items: center;
+  text-align: center;
 }
 
-.texture-compare-box.active-state {
-  border: 2px solid #4ade80;
-  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
-  box-shadow: 0 2px 0 #166534, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+.texture-box.target-good {
+  background: #f0fdf4;
+  border-color: #86efac;
 }
 
-.texture-box-tag {
-  font-size: 0.68rem;
-  font-weight: 800;
-  color: #735b44;
-}
-
-.texture-compare-box.active-state .texture-box-tag {
-  color: #14532d;
-}
-
-.texture-box-desc {
+.texture-lbl {
   font-size: 0.62rem;
-  color: #3d2612;
   font-weight: 700;
+  color: #735b44;
+  text-transform: uppercase;
 }
 
-.texture-compare-box.active-state .texture-box-desc {
-  color: #14532d;
+.texture-val {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.texture-box.target-good .texture-val {
+  color: #15803d;
 }
 
 /* Science Note */
 .dehydration-science-note {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: #1e3a8a;
   background: #f0f9ff;
   border: 1.5px solid #bae6fd;
@@ -8529,16 +8746,11 @@ body.holding-item-cursor * {
    STAGE 7: DEEP FRYING & OIL DRAINING WORKSTATION STYLING
    ========================================================================== */
 
-.frying-scene .stage-center-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .frying-scene .stage-content-row {
-  margin: 0 auto;
+  margin: auto 0;
   gap: 16px;
   align-items: stretch;
+  flex-shrink: 0;
 }
 
 .frying-scene .workstation-footer {
@@ -8699,16 +8911,11 @@ body.holding-item-cursor * {
    STAGE 8: PACKAGING & QUALITY ASSURANCE WORKSTATION STYLING
    ========================================================================== */
 
-.packaging-scene .stage-center-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .packaging-scene .stage-content-row {
-  margin: 0 auto;
+  margin: auto 0;
   gap: 16px;
   align-items: stretch;
+  flex-shrink: 0;
 }
 
 .packaging-scene .workstation-footer {
@@ -9642,7 +9849,7 @@ body.holding-item-cursor * {
   color: #92400e;
 }
 
-/* Draggable Card */
+/* Draggable & Tappable Card */
 .sequencing-card {
   background: linear-gradient(180deg, #ffffff 0%, #faf6f0 100%);
   border: 2px solid #d4be9b;
@@ -9659,6 +9866,10 @@ body.holding-item-cursor * {
   height: 100%;
   box-sizing: border-box;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none !important;
+  -webkit-user-drag: element !important;
+  touch-action: none;
   transition: transform 0.22s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
@@ -9684,6 +9895,24 @@ body.holding-item-cursor * {
   border-style: dashed;
   border-color: #d97706;
   box-shadow: none;
+}
+
+.sequencing-card.selected-tap-card {
+  border-color: #f59e0b !important;
+  border-bottom-color: #d97706 !important;
+  box-shadow: 0 0 0 3px #f59e0b, 0 12px 28px rgba(245, 158, 11, 0.35) !important;
+  transform: translateY(-8px) scale(1.03) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%) !important;
+  animation: cardSelectedPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes cardSelectedPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px #f59e0b, 0 8px 20px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 5px #f59e0b, 0 14px 30px rgba(245, 158, 11, 0.5);
+  }
 }
 
 .sequencing-card.correct-glow {
@@ -9714,6 +9943,22 @@ body.holding-item-cursor * {
   white-space: nowrap;
   font-family: var(--font-heading);
   border: 1.5px solid #ffffff;
+  pointer-events: none;
+}
+
+.seq-status-badge.badge-selected {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  animation: bounceBadge 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes bounceBadge {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-3px);
+  }
 }
 
 .seq-status-badge.badge-correct {
@@ -9744,6 +9989,7 @@ body.holding-item-cursor * {
   box-sizing: border-box;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  pointer-events: none;
 }
 
 .grip-dots {
@@ -9765,6 +10011,11 @@ body.holding-item-cursor * {
   border-radius: 10px;
   padding: 5px;
   box-shadow: inset 0 1px 3px rgba(90, 60, 30, 0.08);
+  pointer-events: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
 }
 
 .seq-card-img {
@@ -9772,8 +10023,11 @@ body.holding-item-cursor * {
   max-height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 3px 5px rgba(69, 26, 3, 0.12));
-  pointer-events: none;
-  user-select: none;
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-drag: none !important;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -9949,7 +10203,7 @@ body.holding-item-cursor * {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 18px 0 0;
+  margin: 14px 0 8px;
   z-index: 10;
   position: relative;
   flex-shrink: 0;

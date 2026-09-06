@@ -121,15 +121,33 @@ export const InventoryTray = ({
                 if (isUsed || item.disabled) return;
                 e.dataTransfer.setData('text/plain', JSON.stringify({ id: item.id, name: item.name }));
               }}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+              }}
               title={descriptionText || item.name}
               role="button"
               tabIndex={0}
             >
-              <div className="card-icon-col">
+              <div
+                className="card-icon-col"
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  return false;
+                }}
+              >
                 <img
                   src={item.img}
                   alt={item.name}
                   className="card-icon-img"
+                  draggable={false}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                  }}
                   onError={(e) => {
                     e.target.style.display = 'none';
                     if (e.target.nextSibling) e.target.nextSibling.style.display = 'block';
