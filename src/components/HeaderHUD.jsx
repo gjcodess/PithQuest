@@ -196,7 +196,7 @@ export const HeaderHUD = () => {
               {/* Menu Top Hero Header */}
               <div className="hud-menu-header">
                 <div className="hud-menu-header-content">
-                  <div className="hud-menu-top-badge">🥥 Virtual Laboratory Controls</div>
+                  <div className="hud-menu-top-badge">Virtual Laboratory Controls</div>
                   <div className="hud-menu-brand-row">
                     <h3 className="hud-menu-logo">PITH<span>QUEST</span></h3>
                     <button

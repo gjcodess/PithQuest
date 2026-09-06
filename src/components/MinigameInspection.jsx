@@ -91,7 +91,7 @@ export const MinigameInspection = ({
   return (
     <div className="inspection-minigame-container">
       <div className="vessel-top-badge">
-        {mode === 'tools' ? '🛠️ Workstation Quality & Tool Clearance' : '🥥 Raw Material & Freshness Quality Control'}
+        {mode === 'tools' ? 'Workstation Quality & Tool Clearance' : 'Raw Material & Freshness Quality Control'}
       </div>
       <div className="vessel-header">
         <span className="vessel-title">{title}</span>

@@ -335,7 +335,36 @@ export const Mission6Dehydration = () => {
                   >
                     <div className="dehydrator-dial-assembly">
                       <span className={`dehydrator-dial-icon ${dehydrateStep === 4 ? 'spinning' : ''}`}>
-                        {dehydrateStep === 4 ? '🌀' : '⏻'}
+                        {dehydrateStep === 4 ? (
+                          <svg
+                            className="convection-turbine-svg"
+                            viewBox="0 0 24 24"
+                            width="28"
+                            height="28"
+                            fill="none"
+                          >
+                            <circle cx="12" cy="12" r="3" fill="#6ee7b7" stroke="#059669" strokeWidth="1" />
+                            <path d="M12 9 C11 4.5 15 2.5 17.5 3 C17 6.5 14.5 8.5 12 9 Z" fill="#34d399" />
+                            <path d="M15 12 C19.5 11 21.5 15 21 17.5 C17.5 17 15.5 14.5 15 12 Z" fill="#10b981" />
+                            <path d="M12 15 C13 19.5 9 21.5 6.5 21 C7 17.5 9.5 15.5 12 15 Z" fill="#34d399" />
+                            <path d="M9 12 C4.5 13 2.5 9 3 6.5 C6.5 7 8.5 9.5 9 12 Z" fill="#10b981" />
+                          </svg>
+                        ) : (
+                          <svg
+                            className="power-btn-svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                            <line x1="12" y1="2" x2="12" y2="12" />
+                          </svg>
+                        )}
                       </span>
                       {dehydrateStep === 3 && (
                         <>
@@ -368,9 +397,10 @@ export const Mission6Dehydration = () => {
                                 style={{ width: `${dehydrateProgress}%` }}
                               />
                             </div>
-                            <span className="dehydrator-progress-label">
-                              {dehydrateProgress}% Complete • {Math.max(1, Math.round(12 * (1 - dehydrateProgress / 100)))}h Remaining
-                            </span>
+                            <div className="dehydrator-progress-label-row">
+                              <span className="progress-pct-badge">{dehydrateProgress}% Complete</span>
+                              <span className="progress-time-remaining">⏳ {Math.max(1, Math.round(12 * (1 - dehydrateProgress / 100)))}h Remaining</span>
+                            </div>
                           </div>
                         ) : (
                           <span className="dehydrator-action-hint">
