@@ -17,7 +17,7 @@
   }
 
   .stage-center-zone {
-    padding: 8px 260px 12px 260px;
+    padding: 12px 260px 32px 260px;
   }
 
   .orientation-subnav-container {
@@ -75,7 +75,7 @@
   }
 
   .stage-center-zone {
-    padding: 10px 240px 10px 240px;
+    padding: 12px 240px 32px 240px;
   }
 
   .game-viewport.dialogue-collapsed .stage-center-zone,

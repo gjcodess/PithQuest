@@ -79,6 +79,7 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 html, body {
@@ -90,6 +91,22 @@ html, body {
   color: var(--color-text-main);
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+img, svg {
+  -webkit-touch-callout: none !important;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+[draggable="true"], [draggable], .drag-card, .sequencing-card {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: element !important;
 }
 
 /* ==========================================================================
