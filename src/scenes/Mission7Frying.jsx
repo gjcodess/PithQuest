@@ -78,7 +78,7 @@ export const Mission7Frying = () => {
     },
     {
       stepIndex: 5,
-      acceptedItems: ['platter', 'icon_cracker_platter'],
+      acceptedItems: ['platter', 'icon_cracker_platter', 'platter_empty'],
       prompt: 'Draining surface oil. Transfer to platter',
       img: '/assets/colander_fried_crackers_draining.png',
       fallbackIcon: '🥣',
@@ -115,7 +115,7 @@ export const Mission7Frying = () => {
       handleDropPellets();
     } else if (stepIndex === 4 && (item.id === 'colander' || item.id === 'tool_colander_safe' || item.id === 'skimmer')) {
       handleLiftToDrain();
-    } else if (stepIndex === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter')) {
+    } else if (stepIndex === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter' || item.id === 'platter_empty')) {
       handleTransferToPlatter();
     }
   };
@@ -257,7 +257,7 @@ export const Mission7Frying = () => {
       id: 'platter',
       name: 'Presentation Platter',
       measure: 'Finished Batch Platter',
-      img: '/assets/platter_crackers_cooled.png',
+      img: '/assets/platter_empty.png',
       fallbackIcon: '✨',
       isUsed: fryStep >= 6,
       isNext: fryStep === 5,
@@ -380,7 +380,7 @@ export const Mission7Frying = () => {
                   const item = JSON.parse(data);
                   if (fryStep === 4 && (item.id === 'colander' || item.id === 'tool_colander_safe' || item.id === 'skimmer')) {
                     handleLiftToDrain();
-                  } else if (fryStep === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter')) {
+                  } else if (fryStep === 5 && (item.id === 'platter' || item.id === 'icon_cracker_platter' || item.id === 'platter_empty')) {
                     handleTransferToPlatter();
                   }
                 } catch (err) {

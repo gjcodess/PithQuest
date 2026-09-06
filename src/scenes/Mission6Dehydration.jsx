@@ -76,7 +76,7 @@ export const Mission6Dehydration = () => {
     },
     {
       stepIndex: 5,
-      acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips'],
+      acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips', 'container_empty'],
       prompt: 'Hard, translucent, brittle cracker pellets ready (<8% H2O)! Transfer to airtight container',
       img: '/assets/dehydrator_tray_dried.png',
       fallbackIcon: '✨',
@@ -127,7 +127,7 @@ export const Mission6Dehydration = () => {
       );
     } else if (stepIndex === 2 && (item.id === 'dehydrator_cabinet' || item.id === 'equip_dehydrator_safe')) {
       handleSlideIntoCabinet();
-    } else if (stepIndex === 5 && (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips')) {
+    } else if (stepIndex === 5 && (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips' || item.id === 'container_empty')) {
       handleTransferToStorage();
     }
   };
@@ -252,7 +252,7 @@ export const Mission6Dehydration = () => {
       id: 'storage_container',
       name: 'Airtight Chip Box',
       measure: 'Hermetic Seal (<10%)',
-      img: '/assets/container_dehydrated_chips.png',
+      img: '/assets/container_empty.png',
       fallbackIcon: '📦',
       isUsed: dehydrateStep >= 6,
       isNext: dehydrateStep === 5,
@@ -444,7 +444,7 @@ export const Mission6Dehydration = () => {
                   const data = e.dataTransfer.getData('text/plain');
                   if (!data) return;
                   const item = JSON.parse(data);
-                  if (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips') {
+                  if (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips' || item.id === 'container_empty') {
                     handleTransferToStorage();
                   }
                 } catch (err) {

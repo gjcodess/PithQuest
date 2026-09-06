@@ -22,7 +22,7 @@ export const Mission4Molding = () => {
       {
         badge: 'Step 13: Portioning & Molding',
         note: "Using the same amount of paste for each piece helps produce crackers with uniform size and thickness, promoting more even cooking and drying. Don't forget to wear gloves!",
-        hint: 'Select the Ubod Cracker Paste on your shelf, then tap the mold to place a portion.',
+        hint: 'Select the Ubod Paste on your shelf, then tap the mold to place a portion.',
         hideButton: true,
       }
     );
@@ -143,7 +143,7 @@ export const Mission4Molding = () => {
   const stage4Inventory = [
     {
       id: 'dough_bowl',
-      name: 'Ubod Cracker Paste',
+      name: 'Ubod Paste',
       measure: '3 tsp Standard Portion',
       img: '/assets/mixing_bowl_dough_uniform.png',
       fallbackIcon: '🥣',
