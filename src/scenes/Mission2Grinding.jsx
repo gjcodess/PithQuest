@@ -368,7 +368,7 @@ disabled: true,
             }`}
             style={{
               width: '380px',
-              cursor: processorStep === 4 ? 'pointer' : 'default',
+              cursor: processorStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
               if (processorStep === 4) {
@@ -507,3 +507,4 @@ disabled: true,
     </div>
   );
 };
+

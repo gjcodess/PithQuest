@@ -331,7 +331,7 @@ export const Mission3Mixing = () => {
             }`}
             style={{
               width: '380px',
-              cursor: bowlStep === 4 ? 'pointer' : 'default',
+              cursor: bowlStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
               if (bowlStep === 4) {
@@ -537,3 +537,4 @@ export const Mission3Mixing = () => {
     </div>
   );
 };
+

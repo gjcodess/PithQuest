@@ -124,7 +124,7 @@ export const MultiStateContainer = ({
       {/* Main Container Viewport */}
       <div
         className="workstation-viewport"
-        style={{ minHeight: containerHeight, flex: '1 1 auto' }}
+        style={{ height: containerHeight, minHeight: containerHeight, maxHeight: containerHeight, flex: '0 0 auto' }}
       >
         {/* Animated Visual Effects Overlay */}
         {activeAnimation === 'boiling' && (

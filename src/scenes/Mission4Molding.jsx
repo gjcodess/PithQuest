@@ -284,7 +284,7 @@ export const Mission4Molding = () => {
             }`}
             style={{
               width: '360px',
-              cursor: moldStep === 2 ? 'pointer' : 'default',
+              cursor: moldStep === 2 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
               if (moldStep === 2) {
@@ -458,4 +458,5 @@ export const Mission4Molding = () => {
     </div>
   );
 };
+
 
