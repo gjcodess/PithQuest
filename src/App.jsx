@@ -23,7 +23,7 @@ import { SequencingScene } from './scenes/SequencingScene';
 import { EvaluationScene } from './scenes/EvaluationScene';
 
 export const App = () => {
-  const { scene, stageKey, isDialogueCollapsed, isInventoryCollapsed } = useGame();
+  const { scene, stageKey, isDialogueCollapsed, isInventoryCollapsed, zoomLevel } = useGame();
 
   const renderScene = () => {
     switch (scene) {
@@ -65,6 +65,10 @@ export const App = () => {
         } ${
           isInventoryCollapsed ? 'inventory-collapsed' : 'inventory-expanded'
         }`}
+        style={{
+          zoom: zoomLevel,
+          '--game-zoom': zoomLevel,
+        }}
       >
         <div className="scene-container">
           {renderScene()}

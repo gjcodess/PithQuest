@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
-import { RestartIcon } from './Icons';
+import { RestartIcon, ZoomInIcon, ZoomOutIcon } from './Icons';
 
 const STAGE_CONFIG = {
   orientation: { num: 'Prep', title: 'Orientation & Safety', step: 0 },
@@ -33,6 +33,11 @@ export const HeaderHUD = () => {
     maxUnlockedStage,
     setHoldingItem,
     showToast,
+    zoomLevel,
+    setZoomLevel,
+    zoomIn,
+    zoomOut,
+    resetZoom,
   } = useGame();
 
   if (scene === 'title') return null;
@@ -98,6 +103,8 @@ export const HeaderHUD = () => {
     });
   };
 
+  const zoomPercent = Math.round(zoomLevel * 100);
+
   return (
     <header className="game-hud">
       <div className="hud-left">
@@ -152,6 +159,55 @@ export const HeaderHUD = () => {
       </div>
 
       <div className="hud-right">
+        {/* Zoom Slider Control */}
+        <div className="hud-zoom-control" title="Zoom Workspace View">
+          <button
+            type="button"
+            className="zoom-step-btn"
+            onClick={zoomOut}
+            disabled={zoomLevel <= 0.5}
+            title="Zoom Out (-5%)"
+            aria-label="Zoom Out"
+          >
+            <ZoomOutIcon size={14} />
+          </button>
+
+          <div className="zoom-slider-wrap">
+            <input
+              type="range"
+              min="50"
+              max="150"
+              step="5"
+              value={zoomPercent}
+              onChange={(e) => setZoomLevel(Number(e.target.value) / 100)}
+              className="zoom-slider-input"
+              aria-label="Workspace zoom level"
+              title={`Zoom: ${zoomPercent}% (Slide to zoom)`}
+            />
+          </div>
+
+          <button
+            type="button"
+            className="zoom-step-btn"
+            onClick={zoomIn}
+            disabled={zoomLevel >= 1.5}
+            title="Zoom In (+5%)"
+            aria-label="Zoom In"
+          >
+            <ZoomInIcon size={14} />
+          </button>
+
+          <button
+            type="button"
+            className={`zoom-val-badge ${zoomPercent !== 100 ? 'is-custom' : ''}`}
+            onClick={resetZoom}
+            title={zoomPercent !== 100 ? 'Click to reset to 100%' : 'Standard 100% Zoom'}
+            aria-label="Reset zoom to 100%"
+          >
+            {zoomPercent}%
+          </button>
+        </div>
+
         <div className="score-display">
           <span className="star-icon">⭐</span>
           <span>{score}</span>

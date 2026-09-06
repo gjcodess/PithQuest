@@ -18,6 +18,10 @@
   .stage-center-zone {
     padding: 10px 185px 10px 255px;
   }
+
+  .zoom-slider-wrap {
+    width: 56px;
+  }
 }
 
 /* Medium Devices (Tablets & Small Laptops, max-width: 900px) */
@@ -95,6 +99,21 @@
   .score-display {
     padding: 4px 10px;
     font-size: 0.95rem;
+  }
+
+  .hud-zoom-control {
+    padding: 2px 4px;
+    gap: 2px;
+  }
+
+  .zoom-slider-wrap {
+    display: none;
+  }
+
+  .zoom-val-badge {
+    min-width: 32px;
+    font-size: 0.65rem;
+    padding: 1px 4px;
   }
 
   .dialogue-box {
