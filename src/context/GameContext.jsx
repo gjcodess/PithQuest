@@ -138,6 +138,7 @@ export const GameProvider = ({ children }) => {
     mission7: false,
     mission8: false,
     sequencing: false,
+    evaluation: false,
   });
 
   // Sound Mute Toggle
@@ -183,6 +184,7 @@ export const GameProvider = ({ children }) => {
       mission7: 8,
       mission8: 9,
       sequencing: 10,
+      evaluation: 10,
     };
     if (NEXT_STAGE_UNLOCKED[missionKey] !== undefined) {
       setMaxUnlockedStage(prev => Math.max(prev, NEXT_STAGE_UNLOCKED[missionKey]));
@@ -306,6 +308,7 @@ export const GameProvider = ({ children }) => {
       mission7: false,
       mission8: false,
       sequencing: false,
+      evaluation: false,
     });
     setHoldingItem(null);
     setStageKey(prev => prev + 1);

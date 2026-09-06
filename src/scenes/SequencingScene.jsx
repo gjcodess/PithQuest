@@ -4,12 +4,13 @@ import { soundManager } from '../audio/soundManager';
 import { SequencingActivity } from '../components/SequencingActivity';
 
 export const SequencingScene = () => {
-  const { studentName, setScene, speak, hideDialogue, missionsCompleted, maxUnlockedStage } = useGame();
+  const { studentName, setScene, speak, hideDialogue, missionsCompleted, completeMission, maxUnlockedStage } = useGame();
   const isAlreadyCompleted = Boolean(missionsCompleted?.sequencing);
   const [isCompleted, setIsCompleted] = useState(() => isAlreadyCompleted);
 
   useEffect(() => {
     if (isAlreadyCompleted) {
+      completeMission('sequencing');
       speak(
         `Validation Exam Completed, ${studentName || 'Master Food Technologist'}! All 8 processing stages are verified in sequence. You are officially cleared for graduation!`,
         'happy',
@@ -36,6 +37,7 @@ export const SequencingScene = () => {
 
   const handleSequenceCompleted = () => {
     setIsCompleted(true);
+    completeMission('sequencing');
     soundManager.playFanfare();
     speak(
       `YOU COMPLETED THE PITHQUEST, ${studentName || 'Master Food Technologist'}! You have verified the complete 8-stage food processing pipeline without a flaw. You are now officially cleared for graduation!`,
@@ -52,6 +54,7 @@ export const SequencingScene = () => {
   const handleProceedToEvaluation = () => {
     soundManager.playClick();
     hideDialogue();
+    completeMission('sequencing');
     setScene('evaluation');
   };
 

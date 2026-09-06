@@ -88,7 +88,10 @@ export const HeaderHUD = () => {
   const handleStepClick = (stepObj) => {
     if (currentStage.step === stepObj.step) return;
 
-    const isUnlocked = stepObj.step === 0 || stepObj.step <= (maxUnlockedStage || 0);
+    const isUnlocked =
+      stepObj.step === 0 ||
+      stepObj.step <= (maxUnlockedStage || 0) ||
+      (stepObj.step === 10 && Boolean(missionsCompleted?.sequencing));
 
     if (isUnlocked) {
       soundManager.playClick();
@@ -152,10 +155,14 @@ export const HeaderHUD = () => {
         {HUD_STEPS.map((stepObj, idx) => {
           const isCompleted = Boolean(missionsCompleted?.[stepObj.id]);
           const isActive = currentStage.step === stepObj.step;
-          const isUnlocked = stepObj.step === 0 || stepObj.step <= (maxUnlockedStage || 0);
+          const isUnlocked =
+            stepObj.step === 0 ||
+            stepObj.step <= (maxUnlockedStage || 0) ||
+            isActive ||
+            (stepObj.step === 10 && Boolean(missionsCompleted?.sequencing));
           const isClickable = isUnlocked && !isActive;
 
-          const nodeClass = `step-node ${stepObj.isText ? 'node-text' : ''} ${isCompleted && !isActive ? 'completed' : ''} ${isActive ? 'active' : ''} ${isClickable ? 'clickable' : ''} ${!isUnlocked ? 'locked' : ''}`;
+          const nodeClass = `step-node ${stepObj.isText ? 'node-text' : ''} ${isCompleted && !isActive ? 'completed' : ''} ${isActive ? 'active' : ''} ${isClickable ? 'clickable' : ''} ${!isUnlocked && !isActive ? 'locked' : ''}`;
           const lineClass = `step-line ${isCompleted ? 'filled' : ''}`;
 
           const tooltipTitle = isActive

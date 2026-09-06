@@ -3,10 +3,12 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
 export const EvaluationScene = () => {
-  const { studentName, score, stars, badges, resetGame, speak, setScene } = useGame();
+  const { studentName, score, stars, badges, resetGame, speak, setScene, completeMission } = useGame();
   const certRef = useRef(null);
 
   useEffect(() => {
+    completeMission('sequencing');
+    completeMission('evaluation');
     soundManager.playFanfare();
     speak(
       `Congratulations, ${studentName || 'Food Technologist'}! You have successfully mastered all 8 stages of Coconut Pith Cracker (Ubod CRUNCH) processing and passed the chronological sequencing examination! Review your sensory audit, inspect all earned laboratory badges, and print your official Certificate of Laboratory Completion!`,

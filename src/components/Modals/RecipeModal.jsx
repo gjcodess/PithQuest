@@ -16,33 +16,51 @@ export const RecipeModal = () => {
         <div className="modal-body">
           <div className="recipe-grid">
             <div className="recipe-col">
-              <h3>📋 Ingredients & Formulations</h3>
-              <ul>
-                <li><strong>Fresh Coconut Pith (Ubod):</strong> 2 Cups (washed, cut, boiled & pureed)</li>
-                <li><strong>Erawan Brand Finest Rice Flour:</strong> 2 Cups (1:1 ratio with boiled ubod paste)</li>
-                <li><strong>Pure Sea Salt:</strong> 1 teaspoon per 1 cup boiled ubod (2 tsp total)</li>
-                <li><strong>Potable Water:</strong> 4 cups for boiling + gradual paste hydration</li>
-                <li><strong>Baguio Orchids Vegetable Oil:</strong> 5 cups (for deep frying)</li>
-                <li><strong>Portioning Rule:</strong> 3 Teaspoons per cavity in 24-slot silicone mold</li>
+              <h3>📋 Standard Ingredients & Ratios</h3>
+              <ul className="recipe-ingredient-list">
+                <li>
+                  <strong>🥥 Ubod ng Niyog (Coconut Pith) — 1 Cup:</strong><br />
+                  The main raw material. Provides dietary fiber, natural plant nutrients, structure, and the signature coconut-pith character of the cracker.
+                </li>
+                <li>
+                  <strong>🌾 Rice Flour — 1 Cup (1:1 Ratio):</strong><br />
+                  Acts as the primary starch binder holding ingredients together. Supplies carbohydrates and creates the firm, crispy fracture snap.
+                </li>
+                <li>
+                  <strong>🧂 Pure Sea Salt — 1 Teaspoon (per cup):</strong><br />
+                  Enhances and balances savory flavor; regulates moisture osmosis and supports cellular pureeing.
+                </li>
+                <li>
+                  <strong>💧 Potable Water — 1 Cup (Gradual Hydration):</strong><br />
+                  Provides moisture to hydrate starches and achieve uniform, workable dough consistency for molding.
+                </li>
+                <li>
+                  <strong>🍳 Vegetable Oil — 5 Cups (Deep Frying):</strong><br />
+                  Used for flash-frying dehydrated pellets; delivers dietary fat, golden-brown color, and characteristic puffing.
+                </li>
+                <li>
+                  <strong>📐 Portioning Standard:</strong><br />
+                  Approximately <strong>3 teaspoons per piece</strong> to ensure uniform dimensions, even steaming, and balanced dehydration.
+                </li>
               </ul>
             </div>
             <div className="recipe-col">
               <h3>🔬 Processing Science Standards</h3>
               <div className="pillar-item">
-                <span className="p-badge">1. Pureeing & Mixing ⚙️</span>
-                <p>Pureeing boiled ubod with salt breaks cellulose fibers. Mixing 1:1 with rice flour creates an elastic paste matrix.</p>
+                <span className="p-badge">1. Boiling & Pureeing (10–15 min) ⚙️</span>
+                <p>Boiling tenderizes fibrous ubod in salted water; processing in a food processor ruptures cell walls into a silky fine puree.</p>
               </div>
               <div className="pillar-item">
-                <span className="p-badge">2. Steaming (10 min) ♨️</span>
-                <p>Steaming gelatinizes the rice starches at 100°C, locking the molded rectangular shapes so they don't crumble.</p>
+                <span className="p-badge">2. Starch Gelatinization (10 min) ♨️</span>
+                <p>100°C steam swells and gelatinizes rice amylose and amylopectin starches, locking the molded rectangular shapes.</p>
               </div>
               <div className="pillar-item">
-                <span className="p-badge">3. Dehydration (90°C / 12h) 💨</span>
-                <p>Reduces moisture to &lt;10% on spaced mesh trays, producing translucent glassy cracker pellets.</p>
+                <span className="p-badge">3. Cabinet Dehydration (90°C / 12h) 💨</span>
+                <p>Convection airflow steadily reduces moisture content to &lt;8%, creating glassy, vitrified cracker pellets with extended shelf stability.</p>
               </div>
               <div className="pillar-item">
-                <span className="p-badge">4. Flash Frying (10 sec) 🍳</span>
-                <p>180°C oil flash-vaporizes residual moisture into steam, puffing the pellets into airy golden crackers!</p>
+                <span className="p-badge">4. Thermal Flash Expansion (180°C / 10s) 💥</span>
+                <p>Hot oil flash-vaporizes residual moisture into micro-steam pockets, expanding the matrix 3x into an airy, crispy cracker.</p>
               </div>
             </div>
           </div>
