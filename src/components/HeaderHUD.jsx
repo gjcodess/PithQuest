@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { RestartIcon, ZoomInIcon, ZoomOutIcon } from './Icons';
@@ -49,6 +50,7 @@ export const HeaderHUD = () => {
     setHoldingItem,
     showToast,
     zoomLevel,
+    effectiveZoom,
     setZoomLevel,
     zoomIn,
     zoomOut,
@@ -136,7 +138,7 @@ export const HeaderHUD = () => {
   const zoomPercent = Math.round(zoomLevel * 100);
 
   return (
-    <header className="game-hud">
+    <header className="game-hud" style={{ zoom: effectiveZoom }}>
       {/* Left: Stage Title Pill */}
       <div className="hud-left">
         <div className="mission-pill">
@@ -200,8 +202,8 @@ export const HeaderHUD = () => {
           <span className="label">Menu</span>
         </button>
 
-        {/* Flyout Menu Dropdown Panel */}
-        {isMenuOpen && (
+        {/* Flyout Menu Dropdown Panel (Portal to document.body so modal remains 100% unscaled) */}
+        {isMenuOpen && createPortal(
           <>
             <div
               className="hud-menu-backdrop"
@@ -392,7 +394,8 @@ export const HeaderHUD = () => {
                 </div>
               </div>
             </div>
-          </>
+          </>,
+          document.body
         )}
       </div>
     </header>
