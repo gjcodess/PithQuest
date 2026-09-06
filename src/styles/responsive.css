@@ -99,7 +99,12 @@
   .hud-menu-panel {
     right: 8px;
     width: calc(100vw - 16px);
-    max-width: 320px;
+    max-width: 380px;
+  }
+
+  .hud-menu-grid-columns {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .dialogue-box {
