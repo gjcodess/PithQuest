@@ -7521,6 +7521,21 @@ body.holding-item-cursor * {
   color: #991b1b;
 }
 
+.inspection-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  animation: fadeInSlideUp 0.3s ease;
+}
+
+.btn-next-inspection {
+  padding: 10px 22px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  box-shadow: 0 4px 0 var(--color-gold-700), 0 6px 14px rgba(217, 119, 6, 0.25);
+  animation: pulseGuide 2.2s infinite;
+}
+
 /* ==========================================================================
    SILICONE MOLD (STAGE 4)
    ========================================================================== */

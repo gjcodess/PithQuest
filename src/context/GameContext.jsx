@@ -132,15 +132,17 @@ export const GameProvider = ({ children }) => {
   };
 
   const speak = (text, avatar = 'neutral', options = {}) => {
+    const hasNext = typeof options.onNext === 'function';
+    const hasExplicitBtn = Boolean(options.btnText);
     setDialogue({
       visible: true,
       text,
       avatar,
       badge: options.badge || 'Instructor',
       hint: options.hint || '',
-      btnText: options.btnText || 'Next ➔',
+      btnText: options.btnText || (hasNext ? 'Next ➔' : ''),
       onNext: options.onNext || null,
-      hideButton: options.hideButton || false,
+      hideButton: options.hideButton !== undefined ? options.hideButton : (!hasNext && !hasExplicitBtn),
     });
   };
 

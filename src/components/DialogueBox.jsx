@@ -73,10 +73,12 @@ export const DialogueBox = () => {
 
   const handleNextClick = (e) => {
     e.stopPropagation();
-    if (isTyping) return; // Prevent proceeding while typing
+    finishTyping();
     soundManager.playClick();
-    if (dialogue.onNext) {
+    if (typeof dialogue.onNext === 'function') {
       dialogue.onNext();
+    } else {
+      setIsDialogueCollapsed(true);
     }
   };
 
@@ -163,13 +165,12 @@ export const DialogueBox = () => {
       </div>
 
       {/* Footer / Transition Button */}
-      {!dialogue.hideButton && dialogue.btnText && (
+      {!dialogue.hideButton && Boolean(dialogue.btnText) && (
         <div className="assistant-footer">
           <button
-            className={`assistant-action-btn ${isTyping ? 'disabled' : 'ready'}`}
+            className="assistant-action-btn ready"
             onClick={handleNextClick}
-            disabled={isTyping}
-            title={isTyping ? 'Please wait for Teacher Mia to finish speaking' : ''}
+            title={dialogue.btnText}
           >
             <span>{dialogue.btnText}</span>
           </button>
