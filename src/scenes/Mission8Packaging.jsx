@@ -176,7 +176,7 @@ export const Mission8Packaging = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '920px' }}>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Left: Multi-State Pouch Container Workstation */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -186,8 +186,8 @@ export const Mission8Packaging = () => {
               currentStepIndex={packStep}
               steps={pouchSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="450px"
-              containerHeight="280px"
+              containerWidth="520px"
+              containerHeight="330px"
               interactiveAction={
                 packStep === 1
                   ? {
@@ -236,7 +236,7 @@ export const Mission8Packaging = () => {
                 : ''
             }`}
             style={{
-              width: '430px',
+              width: '440px',
               cursor:
                 packStep === 1 || packStep === 2
                   ? 'url("/assets/cursor_hover_32.png") 2 2, pointer'

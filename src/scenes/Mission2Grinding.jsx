@@ -258,7 +258,7 @@ export const Mission2Grinding = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '920px' }}>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Center: Food Processor MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -269,8 +269,8 @@ export const Mission2Grinding = () => {
               steps={processorSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isBlending ? 'blending' : null}
-              containerWidth="460px"
-              containerHeight="280px"
+              containerWidth="520px"
+              containerHeight="330px"
               interactiveAction={
                 processorStep === 2
                   ? (!isLidLocked
@@ -297,7 +297,7 @@ export const Mission2Grinding = () => {
                   : processorStep === 3
                   ? {
                       label: `Pureeing... ${blendProgress}%`,
-disabled: true,
+                      disabled: true,
                       icon: '⚡',
                       variant: 'processor-pulse',
                       isActive: true,
@@ -367,7 +367,7 @@ disabled: true,
               processorStep === 4 && holdingItem?.id === 'spatula' ? 'compatible-target' : ''
             }`}
             style={{
-              width: '380px',
+              width: '440px',
               cursor: processorStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -409,7 +409,7 @@ disabled: true,
                 }
               }
             }}
-            title={processorStep === 4 ? 'Click to transfer scraped paste into bowl' : 'Sanitized prep bowl'}
+            title="Extraction & Puree Holding Workstation"
           >
             {/* Workstation Header */}
             <div className="workstation-header">
@@ -435,7 +435,7 @@ disabled: true,
               className={`workstation-viewport extraction-viewport ${
                 processorStep === 4 ? 'interactive-vessel' : ''
               }`}
-              style={{ minHeight: '280px', flex: '1 1 auto' }}
+              style={{ minHeight: '330px', flex: '1 1 auto' }}
             >
               {/* Floating guidance pill at step 4 */}
               {processorStep === 4 && !isScraping && (

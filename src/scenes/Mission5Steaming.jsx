@@ -249,7 +249,7 @@ export const Mission5Steaming = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1000px' }}>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Left: 3-Tier Aluminum Steamer MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -260,8 +260,8 @@ export const Mission5Steaming = () => {
               steps={steamerSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isSteaming ? 'steaming' : null}
-              containerWidth="510px"
-              containerHeight="340px"
+              containerWidth="520px"
+              containerHeight="330px"
               customFooter={
                 <StoveBurnerConsole
                   isReady={steamerStep === 3 && !isSteaming}
@@ -340,7 +340,7 @@ export const Mission5Steaming = () => {
                 : ''
             }`}
             style={{
-              width: '450px',
+              width: '440px',
               cursor: steamerStep === 5 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {

@@ -259,7 +259,7 @@ export const Mission3Mixing = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '920px' }}>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Center: Stainless Mixing Bowl MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -269,8 +269,8 @@ export const Mission3Mixing = () => {
               currentStepIndex={bowlStep}
               steps={bowlSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="460px"
-              containerHeight="280px"
+              containerWidth="520px"
+              containerHeight="330px"
               activeAnimation={isKneading ? 'mixing' : null}
               statusDotClass={bowlStep >= 6 ? 'dot-success' : bowlStep === 5 ? 'dot-amber' : ''}
               statusText={
@@ -330,7 +330,7 @@ export const Mission3Mixing = () => {
               bowlStep === 4 && (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') ? 'compatible-target' : ''
             }`}
             style={{
-              width: '380px',
+              width: '440px',
               cursor: bowlStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
