@@ -13,7 +13,7 @@ export const SequencingScene = () => {
       'thinking',
       {
         badge: 'Bonus Activity: Sequence Exam',
-        note: 'Correct Sequence: Boiling → Grinding → Mixing → Molding → Steaming → Dehydration → Frying → Packaging.',
+        note: 'Recall our laboratory journey: from preparing raw ingredients to finished packaged crackers. Think about which processing stage comes first!',
         hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
         hideButton: true,
       }
