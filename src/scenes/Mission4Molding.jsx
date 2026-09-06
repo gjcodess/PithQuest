@@ -8,7 +8,7 @@ export const Mission4Molding = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
 
   // Mold Step States:
-  // 0: Empty Mold -> accept measuring spoon / dough portion
+  // 0: Empty Mold -> accept measuring spoon / paste portion
   // 1: 1 Cavity Calibrated -> accept measuring spoon OR quick fill button
   // 2: 24 Cavities Filled (Unleveled) -> accept leveling spatula
   // 3: 24 Cavities Completely Leveled -> Complete!
@@ -17,12 +17,12 @@ export const Mission4Molding = () => {
 
   useEffect(() => {
     speak(
-      'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the dough, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
+      'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the paste, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
       'neutral',
       {
         badge: 'Step 13: Portioning & Molding',
-        note: "Using the same amount of dough for each piece helps produce crackers with uniform size and thickness, promoting more even cooking and drying. Don't forget to wear gloves!",
-        hint: 'Select the Ubod Cracker Dough on your shelf, then tap the mold to place a portion.',
+        note: "Using the same amount of paste for each piece helps produce crackers with uniform size and thickness, promoting more even cooking and drying. Don't forget to wear gloves!",
+        hint: 'Select the Ubod Cracker Paste on your shelf, then tap the mold to place a portion.',
         hideButton: true,
       }
     );
@@ -32,7 +32,7 @@ export const Mission4Molding = () => {
     {
       stepIndex: 0,
       acceptedItems: ['dough_bowl', 'dough_portion', 'measuring_spoon'],
-      prompt: 'Portion 3 teaspoons of dough into the silicone mold',
+      prompt: 'Portion 3 teaspoons of paste into the silicone mold',
       img: '/assets/molder_empty.png',
       fallbackIcon: '🌸',
       label: 'Clean 24-Cavity Silicone Mold',
@@ -98,7 +98,7 @@ export const Mission4Molding = () => {
       'thinking',
       {
         badge: 'Leveling Step',
-        note: 'Scraping off excess dough ensures each cracker piece has a flat, consistent surface.',
+        note: 'Scraping off excess paste ensures each cracker piece has a flat, consistent surface.',
         hint: 'Select the Leveling Spatula on the bottom shelf, then tap the mold.',
         hideButton: true,
       }
@@ -117,7 +117,7 @@ export const Mission4Molding = () => {
       console.warn(err);
     }
     setHoldingItem(null);
-    showToast('Leveling Surface...', 'Scraping excess dough flush with mold rim...', 'info');
+    showToast('Leveling Surface...', 'Scraping excess paste flush with mold rim...', 'info');
 
     setTimeout(() => {
       setIsLeveling(false);
@@ -143,13 +143,13 @@ export const Mission4Molding = () => {
   const stage4Inventory = [
     {
       id: 'dough_bowl',
-      name: 'Ubod Cracker Dough',
+      name: 'Ubod Cracker Paste',
       measure: '3 tsp Standard Portion',
       img: '/assets/mixing_bowl_dough_uniform.png',
-      fallbackIcon: '🥯',
+      fallbackIcon: '🥣',
       isUsed: moldStep >= 2,
       isNext: moldStep < 2,
-      tooltip: 'Formulated dough batch. Calibrated 3 tsp portion per 50mm × 25mm cavity.',
+      tooltip: 'Formulated paste batch. Calibrated 3 tsp portion per 50mm × 25mm cavity.',
     },
     {
       id: 'leveling_spatula',
@@ -159,7 +159,7 @@ export const Mission4Molding = () => {
       fallbackIcon: '📐',
       isUsed: moldStep >= 3,
       isNext: moldStep === 2,
-      tooltip: 'Flat straight-edge scraper to level dough flush with silicone rims for identical thickness.',
+      tooltip: 'Flat straight-edge scraper to level paste flush with silicone rims for identical thickness.',
     },
   ];
 
@@ -178,7 +178,7 @@ export const Mission4Molding = () => {
         icon: item.fallbackIcon || '🥣',
       });
       if (item.id === 'dough_bowl') {
-        showToast('Ubod Dough Selected', '3 tsp portion ready. Tap the silicone mold to place!', 'info');
+        showToast('Ubod Paste Selected', '3 tsp portion ready. Tap the silicone mold to place!', 'info');
       } else if (item.id === 'leveling_spatula') {
         showToast('Leveling Spatula Selected', 'Tap the silicone mold to scrape and level flat!', 'info');
       }
@@ -206,7 +206,7 @@ export const Mission4Molding = () => {
               statusDotClass={moldStep >= 3 ? 'dot-success' : moldStep >= 1 ? 'dot-amber' : ''}
               statusText={
                 isLeveling
-                  ? 'Scraping and leveling dough flush with cavity rims...'
+                  ? 'Scraping and leveling paste flush with cavity rims...'
                   : moldSteps[moldStep]?.prompt || 'Ready'
               }
               specBadge={
@@ -427,7 +427,7 @@ export const Mission4Molding = () => {
                 />
                 <span className="status-text">
                   {moldStep === 0
-                    ? 'Portion 3 tsp dough from bowl into mold cavities'
+                    ? 'Portion 3 tsp paste from bowl into mold cavities'
                     : moldStep === 1
                     ? 'First cavity calibrated. Fill remaining cavities or click Quick-Fill'
                     : moldStep === 2

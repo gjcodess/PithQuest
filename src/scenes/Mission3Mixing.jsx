@@ -12,20 +12,20 @@ export const Mission3Mixing = () => {
   // 1: Bowl with rice flour -> accept salt
   // 2: Bowl with flour + salt -> accept ubod_paste
   // 3: Bowl with flour + salt + paste -> accept water
-  // 4: All ingredients in bowl -> action: fold & knead dough
-  // 5: Kneading in progress
-  // 6: Smooth pliable dough ball ready
+  // 4: All ingredients in bowl -> action: fold & mix paste
+  // 5: Mixing in progress
+  // 6: Smooth uniform paste ready
   const [bowlStep, setBowlStep] = useState(0);
   const [kneadProgress, setKneadProgress] = useState(0);
   const [isKneading, setIsKneading] = useState(false);
 
   useEffect(() => {
     speak(
-      'Stage 3: Dough Formulation & Mixing! Step 12: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
+      'Stage 3: Paste Formulation & Mixing! Step 12: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
       'neutral',
       {
         badge: 'Step 12: Formulation',
-        note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform dough is formed.',
+        note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform paste is formed.',
         hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
         hideButton: true,
       }
@@ -68,7 +68,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 4,
       acceptedItems: ['spatula', 'red_spatula'],
-      prompt: 'All ingredients added! Select Red Spatula on shelf to knead dough',
+      prompt: 'All ingredients added! Select Red Spatula on shelf to mix paste',
       img: '/assets/mixing_bowl_water_pouring.png',
       fallbackIcon: '💧',
       label: 'Hydrated Formulation Mix',
@@ -76,18 +76,18 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'Folding and kneading into a cohesive, non-sticky dough ball...',
+      prompt: 'Folding and mixing into a cohesive, smooth paste...',
       img: '/assets/mixing_bowl_mixing_in_progress.png',
-      fallbackIcon: '🥯',
-      label: 'Kneading in Progress',
+      fallbackIcon: '🥣',
+      label: 'Mixing in Progress',
     },
     {
       stepIndex: 6,
       acceptedItems: [],
-      prompt: 'Pliable, elastic coconut pith dough ball ready for molding!',
+      prompt: 'Smooth, uniform coconut pith paste ready for molding!',
       img: '/assets/mixing_bowl_dough_uniform.png',
       fallbackIcon: '✨',
-      label: 'Smooth Cracker Dough Ball',
+      label: 'Smooth Cracker Paste',
     },
   ];
 
@@ -132,7 +132,7 @@ export const Mission3Mixing = () => {
         'neutral',
         {
           badge: 'Hydration Control',
-          note: 'Pour the water gradually while mixing to achieve the right dough plasticity without making it overly sticky or watery.',
+          note: 'Pour the water gradually while mixing to achieve the right paste consistency without making it overly sticky or watery.',
           hint: 'Select Hydration Water and drop it into the bowl.',
           hideButton: true,
         }
@@ -141,13 +141,13 @@ export const Mission3Mixing = () => {
       soundManager.playPour();
       setBowlStep(4);
       addScore(25);
-      showToast('Hydration Complete!', 'All ingredients added! Fold and knead with spatula.', 'success');
+      showToast('Hydration Complete!', 'All ingredients added! Fold and mix with spatula.', 'success');
       speak(
-        'All formulation ingredients are in the bowl! Pick up the Red Silicone Spatula on your bottom shelf and tap the bowl to knead into dough.',
+        'All formulation ingredients are in the bowl! Pick up the Red Silicone Spatula on your bottom shelf and tap the bowl to mix into paste.',
         'thinking',
         {
-          badge: 'Dough Kneading',
-          note: 'Mix the ingredients gradually and gently until all components are well combined and a uniform dough is formed.',
+          badge: 'Paste Mixing',
+          note: 'Mix the ingredients gradually and gently until all components are well combined and a uniform paste is formed.',
           hint: 'Select Red Spatula on the bottom shelf, then tap the mixing bowl.',
           hideButton: true,
         }
@@ -170,7 +170,7 @@ export const Mission3Mixing = () => {
     setHoldingItem(null);
     setIsKneading(true);
     setBowlStep(5);
-    showToast('Kneading Dough...', 'Forming starch-protein matrix with spatula...', 'info');
+    showToast('Mixing Paste...', 'Forming uniform starch matrix with spatula...', 'info');
 
     let current = 0;
     const interval = setInterval(() => {
@@ -191,13 +191,13 @@ export const Mission3Mixing = () => {
         addScore(35);
         unlockBadge('dough_master', 'Starch Formulation Chemist', '🥯');
         completeMission('mission3');
-        showToast('Dough Ball Formed!', 'Pliable, elastic, non-sticky dough ready', 'success');
+        showToast('Paste Formed!', 'Smooth, uniform paste ready for molding', 'success');
         speak(
-          'Masterpiece! The dough has achieved the exact desired texture: smooth, elastic, and uniform. Ready for molding in Stage 4!',
+          'Masterpiece! The paste has achieved the exact desired texture: smooth, uniform, and well blended. Ready for molding in Stage 4!',
           'happy',
           {
             badge: 'Stage 3 Complete',
-            note: 'Proper dough consistency is critical: uniform dough prevents cracks during dehydration and ensures even puffing during frying.',
+            note: 'Proper paste consistency is critical: uniform paste prevents cracks during dehydration and ensures even puffing during frying.',
             btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
             onNext: () => setScene('mission4'),
           }
@@ -225,7 +225,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🧂',
       isUsed: bowlStep >= 2,
       isNext: bowlStep === 1,
-      tooltip: '1 tsp pure sea salt to enhance savoriness and reinforce dough gluten-free binding.',
+      tooltip: '1 tsp pure sea salt to enhance savoriness and reinforce paste binding.',
     },
     {
       id: 'ubod_paste',
@@ -245,17 +245,17 @@ export const Mission3Mixing = () => {
       fallbackIcon: '💧',
       isUsed: bowlStep >= 4,
       isNext: bowlStep === 3,
-      tooltip: 'Potable water added incrementally to hydrate starch granules into pliable dough.',
+      tooltip: 'Potable water added incrementally to hydrate starch granules into smooth paste.',
     },
     {
       id: 'spatula',
       name: 'Red Spatula',
-      measure: 'Fold & Knead',
+      measure: 'Fold & Mix',
       img: '/assets/tool_spatula_red.png',
       fallbackIcon: '🥄',
       isUsed: bowlStep >= 6,
       isNext: bowlStep === 4,
-      tooltip: 'Silicone dough spatula for thorough folding, kneading, and homogeneous blending.',
+      tooltip: 'Silicone spatula for thorough folding, mixing, and homogeneous blending.',
     },
   ];
 
@@ -281,7 +281,7 @@ export const Mission3Mixing = () => {
               statusDotClass={bowlStep >= 6 ? 'dot-success' : bowlStep === 5 ? 'dot-amber' : ''}
               statusText={
                 bowlStep === 5
-                  ? `Folding and kneading dough matrix... (${kneadProgress}%)`
+                  ? `Folding and mixing paste matrix... (${kneadProgress}%)`
                   : undefined
               }
               specBadge={
@@ -291,9 +291,9 @@ export const Mission3Mixing = () => {
                   }`}
                 >
                   {bowlStep >= 6
-                    ? 'DOUGH: READY'
+                    ? 'PASTE: READY'
                     : bowlStep === 5
-                    ? `KNEAD: ${kneadProgress}%`
+                    ? `MIX: ${kneadProgress}%`
                     : bowlStep === 4
                     ? 'TOOL: SPATULA'
                     : 'CAP: 4 QT'}
@@ -311,7 +311,7 @@ export const Mission3Mixing = () => {
                       soundManager.playClick();
                       showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap the bowl!', 'info');
                       speak(
-                        'Pick up the red silicone spatula from your bottom shelf first, then tap the bowl to knead the dough!',
+                        'Pick up the red silicone spatula from your bottom shelf first, then tap the bowl to mix the paste!',
                         'thinking',
                         {
                           badge: 'Select Spatula',
@@ -320,10 +320,10 @@ export const Mission3Mixing = () => {
                       );
                     }
                   }}
-                  title="Tap with Red Spatula to knead"
+                  title="Tap with Red Spatula to mix"
                 >
                   <span>
-                    🥄 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap Bowl to Knead Dough' : 'Pick Up Red Spatula Below'}
+                    🥄 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap Bowl to Mix Paste' : 'Pick Up Red Spatula Below'}
                   </span>
                 </div>
               )}
@@ -345,9 +345,9 @@ export const Mission3Mixing = () => {
                   handleKneadDough();
                 } else {
                   soundManager.playClick();
-                  showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap to knead!', 'info');
+                  showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap to mix!', 'info');
                   speak(
-                    'Pick up the red silicone spatula from your bottom shelf first, then tap to fold and knead the formulation!',
+                    'Pick up the red silicone spatula from your bottom shelf first, then tap to fold and mix the formulation!',
                     'thinking',
                     {
                       badge: 'Select Spatula',
@@ -378,7 +378,7 @@ export const Mission3Mixing = () => {
                 }
               }
             }}
-            title={bowlStep === 4 ? 'Click to knead formulation into dough ball' : 'Recipe Formulation & QC Monitor'}
+            title={bowlStep === 4 ? 'Click to mix formulation into smooth paste' : 'Recipe Formulation & QC Monitor'}
           >
             {/* Workstation Header */}
             <div className="workstation-header">
@@ -400,9 +400,9 @@ export const Mission3Mixing = () => {
                 {bowlStep >= 6
                   ? '✅ Cohesive Matrix'
                   : bowlStep === 5
-                  ? `⚡ Kneading (${kneadProgress}%)`
+                  ? `⚡ Mixing (${kneadProgress}%)`
                   : bowlStep === 4
-                  ? '🥄 Ready to Knead'
+                  ? '🥄 Ready to Mix'
                   : `${bowlStep}/4 Added`}
               </div>
             </div>
@@ -473,10 +473,10 @@ export const Mission3Mixing = () => {
                 </div>
               </div>
 
-              {/* Dough Rheology & Cohesiveness Meter */}
+              {/* Paste Consistency & Uniformity Meter */}
               <div className="qc-rheology-card">
                 <div className="qc-rheology-header">
-                  <span className="qc-rheology-label">Dough Cohesiveness:</span>
+                  <span className="qc-rheology-label">Paste Uniformity:</span>
                   <span className="qc-rheology-pct">{Math.round((bowlStep / 6) * 100)}%</span>
                 </div>
                 <div className="qc-progress-track">
@@ -491,10 +491,10 @@ export const Mission3Mixing = () => {
                   {bowlStep < 4
                     ? 'Awaiting Ingredients'
                     : bowlStep === 4
-                    ? '🥣 Ready to Fold & Knead'
+                    ? '🥣 Ready to Fold & Mix'
                     : bowlStep === 5
-                    ? '🔄 Kneading Starch Matrix...'
-                    : '✨ Pliable & Non-Sticky'}
+                    ? '🔄 Mixing Starch Matrix...'
+                    : '✨ Smooth & Uniform Paste'}
                 </div>
               </div>
             </div>
@@ -517,10 +517,10 @@ export const Mission3Mixing = () => {
                     : bowlStep === 3
                     ? 'Add potable water gradually for hydration'
                     : bowlStep === 4
-                    ? 'Tap Red Spatula on shelf, then tap bowl to knead'
+                    ? 'Tap Red Spatula on shelf, then tap bowl to mix'
                     : bowlStep === 5
                     ? 'Forming cohesive starch-protein matrix...'
-                    : '1:1 dough ball calibrated for rectangular molding'}
+                    : '1:1 cracker paste calibrated for rectangular molding'}
                 </span>
               </div>
               <span
@@ -528,7 +528,7 @@ export const Mission3Mixing = () => {
                   bowlStep >= 6 ? 'spec-success' : bowlStep === 4 ? 'spec-amber' : ''
                 }`}
               >
-                {bowlStep >= 6 ? 'TEXTURE: NON-STICKY' : bowlStep === 5 ? `DEV: ${kneadProgress}%` : bowlStep === 4 ? 'ACTION: KNEAD' : 'RATIO: 1:1'}
+                {bowlStep >= 6 ? 'TEXTURE: UNIFORM' : bowlStep === 5 ? `DEV: ${kneadProgress}%` : bowlStep === 4 ? 'ACTION: MIX' : 'RATIO: 1:1'}
               </span>
             </div>
           </div>

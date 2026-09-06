@@ -236,7 +236,7 @@ export const Mission5Steaming = () => {
       fallbackIcon: '🧈',
       isUsed: steamerStep >= 3,
       isNext: steamerStep === 2,
-      tooltip: '24 leveled dough portions loaded for 10-minute starch gelatinization.',
+      tooltip: '24 leveled paste portions loaded for 10-minute starch gelatinization.',
     },
     {
       id: 'heat_mitts',
@@ -312,7 +312,7 @@ export const Mission5Steaming = () => {
                         'warning'
                       );
                       speak(
-                        'Safety first! Place the molded dough tray into the middle tier before turning on the burner.',
+                        'Safety first! Place the molded paste tray into the middle tier before turning on the burner.',
                         'thinking',
                         {
                           badge: 'Steamer Safety',
@@ -449,7 +449,7 @@ export const Mission5Steaming = () => {
               {/* Before & After Texture Comparison */}
               <div className="steaming-texture-compare">
                 <div className={`texture-compare-box ${steamerStep < 4 ? 'active-state' : ''}`}>
-                  <span className="texture-box-tag">Raw Dough</span>
+                  <span className="texture-box-tag">Raw Paste</span>
                   <span className="texture-box-desc">Opaque White • Crumbly</span>
                 </div>
                 <div className={`texture-compare-box ${steamerStep >= 5 ? 'active-state' : ''}`}>

@@ -101,7 +101,7 @@ export const EvaluationScene = () => {
                 <p className="cert-body">
                   has successfully performed and demonstrated comprehensive mastery in the complete 8-stage food processing lifecycle of
                   <strong> Coconut Pith Crackers (Ubod ng Niyog - Ubod Crunch)</strong>, including hygiene inspection, washing & boiling, food processing puree,
-                  1:1 Erawan rice flour dough formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
+                  1:1 Erawan rice flour paste formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
                   10-second flash deep-frying expansion, airtight barrier packaging, and pipeline sequence validation.
                 </p>
               </div>

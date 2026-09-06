@@ -203,12 +203,12 @@ export const Mission2Grinding = () => {
       completeMission('mission2');
       showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl', 'success');
       speak(
-        'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Dough Formulation & Mixing!',
+        'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Paste Formulation & Mixing!',
         'happy',
         {
           badge: 'Stage 2 Complete',
-          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive dough structure.',
-          btnText: 'Proceed to Stage 3: Dough Formulation ➔',
+          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive paste structure.',
+          btnText: 'Proceed to Stage 3: Paste Formulation ➔',
           onNext: () => setScene('mission3'),
         }
       );

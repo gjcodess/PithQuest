@@ -21,7 +21,7 @@ export const RecipeModal = () => {
                 <li><strong>Fresh Coconut Pith (Ubod):</strong> 2 Cups (washed, cut, boiled & pureed)</li>
                 <li><strong>Erawan Brand Finest Rice Flour:</strong> 2 Cups (1:1 ratio with boiled ubod paste)</li>
                 <li><strong>Pure Sea Salt:</strong> 1 teaspoon per 1 cup boiled ubod (2 tsp total)</li>
-                <li><strong>Potable Water:</strong> 4 cups for boiling + gradual dough hydration</li>
+                <li><strong>Potable Water:</strong> 4 cups for boiling + gradual paste hydration</li>
                 <li><strong>Baguio Orchids Vegetable Oil:</strong> 5 cups (for deep frying)</li>
                 <li><strong>Portioning Rule:</strong> 3 Teaspoons per cavity in 24-slot silicone mold</li>
               </ul>
@@ -30,7 +30,7 @@ export const RecipeModal = () => {
               <h3>🔬 Processing Science Standards</h3>
               <div className="pillar-item">
                 <span className="p-badge">1. Pureeing & Mixing ⚙️</span>
-                <p>Pureeing boiled ubod with salt breaks cellulose fibers. Mixing 1:1 with rice flour creates an elastic dough matrix.</p>
+                <p>Pureeing boiled ubod with salt breaks cellulose fibers. Mixing 1:1 with rice flour creates an elastic paste matrix.</p>
               </div>
               <div className="pillar-item">
                 <span className="p-badge">2. Steaming (10 min) ♨️</span>

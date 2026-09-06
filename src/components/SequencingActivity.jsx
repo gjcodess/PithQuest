@@ -20,9 +20,9 @@ const CORRECT_ORDER = [
   {
     id: 'mixing',
     stepNum: 3,
-    title: 'Dough Formulation',
+    title: 'Paste Formulation',
     img: '/assets/card_step_mixing.png',
-    desc: 'Mix 1:1 ubod paste with rice flour, salt, and gradual water into uniform dough.',
+    desc: 'Mix 1:1 ubod puree with rice flour, salt, and gradual water into uniform paste.',
   },
   {
     id: 'molding',

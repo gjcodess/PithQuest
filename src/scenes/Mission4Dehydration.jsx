@@ -13,7 +13,7 @@ export const Mission4Dehydration = () => {
 
   useEffect(() => {
     speak(
-      'Stage 4: Moisture Control (Dehydration)! If we fry wet dough, it turns soggy. We must dehydrate our sliced cracker discs to remove free water down to under 10%.',
+      'Stage 4: Moisture Control (Dehydration)! If we fry wet paste, it turns soggy. We must dehydrate our sliced cracker discs to remove free water down to under 10%.',
       'neutral',
       {
         badge: 'Stage 4: Dehydration',

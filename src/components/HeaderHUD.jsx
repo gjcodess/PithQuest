@@ -7,7 +7,7 @@ const STAGE_CONFIG = {
   orientation: { num: 'Prep', title: 'Orientation & Safety', step: 0 },
   mission1: { num: 'Stage 1', title: 'Washing & Boiling', step: 1 },
   mission2: { num: 'Stage 2', title: 'Pureeing & Grinding', step: 2 },
-  mission3: { num: 'Stage 3', title: 'Dough Formulation', step: 3 },
+  mission3: { num: 'Stage 3', title: 'Paste Formulation', step: 3 },
   mission4: { num: 'Stage 4', title: 'Rectangular Molding', step: 4 },
   mission5: { num: 'Stage 5', title: 'Starch Steaming', step: 5 },
   mission6: { num: 'Stage 6', title: 'Cabinet Dehydration', step: 6 },
