@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { useGame } from '../../context/GameContext';
 
 export const RecipeModal = () => {
@@ -6,7 +7,7 @@ export const RecipeModal = () => {
 
   if (activeModal !== 'recipe') return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={closeModal}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
@@ -69,6 +70,7 @@ export const RecipeModal = () => {
           <button className="btn-primary" onClick={closeModal}>Got it!</button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

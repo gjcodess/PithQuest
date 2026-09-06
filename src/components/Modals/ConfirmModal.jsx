@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { useGame } from '../../context/GameContext';
 import { soundManager } from '../../audio/soundManager';
 
@@ -19,7 +20,7 @@ export const ConfirmModal = () => {
     closeConfirm();
   };
 
-  return (
+  return createPortal(
     <div className="modal-overlay confirm-modal-overlay" onClick={handleCancel}>
       <div
         className="modal-card confirm-modal-card"
@@ -68,6 +69,7 @@ export const ConfirmModal = () => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

@@ -2838,12 +2838,12 @@ body.holding-item-cursor * {
   width: 100vw;
   height: 100vh;
   background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 300;
+  z-index: 10050;
   padding: var(--space-md);
   animation: fade-in 0.2s ease-out;
 }
@@ -2956,10 +2956,10 @@ body.holding-item-cursor * {
    ========================================================================== */
 
 .confirm-modal-overlay {
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 350;
+  z-index: 10100;
 }
 
 .confirm-modal-card {
