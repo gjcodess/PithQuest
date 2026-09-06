@@ -67,7 +67,6 @@ export const App = () => {
         }`}
         style={{
           zoom: zoomLevel,
-          '--game-zoom': zoomLevel,
         }}
       >
         <div className="scene-container">

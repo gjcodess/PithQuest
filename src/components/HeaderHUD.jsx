@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { RestartIcon, ZoomInIcon, ZoomOutIcon } from './Icons';
@@ -21,7 +21,7 @@ export const HeaderHUD = () => {
   const {
     scene,
     setScene,
-    score,
+    studentName,
     openModal,
     isMuted,
     toggleSound,
@@ -39,6 +39,19 @@ export const HeaderHUD = () => {
     zoomOut,
     resetZoom,
   } = useGame();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMenuOpen]);
 
   if (scene === 'title') return null;
 
@@ -62,8 +75,8 @@ export const HeaderHUD = () => {
       soundManager.playClick();
       hideDialogue();
       setHoldingItem(null);
+      setIsMenuOpen(false);
       const targetScene = `mission${stepNum}`;
-      // Deduct/reset previous score from that stage so player can replay and earn points fresh without double counting
       resetStageScore(targetScene);
       setScene(targetScene);
       const targetConfig = STAGE_CONFIG[targetScene];
@@ -75,6 +88,7 @@ export const HeaderHUD = () => {
   };
 
   const handleHomeClick = () => {
+    setIsMenuOpen(false);
     soundManager.playClick();
     requestConfirm({
       title: 'Return to Main Menu?',
@@ -90,6 +104,7 @@ export const HeaderHUD = () => {
   };
 
   const handleRestartClick = () => {
+    setIsMenuOpen(false);
     soundManager.playClick();
     requestConfirm({
       title: `Restart ${currentStage.title}?`,
@@ -107,18 +122,15 @@ export const HeaderHUD = () => {
 
   return (
     <header className="game-hud">
+      {/* Left: Stage Title Pill */}
       <div className="hud-left">
-        <button className="hud-btn" onClick={handleHomeClick} title="Main Menu">
-          <span className="icon">🏠</span>
-          <span className="label">Menu</span>
-        </button>
         <div className="mission-pill">
           <span className="pill-badge">{currentStage.num}</span>
           <span className="pill-title">{currentStage.title}</span>
         </div>
       </div>
 
-      {/* Stepper (1 to 8) - Interactive Stage Jumper */}
+      {/* Center: Stepper (1 to 8) - Interactive Stage Jumper */}
       <div className="hud-stepper">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((stepNum, idx) => {
           const isCompleted = currentStage.step > stepNum;
@@ -158,71 +170,202 @@ export const HeaderHUD = () => {
         })}
       </div>
 
-      <div className="hud-right">
-        {/* Zoom Slider Control */}
-        <div className="hud-zoom-control" title="Zoom Workspace View">
-          <button
-            type="button"
-            className="zoom-step-btn"
-            onClick={zoomOut}
-            disabled={zoomLevel <= 0.5}
-            title="Zoom Out (-5%)"
-            aria-label="Zoom Out"
-          >
-            <ZoomOutIcon size={14} />
-          </button>
+      {/* Right: Menu Button & Dropdown Container */}
+      <div className="hud-right" ref={menuRef}>
+        <button
+          className={`hud-btn hud-btn-menu ${isMenuOpen ? 'menu-active' : ''}`}
+          onClick={() => {
+            soundManager.playClick();
+            setIsMenuOpen(!isMenuOpen);
+          }}
+          title={isMenuOpen ? 'Close Menu' : 'Open Laboratory Menu & Settings'}
+          aria-expanded={isMenuOpen}
+        >
+          <span className="icon">{isMenuOpen ? '✕' : '☰'}</span>
+          <span className="label">Menu</span>
+        </button>
 
-          <div className="zoom-slider-wrap">
-            <input
-              type="range"
-              min="50"
-              max="150"
-              step="5"
-              value={zoomPercent}
-              onChange={(e) => setZoomLevel(Number(e.target.value) / 100)}
-              className="zoom-slider-input"
-              aria-label="Workspace zoom level"
-              title={`Zoom: ${zoomPercent}% (Slide to zoom)`}
+        {/* Flyout Menu Dropdown Panel */}
+        {isMenuOpen && (
+          <>
+            <div
+              className="hud-menu-backdrop"
+              onClick={() => setIsMenuOpen(false)}
             />
-          </div>
+            <div className="hud-menu-panel" role="dialog" aria-label="Laboratory Menu">
+              {/* Menu Top Hero Header */}
+              <div className="hud-menu-header">
+                <div className="hud-menu-header-content">
+                  <div className="hud-menu-top-badge">🥥 Virtual Laboratory Controls</div>
+                  <div className="hud-menu-brand-row">
+                    <h3 className="hud-menu-logo">PITH<span>QUEST</span></h3>
+                    <button
+                      className="hud-menu-close-btn"
+                      onClick={() => setIsMenuOpen(false)}
+                      title="Close Menu"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div className="hud-menu-stage-strip">
+                    <span className="stage-strip-badge">{currentStage.num}</span>
+                    <span className="stage-strip-title">{currentStage.title}</span>
+                  </div>
+                </div>
+                <div className="hud-menu-divider" />
+              </div>
 
-          <button
-            type="button"
-            className="zoom-step-btn"
-            onClick={zoomIn}
-            disabled={zoomLevel >= 1.5}
-            title="Zoom In (+5%)"
-            aria-label="Zoom In"
-          >
-            <ZoomInIcon size={14} />
-          </button>
+              <div className="hud-menu-body">
+                {/* Mini Hero Card: Teacher Mia greeting */}
+                <div className="hud-menu-hero-card">
+                  <img
+                    src="/images/teacher_mia_neutral.png"
+                    alt="Teacher Mia"
+                    className="hud-menu-avatar"
+                  />
+                  <div className="hud-menu-greeting">
+                    <strong>{studentName || 'Food Technologist'}</strong>
+                    <p>Keep following standard procedures & safe thermal handling!</p>
+                  </div>
+                </div>
 
-          <button
-            type="button"
-            className={`zoom-val-badge ${zoomPercent !== 100 ? 'is-custom' : ''}`}
-            onClick={resetZoom}
-            title={zoomPercent !== 100 ? 'Click to reset to 100%' : 'Standard 100% Zoom'}
-            aria-label="Reset zoom to 100%"
-          >
-            {zoomPercent}%
-          </button>
-        </div>
+                {/* Primary Action: Recipe & Standards */}
+                <button
+                  className="hud-menu-item-btn recipe-card-btn"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    soundManager.playClick();
+                    openModal('recipe');
+                  }}
+                >
+                  <div className="menu-btn-icon-box recipe-icon-box">📖</div>
+                  <div className="menu-item-text">
+                    <strong>View Recipe & Formulation</strong>
+                    <small>1:1 Ubod-to-Rice Flour ratios & science standards</small>
+                  </div>
+                  <span className="menu-item-arrow">➔</span>
+                </button>
 
-        {isStageScene && (
-          <button className="hud-btn hud-btn-restart" onClick={handleRestartClick} title="Restart Current Stage">
-            <span className="icon"><RestartIcon size={17} strokeWidth={2.5} /></span>
-            <span className="label">Restart</span>
-          </button>
+                {/* Primary Action: Restart Stage */}
+                {isStageScene && (
+                  <button
+                    className="hud-menu-item-btn restart-card-btn"
+                    onClick={handleRestartClick}
+                  >
+                    <div className="menu-btn-icon-box restart-icon-box">
+                      <RestartIcon size={20} strokeWidth={2.5} />
+                    </div>
+                    <div className="menu-item-text">
+                      <strong>Restart Current Stage</strong>
+                      <small>Reset workstation progress for {currentStage.title}</small>
+                    </div>
+                    <span className="menu-item-arrow">➔</span>
+                  </button>
+                )}
+
+                {/* Sound Settings Toggle */}
+                <div className="hud-menu-row sound-setting-card">
+                  <div className="hud-menu-row-info">
+                    <div className="menu-btn-icon-box sound-icon-box">
+                      {isMuted ? '🔇' : '🔊'}
+                    </div>
+                    <div className="menu-item-text">
+                      <strong>Sound Effects & Voice</strong>
+                      <small>{isMuted ? 'Muted / Silent mode' : 'Active (SFX & Voice narration)'}</small>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className={`menu-switch-btn ${!isMuted ? 'is-on' : 'is-off'}`}
+                    onClick={() => {
+                      toggleSound();
+                    }}
+                    title={isMuted ? 'Unmute Sound Effects' : 'Mute Sound Effects'}
+                  >
+                    <span className="switch-thumb" />
+                    <span className="switch-text">{isMuted ? 'OFF' : 'ON'}</span>
+                  </button>
+                </div>
+
+                {/* Screen & HUD Zoom Scaling Section */}
+                <div className="hud-menu-zoom-card">
+                  <div className="hud-menu-zoom-head">
+                    <div className="zoom-title-stack">
+                      <div className="menu-btn-icon-box zoom-icon-box">🔍</div>
+                      <div>
+                        <strong>Screen & UI Scale</strong>
+                        <small>Scale workspace to fit your monitor</small>
+                      </div>
+                    </div>
+                    <span className={`zoom-live-badge ${zoomPercent !== 100 ? 'is-custom' : ''}`}>
+                      {zoomPercent}%
+                    </span>
+                  </div>
+
+                  <div className="hud-menu-zoom-controls">
+                    <button
+                      type="button"
+                      className="zoom-tactile-btn"
+                      onClick={zoomOut}
+                      disabled={zoomLevel <= 0.5}
+                      title="Zoom Out (-5%)"
+                      aria-label="Zoom Out"
+                    >
+                      <ZoomOutIcon size={16} strokeWidth={2.6} />
+                    </button>
+
+                    <div className="zoom-slider-wrap">
+                      <input
+                        type="range"
+                        min="50"
+                        max="150"
+                        step="5"
+                        value={zoomPercent}
+                        onChange={(e) => setZoomLevel(Number(e.target.value) / 100)}
+                        className="zoom-slider-input"
+                        aria-label="Screen zoom level"
+                        title={`Zoom: ${zoomPercent}%`}
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      className="zoom-tactile-btn"
+                      onClick={zoomIn}
+                      disabled={zoomLevel >= 1.5}
+                      title="Zoom In (+5%)"
+                      aria-label="Zoom In"
+                    >
+                      <ZoomInIcon size={16} strokeWidth={2.6} />
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`zoom-reset-pill ${zoomPercent === 100 ? 'is-default' : ''}`}
+                      onClick={resetZoom}
+                      title="Reset Zoom to 100%"
+                    >
+                      100% Reset
+                    </button>
+                  </div>
+                </div>
+
+                {/* Navigation: Return to Menu */}
+                <button
+                  className="hud-menu-item-btn exit-card-btn"
+                  onClick={handleHomeClick}
+                >
+                  <div className="menu-btn-icon-box exit-icon-box">🏠</div>
+                  <div className="menu-item-text">
+                    <strong>Exit to Title Screen</strong>
+                    <small>Save progress & return to main menu</small>
+                  </div>
+                  <span className="menu-item-arrow">➔</span>
+                </button>
+              </div>
+            </div>
+          </>
         )}
-
-        <button className="hud-btn" onClick={() => openModal('recipe')} title="View Recipe">
-          <span className="icon">📖</span>
-          <span className="label">Recipe</span>
-        </button>
-
-        <button className="hud-btn" onClick={toggleSound} title={isMuted ? 'Unmute Audio' : 'Mute Audio'}>
-          <span className="icon">{isMuted ? '🔇' : '🔊'}</span>
-        </button>
       </div>
     </header>
   );

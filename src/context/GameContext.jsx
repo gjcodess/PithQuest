@@ -70,32 +70,29 @@ export const GameProvider = ({ children }) => {
   const [stageKey, setStageKey] = useState(0);
   const [maxUnlockedStage, setMaxUnlockedStage] = useState(1);
 
-  // Zoom level state (persisted in localStorage, default 1.0 = 100%)
-  const [zoomLevel, setZoomLevel] = useState(() => {
+  // Zoom level state (default 1.0 = 100%)
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  useEffect(() => {
     try {
-      const saved = localStorage.getItem('pithquest_zoom');
-      if (saved) {
-        const parsed = parseFloat(saved);
-        if (!isNaN(parsed) && parsed >= 0.5 && parsed <= 1.6) {
-          return parsed;
-        }
-      }
+      localStorage.removeItem('pithquest_zoom');
     } catch {}
-    return 1;
-  });
+  }, []);
 
   const updateZoom = (val) => {
     const clamped = Math.min(Math.max(val, 0.5), 1.6);
     const rounded = Math.round(clamped * 100) / 100;
     setZoomLevel(rounded);
-    try {
-      localStorage.setItem('pithquest_zoom', rounded.toString());
-    } catch {}
   };
 
   const zoomIn = () => updateZoom(zoomLevel + 0.05);
   const zoomOut = () => updateZoom(zoomLevel - 0.05);
-  const resetZoom = () => updateZoom(1.0);
+  const resetZoom = () => {
+    try {
+      localStorage.removeItem('pithquest_zoom');
+    } catch {}
+    setZoomLevel(1.0);
+  };
 
   useEffect(() => {
     // Reset any held cursor item when changing scenes

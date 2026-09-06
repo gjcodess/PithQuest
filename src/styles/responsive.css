@@ -96,19 +96,10 @@
     display: none; /* Compact pill */
   }
 
-  .hud-zoom-control {
-    padding: 2px 4px;
-    gap: 2px;
-  }
-
-  .zoom-slider-wrap {
-    display: none;
-  }
-
-  .zoom-val-badge {
-    min-width: 32px;
-    font-size: 0.65rem;
-    padding: 1px 4px;
+  .hud-menu-panel {
+    right: 8px;
+    width: calc(100vw - 16px);
+    max-width: 320px;
   }
 
   .dialogue-box {
