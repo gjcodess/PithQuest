@@ -24,10 +24,11 @@ export const Mission1Prep = () => {
 
   useEffect(() => {
     speak(
-      'Stage 1: Washing & Pre-Cooking! First, pick up the fresh cut raw coconut pith from your bottom inventory shelf and place it into the empty sink colander to prepare for washing.',
+      'Stage 1: Washing & Pre-Cooking! Step 1: Wash the ubod thoroughly. Pick up the fresh cut raw coconut pith from your bottom inventory shelf and place it into the sink colander.',
       'neutral',
       {
-        badge: 'Stage 1: Raw Preparation',
+        badge: 'Step 1: Raw Preparation',
+        note: 'Always wash the raw ubod thoroughly under clean running water to remove surface dirt, debris, and impurities.',
         hint: 'Tap "Raw Ubod Strips" on the bottom shelf, then click or drop onto the empty sink colander.',
         hideButton: true,
       }
@@ -98,7 +99,8 @@ export const Mission1Prep = () => {
       'Great! Raw coconut pith is loaded into the colander. Now click or turn the cross handle on the faucet knob below to rinse under running water!',
       'happy',
       {
-        badge: 'Rinse Ubod',
+        badge: 'Step 1: Rinse Ubod',
+        note: 'Wash the ubod thoroughly to remove unwanted residue and cool it down.',
         hint: 'Click or turn the 4-arm chrome cross handle to 90° -FLOW to start washing.',
         hideButton: true,
       }
@@ -117,10 +119,11 @@ export const Mission1Prep = () => {
       addScore(20);
       showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet (+20 pts)', 'success');
       speak(
-        'Great job! The ubod is washed and clean. Now pick up the Washed Ubod from your bottom inventory shelf and transfer it into the stockpot!',
+        'Step 2: After washing, transfer the ubod to a pan/stockpot. Pick up the Washed Ubod from your bottom shelf and transfer it into the pot!',
         'happy',
         {
-          badge: 'Submerge in Pot',
+          badge: 'Step 2: Transfer to Pan',
+          note: 'Drain the ubod properly in the colander before transferring it to the cooking pan.',
           hint: 'Select Washed Ubod on the bottom shelf, then drop into the stockpot.',
           hideButton: true,
         }
@@ -135,10 +138,11 @@ export const Mission1Prep = () => {
       addScore(20);
       showToast('Ubod Added!', 'Now pour clean potable water to submerge the ubod.', 'success');
       speak(
-        'Excellent! Coconut pith is loaded. Now pick up the Potable Water from your bottom shelf and pour until submerged.',
+        'Step 3: Add water to the pan with the ubod. Pick up the Potable Water from your bottom shelf and pour until submerged.',
         'neutral',
         {
-          badge: 'Water Hydration',
+          badge: 'Step 3: Add Water',
+          note: 'Water provides moisture and facilitates uniform heat distribution during thermal softening.',
           hint: 'Select Potable Water from the bottom shelf and drop into the pot.',
           hideButton: true,
         }
@@ -149,10 +153,11 @@ export const Mission1Prep = () => {
       addScore(20);
       showToast('Water Added!', 'Now add Sea Salt to season and regulate osmotic moisture.', 'success');
       speak(
-        'Perfect liquid level! Now add measured Pure Sea Salt from the bottom tray into the pot.',
+        'Step 3 (cont): Add a pinch of salt to the pan with the ubod.',
         'neutral',
         {
-          badge: 'Salting Step',
+          badge: 'Step 3: Add Salt',
+          note: 'Salt enhances flavor and helps tenderize coconut pith during the boiling process.',
           hint: 'Select Pure Sea Salt on the shelf and drop it into the pot.',
           hideButton: true,
         }
@@ -163,10 +168,11 @@ export const Mission1Prep = () => {
       addScore(20);
       showToast('Salt Added!', 'Pot is ready! Ignite the high heat burner.', 'success');
       speak(
-        'All ingredients are in the pot! Press the "Ignite Burner" button to bring the water to a rolling boil until the ubod is fork-tender.',
+        'Step 4: Boil the ubod over medium heat for approximately 10–15 minutes, or until it becomes tender. Press the "Ignite Burner" button to begin!',
         'thinking',
         {
-          badge: 'Thermal Softening',
+          badge: 'Step 4: Boiling',
+          note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before igniting.',
           hint: 'Click the "Ignite High Heat Burner" button on the workstation.',
           hideButton: true,
         }
@@ -193,10 +199,11 @@ export const Mission1Prep = () => {
         addScore(30);
         showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent (+30 pts)', 'success');
         speak(
-          'Boiling complete! The tough cellulose fibers have softened into translucent, tender pieces. Now pick up the stainless colander from your bottom shelf and tap the sink to drain the hot water!',
+          'Step 5: Use a colander to drain the water from the boiled ubod. Pick up the stainless colander and tap the sink to drain!',
           'happy',
           {
-            badge: 'Drain & Cool',
+            badge: 'Step 5: Drain Boiled Ubod',
+            note: 'Safety Note: Wear heat-resistant gloves or use oven mitts when handling the hot pan after boiling.',
             hint: 'Select Stainless Colander on the bottom shelf, then tap the washing sink to drain.',
             hideButton: true,
           }
@@ -214,10 +221,11 @@ export const Mission1Prep = () => {
     completeMission('mission1');
     showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander (+30 pts)', 'success');
     speak(
-      'Outstanding! The boiled ubod is drained and steam-cooling in the colander. The softened fibers are now ready for food processing into a fine paste!',
+      'Steps 6 & 7: While the ubod is in the colander, wash it again to remove unwanted residue and cool it down. Drain the ubod properly before proceeding!',
       'happy',
       {
         badge: 'Stage 1 Complete',
+        note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
         btnText: 'Proceed to Stage 2: Food Processing ➔',
         onNext: () => setScene('mission2'),
       }

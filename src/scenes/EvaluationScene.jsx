@@ -13,6 +13,7 @@ export const EvaluationScene = () => {
       'happy',
       {
         badge: 'Graduation & Mastery',
+        note: 'You have applied all food processing principles, safe thermal handling, and quality control from raw ubod to finished packaged crackers!',
         hint: 'Scroll through your sensory audit report, review your earned badges, and print your official certificate below.',
         hideButton: true,
       }

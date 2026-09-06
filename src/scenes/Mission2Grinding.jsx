@@ -22,10 +22,11 @@ export const Mission2Grinding = () => {
 
   useEffect(() => {
     speak(
-      'Stage 2: Food Processing & Pureeing! We need to break down the boiled ubod into a silky smooth paste using our food processor.',
+      'Stage 2: Food Processing & Pureeing! Step 8: Transfer the boiled ubod to a food processor. Add 1 teaspoon of salt for every 1 cup of ubod.',
       'neutral',
       {
-        badge: 'Stage 2: Food Processing',
+        badge: 'Step 8: Load Processor',
+        note: 'Safety Check: Check first the wiring, outlet, and the food processor itself before operating.',
         hint: 'Drop the Drained Boiled Ubod from your bottom inventory shelf into the food processor bowl.',
         hideButton: true,
       }
@@ -92,10 +93,11 @@ export const Mission2Grinding = () => {
       addScore(25);
       showToast('Boiled Ubod Loaded!', 'Now add salt according to client ratio (1 tsp per cup).', 'success');
       speak(
-        'Great! Now add 1 teaspoon of Pure Sea Salt from the bottom tray into the processor bowl.',
+        'Great! Now add 1 teaspoon of Pure Sea Salt from the bottom tray into the processor bowl (1 tsp per 1 cup ubod).',
         'neutral',
         {
           badge: 'Calibrated Salting',
+          note: 'Salt assists in cell rupture during blending and distributes seasoning evenly throughout the puree.',
           hint: 'Select Measured Sea Salt from the bottom shelf and drop it into the processor.',
           hideButton: true,
         }
@@ -110,6 +112,7 @@ export const Mission2Grinding = () => {
         'thinking',
         {
           badge: 'Safety Interlock Required',
+          note: 'Safety Note: Never operate electrical kitchen appliances with exposed blades or without securely locking safety lids.',
           hint: 'Click "Lock Safety Lid" to engage the interlock switch.',
           hideButton: true,
         }
@@ -126,10 +129,11 @@ export const Mission2Grinding = () => {
     addScore(15);
     showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready! (+15 pts)', 'success');
     speak(
-      'Safety interlock engaged! The motor is armed. Now press the Orange High-Speed Puree button on the console to start blending!',
+      'Step 9: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
       'happy',
       {
-        badge: 'Motor Armed',
+        badge: 'Step 9: Pureeing',
+        note: 'Process the ubod until it reaches a smooth, uniform, paste-like consistency with no large fibrous chunks.',
         hint: 'Press the Orange High-Speed Puree button on the control console.',
         hideButton: true,
       }
@@ -162,10 +166,11 @@ export const Mission2Grinding = () => {
         addScore(30);
         showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste (+30 pts)', 'success');
         speak(
-          'Perfect consistency! All cellulose fibers are completely broken down. Now pick up the red silicone spatula from your bottom shelf and tap the bowl to scrape the paste into the stainless prep bowl.',
+          'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Pick up the red silicone spatula to scrape!',
           'happy',
           {
-            badge: 'Puree Complete',
+            badge: 'Step 10: Transfer Paste',
+            note: 'Use a clean spatula to scrape down the bowl sides to minimize ingredient loss and maintain accurate batch yield.',
             hint: 'Select Red Spatula on the shelf, then tap the processor bowl to scrape.',
             hideButton: true,
           }
@@ -202,6 +207,7 @@ export const Mission2Grinding = () => {
         'happy',
         {
           badge: 'Stage 2 Complete',
+          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive dough structure.',
           btnText: 'Proceed to Stage 3: Dough Formulation ➔',
           onNext: () => setScene('mission3'),
         }

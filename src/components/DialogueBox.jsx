@@ -156,6 +156,16 @@ export const DialogueBox = () => {
           {isTyping && <span className="dialogue-typing-cursor">▌</span>}
         </p>
 
+        {dialogue.note && (
+          <div className="assistant-note-callout">
+            <div className="note-callout-header">
+              <span className="note-icon">📝</span>
+              <span className="note-title">{dialogue.noteTitle || "Teacher Mia's Note"}</span>
+            </div>
+            <p className="note-text">{dialogue.note}</p>
+          </div>
+        )}
+
         {dialogue.hint && (
           <div className="assistant-hint-callout">
             <span className="hint-icon">💡</span>

@@ -22,10 +22,11 @@ export const Mission6Dehydration = () => {
 
   useEffect(() => {
     speak(
-      'Stage 6: Cooling & Cabinet Dehydration! First, select the Stainless Wire Mesh Tray from your bottom inventory and place it on the workstation.',
+      'Stage 6: Cooling & Cabinet Dehydration! Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
       'neutral',
       {
-        badge: 'Stage 6: Dehydration',
+        badge: 'Step 16: Tray Spacing',
+        note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
         hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
         hideButton: true,
       }
@@ -99,10 +100,11 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Tray Prepared!', 'Stainless wire mesh placed on counter (+20 pts)', 'success');
       speak(
-        'Great! The wire mesh grid provides 360° horizontal airflow. Now select the Steamed Ubod Wafers from inventory and arrange them with 1-inch spacing.',
+        'Great! The wire mesh grid provides 360° airflow. Now select the Steamed Ubod Wafers from inventory and arrange them with space between each piece.',
         'neutral',
         {
           badge: 'Wafer Spacing',
+          note: 'Proper spacing ensures unrestricted airflow so all pieces dry evenly without damp spots.',
           hint: 'Select Steamed Ubod Wafers from inventory and place them on the wire mesh tray.',
           hideButton: true,
         }
@@ -114,10 +116,11 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps (+25 pts)', 'success');
       speak(
-        'Perfect spacing! Now select the Cabinet Dehydrator from your inventory shelf and place it on the tray to load it into the cabinet.',
+        'Step 17: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Select the Cabinet Dehydrator to insert the tray.',
         'neutral',
         {
-          badge: 'Cabinet Loading',
+          badge: 'Step 17: Dehydration Setup',
+          note: 'Safety Note: Check the wirings, outlets, and the dehydrator itself before turning on the power.',
           hint: 'Select Cabinet Dehydrator from inventory and place it onto the tray.',
           hideButton: true,
         }
@@ -140,6 +143,7 @@ export const Mission6Dehydration = () => {
       'thinking',
       {
         badge: 'Thermostat Setting',
+        note: 'Since dehydration requires approximately 12 hours, the dehydrator may be operated under teacher/laboratory supervision. Check product before and after.',
         hint: 'Tap "Start 12-Hour Dehydration (90°C)" button.',
         hideButton: true,
       }
@@ -153,10 +157,11 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Dehydrating Active...', 'Convection fan circulating 90°C dry air...', 'info');
     speak(
-      'Convection fans are actively circulating 90°C dry air! Watch the moisture monitor drop from 70% to under 10%.',
+      'Convection fans are actively circulating 90°C dry air! Moisture is evaporating to create shelf-stable translucent chips.',
       'happy',
       {
-        badge: '12-Hour Vitrification',
+        badge: 'Dehydration in Progress',
+        note: 'Drying removes free water to inhibit microbial growth and create glassy starch matrix suitable for frying.',
         hint: 'Wait for the 12-hour dehydration time-lapse to complete.',
         hideButton: true,
       }
@@ -179,10 +184,11 @@ export const Mission6Dehydration = () => {
         addScore(40);
         showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed (+40 pts)', 'success');
         speak(
-          '12 hours complete! The moisture content has safely dropped from 70% to under 8%. Select the Airtight Chip Box from inventory to seal the pellets and prevent rehydration!',
+          'Step 18: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Airtight Chip Box to store them!',
           'happy',
           {
-            badge: 'Vitrification Complete',
+            badge: 'Step 18: Airtight Transfer',
+            note: 'Store dehydrated pieces in a clean, dry, airtight container to prevent re-absorbing ambient moisture before frying.',
             hint: 'Select the Airtight Chip Box on the bottom shelf and tap the tray to seal.',
             hideButton: true,
           }
@@ -200,10 +206,11 @@ export const Mission6Dehydration = () => {
     completeMission('mission6');
     showToast('Airtight Storage!', 'Protected from ambient humidity (+30 pts)', 'success');
     speak(
-      'Superb work! The dehydrated chips are sealed in the airtight container. They are now shelf-stable raw kropek pellets, ready for rapid 10-second flash frying in Stage 7!',
+      'Superb work! The dehydrated chips are sealed in the clean, dry container. They are now ready for rapid frying in Stage 7!',
       'happy',
       {
         badge: 'Stage 6 Complete',
+        note: 'Completely dried pellets can now be stored safely or fried immediately into crispy, puffed crackers.',
         btnText: 'Proceed to Stage 7: Deep Frying ➔',
         onNext: () => setScene('mission7'),
       }

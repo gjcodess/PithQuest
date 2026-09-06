@@ -9,11 +9,12 @@ export const SequencingScene = () => {
 
   useEffect(() => {
     speak(
-      `Welcome to the Final Step before Graduation, ${studentName || 'Food Technologist'}! To prove your comprehensive mastery of the Coconut Pith Cracker (Ubod CRUNCH) processing technology, arrange all 8 manufacturing stages in their proper chronological sequence from left to right.`,
+      `Bonus Activity, ${studentName || 'Food Technologist'}! Arrange the processing stages in their correct chronological sequence from left to right.`,
       'thinking',
       {
-        badge: 'Final Examination',
-        hint: 'Drag and re-order the cards from Stage 1 (Washing & Boiling) to Stage 8 (Packaging & Labeling), then click "Verify Chronological Order".',
+        badge: 'Bonus Activity: Sequence Exam',
+        note: 'Correct Sequence: Boiling → Grinding → Mixing → Molding → Steaming → Dehydration → Frying → Packaging.',
+        hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
         hideButton: true,
       }
     );
@@ -23,10 +24,11 @@ export const SequencingScene = () => {
     setIsCompleted(true);
     soundManager.playFanfare();
     speak(
-      `Outstanding recall, ${studentName || 'Master Food Technologist'}! You have verified the complete 8-stage food processing pipeline without a flaw. You are now officially cleared for graduation! Click below to review your comprehensive sensory audit, earned achievements, and claim your official certificate!`,
+      `YOU COMPLETED THE PITHQUEST, ${studentName || 'Master Food Technologist'}! You have verified the complete 8-stage food processing pipeline without a flaw. You are now officially cleared for graduation!`,
       'happy',
       {
         badge: 'Mastery Validated',
+        note: 'Congratulations! You have demonstrated mastery over ingredients, tools, PPE, and the full processing sequence of Coconut Pith Crackers.',
         btnText: 'View Sensory Audit, Achievements & Certificate ➔',
         onNext: () => setScene('evaluation'),
       }
