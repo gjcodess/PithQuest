@@ -21,10 +21,11 @@ export const Mission3Mixing = () => {
 
   useEffect(() => {
     speak(
-      'Stage 3: Dough Formulation & Mixing! In our large stainless steel bowl, we will formulate our 1:1 recipe using Erawan Rice Flour, Salt, Ubod Paste, and Gradual Water.',
+      'Stage 3: Dough Formulation & Mixing! Step 12: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
       'neutral',
       {
-        badge: 'Stage 3: Formulation',
+        badge: 'Step 12: Formulation',
+        note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform dough is formed.',
         hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
         hideButton: true,
       }
@@ -101,6 +102,7 @@ export const Mission3Mixing = () => {
         'neutral',
         {
           badge: 'Dry Blending',
+          note: 'Blending the dry ingredients (flour + salt) first ensures even salt dispersal without concentrated salty spots.',
           hint: 'Select Pure Sea Salt from the bottom shelf and drop it into the bowl.',
           hideButton: true,
         }
@@ -115,6 +117,7 @@ export const Mission3Mixing = () => {
         'happy',
         {
           badge: '1:1 Ratio Formulation',
+          note: 'Rice flour acts as a binder holding the ubod fibers together and providing crispy expansion upon frying.',
           hint: 'Select Ubod Paste on the bottom shelf and drop it into the bowl.',
           hideButton: true,
         }
@@ -129,6 +132,7 @@ export const Mission3Mixing = () => {
         'neutral',
         {
           badge: 'Hydration Control',
+          note: 'Pour the water gradually while mixing to achieve the right dough plasticity without making it overly sticky or watery.',
           hint: 'Select Hydration Water and drop it into the bowl.',
           hideButton: true,
         }
@@ -143,6 +147,7 @@ export const Mission3Mixing = () => {
         'thinking',
         {
           badge: 'Dough Kneading',
+          note: 'Mix the ingredients gradually and gently until all components are well combined and a uniform dough is formed.',
           hint: 'Select Red Spatula on the bottom shelf, then tap the mixing bowl.',
           hideButton: true,
         }
@@ -188,10 +193,11 @@ export const Mission3Mixing = () => {
         completeMission('mission3');
         showToast('Dough Ball Formed!', 'Pliable, elastic, non-sticky dough ready (+35 pts)', 'success');
         speak(
-          'Masterpiece! The dough has achieved the exact desired texture: smooth, elastic, and completely non-sticky. Ready for rectangular molding in Stage 4!',
+          'Masterpiece! The dough has achieved the exact desired texture: smooth, elastic, and uniform. Ready for molding in Stage 4!',
           'happy',
           {
             badge: 'Stage 3 Complete',
+            note: 'Proper dough consistency is critical: uniform dough prevents cracks during dehydration and ensures even puffing during frying.',
             btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
             onNext: () => setScene('mission4'),
           }

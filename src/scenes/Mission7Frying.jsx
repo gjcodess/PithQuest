@@ -24,10 +24,11 @@ export const Mission7Frying = () => {
 
   useEffect(() => {
     speak(
-      'Stage 7: Deep Frying & Oil Draining! Select the 5 cups of Vegetable Oil from the bottom inventory, pour into the deep wok, and preheat to 180°C.',
+      'Stage 7: Deep Frying & Oil Draining! Step 19: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
       'neutral',
       {
-        badge: 'Stage 7: Flash Frying',
+        badge: 'Step 19: Oil Preheat',
+        note: 'Safety Note: Keep a safe distance from the hot oil and use tongs when handling the crackers.',
         hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
         hideButton: true,
       }
@@ -101,10 +102,11 @@ export const Mission7Frying = () => {
       setHoldingItem(null);
       showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner (+25 pts)', 'success');
       speak(
-        'Oil is loaded! Click the stove dial below to ignite the burner and preheat oil to 180°C.',
+        'Oil is loaded! Click the stove dial below to ignite the burner and preheat oil to medium heat (~180°C).',
         'neutral',
         {
           badge: 'Thermal Heating',
+          note: 'Ensure oil reaches proper frying temperature (~175°C–180°C) before dropping crackers to avoid oil absorption.',
           hint: 'Click the stove dial below to ignite burner.',
           hideButton: true,
         }
@@ -136,10 +138,11 @@ export const Mission7Frying = () => {
         addScore(20);
         showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone (+20 pts)', 'success');
         speak(
-          'Target temperature reached: 180°C! Now select the Dehydrated Pellets from your inventory and drop them into the hot shimmering oil.',
+          'Step 20: Carefully fry the dehydrated ubod pieces for approximately 10 seconds or until they become crispy. Drop the dehydrated pellets into the hot oil!',
           'happy',
           {
-            badge: '180°C Ready',
+            badge: 'Step 20: Flash Frying',
+            note: 'Carefully fry for only about 10 seconds per batch. Coconut pith crackers puff up and become crispy almost immediately!',
             hint: 'Select Dehydrated Pellets from bottom shelf and drop into the hot oil.',
             hideButton: true,
           }
@@ -168,10 +171,11 @@ export const Mission7Frying = () => {
         addScore(35);
         showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers (+35 pts)', 'success');
         speak(
-          '10 seconds exactly! The crackers have fully ballooned into light, golden wafers with thousands of micro-air pockets. Select the Draining Colander to remove surface oil!',
+          'Step 21: Using tongs, remove the fried ubod crackers and transfer them to a colander to drain the excess oil.',
           'happy',
           {
-            badge: 'Flash Expansion Complete',
+            badge: 'Step 21: Drain Excess Oil',
+            note: 'Safety Note: Never touch crackers directly with hands while in hot oil. Always use tongs or a skimmer.',
             hint: 'Select Draining Colander from inventory and tap the wok to drain.',
             hideButton: true,
           }
@@ -187,10 +191,11 @@ export const Mission7Frying = () => {
     addScore(20);
     showToast('Draining Oil...', 'Surface oil draining through paper towel lined colander (+20 pts)', 'info');
     speak(
-      'The crackers are draining in the colander lined with paper towels. Select the Presentation Platter from inventory to arrange the finished batch!',
+      'Step 22: Allow the crackers to cool completely before proceeding to the packaging stage. Select the Presentation Platter to arrange the crackers!',
       'neutral',
       {
-        badge: 'Oil Drainage',
+        badge: 'Step 22: Complete Cooling',
+        note: 'Allow crackers to cool completely to room temperature before packaging to maintain crunchiness and prevent moisture condensation inside the pouch.',
         hint: 'Select Presentation Platter from inventory and tap the colander.',
         hideButton: true,
       }
@@ -206,10 +211,11 @@ export const Mission7Frying = () => {
     completeMission('mission7');
     showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy (+35 pts)', 'success');
     speak(
-      'Outstanding frying! The crackers are golden, crisp, and properly drained of excess oil. Now let\'s package and heat-seal our final product in Stage 8!',
+      'Outstanding frying! The crackers are golden, crispy, and thoroughly cooled. Now let’s move on to the Packaging Process in Stage 8!',
       'happy',
       {
         badge: 'Stage 7 Complete',
+        note: 'Follow proper packaging procedures and wear required hygiene PPE in the packaging room.',
         btnText: 'Proceed to Stage 8: Packaging & Labeling ➔',
         onNext: () => setScene('mission8'),
       }

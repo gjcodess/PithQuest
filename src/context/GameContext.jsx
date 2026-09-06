@@ -46,6 +46,8 @@ export const GameProvider = ({ children }) => {
     avatar: 'neutral', // 'neutral', 'happy', 'thinking'
     badge: 'Instructor',
     hint: '',
+    note: '',
+    noteTitle: '',
     btnText: 'Next ➔',
     onNext: null,
     hideButton: false,
@@ -202,6 +204,8 @@ export const GameProvider = ({ children }) => {
       avatar,
       badge: options.badge || 'Instructor',
       hint: options.hint || '',
+      note: options.note || '',
+      noteTitle: options.noteTitle || '',
       btnText: options.btnText || (hasNext ? 'Next ➔' : ''),
       onNext: options.onNext || null,
       hideButton: options.hideButton !== undefined ? options.hideButton : (!hasNext && !hasExplicitBtn),

@@ -18,10 +18,11 @@ export const Mission8Packaging = () => {
 
   useEffect(() => {
     speak(
-      'Stage 8: Packaging & Quality Sealing! Select the 50g portion of Crispy Ubod Crackers from your bottom inventory and fill our stand-up kraft pouch.',
+      'Stage 8: Packaging Process! Step 23: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers using clean packaging materials.',
       'neutral',
       {
-        badge: 'Stage 8: Packaging',
+        badge: 'Step 23: Packaging',
+        note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
         hint: 'Select Crispy Ubod Crackers from bottom shelf and drop into the open pouch.',
         hideButton: true,
       }
@@ -75,6 +76,7 @@ export const Mission8Packaging = () => {
         'neutral',
         {
           badge: 'Seal & Brand',
+          note: 'Hermetic heat-sealing creates a moisture and oxygen barrier to prolong shelf life and prevent oxidation.',
           hint: 'Drop Official Brand Label or click "Impulse Seal & Apply Label".',
           hideButton: true,
         }
@@ -110,6 +112,7 @@ export const Mission8Packaging = () => {
           'happy',
           {
             badge: 'Retail Packing',
+            note: 'Proper outer master cartons protect the individual pouches from mechanical crushing during transit.',
             hint: 'Select Retail Display Box from bottom shelf or click button to pack.',
             hideButton: true,
           }
@@ -127,10 +130,11 @@ export const Mission8Packaging = () => {
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box (+35 pts)', 'success');
     speak(
-      'Perfection! The packaging is airtight, beautifully labeled under NUDAZAR HONORE - Ubod CRUNCH, and packed in the retail display carton. All 8 manufacturing stages are complete! Before claiming your graduation achievements and certificate, let\'s test your mastery with the Final Process Sequencing Exam!',
+      'Perfection! We are now done with our Laboratory Activity! All 8 food processing stages are complete. Let us test your complete knowledge in our Bonus Sequencing Activity!',
       'happy',
       {
         badge: 'Production Complete',
+        note: 'Laboratory Completed: You have applied proper food safety, sanitary PPE, calibrated ratios, and processing methods!',
         btnText: 'Proceed to Final Step: Sequence Exam ➔',
         onNext: () => setScene('sequencing'),
       }

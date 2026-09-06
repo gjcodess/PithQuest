@@ -41,6 +41,7 @@ export const OrientationScene = () => {
         'neutral',
         {
           badge: 'Orientation: Science Concepts',
+          note: 'Coconut pith cracker snack utilizes an agricultural by-product (ubod) to create a nutritious, crispy snack while exploring food innovation.',
           btnText: 'Equip Laboratory PPE ➔',
           onNext: () => {
             setScienceDone(true);
@@ -50,30 +51,33 @@ export const OrientationScene = () => {
       );
     } else if (phase === 'ppe') {
       speak(
-        'Before entering the food preparation area, equip all personal protective equipment (PPE) to uphold strict hygiene standards.',
+        'Before starting the food preparation, we should wear appropriate personal protective equipment.',
         'thinking',
         {
           badge: 'Hygiene & Attire',
+          note: "Don't wear disposable gloves while directly handling hot pans or frying. Use heat-resistant gloves/pot holders for heat, and food-grade gloves for hygienic food handling.",
           hint: 'Click each piece of PPE attire to equip it.',
           hideButton: true,
         }
       );
     } else if (phase === 'sanitation') {
       speak(
-        'Excellent! Now execute the official 7-step handwashing protocol before handling any food contact surfaces.',
+        'Let’s begin with sanitation! Execute the proper handwashing protocol before handling any food contact surfaces.',
         'happy',
         {
           badge: 'Sanitation Protocol',
+          note: 'Clean up your facility space. Wash your hands properly before handling any food to prevent contamination and maintain food safety.',
           hint: 'Tap the handwashing steps in order to thoroughly cleanse your hands.',
           hideButton: true,
         }
       );
     } else if (phase === 'tool_inspection') {
       speak(
-        'Equipment inspection time! Before touching food, inspect each tool. Select the safe, food-grade option. Avoid hazardous or damaged tools!',
+        'Help me inspect our Tools and Equipment needed! Inspect each tool and select the safe, food-grade option. Avoid hazardous or damaged items!',
         'neutral',
         {
           badge: 'Tool Safety Clearance',
+          note: 'Safety Check: Make sure all materials and tools are clean and safe. Check electrical wires, outlets, and cords for damage before using equipment.',
           hideButton: true,
         }
       );
@@ -83,6 +87,7 @@ export const OrientationScene = () => {
         'neutral',
         {
           badge: 'Ingredient Quality Clearance',
+          note: 'Always choose ingredients that are fresh, clean, and safe to use. Check the expiration date and condition before preparing food.',
           hideButton: true,
         }
       );
@@ -92,6 +97,7 @@ export const OrientationScene = () => {
         'happy',
         {
           badge: 'Laboratory Certified',
+          note: 'Accurate measuring and proper sanitation maintain the consistency, texture, and food safety of the finished product.',
           btnText: 'Start Stage 1: Washing & Boiling ➔',
           onNext: () => setScene('mission1'),
         }

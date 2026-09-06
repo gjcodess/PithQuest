@@ -22,10 +22,11 @@ export const Mission5Steaming = () => {
 
   useEffect(() => {
     speak(
-      'Stage 5: Starch Gelatinization & Steaming! Steaming locks the rectangular shape of the crackers by hydrating and gelatinizing the rice starches at 100°C.',
+      'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes. First, pour clean potable water into the empty steamer base.',
       'neutral',
       {
-        badge: 'Stage 5: Steaming',
+        badge: 'Step 14: Steaming Setup',
+        note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
         hint: 'First, select the Potable Water Pitcher from your bottom inventory and pour it into the empty steamer base.',
         hideButton: true,
       }
@@ -103,6 +104,7 @@ export const Mission5Steaming = () => {
         'neutral',
         {
           badge: 'Steam Tier Placement',
+          note: 'Ensure adequate water in the base pot to prevent boiling dry during the 10-minute steaming cycle.',
           hint: 'Select the Perforated Steam Tier on the bottom shelf, then place it on the pot.',
           hideButton: true,
         }
@@ -118,6 +120,7 @@ export const Mission5Steaming = () => {
         'neutral',
         {
           badge: 'Middle Tier Loading',
+          note: 'The perforated tier allows steam vapors to circulate evenly around all 24 cracker cavities.',
           hint: 'Select the Molded Ubod Tray on the bottom shelf, then place it inside the tier.',
           hideButton: true,
         }
@@ -129,10 +132,11 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam (+20 pts)', 'success');
       speak(
-        'The molded crackers are in place and the domed lid is ready! Turn the rotary stove knob to HIGH to begin gelatinizing the starch matrix at 100°C.',
+        'Step 14: Steam the molded ubod pieces for approximately 10 minutes. Turn the rotary stove knob to begin steaming!',
         'thinking',
         {
-          badge: 'Starch Gelatinization',
+          badge: 'Step 14: Steaming',
+          note: 'Use medium heat to maintain steady steam without allowing the water to boil too aggressively.',
           hint: 'Turn the rotary stove knob to HIGH to ignite the burner.',
           hideButton: true,
         }
@@ -148,10 +152,11 @@ export const Mission5Steaming = () => {
     setSteamerStep(4);
     showToast('Steaming Active...', 'Gas burner ignited! 100°C steam gelatinizing starches...', 'info');
     speak(
-      'Rolling steam active at 100°C! Watch the live gelatinization monitor as steam transfers heat to the cracker starches.',
+      'Rolling steam active at 100°C! Steam transfers heat to gelatinize the rice starches and set the cracker structure.',
       'happy',
       {
         badge: 'Steaming in Progress',
+        note: 'Steaming cooks and gelatinizes the starches, locking the shape of the crackers before dehydration.',
         hint: 'Wait for the 10-minute steam cycle to complete.',
         hideButton: true,
       }
@@ -169,10 +174,11 @@ export const Mission5Steaming = () => {
         addScore(30);
         showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set (+30 pts)', 'success');
         speak(
-          '10 minutes elapsed! Notice how the pieces have turned glossy, firm, and semi-translucent. Don your red silicone heat mitts and safely transfer the hot mold to the wire cooling rack!',
+          'Step 15: Allow the molded ubod pieces to cool before transferring them to the dehydrator trays. Don your silicone heat mitts and transfer the hot mold to the cooling rack!',
           'happy',
           {
-            badge: 'Gelatinization Achieved',
+            badge: 'Step 15: Cooling Hot Pieces',
+            note: 'Safety Note: Wear heat-resistant gloves or oven mitts when handling hot steaming equipment to prevent steam burns.',
             hint: 'Select the Silicone Heat Mitts below and tap the hot mold to transfer.',
             hideButton: true,
           }
@@ -190,10 +196,11 @@ export const Mission5Steaming = () => {
     completeMission('mission5');
     showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts (+20 pts)', 'success');
     speak(
-      'Outstanding steaming! The crackers are cooling on the wire rack. Starch retrogradation is firming up the pieces so they can be neatly arranged on dehydrator trays in Stage 6!',
+      'Outstanding steaming! The crackers are cooling on the wire rack. Allowing the pieces to cool prevents them from tearing or sticking during dehydrator tray loading in Stage 6!',
       'happy',
       {
         badge: 'Stage 5 Complete',
+        note: 'Cooling allows starch retrogradation to set the firm texture needed for single-layer arrangement in Stage 6.',
         btnText: 'Proceed to Stage 6: Cabinet Dehydration ➔',
         onNext: () => setScene('mission6'),
       }
