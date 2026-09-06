@@ -120,15 +120,15 @@ export const StoveBurnerConsole = ({
             <div className="burner-progress-container">
               <span className="burner-action-hint flame-text">
                 {typeof activeHint === 'function'
-                  ? activeHint(progress)
+                  ? activeHint(Math.round(progress))
                   : activeHint
-                  ? `${activeHint} ${progress}%`
-                  : `🔥 Rolling boil... ${progress}%`}
+                  ? `${activeHint} ${Math.round(progress)}%`
+                  : `🔥 Heating... ${Math.round(progress)}%`}
               </span>
               <div className="burner-progress-track">
                 <div
                   className="burner-progress-fill"
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${Math.min(100, Math.max(0, Math.round(progress)))}%` }}
                 />
               </div>
             </div>
