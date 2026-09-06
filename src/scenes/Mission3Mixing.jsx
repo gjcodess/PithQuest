@@ -398,7 +398,7 @@ export const Mission3Mixing = () => {
                 }`}
               >
                 {bowlStep >= 6
-                  ? '✅ Cohesive Matrix'
+                  ? '✓ Cohesive Matrix'
                   : bowlStep === 5
                   ? `⚡ Mixing (${kneadProgress}%)`
                   : bowlStep === 4

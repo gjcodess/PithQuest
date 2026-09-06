@@ -116,7 +116,15 @@ export const MultiStateContainer = ({
           <h4 className="workstation-name">{title}</h4>
           {subtitle && <span className="workstation-sub">{subtitle}</span>}
         </div>
-        <div className="workstation-step-badge">
+        <div
+          className={`workstation-step-badge ${
+            currentStepIndex >= steps.length - 1
+              ? 'badge-success-glow'
+              : currentStepIndex > 0
+              ? 'badge-amber-glow'
+              : ''
+          }`}
+        >
           Step {Math.min(currentStepIndex + 1, steps.length)} of {steps.length}
         </div>
       </div>

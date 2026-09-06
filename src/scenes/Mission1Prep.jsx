@@ -433,15 +433,29 @@ export const Mission1Prep = () => {
                     : ''
                 }`}
               >
-                {potStep >= 5
-                  ? '♨️ Ubod Draining'
-                  : isWashed
-                  ? '✅ Sanitized'
-                  : isWashingActive
-                  ? '💧 Rinsing...'
-                  : isUbodInColander
-                  ? 'Ready to Wash'
-                  : '1. Load Ubod'}
+                {potStep >= 5 ? (
+                  <>
+                    <span className="badge-icon">♨️</span>
+                    <span>Ubod Draining</span>
+                  </>
+                ) : isWashed ? (
+                  <>
+                    <span className="badge-icon-check">✓</span>
+                    <span>Sanitized</span>
+                  </>
+                ) : isWashingActive ? (
+                  <>
+                    <span className="badge-icon">💧</span>
+                    <span>Rinsing...</span>
+                  </>
+                ) : isUbodInColander ? (
+                  <>
+                    <span className="badge-icon">🌿</span>
+                    <span>Ready to Wash</span>
+                  </>
+                ) : (
+                  <span>1. Load Ubod</span>
+                )}
               </div>
             </div>
 

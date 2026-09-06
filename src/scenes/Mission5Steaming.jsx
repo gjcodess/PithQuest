@@ -394,7 +394,7 @@ export const Mission5Steaming = () => {
                 }`}
               >
                 {steamerStep >= 6
-                  ? '✅ Cooled & Set'
+                  ? '✓ Cooled & Set'
                   : steamerStep === 5
                   ? '🧤 Safe Transfer'
                   : steamerStep === 4

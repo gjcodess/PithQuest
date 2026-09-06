@@ -432,7 +432,7 @@ export const Mission2Grinding = () => {
                     : ''
                 }`}
               >
-                {processorStep >= 5 ? '✅ Collected' : processorStep === 4 ? '🥣 Ready to Scrape' : 'Standby'}
+                {processorStep >= 5 ? '✓ Collected' : processorStep === 4 ? '🥣 Ready to Scrape' : 'Standby'}
               </div>
             </div>
 

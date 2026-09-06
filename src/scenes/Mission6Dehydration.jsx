@@ -444,7 +444,7 @@ export const Mission6Dehydration = () => {
                 }`}
               >
                 {dehydrateStep >= 6
-                  ? '✅ Vitrified & Sealed'
+                  ? '✓ Vitrified & Sealed'
                   : dehydrateStep === 5
                   ? '✨ Ready to Store'
                   : dehydrateStep === 4

@@ -339,7 +339,7 @@ export const Mission4Molding = () => {
                 }`}
               >
                 {moldStep >= 3
-                  ? '✅ 24/24 Leveled'
+                  ? '✓ 24/24 Leveled'
                   : moldStep === 2
                   ? '📐 Ready to Level'
                   : moldStep === 1
