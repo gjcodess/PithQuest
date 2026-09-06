@@ -410,7 +410,7 @@ export const Mission7Frying = () => {
                 }`}
               >
                 {fryStep >= 6
-                  ? '✨ Cooled & Crispy'
+                  ? '✓ Cooled & Crispy'
                   : fryStep === 5
                   ? '🥣 Oil Draining'
                   : fryStep === 4

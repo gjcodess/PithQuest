@@ -292,9 +292,9 @@ export const Mission8Packaging = () => {
                 }`}
               >
                 {packStep >= 3
-                  ? '✨ Master Box Complete'
+                  ? '✓ Master Box Complete'
                   : packStep === 2
-                  ? '🏷️ Branded & Sealed'
+                  ? '✓ Branded & Sealed'
                   : packStep === 1
                   ? '⚖️ 50g Portioned'
                   : 'Standby'}
