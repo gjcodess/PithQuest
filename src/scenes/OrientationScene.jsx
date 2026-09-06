@@ -216,10 +216,12 @@ export const OrientationScene = () => {
         {/* PHASE 1: LECTURE & SCIENCE CONCEPTS */}
         {phase === 'lecture' && (
           <div className="active-vessel-card orientation-card">
+            <div className="vessel-top-badge">🥥 Core Food Technology Foundations</div>
             <div className="vessel-header">
               <span className="vessel-title">📚 Laboratory Science & Definitions</span>
               <span className="vessel-badge">Concept {activeConceptIndex + 1} of {LECTURE_CONCEPTS.length}</span>
             </div>
+            <div className="vessel-header-divider" />
 
             <div className="lecture-display-area">
               <div className="concept-card-expanded">
@@ -318,12 +320,14 @@ export const OrientationScene = () => {
         {/* PHASE 2: PPE DRESSING */}
         {phase === 'ppe' && (
           <div className="active-vessel-card orientation-card ppe-card">
+            <div className="vessel-top-badge">🥼 Hygiene, Attire & Protective Standards</div>
             <div className="vessel-header">
               <span className="vessel-title">🥼 Personal Protective Equipment (PPE)</span>
               <span className="vessel-badge">
                 {Object.values(ppeEquipped).filter(Boolean).length}/{PPE_ITEMS.length} Equipped
               </span>
             </div>
+            <div className="vessel-header-divider" />
 
             <p className="section-instruction">
               Click each piece of protective gear to wear it before entering the cooking lab:
@@ -358,12 +362,14 @@ export const OrientationScene = () => {
         {/* PHASE 3: HANDWASHING PROTOCOL */}
         {phase === 'sanitation' && (
           <div className="active-vessel-card orientation-card">
+            <div className="vessel-top-badge">🧼 Home Economics Sanitation Protocol</div>
             <div className="vessel-header">
               <span className="vessel-title">🧼 7-Step Sanitary Handwashing Protocol</span>
               <span className="vessel-badge">
                 Step {completedHandwashSteps.length + 1} of {HANDWASHING_STEPS.length}
               </span>
             </div>
+            <div className="vessel-header-divider" />
 
             <p className="section-instruction">
               Tap each handwashing step in strict chronological order to properly sanitize:
@@ -439,10 +445,13 @@ export const OrientationScene = () => {
         {/* READY / CERTIFIED SCREEN */}
         {phase === 'ready' && (
           <div className="active-vessel-card orientation-card ready-card">
+            <div className="vessel-top-badge">🎉 Official Laboratory Clearance Certificate</div>
             <div className="vessel-header">
               <span className="vessel-title">🎉 Laboratory Clearance Approved!</span>
               <span className="vessel-badge">All Inspections Cleared</span>
             </div>
+            <div className="vessel-header-divider" />
+
             <div className="orientation-body">
               <img src="/images/teacher_mia_happy.png" alt="Teacher Mia" className="orientation-hero-img" />
               <div className="orientation-text">
