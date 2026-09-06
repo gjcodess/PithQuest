@@ -58,7 +58,8 @@ export const GameProvider = ({ children }) => {
       mission6: 6,
       mission7: 7,
       mission8: 8,
-      evaluation: 9,
+      sequencing: 9,
+      evaluation: 10,
     };
     const currentStep = STAGE_STEPS[scene];
     if (currentStep !== undefined && currentStep >= 1) {
@@ -94,6 +95,7 @@ export const GameProvider = ({ children }) => {
     mission6: false,
     mission7: false,
     mission8: false,
+    sequencing: false,
   });
 
   // Sound Mute Toggle

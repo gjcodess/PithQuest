@@ -453,7 +453,7 @@ export const Mission6Dehydration = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport dehydration-qc-viewport"
-              style={{ height: '280px', minHeight: '280px', maxHeight: '280px', flex: '0 0 auto' }}
+              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Moisture & Thermal Parameters Card */}
               <div className="dehydration-spec-card">

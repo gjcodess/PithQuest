@@ -402,7 +402,7 @@ export const Mission3Mixing = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport qc-viewport" style={{ minHeight: '280px', flex: '1 1 auto' }}>
+            <div className="workstation-viewport qc-viewport" style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}>
               {/* Recipe Calibration Checklist */}
               <div className="qc-recipe-list">
                 <div className="qc-list-title">

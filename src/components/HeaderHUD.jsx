@@ -13,7 +13,8 @@ const STAGE_CONFIG = {
   mission6: { num: 'Stage 6', title: 'Cabinet Dehydration', step: 6 },
   mission7: { num: 'Stage 7', title: 'Deep Frying', step: 7 },
   mission8: { num: 'Stage 8', title: 'Packaging & Labeling', step: 8 },
-  evaluation: { num: 'Mastery', title: 'Sensory & Certificate', step: 9 },
+  sequencing: { num: 'Final Exam', title: 'Process Sequencing Exam', step: 9 },
+  evaluation: { num: 'Mastery', title: 'Sensory & Achievements', step: 10 },
 };
 
 export const HeaderHUD = () => {

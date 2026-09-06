@@ -345,7 +345,7 @@ export const Mission4Molding = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport molding-qc-viewport" style={{ height: '280px', minHeight: '280px', flex: '1 1 auto' }}>
+            <div className="workstation-viewport molding-qc-viewport" style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}>
               {/* Specification Card */}
               <div className="molding-spec-card">
                 <div className="molding-spec-header">

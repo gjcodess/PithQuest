@@ -422,7 +422,7 @@ export const Mission7Frying = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport frying-qc-viewport"
-              style={{ height: '280px', minHeight: '280px', maxHeight: '280px', flex: '0 0 auto' }}
+              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Oil Thermometer & Expansion Ratio Spec Card */}
               <div className="frying-spec-card">

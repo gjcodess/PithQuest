@@ -127,12 +127,12 @@ export const Mission8Packaging = () => {
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box (+35 pts)', 'success');
     speak(
-      'Perfection! The packaging is airtight, beautifully labeled under NUDAZAR HONORE - Ubod CRUNCH, and packed in the retail display carton. All 8 manufacturing stages are complete! Click below to enter the Final Evaluation & Certification Hall!',
+      'Perfection! The packaging is airtight, beautifully labeled under NUDAZAR HONORE - Ubod CRUNCH, and packed in the retail display carton. All 8 manufacturing stages are complete! Before claiming your graduation achievements and certificate, let\'s test your mastery with the Final Process Sequencing Exam!',
       'happy',
       {
         badge: 'Production Complete',
-        btnText: 'Proceed to Final Evaluation & Mastery ➔',
-        onNext: () => setScene('evaluation'),
+        btnText: 'Proceed to Final Step: Sequence Exam ➔',
+        onNext: () => setScene('sequencing'),
       }
     );
   };
@@ -300,7 +300,7 @@ export const Mission8Packaging = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport packaging-qc-viewport"
-              style={{ height: '280px', minHeight: '280px', maxHeight: '280px', flex: '0 0 auto' }}
+              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Packaging Standards & Barrier Spec Card */}
               <div className="packaging-spec-card">
