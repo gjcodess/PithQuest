@@ -29,6 +29,7 @@ export const HeaderHUD = () => {
     requestConfirm,
     hideDialogue,
     restartStage,
+    resetStageScore,
     maxUnlockedStage,
     setHoldingItem,
     showToast,
@@ -56,8 +57,11 @@ export const HeaderHUD = () => {
       soundManager.playClick();
       hideDialogue();
       setHoldingItem(null);
-      setScene(`mission${stepNum}`);
-      const targetConfig = STAGE_CONFIG[`mission${stepNum}`];
+      const targetScene = `mission${stepNum}`;
+      // Deduct/reset previous score from that stage so player can replay and earn points fresh without double counting
+      resetStageScore(targetScene);
+      setScene(targetScene);
+      const targetConfig = STAGE_CONFIG[targetScene];
       showToast(`Navigated to ${targetConfig?.num || `Stage ${stepNum}`}`, targetConfig?.title || '', 'info');
     } else {
       soundManager.playError();

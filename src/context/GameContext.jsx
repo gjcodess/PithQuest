@@ -6,9 +6,37 @@ const GameContext = createContext();
 export const GameProvider = ({ children }) => {
   const [scene, setScene] = useState('title');
   const [studentName, setStudentName] = useState(() => localStorage.getItem('pithquest_name') || '');
-  const [score, setScore] = useState(0);
-  const [mistakes, setMistakes] = useState(0);
-  const [stars, setStars] = useState(3);
+  const [stageScores, setStageScores] = useState({
+    orientation: 0,
+    mission1: 0,
+    mission2: 0,
+    mission3: 0,
+    mission4: 0,
+    mission5: 0,
+    mission6: 0,
+    mission7: 0,
+    mission8: 0,
+    sequencing: 0,
+  });
+
+  const [stageMistakes, setStageMistakes] = useState({
+    orientation: 0,
+    mission1: 0,
+    mission2: 0,
+    mission3: 0,
+    mission4: 0,
+    mission5: 0,
+    mission6: 0,
+    mission7: 0,
+    mission8: 0,
+    sequencing: 0,
+  });
+
+  // Dynamically computed total score & stars based on non-duplicated stage scores
+  const score = Object.values(stageScores).reduce((sum, val) => sum + (val || 0), 0);
+  const mistakes = Object.values(stageMistakes).reduce((sum, val) => sum + (val || 0), 0);
+  const stars = mistakes <= 3 ? 3 : mistakes <= 7 ? 2 : 1;
+
   const [badges, setBadges] = useState([]);
   const [isMuted, setIsMuted] = useState(() => soundManager.isMuted);
 
@@ -67,12 +95,18 @@ export const GameProvider = ({ children }) => {
     }
   }, [scene]);
 
-  const restartStage = () => {
+  const resetStageScore = (targetScene = scene) => {
+    setMissionsCompleted(prev => ({ ...prev, [targetScene]: false }));
+    setStageScores(prev => ({ ...prev, [targetScene]: 0 }));
+    setStageMistakes(prev => ({ ...prev, [targetScene]: 0 }));
+  };
+
+  const restartStage = (targetScene = scene) => {
     soundManager.playClick();
     setHoldingItem(null);
-    setMissionsCompleted(prev => ({ ...prev, [scene]: false }));
+    resetStageScore(targetScene);
     setStageKey(prev => prev + 1);
-    showToast('Station Reset', 'Workstation reset to beginning. Give it another try!', 'info');
+    showToast('Stage Reset', 'Points and progress for this workstation have been reset. Replay to earn points!', 'info');
   };
 
   const [confirmDialog, setConfirmDialog] = useState({
@@ -106,16 +140,17 @@ export const GameProvider = ({ children }) => {
   };
 
   const addScore = (points) => {
-    setScore(prev => prev + points);
+    setStageScores(prev => ({
+      ...prev,
+      [scene]: (prev[scene] || 0) + points,
+    }));
   };
 
   const recordMistake = () => {
-    setMistakes(prev => {
-      const next = prev + 1;
-      if (next > 4 && stars > 1) setStars(2);
-      if (next > 8) setStars(1);
-      return next;
-    });
+    setStageMistakes(prev => ({
+      ...prev,
+      [scene]: (prev[scene] || 0) + 1,
+    }));
   };
 
   const unlockBadge = (badgeId, badgeTitle, icon = '🎖️') => {
@@ -209,9 +244,30 @@ export const GameProvider = ({ children }) => {
   };
 
   const resetGame = () => {
-    setScore(0);
-    setMistakes(0);
-    setStars(3);
+    setStageScores({
+      orientation: 0,
+      mission1: 0,
+      mission2: 0,
+      mission3: 0,
+      mission4: 0,
+      mission5: 0,
+      mission6: 0,
+      mission7: 0,
+      mission8: 0,
+      sequencing: 0,
+    });
+    setStageMistakes({
+      orientation: 0,
+      mission1: 0,
+      mission2: 0,
+      mission3: 0,
+      mission4: 0,
+      mission5: 0,
+      mission6: 0,
+      mission7: 0,
+      mission8: 0,
+      sequencing: 0,
+    });
     setBadges([]);
     setMaxUnlockedStage(1);
     setMissionsCompleted({
@@ -224,7 +280,10 @@ export const GameProvider = ({ children }) => {
       mission6: false,
       mission7: false,
       mission8: false,
+      sequencing: false,
     });
+    setHoldingItem(null);
+    setStageKey(prev => prev + 1);
     hideDialogue();
     setScene('title');
   };
@@ -267,6 +326,9 @@ export const GameProvider = ({ children }) => {
         resetGame,
         stageKey,
         restartStage,
+        resetStageScore,
+        stageScores,
+        stageMistakes,
         maxUnlockedStage,
         setMaxUnlockedStage,
       }}
