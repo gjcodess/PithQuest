@@ -163,6 +163,16 @@ export const MultiStateContainer = ({
           </div>
         )}
 
+        {activeAnimation === 'convection' && (
+          <div className="fx-overlay convection-fx">
+            <div className="air-flow af-1">💨</div>
+            <div className="air-flow af-2">💨</div>
+            <div className="air-flow af-3">💨</div>
+            <div className="heat-shimmer-line hl-1" />
+            <div className="heat-shimmer-line hl-2" />
+          </div>
+        )}
+
         {/* Primary Asset Image / Visual State */}
         <div className="container-visual-wrapper">
           {currentStep.img ? (

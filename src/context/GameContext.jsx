@@ -34,12 +34,31 @@ export const GameProvider = ({ children }) => {
   const [holdingItem, setHoldingItem] = useState(null); // { id, name, img, ... }
 
   const [stageKey, setStageKey] = useState(0);
+  const [maxUnlockedStage, setMaxUnlockedStage] = useState(1);
 
   useEffect(() => {
     // Reset any held cursor item when changing scenes
     setHoldingItem(null);
     if (typeof window !== 'undefined') {
       window.__setPithQuestScene = setScene;
+    }
+
+    // Auto-expand highest unlocked stage as player progresses
+    const STAGE_STEPS = {
+      orientation: 0,
+      mission1: 1,
+      mission2: 2,
+      mission3: 3,
+      mission4: 4,
+      mission5: 5,
+      mission6: 6,
+      mission7: 7,
+      mission8: 8,
+      evaluation: 9,
+    };
+    const currentStep = STAGE_STEPS[scene];
+    if (currentStep !== undefined && currentStep >= 1) {
+      setMaxUnlockedStage(prev => Math.max(prev, currentStep));
     }
   }, [scene]);
 
@@ -186,6 +205,7 @@ export const GameProvider = ({ children }) => {
     setMistakes(0);
     setStars(3);
     setBadges([]);
+    setMaxUnlockedStage(1);
     setMissionsCompleted({
       orientation: false,
       mission1: false,
@@ -235,6 +255,8 @@ export const GameProvider = ({ children }) => {
         resetGame,
         stageKey,
         restartStage,
+        maxUnlockedStage,
+        setMaxUnlockedStage,
       }}
     >
       {children}

@@ -261,7 +261,7 @@ export const Mission5Steaming = () => {
               onItemAccepted={handleItemAccepted}
               activeAnimation={isSteaming ? 'steaming' : null}
               containerWidth="510px"
-              containerHeight="275px"
+              containerHeight="340px"
               customFooter={
                 <StoveBurnerConsole
                   isReady={steamerStep === 3 && !isSteaming}
@@ -326,15 +326,6 @@ export const Mission5Steaming = () => {
                   readyHint="👉 Click dial to turn to HIGH"
                   activeHint={(p) => `♨️ Rolling steam... ${p}%`}
                   completeHint="✓ 10-Min gelatinization complete"
-                  actionButton={
-                    steamerStep === 5
-                      ? {
-                          label: 'Don Mitts & Transfer',
-                          icon: '🧤',
-                          onClick: handleTransferToCooling,
-                        }
-                      : null
-                  }
                   disabled={isSteaming || steamerStep >= 6}
                 />
               }
@@ -406,7 +397,7 @@ export const Mission5Steaming = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport steaming-qc-viewport" style={{ height: '275px', minHeight: '275px', maxHeight: '275px', flex: '0 0 auto' }}>
+            <div className="workstation-viewport steaming-qc-viewport" style={{ height: '340px', minHeight: '340px', maxHeight: '340px', flex: '0 0 auto' }}>
               {/* Steamer Parameters Card */}
               <div className="steaming-spec-card">
                 <div className="steaming-spec-header">

@@ -17,7 +17,21 @@ const STAGE_CONFIG = {
 };
 
 export const HeaderHUD = () => {
-  const { scene, setScene, score, openModal, isMuted, toggleSound, resetGame, requestConfirm, hideDialogue, restartStage } = useGame();
+  const {
+    scene,
+    setScene,
+    score,
+    openModal,
+    isMuted,
+    toggleSound,
+    resetGame,
+    requestConfirm,
+    hideDialogue,
+    restartStage,
+    maxUnlockedStage,
+    setHoldingItem,
+    showToast,
+  } = useGame();
 
   if (scene === 'title') return null;
 
@@ -33,6 +47,22 @@ export const HeaderHUD = () => {
     'mission7',
     'mission8',
   ].includes(scene);
+
+  const handleStepClick = (stepNum) => {
+    if (currentStage.step === stepNum) return;
+
+    if (stepNum <= (maxUnlockedStage || 1)) {
+      soundManager.playClick();
+      hideDialogue();
+      setHoldingItem(null);
+      setScene(`mission${stepNum}`);
+      const targetConfig = STAGE_CONFIG[`mission${stepNum}`];
+      showToast(`Navigated to ${targetConfig?.num || `Stage ${stepNum}`}`, targetConfig?.title || '', 'info');
+    } else {
+      soundManager.playError();
+      showToast('Stage Locked', `Complete Stage ${maxUnlockedStage || 1} first to unlock Stage ${stepNum}!`, 'warning');
+    }
+  };
 
   const handleHomeClick = () => {
     soundManager.playClick();
@@ -76,17 +106,38 @@ export const HeaderHUD = () => {
         </div>
       </div>
 
-      {/* Stepper (1 to 8) */}
+      {/* Stepper (1 to 8) - Interactive Stage Jumper */}
       <div className="hud-stepper">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((stepNum, idx) => {
           const isCompleted = currentStage.step > stepNum;
           const isActive = currentStage.step === stepNum;
-          const nodeClass = `step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
+          const isUnlocked = stepNum <= (maxUnlockedStage || 1);
+          const isClickable = isUnlocked && !isActive;
+
+          const nodeClass = `step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''} ${isClickable ? 'clickable' : ''} ${!isUnlocked ? 'locked' : ''}`;
           const lineClass = `step-line ${currentStage.step > stepNum ? 'filled' : ''}`;
+
+          const tooltipTitle = isActive
+            ? `Current Stage: ${STAGE_CONFIG[`mission${stepNum}`]?.title || `Stage ${stepNum}`}`
+            : isUnlocked
+            ? `Jump to Stage ${stepNum}: ${STAGE_CONFIG[`mission${stepNum}`]?.title || ''}`
+            : `Stage ${stepNum} (Locked - Complete earlier stages)`;
 
           return (
             <React.Fragment key={stepNum}>
-              <div className={nodeClass} title={`Stage ${stepNum}`}>
+              <div
+                className={nodeClass}
+                data-step={stepNum}
+                title={tooltipTitle}
+                onClick={() => handleStepClick(stepNum)}
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                onKeyDown={(e) => {
+                  if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+                    handleStepClick(stepNum);
+                  }
+                }}
+              >
                 <span>{stepNum}</span>
               </div>
               {idx < 7 && <div className={lineClass} />}
