@@ -145,7 +145,7 @@ export const Mission4Molding = () => {
       fallbackIcon: '🥯',
       isUsed: moldStep >= 2,
       isNext: moldStep < 2,
-      tooltip: 'Formulated dough from Stage 3. Click to hold 3 tsp portion, then tap the mold.',
+      tooltip: 'Formulated dough batch. Calibrated 3 tsp portion per 50mm × 25mm cavity.',
     },
     {
       id: 'leveling_spatula',
@@ -155,7 +155,7 @@ export const Mission4Molding = () => {
       fallbackIcon: '📐',
       isUsed: moldStep >= 3,
       isNext: moldStep === 2,
-      tooltip: 'Red silicone spatula for leveling dough flush with cavity rim',
+      tooltip: 'Flat straight-edge scraper to level dough flush with silicone rims for identical thickness.',
     },
   ];
 
@@ -187,7 +187,7 @@ export const Mission4Molding = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '880px' }}>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Center: 24-Slot Rectangular Silicone Mold MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -197,8 +197,8 @@ export const Mission4Molding = () => {
               currentStepIndex={moldStep}
               steps={moldSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="440px"
-              containerHeight="280px"
+              containerWidth="520px"
+              containerHeight="330px"
               statusDotClass={moldStep >= 3 ? 'dot-success' : moldStep >= 1 ? 'dot-amber' : ''}
               statusText={
                 isLeveling
@@ -283,8 +283,8 @@ export const Mission4Molding = () => {
               moldStep === 2 && (holdingItem?.id === 'leveling_spatula' || holdingItem?.id === 'spatula') ? 'compatible-target' : ''
             }`}
             style={{
-              width: '360px',
-              cursor: moldStep === 2 ? 'pointer' : 'default',
+              width: '440px',
+              cursor: moldStep === 2 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
               if (moldStep === 2) {
@@ -345,7 +345,7 @@ export const Mission4Molding = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport molding-qc-viewport" style={{ height: '280px', minHeight: '280px', flex: '1 1 auto' }}>
+            <div className="workstation-viewport molding-qc-viewport" style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}>
               {/* Specification Card */}
               <div className="molding-spec-card">
                 <div className="molding-spec-header">
@@ -458,4 +458,5 @@ export const Mission4Molding = () => {
     </div>
   );
 };
+
 

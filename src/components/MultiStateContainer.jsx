@@ -22,8 +22,8 @@ export const MultiStateContainer = ({
   statusDotClass = '',
   statusText = null,
   className = '',
-  containerWidth = '320px',
-  containerHeight = '280px',
+  containerWidth = '520px',
+  containerHeight = '330px',
   children = null,
 }) => {
   const { holdingItem, setHoldingItem, showToast, recordMistake } = useGame();
@@ -124,7 +124,7 @@ export const MultiStateContainer = ({
       {/* Main Container Viewport */}
       <div
         className="workstation-viewport"
-        style={{ minHeight: containerHeight, flex: '1 1 auto' }}
+        style={{ height: containerHeight, minHeight: containerHeight, maxHeight: containerHeight, flex: '0 0 auto' }}
       >
         {/* Animated Visual Effects Overlay */}
         {activeAnimation === 'boiling' && (
@@ -160,6 +160,16 @@ export const MultiStateContainer = ({
             <div className="mixing-whirl whirl-2" />
             <div className="knead-puff kp-1">💨</div>
             <div className="knead-puff kp-2">✨</div>
+          </div>
+        )}
+
+        {activeAnimation === 'convection' && (
+          <div className="fx-overlay convection-fx">
+            <div className="air-flow af-1">💨</div>
+            <div className="air-flow af-2">💨</div>
+            <div className="air-flow af-3">💨</div>
+            <div className="heat-shimmer-line hl-1" />
+            <div className="heat-shimmer-line hl-2" />
           </div>
         )}
 

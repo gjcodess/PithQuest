@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
-import { RestartIcon } from './Icons';
+import { RestartIcon, ZoomInIcon, ZoomOutIcon } from './Icons';
 
 const STAGE_CONFIG = {
   orientation: { num: 'Prep', title: 'Orientation & Safety', step: 0 },
@@ -13,11 +13,32 @@ const STAGE_CONFIG = {
   mission6: { num: 'Stage 6', title: 'Cabinet Dehydration', step: 6 },
   mission7: { num: 'Stage 7', title: 'Deep Frying', step: 7 },
   mission8: { num: 'Stage 8', title: 'Packaging & Labeling', step: 8 },
-  evaluation: { num: 'Mastery', title: 'Sensory & Certificate', step: 9 },
+  sequencing: { num: 'Final Exam', title: 'Process Sequencing Exam', step: 9 },
+  evaluation: { num: 'Mastery', title: 'Sensory & Achievements', step: 10 },
 };
 
 export const HeaderHUD = () => {
-  const { scene, setScene, score, openModal, isMuted, toggleSound, resetGame, requestConfirm, hideDialogue, restartStage } = useGame();
+  const {
+    scene,
+    setScene,
+    score,
+    openModal,
+    isMuted,
+    toggleSound,
+    resetGame,
+    requestConfirm,
+    hideDialogue,
+    restartStage,
+    resetStageScore,
+    maxUnlockedStage,
+    setHoldingItem,
+    showToast,
+    zoomLevel,
+    setZoomLevel,
+    zoomIn,
+    zoomOut,
+    resetZoom,
+  } = useGame();
 
   if (scene === 'title') return null;
 
@@ -33,6 +54,25 @@ export const HeaderHUD = () => {
     'mission7',
     'mission8',
   ].includes(scene);
+
+  const handleStepClick = (stepNum) => {
+    if (currentStage.step === stepNum) return;
+
+    if (stepNum <= (maxUnlockedStage || 1)) {
+      soundManager.playClick();
+      hideDialogue();
+      setHoldingItem(null);
+      const targetScene = `mission${stepNum}`;
+      // Deduct/reset previous score from that stage so player can replay and earn points fresh without double counting
+      resetStageScore(targetScene);
+      setScene(targetScene);
+      const targetConfig = STAGE_CONFIG[targetScene];
+      showToast(`Navigated to ${targetConfig?.num || `Stage ${stepNum}`}`, targetConfig?.title || '', 'info');
+    } else {
+      soundManager.playError();
+      showToast('Stage Locked', `Complete Stage ${maxUnlockedStage || 1} first to unlock Stage ${stepNum}!`, 'warning');
+    }
+  };
 
   const handleHomeClick = () => {
     soundManager.playClick();
@@ -63,6 +103,8 @@ export const HeaderHUD = () => {
     });
   };
 
+  const zoomPercent = Math.round(zoomLevel * 100);
+
   return (
     <header className="game-hud">
       <div className="hud-left">
@@ -76,17 +118,38 @@ export const HeaderHUD = () => {
         </div>
       </div>
 
-      {/* Stepper (1 to 8) */}
+      {/* Stepper (1 to 8) - Interactive Stage Jumper */}
       <div className="hud-stepper">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((stepNum, idx) => {
           const isCompleted = currentStage.step > stepNum;
           const isActive = currentStage.step === stepNum;
-          const nodeClass = `step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
+          const isUnlocked = stepNum <= (maxUnlockedStage || 1);
+          const isClickable = isUnlocked && !isActive;
+
+          const nodeClass = `step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''} ${isClickable ? 'clickable' : ''} ${!isUnlocked ? 'locked' : ''}`;
           const lineClass = `step-line ${currentStage.step > stepNum ? 'filled' : ''}`;
+
+          const tooltipTitle = isActive
+            ? `Current Stage: ${STAGE_CONFIG[`mission${stepNum}`]?.title || `Stage ${stepNum}`}`
+            : isUnlocked
+            ? `Jump to Stage ${stepNum}: ${STAGE_CONFIG[`mission${stepNum}`]?.title || ''}`
+            : `Stage ${stepNum} (Locked - Complete earlier stages)`;
 
           return (
             <React.Fragment key={stepNum}>
-              <div className={nodeClass} title={`Stage ${stepNum}`}>
+              <div
+                className={nodeClass}
+                data-step={stepNum}
+                title={tooltipTitle}
+                onClick={() => handleStepClick(stepNum)}
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                onKeyDown={(e) => {
+                  if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+                    handleStepClick(stepNum);
+                  }
+                }}
+              >
                 <span>{stepNum}</span>
               </div>
               {idx < 7 && <div className={lineClass} />}
@@ -96,6 +159,55 @@ export const HeaderHUD = () => {
       </div>
 
       <div className="hud-right">
+        {/* Zoom Slider Control */}
+        <div className="hud-zoom-control" title="Zoom Workspace View">
+          <button
+            type="button"
+            className="zoom-step-btn"
+            onClick={zoomOut}
+            disabled={zoomLevel <= 0.5}
+            title="Zoom Out (-5%)"
+            aria-label="Zoom Out"
+          >
+            <ZoomOutIcon size={14} />
+          </button>
+
+          <div className="zoom-slider-wrap">
+            <input
+              type="range"
+              min="50"
+              max="150"
+              step="5"
+              value={zoomPercent}
+              onChange={(e) => setZoomLevel(Number(e.target.value) / 100)}
+              className="zoom-slider-input"
+              aria-label="Workspace zoom level"
+              title={`Zoom: ${zoomPercent}% (Slide to zoom)`}
+            />
+          </div>
+
+          <button
+            type="button"
+            className="zoom-step-btn"
+            onClick={zoomIn}
+            disabled={zoomLevel >= 1.5}
+            title="Zoom In (+5%)"
+            aria-label="Zoom In"
+          >
+            <ZoomInIcon size={14} />
+          </button>
+
+          <button
+            type="button"
+            className={`zoom-val-badge ${zoomPercent !== 100 ? 'is-custom' : ''}`}
+            onClick={resetZoom}
+            title={zoomPercent !== 100 ? 'Click to reset to 100%' : 'Standard 100% Zoom'}
+            aria-label="Reset zoom to 100%"
+          >
+            {zoomPercent}%
+          </button>
+        </div>
+
         <div className="score-display">
           <span className="star-icon">⭐</span>
           <span>{score}</span>

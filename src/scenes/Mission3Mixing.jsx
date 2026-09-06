@@ -209,7 +209,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🌾',
       isUsed: bowlStep >= 1,
       isNext: bowlStep === 0,
-      tooltip: 'Erawan brand fine white rice flour',
+      tooltip: 'Fine white rice flour providing amylose and amylopectin starches for structural expansion.',
     },
     {
       id: 'salt',
@@ -219,7 +219,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🧂',
       isUsed: bowlStep >= 2,
       isNext: bowlStep === 1,
-      tooltip: '1 tsp pure white sea salt',
+      tooltip: '1 tsp pure sea salt to enhance savoriness and reinforce dough gluten-free binding.',
     },
     {
       id: 'ubod_paste',
@@ -229,7 +229,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🥥',
       isUsed: bowlStep >= 3,
       isNext: bowlStep === 2,
-      tooltip: 'Smooth boiled coconut pith puree',
+      tooltip: 'Smooth boiled ubod puree adding dietary fiber, moisture, and delicate flavor notes.',
     },
     {
       id: 'water_hydration',
@@ -239,7 +239,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '💧',
       isUsed: bowlStep >= 4,
       isNext: bowlStep === 3,
-      tooltip: 'Clean potable water for starch hydration',
+      tooltip: 'Potable water added incrementally to hydrate starch granules into pliable dough.',
     },
     {
       id: 'spatula',
@@ -249,7 +249,7 @@ export const Mission3Mixing = () => {
       fallbackIcon: '🥄',
       isUsed: bowlStep >= 6,
       isNext: bowlStep === 4,
-      tooltip: 'Red silicone spatula for dough folding',
+      tooltip: 'Silicone dough spatula for thorough folding, kneading, and homogeneous blending.',
     },
   ];
 
@@ -259,7 +259,7 @@ export const Mission3Mixing = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '920px' }}>
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
           {/* Center: Stainless Mixing Bowl MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -269,8 +269,8 @@ export const Mission3Mixing = () => {
               currentStepIndex={bowlStep}
               steps={bowlSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="460px"
-              containerHeight="280px"
+              containerWidth="520px"
+              containerHeight="330px"
               activeAnimation={isKneading ? 'mixing' : null}
               statusDotClass={bowlStep >= 6 ? 'dot-success' : bowlStep === 5 ? 'dot-amber' : ''}
               statusText={
@@ -330,8 +330,8 @@ export const Mission3Mixing = () => {
               bowlStep === 4 && (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') ? 'compatible-target' : ''
             }`}
             style={{
-              width: '380px',
-              cursor: bowlStep === 4 ? 'pointer' : 'default',
+              width: '440px',
+              cursor: bowlStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
               if (bowlStep === 4) {
@@ -402,7 +402,7 @@ export const Mission3Mixing = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport qc-viewport" style={{ minHeight: '280px', flex: '1 1 auto' }}>
+            <div className="workstation-viewport qc-viewport" style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}>
               {/* Recipe Calibration Checklist */}
               <div className="qc-recipe-list">
                 <div className="qc-list-title">
@@ -537,3 +537,4 @@ export const Mission3Mixing = () => {
     </div>
   );
 };
+

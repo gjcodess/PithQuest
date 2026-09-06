@@ -14,13 +14,13 @@ export const MinigameInspection = ({
 }) => {
   const { addScore, recordMistake, speak, showToast } = useGame();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [inspectedCount, setInspectedCount] = useState(0);
   const [shuffledPair, setShuffledPair] = useState([]);
   const [selectedSide, setSelectedSide] = useState(null); // 'left' or 'right'
   const [revealedResult, setRevealedResult] = useState(null); // { isSafe: bool, reason: string }
   const [isFinished, setIsFinished] = useState(false);
 
   const currentItem = items[currentIndex] || items[0];
+  const isLastItem = currentIndex + 1 >= items.length;
 
   // Randomize Option A and Option B positions (50% chance safe is A, 50% chance safe is B)
   useEffect(() => {
@@ -45,7 +45,7 @@ export const MinigameInspection = ({
   }, [currentIndex, currentItem]);
 
   const handleCardClick = (card) => {
-    if (revealedResult && revealedResult.isSafe) return; // already advanced
+    if (revealedResult && revealedResult.isSafe) return; // already solved this item
 
     setSelectedSide(card.side);
 
@@ -55,23 +55,23 @@ export const MinigameInspection = ({
       setRevealedResult({ isSafe: true, reason: card.reason });
       speak(card.reason, 'happy', { badge: 'Quality Inspector' });
       showToast('Approved!', 'Sanitary & Safe choice verified (+25 pts)', 'success');
-
-      setTimeout(() => {
-        if (currentIndex + 1 < items.length) {
-          setCurrentIndex(prev => prev + 1);
-          setInspectedCount(prev => prev + 1);
-        } else {
-          setIsFinished(true);
-          soundManager.playFanfare();
-          if (onComplete) onComplete();
-        }
-      }, 1600);
     } else {
       soundManager.playError();
       recordMistake();
       setRevealedResult({ isSafe: false, reason: card.reason });
       speak(`"It's not safe to use!" ${card.reason}`, 'thinking', { badge: 'Safety Alert' });
       showToast("Hazard Detected!", "It's not safe to use! Choose the food-grade option.", "danger");
+    }
+  };
+
+  const handleNextItem = () => {
+    soundManager.playClick();
+    if (isLastItem) {
+      setIsFinished(true);
+      soundManager.playFanfare();
+      if (onComplete) onComplete();
+    } else {
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
@@ -92,7 +92,7 @@ export const MinigameInspection = ({
     <div className="inspection-minigame-container">
       <div className="inspection-header-row">
         <div className="inspection-title-box">
-          <span className="mode-badge">{mode === 'tools' ? '🛠️ Tools & Equipment' : '🥗 Ingredient Freshness'}</span>
+          <span className="mode-badge">{mode === 'tools' ? '🛠️ Tools & Equipment' : '🥥 Ingredient Freshness'}</span>
           <h3 className="item-target-title">Target: {currentItem?.name}</h3>
         </div>
         <div className="inspection-counter">
@@ -158,6 +158,19 @@ export const MinigameInspection = ({
           <div className="feedback-text">
             <strong>{revealedResult.isSafe ? 'Approved Technique:' : 'Safety Hazard:'}</strong> {revealedResult.reason}
           </div>
+        </div>
+      )}
+
+      {/* Explicit User Next Button when Correct Option is Selected */}
+      {revealedResult && revealedResult.isSafe && (
+        <div className="inspection-actions-row">
+          <button className="btn-primary btn-gold btn-next-inspection" onClick={handleNextItem}>
+            <span>
+              {isLastItem
+                ? `Complete ${mode === 'tools' ? 'Tool Safety' : 'Quality'} Inspection ➔`
+                : `Next Item (${currentIndex + 2} of ${items.length}) ▶`}
+            </span>
+          </button>
         </div>
       )}
     </div>

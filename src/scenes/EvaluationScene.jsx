@@ -1,12 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
-import { SequencingActivity } from '../components/SequencingActivity';
 
 export const EvaluationScene = () => {
-  const { studentName, score, stars, badges, resetGame, speak } = useGame();
+  const { studentName, score, stars, badges, resetGame, speak, setScene } = useGame();
   const certRef = useRef(null);
-  const [sequencingCompleted, setSequencingCompleted] = useState(false);
+
+  useEffect(() => {
+    soundManager.playFanfare();
+    speak(
+      `Congratulations, ${studentName || 'Food Technologist'}! You have successfully mastered all 8 stages of Coconut Pith Cracker (Ubod CRUNCH) processing and passed the chronological sequencing examination! Review your sensory audit, inspect all earned laboratory badges, and print your official Certificate of Laboratory Completion!`,
+      'happy',
+      {
+        badge: 'Graduation & Mastery',
+        hint: 'Scroll through your sensory audit report, review your earned badges, and print your official certificate below.',
+        hideButton: true,
+      }
+    );
+  }, []);
 
   const currentDate = new Date().toLocaleDateString('en-US', {
     month: 'long',
@@ -77,11 +88,6 @@ export const EvaluationScene = () => {
           </div>
         </div>
 
-        {/* Bonus Chronological Sequencing Activity */}
-        <div className="eval-sequencing-section">
-          <SequencingActivity onComplete={() => setSequencingCompleted(true)} />
-        </div>
-
         {/* The Official Certificate (Printable) */}
         <div className="certificate-wrapper" ref={certRef}>
           <div className="cert-border-outer">
@@ -95,7 +101,7 @@ export const EvaluationScene = () => {
                   has successfully performed and demonstrated comprehensive mastery in the complete 8-stage food processing lifecycle of
                   <strong> Coconut Pith Crackers (Ubod ng Niyog - Ubod Crunch)</strong>, including hygiene inspection, washing & boiling, food processing puree,
                   1:1 Erawan rice flour dough formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
-                  10-second flash deep-frying expansion, and airtight barrier packaging.
+                  10-second flash deep-frying expansion, airtight barrier packaging, and pipeline sequence validation.
                 </p>
               </div>
 
@@ -141,10 +147,16 @@ export const EvaluationScene = () => {
           <button className="btn-gold btn-print" onClick={handlePrintCertificate}>
             🖨️ Print / Save Certificate as PDF
           </button>
+          <button className="btn-primary" onClick={() => setScene('sequencing')}>
+            🧩 Review Step Sequence Challenge
+          </button>
           <button className="btn-secondary" onClick={resetGame}>
             🔄 Process Another Batch
           </button>
         </div>
+
+        {/* Guaranteed bottom scroll clearance spacer */}
+        <div className="eval-bottom-spacer" style={{ height: '36px', flexShrink: 0 }} />
       </div>
     </div>
   );

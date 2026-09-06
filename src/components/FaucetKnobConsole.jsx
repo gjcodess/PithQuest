@@ -7,6 +7,7 @@ import { soundManager } from '../audio/soundManager';
  */
 export const FaucetKnobConsole = ({
   isReady = true,
+  isUbodLoaded = true,
   isFlowing = false,
   isComplete = false,
   potStep = 0,
@@ -22,6 +23,13 @@ export const FaucetKnobConsole = ({
 
     if (isComplete) {
       soundManager.playClick();
+      return;
+    }
+
+    if (!isUbodLoaded) {
+      soundManager.playError();
+      setIsWiggling(true);
+      setTimeout(() => setIsWiggling(false), 450);
       return;
     }
 
@@ -43,16 +51,18 @@ export const FaucetKnobConsole = ({
   return (
     <div
       className={`faucet-knob-console ${
-        isReady && !isFlowing && !isComplete ? 'ready-to-wash' : ''
+        isReady && isUbodLoaded && !isFlowing && !isComplete ? 'ready-to-wash' : ''
       } ${isFlowing ? 'flow-active' : ''} ${
         isSanitizedWaitingPick ? 'sanitized-active' : ''
-      } ${isWiggling ? 'knob-shake' : ''} ${disabled ? 'disabled' : ''}`}
+      } ${isWiggling ? 'knob-shake' : ''} ${disabled || !isUbodLoaded ? 'disabled' : ''}`}
       onClick={handleClick}
       role="button"
       tabIndex={0}
       title={
         isFlowing
           ? 'Faucet Running (Potable Tap Water)'
+          : !isUbodLoaded
+          ? 'Place fresh cut raw ubod in colander first'
           : !isComplete
           ? 'Click cross handle to turn 90° to -FLOW and rinse ubod'
           : isSanitizedWaitingPick
@@ -76,7 +86,7 @@ export const FaucetKnobConsole = ({
           }`}
         />
         {/* Glowing water beacon rings when ready to turn */}
-        {isReady && !isFlowing && !isComplete && (
+        {isReady && isUbodLoaded && !isFlowing && !isComplete && (
           <>
             <span className="faucet-beacon-ring r1" />
             <span className="faucet-beacon-ring r2" />
@@ -92,7 +102,7 @@ export const FaucetKnobConsole = ({
                 ? 'flowing'
                 : isSanitizedWaitingPick
                 ? 'sanitized-led'
-                : !isComplete
+                : isUbodLoaded && !isComplete
                 ? 'blinking-water'
                 : 'cold'
             }`}
@@ -102,8 +112,10 @@ export const FaucetKnobConsole = ({
               ? '💧 FAUCET: RUNNING'
               : isSanitizedWaitingPick
               ? '✅ SANITIZED & CLEAN'
+              : !isUbodLoaded
+              ? '1. PLACE UBOD IN SINK'
               : !isComplete
-              ? 'CLICK CROSS TO RINSE'
+              ? '2. CLICK CROSS TO RINSE'
               : 'FAUCET: STANDBY'}
           </span>
         </div>
@@ -116,6 +128,10 @@ export const FaucetKnobConsole = ({
           ) : isSanitizedWaitingPick ? (
             <span className="faucet-action-hint sanitized-text">
               👉 Pick up Washed Ubod from bottom shelf
+            </span>
+          ) : !isUbodLoaded ? (
+            <span className="faucet-action-hint standby-text">
+              👉 Drop Raw Ubod into empty colander
             </span>
           ) : !isComplete ? (
             <span className="faucet-action-hint ready-water-text">

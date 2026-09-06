@@ -13,6 +13,16 @@ export const StoveBurnerConsole = ({
   onIgnite,
   onLockedClick,
   disabled = false,
+  standbyHint = 'Add ubod, water & salt first',
+  readyHint = '👉 Click dial to turn to HIGH',
+  activeHint = null,
+  completeHint = '✓ Thermal softening complete',
+  modeTitleStandby = 'BURNER: STANDBY',
+  modeTitleReady = 'CLICK TO IGNITE',
+  modeTitleIgnited = 'FLAME ON • 100°C HIGH',
+  modeTitleComplete = 'BURNER: OFF',
+  title = null,
+  actionButton = null,
 }) => {
   const [isWiggling, setIsWiggling] = useState(false);
 
@@ -22,7 +32,7 @@ export const StoveBurnerConsole = ({
     if (disabled || isComplete) return;
 
     if (isIgnited) {
-      // Already actively boiling
+      // Already actively boiling/steaming
       return;
     }
 
@@ -43,25 +53,25 @@ export const StoveBurnerConsole = ({
     }
   };
 
+  const defaultTitle = isIgnited
+    ? 'Burner Active at HIGH (100°C)'
+    : isReady
+    ? 'Click knob to turn to HIGH and ignite burner'
+    : isComplete
+    ? 'Burner Extinguished'
+    : `Stove Burner Control (${standbyHint})`;
+
   return (
     <div
       className={`stove-burner-console ${
         isReady && !isIgnited ? 'ready-to-ignite' : ''
       } ${isIgnited ? 'flame-active' : ''} ${isWiggling ? 'knob-shake' : ''} ${
         disabled ? 'disabled' : ''
-      }`}
+      } ${actionButton ? 'has-extra-action' : ''}`}
       onClick={handleClick}
       role="button"
       tabIndex={0}
-      title={
-        isIgnited
-          ? 'Burner Active at HIGH (100°C Rolling Boil)'
-          : isReady
-          ? 'Click knob to turn to HIGH and ignite burner'
-          : isComplete
-          ? 'Burner Extinguished'
-          : 'Stove Burner Control (Add Ubod, Water, & Salt first)'
-      }
+      title={title || defaultTitle}
     >
       <div className="knob-assembly">
         {/* Stationary baseplate with OFF red tick at 12 o'clock and -HIGH at 3 o'clock */}
@@ -96,12 +106,12 @@ export const StoveBurnerConsole = ({
           />
           <span className="burner-mode-title">
             {isIgnited
-              ? 'FLAME ON • 100°C HIGH'
+              ? modeTitleIgnited
               : isReady
-              ? 'CLICK TO IGNITE'
+              ? modeTitleReady
               : isComplete
-              ? 'BURNER: OFF'
-              : 'BURNER: STANDBY'}
+              ? modeTitleComplete
+              : modeTitleStandby}
           </span>
         </div>
 
@@ -109,26 +119,56 @@ export const StoveBurnerConsole = ({
           {isIgnited ? (
             <div className="burner-progress-container">
               <span className="burner-action-hint flame-text">
-                🔥 Rolling boil... {progress}%
+                {typeof activeHint === 'function'
+                  ? activeHint(Math.round(progress))
+                  : activeHint
+                  ? `${activeHint} ${Math.round(progress)}%`
+                  : `🔥 Heating... ${Math.round(progress)}%`}
               </span>
               <div className="burner-progress-track">
                 <div
                   className="burner-progress-fill"
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${Math.min(100, Math.max(0, Math.round(progress)))}%` }}
                 />
               </div>
             </div>
           ) : isReady ? (
             <span className="burner-action-hint ready-text">
-              👉 Click dial to turn to HIGH
+              {readyHint}
             </span>
           ) : isComplete ? (
-            <span className="burner-action-hint">✓ Thermal softening complete</span>
+            <span className="burner-action-hint">{completeHint}</span>
           ) : (
-            <span className="burner-action-hint">Add ubod, water & salt first</span>
+            <span className="burner-action-hint">{standbyHint}</span>
           )}
         </div>
       </div>
+
+      {actionButton && (
+        <div className="burner-extra-action" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+          <button
+            type="button"
+            className={`btn-workstation-action ${actionButton.className || ''} ${actionButton.disabled ? 'disabled' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!actionButton.disabled && actionButton.onClick) {
+                actionButton.onClick();
+              }
+            }}
+            disabled={actionButton.disabled}
+            title={actionButton.title || actionButton.label}
+            style={{
+              padding: '8px 14px',
+              fontSize: '0.82rem',
+              borderRadius: '10px',
+              gap: '6px',
+            }}
+          >
+            {actionButton.icon && <span className="action-icon">{actionButton.icon}</span>}
+            <span className="action-label">{actionButton.label}</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

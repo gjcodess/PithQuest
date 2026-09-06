@@ -8,12 +8,13 @@ export const Mission6Dehydration = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
 
   // Dehydration states:
-  // 0: Empty wire mesh tray -> accept steamed_pieces
-  // 1: Wire mesh tray loaded with 1-inch spaced pieces -> action: slide into cabinet
-  // 2: Loaded in cabinet dehydrator -> action: calibrate 90°C / 12h
-  // 3: Dehydrating (12-hour time-lapse, moisture gauge: 70% -> 8%)
-  // 4: Translucent brittle cracker pellets ready on tray -> action: transfer to airtight container
-  // 5: Sealed in airtight storage container -> complete & proceed to frying
+  // 0: Empty counter -> accept mesh_tray (place stainless wire mesh tray)
+  // 1: Wire mesh tray on counter -> accept steamed_pieces (arrange with 1-inch spacing)
+  // 2: Populated tray with 1-inch spaced pieces -> action: slide into cabinet / accept dehydrator_cabinet
+  // 3: Loaded in cabinet dehydrator -> action: calibrate 90°C / 12h
+  // 4: Dehydrating (12-hour time-lapse, moisture gauge: 70% -> 8%)
+  // 5: Translucent brittle cracker pellets ready on tray -> accept storage_container
+  // 6: Sealed in airtight storage container -> complete & proceed to frying
   const [dehydrateStep, setDehydrateStep] = useState(0);
   const [dehydrateProgress, setDehydrateProgress] = useState(0);
   const [moistureLevel, setMoistureLevel] = useState(70);
@@ -21,11 +22,11 @@ export const Mission6Dehydration = () => {
 
   useEffect(() => {
     speak(
-      'Stage 6: Cooling & Cabinet Dehydration! Select the steamed ubod wafers from your bottom inventory and arrange them on the wire mesh tray with 1-inch spacing.',
+      'Stage 6: Cooling & Cabinet Dehydration! First, select the Stainless Wire Mesh Tray from your bottom inventory and place it on the workstation.',
       'neutral',
       {
         badge: 'Stage 6: Dehydration',
-        hint: 'Select Steamed Ubod Wafers from the bottom inventory shelf and place them on the wire mesh tray.',
+        hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
         hideButton: true,
       }
     );
@@ -34,22 +35,30 @@ export const Mission6Dehydration = () => {
   const dehydratorSteps = [
     {
       stepIndex: 0,
-      acceptedItems: ['steamed_pieces', 'steamed_ubod'],
-      prompt: 'Place cooled steamed rectangular pieces onto the wire mesh tray',
-      img: '/assets/dehydrator_tray_empty.png',
+      acceptedItems: ['mesh_tray', 'icon_drying_tray', 'dehydrator_tray_empty'],
+      prompt: 'Place the stainless steel wire mesh tray onto the workstation prep counter',
+      img: '/assets/icon_drying_tray.png',
       fallbackIcon: '🔲',
-      label: 'Stainless Wire Mesh Tray',
+      label: 'Workstation Prep Counter',
     },
     {
       stepIndex: 1,
-      acceptedItems: [],
-      prompt: 'Arrange pieces with 1-inch spacing to prevent overlapping',
-      img: '/assets/dehydrator_tray_arranged.png',
-      fallbackIcon: '🧈',
-      label: 'Spaced Tray Layout (Ready)',
+      acceptedItems: ['steamed_pieces', 'steamed_ubod', 'cracker_piece_unmolded'],
+      prompt: 'Arrange steamed ubod wafers onto the wire mesh tray with 1-inch spacing',
+      img: '/assets/dehydrator_tray_empty.png',
+      fallbackIcon: '🔲',
+      label: 'Stainless Wire Mesh Tray (Empty)',
     },
     {
       stepIndex: 2,
+      acceptedItems: ['dehydrator_cabinet', 'equip_dehydrator_safe'],
+      prompt: 'Slide populated tray into the commercial cabinet dehydrator',
+      img: '/assets/dehydrator_tray_arranged.png',
+      fallbackIcon: '🧈',
+      label: 'Spaced Tray Layout (1-Inch Gap)',
+    },
+    {
+      stepIndex: 3,
       acceptedItems: [],
       prompt: 'Tray loaded in cabinet dehydrator! Calibrate to 90°C for 12 hours',
       img: '/assets/equip_dehydrator_safe.png',
@@ -57,7 +66,7 @@ export const Mission6Dehydration = () => {
       label: 'Electric Cabinet Dehydrator',
     },
     {
-      stepIndex: 3,
+      stepIndex: 4,
       acceptedItems: [],
       prompt: 'Convection airflow evaporating moisture at 90°C (12-Hour Cycle)...',
       img: '/assets/dehydrator_assembled_running.png',
@@ -65,15 +74,15 @@ export const Mission6Dehydration = () => {
       label: '12-Hour Moisture Removal',
     },
     {
-      stepIndex: 4,
-      acceptedItems: ['storage_container', 'storage_tray'],
-      prompt: 'Hard, translucent, brittle cracker pellets ready! Transfer to airtight container',
+      stepIndex: 5,
+      acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips'],
+      prompt: 'Hard, translucent, brittle cracker pellets ready (<8% H2O)! Transfer to airtight container',
       img: '/assets/dehydrator_tray_dried.png',
       fallbackIcon: '✨',
-      label: 'Dehydrated Pellets (<10% Moisture)',
+      label: 'Vitrified Pellets (<8% Moisture)',
     },
     {
-      stepIndex: 5,
+      stepIndex: 6,
       acceptedItems: [],
       prompt: 'Sealed in airtight clip container! Protected from ambient humidity and ready to fry',
       img: '/assets/container_dehydrated_chips.png',
@@ -83,34 +92,55 @@ export const Mission6Dehydration = () => {
   ];
 
   const handleItemAccepted = (item, stepIndex) => {
-    if (stepIndex === 0 && (item.id === 'steamed_pieces' || item.id === 'steamed_ubod')) {
+    if (stepIndex === 0 && (item.id === 'mesh_tray' || item.id === 'icon_drying_tray' || item.id === 'dehydrator_tray_empty')) {
       soundManager.playClick();
       setDehydrateStep(1);
-      addScore(25);
-      showToast('Pieces Loaded!', 'Spaced evenly on wire mesh tray (+25 pts)', 'success');
+      addScore(20);
+      setHoldingItem(null);
+      showToast('Tray Prepared!', 'Stainless wire mesh placed on counter (+20 pts)', 'success');
       speak(
-        'Great spacing! Now click "Slide Tray into Dehydrator" to place the tray into the electric cabinet dehydrator.',
+        'Great! The wire mesh grid provides 360° horizontal airflow. Now select the Steamed Ubod Wafers from inventory and arrange them with 1-inch spacing.',
         'neutral',
         {
-          badge: 'Cabinet Loading',
-          hint: 'Click "Slide Tray into Dehydrator".',
+          badge: 'Wafer Spacing',
+          hint: 'Select Steamed Ubod Wafers from inventory and place them on the wire mesh tray.',
           hideButton: true,
         }
       );
+    } else if (stepIndex === 1 && (item.id === 'steamed_pieces' || item.id === 'steamed_ubod' || item.id === 'cracker_piece_unmolded')) {
+      soundManager.playClick();
+      setDehydrateStep(2);
+      addScore(25);
+      setHoldingItem(null);
+      showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps (+25 pts)', 'success');
+      speak(
+        'Perfect spacing! Now select the Cabinet Dehydrator from your inventory shelf and place it on the tray to load it into the cabinet.',
+        'neutral',
+        {
+          badge: 'Cabinet Loading',
+          hint: 'Select Cabinet Dehydrator from inventory and place it onto the tray.',
+          hideButton: true,
+        }
+      );
+    } else if (stepIndex === 2 && (item.id === 'dehydrator_cabinet' || item.id === 'equip_dehydrator_safe')) {
+      handleSlideIntoCabinet();
+    } else if (stepIndex === 5 && (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips')) {
+      handleTransferToStorage();
     }
   };
 
   const handleSlideIntoCabinet = () => {
     soundManager.playClick();
-    setDehydrateStep(2);
+    setDehydrateStep(3);
     addScore(20);
-    showToast('Tray Inserted!', 'Calibrate thermostat to 90°C and timer to 12 Hours.', 'success');
+    setHoldingItem(null);
+    showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator (+20 pts)', 'success');
     speak(
       'The tray is secure inside the cabinet. Set the thermostat to 90°C and press "Start 12-Hour Dehydration Cycle"!',
       'thinking',
       {
         badge: 'Thermostat Setting',
-        hint: 'Tap the "Start 12-Hour Dehydration (90°C)" button.',
+        hint: 'Tap "Start 12-Hour Dehydration (90°C)" button.',
         hideButton: true,
       }
     );
@@ -119,8 +149,18 @@ export const Mission6Dehydration = () => {
   const handleStartDehydration = () => {
     soundManager.playBoil();
     setIsDehydrating(true);
-    setDehydrateStep(3);
+    setDehydrateStep(4);
+    setHoldingItem(null);
     showToast('Dehydrating Active...', 'Convection fan circulating 90°C dry air...', 'info');
+    speak(
+      'Convection fans are actively circulating 90°C dry air! Watch the moisture monitor drop from 70% to under 10%.',
+      'happy',
+      {
+        badge: '12-Hour Vitrification',
+        hint: 'Wait for the 12-hour dehydration time-lapse to complete.',
+        hideButton: true,
+      }
+    );
 
     let currentMoisture = 70;
     let progress = 0;
@@ -134,16 +174,16 @@ export const Mission6Dehydration = () => {
       if (progress >= 100) {
         clearInterval(interval);
         setIsDehydrating(false);
-        setDehydrateStep(4);
+        setDehydrateStep(5);
         soundManager.playSuccess();
         addScore(40);
-        showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent pellets formed (+40 pts)', 'success');
+        showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed (+40 pts)', 'success');
         speak(
-          '12 hours complete! The moisture content has safely dropped from 70% to under 8%. Transfer the brittle pellets into our airtight container to prevent rehydration!',
+          '12 hours complete! The moisture content has safely dropped from 70% to under 8%. Select the Airtight Chip Box from inventory to seal the pellets and prevent rehydration!',
           'happy',
           {
             badge: 'Vitrification Complete',
-            hint: 'Click "Transfer to Airtight Storage Container".',
+            hint: 'Select the Airtight Chip Box on the bottom shelf and tap the tray to seal.',
             hideButton: true,
           }
         );
@@ -153,7 +193,8 @@ export const Mission6Dehydration = () => {
 
   const handleTransferToStorage = () => {
     soundManager.playClick();
-    setDehydrateStep(5);
+    setDehydrateStep(6);
+    setHoldingItem(null);
     addScore(30);
     unlockBadge('vitrification_master', 'Moisture Reduction Expert', '💨');
     completeMission('mission6');
@@ -171,44 +212,44 @@ export const Mission6Dehydration = () => {
 
   const stage6Inventory = [
     {
-      id: 'steamed_pieces',
-      name: 'Steamed Ubod Wafers',
-      measure: '24 Translucent Rectangles',
-      img: '/assets/cracker_piece_unmolded.png',
-      fallbackIcon: '🧈',
-      isUsed: dehydrateStep >= 1,
-      isNext: dehydrateStep === 0,
-      tooltip: 'Firm, gelatinized rectangular pieces ready for arrangement',
-    },
-    {
       id: 'mesh_tray',
       name: 'Wire Mesh Tray',
-      measure: '1-Inch Spaced Surface',
+      measure: '360° Airflow Grid',
       img: '/assets/dehydrator_tray_empty.png',
       fallbackIcon: '🔲',
+      isUsed: dehydrateStep >= 1,
+      isNext: dehydrateStep === 0,
+      tooltip: 'Stainless wire mesh tray enabling 360° horizontal convection air distribution.',
+    },
+    {
+      id: 'steamed_pieces',
+      name: 'Steamed Ubod Wafers',
+      measure: '24 Translucent Pieces',
+      img: '/assets/cracker_piece_unmolded.png',
+      fallbackIcon: '🧈',
       isUsed: dehydrateStep >= 2,
       isNext: dehydrateStep === 1,
-      tooltip: 'Fine grid mesh tray allowing 360° convection hot airflow',
+      tooltip: 'Firm, gelatinized translucent wafers arranged with 1cm spacing for dehydration.',
     },
     {
       id: 'dehydrator_cabinet',
-      name: 'Convection Cabinet',
-      measure: '90°C / 12 Hours',
+      name: 'Cabinet Dehydrator',
+      measure: '90°C Convection',
       img: '/assets/equip_dehydrator_safe.png',
       fallbackIcon: '💨',
       isUsed: dehydrateStep >= 4,
       isNext: dehydrateStep === 2,
-      tooltip: 'Cabinet food dehydrator with circulating heated air',
+      tooltip: 'Forced-air cabinet dehydrator drying pellets at 90°C to achieve <8% residual moisture.',
     },
     {
       id: 'storage_container',
-      name: 'Airtight Chip Container',
-      measure: 'Moisture Barrier (<10%)',
+      name: 'Airtight Chip Box',
+      measure: 'Hermetic Seal (<10%)',
       img: '/assets/container_dehydrated_chips.png',
       fallbackIcon: '📦',
-      isUsed: dehydrateStep >= 5,
-      isNext: dehydrateStep === 4,
-      tooltip: 'Hermetic clip container holding dry glassy pellets',
+      isUsed: dehydrateStep >= 6,
+      isNext: dehydrateStep === 5,
+      tooltip: 'Hermetically sealed container preventing vitrified glassy pellets from moisture uptake.',
     },
   ];
 
@@ -218,96 +259,313 @@ export const Mission6Dehydration = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '980px' }}>
-          {/* Left Side: Moisture & Water Activity Monitor */}
-          <div className="station-side-card" style={{ width: '280px' }}>
-            <div className="card-header-mini">
-              <span>💧 Moisture Monitor</span>
-              <span className={`station-badge-mini ${moistureLevel <= 10 ? 'badge-success' : 'badge-pending'}`}>
-                {moistureLevel <= 10 ? '✨ Shelf-Stable' : `${moistureLevel}% H2O`}
-              </span>
-            </div>
-
-            <div className="moisture-card-box" style={{ marginTop: '12px' }}>
-              <div className="gauge-label">Water Activity / Moisture:</div>
-              <div className="gauge-value" style={{ fontSize: '2rem', fontWeight: 800, color: moistureLevel <= 10 ? '#10b981' : '#0284c7' }}>
-                {moistureLevel}%
-              </div>
-              <div className="progress-bar-bg" style={{ margin: '8px 0' }}>
-                <div
-                  className="progress-bar-fill moisture-fill"
-                  style={{ width: `${moistureLevel}%`, background: moistureLevel <= 10 ? '#10b981' : 'linear-gradient(90deg, #38bdf8, #0284c7)' }}
-                />
-              </div>
-              <span className="gauge-sub" style={{ fontSize: '0.8rem', color: '#64748b' }}>
-                {moistureLevel > 10 ? 'High Moisture (Must reach <10% for frying)' : '✨ Brittle Glassy State Achieved!'}
-              </span>
-            </div>
-
-            <div className="spec-point" style={{ marginTop: '16px' }}>
-              <strong>Airflow Velocity:</strong>
-              <p>Convection fan circulating 90°C dry air continuously.</p>
-            </div>
-          </div>
-
-          {/* Center: Multi-State Dehydrator Container */}
+        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+          {/* Left: Convection Cabinet Dehydrator Workstation */}
           <div className="station-center-card">
             <MultiStateContainer
               containerId="dehydrator"
-              title="Convection Food Dehydrator"
-              subtitle="90°C Temperature / 12 Hours Duration"
+              title="Convection Cabinet Dehydrator"
+              subtitle="90°C Temperature • 12-Hour Starch Vitrification"
               currentStepIndex={dehydrateStep}
               steps={dehydratorSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="380px"
-              containerHeight="260px"
-              interactiveAction={
-                dehydrateStep === 1
-                  ? {
-                      label: '📥 Slide Tray into Dehydrator',
-                      onClick: handleSlideIntoCabinet,
-                      icon: '📥',
-                    }
-                  : dehydrateStep === 2
-                  ? {
-                      label: '💨 Start 12-Hour Dehydration (90°C)',
-                      onClick: handleStartDehydration,
-                      icon: '💨',
-                    }
-                  : dehydrateStep === 3
-                  ? {
-                      label: `Dehydrating... ${dehydrateProgress}% (12h Time-Lapse)`,
-                      disabled: true,
-                    }
+              activeAnimation={isDehydrating ? 'convection' : null}
+              containerWidth="520px"
+              containerHeight="330px"
+              statusDotClass={dehydrateStep >= 6 ? 'dot-success' : isDehydrating ? 'dot-amber' : ''}
+              statusText={
+                dehydrateStep >= 6
+                  ? 'Hermetically sealed glassy pellets ready for frying'
+                  : dehydrateStep === 5
+                  ? 'Vitrification complete (<8% H2O). Transfer to airtight container.'
                   : dehydrateStep === 4
-                  ? {
-                      label: '📦 Transfer to Airtight Storage Container',
-                      onClick: handleTransferToStorage,
-                      icon: '📦',
+                  ? `Dehydrating... ${dehydrateProgress}% (90°C Convection Time-Lapse)`
+                  : dehydrateStep === 3
+                  ? 'Tray loaded in cabinet. Ready for 90°C dehydration.'
+                  : dehydrateStep === 2
+                  ? 'Pieces spaced evenly with 1-inch gaps. Slide into cabinet.'
+                  : dehydrateStep === 1
+                  ? 'Wire mesh tray placed on counter. Place steamed wafers.'
+                  : 'Place stainless wire mesh tray onto workstation prep counter'
+              }
+              specBadge={
+                <span
+                  className={`spec-badge ${
+                    dehydrateStep >= 6
+                      ? 'spec-success'
+                      : dehydrateStep >= 4
+                      ? 'spec-amber'
+                      : ''
+                  }`}
+                >
+                  {dehydrateStep >= 6
+                    ? 'AW: <0.60'
+                    : dehydrateStep >= 4
+                    ? 'MOISTURE: 8%'
+                    : dehydrateStep === 3
+                    ? 'TEMP: 90°C'
+                    : dehydrateStep === 2
+                    ? 'GAP: 1-INCH'
+                    : dehydrateStep === 1
+                    ? 'GRID: MESH'
+                    : 'PREP: COUNTER'}
+                </span>
+              }
+              customFooter={
+                (dehydrateStep === 3 || dehydrateStep === 4) ? (
+                  <div
+                    className={`dehydrator-appliance-console ${
+                      dehydrateStep === 3 ? 'ready-to-start' : 'is-running'
+                    }`}
+                    onClick={dehydrateStep === 3 ? handleStartDehydration : undefined}
+                    role="button"
+                    tabIndex={0}
+                    title={
+                      dehydrateStep === 3
+                        ? 'Click dial to start 12-Hour 90°C Dehydration Cycle'
+                        : '12-Hour Dehydration in progress'
                     }
-                  : null
+                  >
+                    <div className="dehydrator-dial-assembly">
+                      <span className={`dehydrator-dial-icon ${dehydrateStep === 4 ? 'spinning' : ''}`}>
+                        {dehydrateStep === 4 ? '🌀' : '⏻'}
+                      </span>
+                      {dehydrateStep === 3 && (
+                        <>
+                          <span className="knob-beacon-ring r1" />
+                          <span className="knob-beacon-ring r2" />
+                        </>
+                      )}
+                    </div>
+
+                    <div className="dehydrator-panel-text">
+                      <div className="dehydrator-badge-row">
+                        <span
+                          className={`dehydrator-led ${
+                            dehydrateStep === 4 ? 'active-running' : 'blinking'
+                          }`}
+                        />
+                        <span className="dehydrator-mode-title">
+                          {dehydrateStep === 4
+                            ? '90°C CONVECTION ACTIVE'
+                            : 'CLICK TO START (90°C)'}
+                        </span>
+                      </div>
+
+                      <div className="dehydrator-sub-row">
+                        {dehydrateStep === 4 ? (
+                          <div className="dehydrator-progress-container">
+                            <div className="dehydrator-progress-bar-bg">
+                              <div
+                                className="dehydrator-progress-bar-fill"
+                                style={{ width: `${dehydrateProgress}%` }}
+                              />
+                            </div>
+                            <span className="dehydrator-progress-label">
+                              {dehydrateProgress}% Complete • {Math.max(1, Math.round(12 * (1 - dehydrateProgress / 100)))}h Remaining
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="dehydrator-action-hint">
+                            👉 Click dial to start 12-hour thermal vitrification
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : null
               }
             />
           </div>
 
-          {/* Right Side: Dehydration Specs */}
-          <div className="station-side-card" style={{ width: '280px' }}>
-            <div className="card-header-mini">
-              <span>🌬️ Airflow Parameters</span>
+          {/* Right Side: Dehydration QC & Moisture Monitor Workstation */}
+          <div
+            className={`multi-state-workstation qc-workstation ${
+              dehydrateStep === 5 && (holdingItem?.id === 'storage_container' || holdingItem?.id === 'storage_tray')
+                ? 'compatible-target'
+                : ''
+            }`}
+            style={{
+              width: '440px',
+              cursor: dehydrateStep === 5 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
+            }}
+            onClick={() => {
+              if (dehydrateStep === 5) {
+                handleTransferToStorage();
+              }
+            }}
+            onDragOver={(e) => {
+              if (dehydrateStep === 5) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+              }
+            }}
+            onDrop={(e) => {
+              if (dehydrateStep === 5) {
+                e.preventDefault();
+                try {
+                  const data = e.dataTransfer.getData('text/plain');
+                  if (!data) return;
+                  const item = JSON.parse(data);
+                  if (item.id === 'storage_container' || item.id === 'storage_tray' || item.id === 'container_dehydrated_chips') {
+                    handleTransferToStorage();
+                  }
+                } catch (err) {
+                  console.error(err);
+                }
+              }
+            }}
+            title="Dehydration QC & Moisture Monitor"
+          >
+            {/* Workstation Header */}
+            <div className="workstation-header">
+              <div className="workstation-titles">
+                <h4 className="workstation-name">Dehydration QC & Moisture Monitor</h4>
+                <span className="workstation-sub">Step 15: 12-Hour Starch Vitrification</span>
+              </div>
+              <div
+                className={`workstation-step-badge ${
+                  dehydrateStep >= 6
+                    ? 'badge-success-glow'
+                    : dehydrateStep === 5
+                    ? 'badge-flow-glow'
+                    : dehydrateStep === 4
+                    ? 'badge-amber-glow'
+                    : dehydrateStep >= 2
+                    ? 'badge-amber-glow'
+                    : ''
+                }`}
+              >
+                {dehydrateStep >= 6
+                  ? '✅ Vitrified & Sealed'
+                  : dehydrateStep === 5
+                  ? '✨ Ready to Store'
+                  : dehydrateStep === 4
+                  ? '💨 90°C Convection'
+                  : dehydrateStep >= 2
+                  ? '📐 1-Inch Spaced'
+                  : dehydrateStep === 1
+                  ? '🔲 Tray Prepared'
+                  : 'Standby'}
+              </div>
             </div>
-            <div className="specs-card-content">
-              <div className="spec-point">
-                <strong>1-Inch Spacing Rule:</strong>
-                <p>Spacing prevents the edges from sticking together and ensures horizontal cross-flow air dehydrates every square millimeter evenly.</p>
+
+            {/* Workstation Viewport */}
+            <div
+              className="workstation-viewport dehydration-qc-viewport"
+              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
+            >
+              {/* Moisture & Thermal Parameters Card */}
+              <div className="dehydration-spec-card">
+                <div className="dehydration-spec-header">
+                  <span>💧 Moisture & Water Activity (Aw)</span>
+                  <span
+                    className={`station-badge-mini ${
+                      moistureLevel <= 10 ? 'badge-success' : 'badge-pending'
+                    }`}
+                  >
+                    {moistureLevel <= 10 ? '✨ Shelf-Stable (<10%)' : `${moistureLevel}% H2O`}
+                  </span>
+                </div>
+
+                <div className="dehydration-spec-grid">
+                  <div className="dehydration-spec-item">
+                    <span className="spec-title">Moisture Content</span>
+                    <span
+                      className="spec-val"
+                      style={{ color: moistureLevel <= 10 ? '#10b981' : '#0284c7' }}
+                    >
+                      {moistureLevel}% H2O
+                    </span>
+                  </div>
+                  <div className="dehydration-spec-item">
+                    <span className="spec-title">Thermostat Temp</span>
+                    <span
+                      className="spec-val"
+                      style={{ color: dehydrateStep === 4 ? '#0284c7' : '#0f172a' }}
+                    >
+                      90°C Convection
+                    </span>
+                  </div>
+                </div>
+
+                {/* Live 12-Hour Cycle Progress Row */}
+                <div className="dehydration-cycle-row">
+                  <div className="dehydration-cycle-header">
+                    <span>12-Hour Dehydration Cycle:</span>
+                    <strong>{dehydrateStep >= 5 ? '100% (Completed)' : `${dehydrateProgress}%`}</strong>
+                  </div>
+                  <div className="dehydration-cycle-bar-bg">
+                    <div
+                      className="dehydration-cycle-bar-fill"
+                      style={{
+                        width: dehydrateStep >= 5 ? '100%' : `${dehydrateProgress}%`,
+                        background:
+                          moistureLevel <= 10
+                            ? 'linear-gradient(90deg, #10b981, #059669)'
+                            : 'linear-gradient(90deg, #0284c7 0%, #38bdf8 100%)',
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="spec-point" style={{ marginTop: '12px' }}>
-                <strong>90°C / 12 Hours:</strong>
-                <p>Gradual thermal dehydration vitrifies the starch matrix, locking in flavor while preventing thermal scorching.</p>
+
+              {/* Texture Vitrification Comparison */}
+              <div className="dehydration-texture-compare">
+                <div className={`texture-compare-box ${dehydrateStep < 5 ? 'active-state' : ''}`}>
+                  <span className="texture-box-tag">Steamed Wafers</span>
+                  <span className="texture-box-desc">70% H2O • Soft & Flexible</span>
+                </div>
+                <div className={`texture-compare-box ${dehydrateStep >= 5 ? 'active-state' : ''}`}>
+                  <span className="texture-box-tag">Vitrified Pellets</span>
+                  <span className="texture-box-desc">&lt;8% H2O • Glassy & Brittle</span>
+                </div>
               </div>
-              <div className="spec-point" style={{ marginTop: '12px' }}>
-                <strong>Airtight Storage:</strong>
-                <p>Because the dried pellets are hygroscopic, they must be stored in airtight clip containers until ready for deep frying.</p>
+
+              {/* Food Science Note */}
+              <div className="dehydration-science-note">
+                <strong>🔬 Science Principle: </strong>
+                Gradual 90°C dehydration vitrifies the starch matrix into shelf-stable glassy pellets (&lt;8% H2O, Aw &lt; 0.60). 1-inch spacing ensures uniform 360° airflow!
               </div>
+            </div>
+
+            {/* Workstation Footer */}
+            <div className="workstation-footer">
+              <div className="workstation-status">
+                <div
+                  className={`status-dot ${
+                    dehydrateStep >= 6
+                      ? 'dot-success'
+                      : dehydrateStep >= 4
+                      ? 'dot-amber'
+                      : ''
+                  }`}
+                />
+                <span className="status-text">
+                  {dehydrateStep >= 6
+                    ? 'Glassy kropek pellets hermetically sealed and shelf-stable.'
+                    : dehydrateStep === 5
+                    ? 'Vitrification complete (<8% H2O). Transfer to airtight container.'
+                    : dehydrateStep === 4
+                    ? 'Active convection airflow reducing moisture from 70% to 8%...'
+                    : dehydrateStep >= 2
+                    ? 'Pieces arranged with 1-inch spacing. Ready for dehydrator cabinet.'
+                    : dehydrateStep === 1
+                    ? 'Wire mesh tray placed. Awaiting steamed ubod wafer arrangement.'
+                    : 'Place stainless steel wire mesh tray on workstation counter.'}
+                </span>
+              </div>
+              <span className="spec-badge">
+                {dehydrateStep >= 6
+                  ? 'AW: <0.60'
+                  : dehydrateStep >= 4
+                  ? 'MOISTURE: 8%'
+                  : dehydrateStep === 3
+                  ? 'TEMP: 90°C'
+                  : dehydrateStep >= 1
+                  ? 'MOISTURE: 70%'
+                  : 'PREP: TRAY'}
+              </span>
             </div>
           </div>
         </div>

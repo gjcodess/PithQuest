@@ -19,10 +19,11 @@ import { Mission5Steaming } from './scenes/Mission5Steaming';
 import { Mission6Dehydration } from './scenes/Mission6Dehydration';
 import { Mission7Frying } from './scenes/Mission7Frying';
 import { Mission8Packaging } from './scenes/Mission8Packaging';
+import { SequencingScene } from './scenes/SequencingScene';
 import { EvaluationScene } from './scenes/EvaluationScene';
 
 export const App = () => {
-  const { scene, stageKey } = useGame();
+  const { scene, stageKey, isDialogueCollapsed, isInventoryCollapsed, zoomLevel } = useGame();
 
   const renderScene = () => {
     switch (scene) {
@@ -46,6 +47,8 @@ export const App = () => {
         return <Mission7Frying key={`mission7-${stageKey}`} />;
       case 'mission8':
         return <Mission8Packaging key={`mission8-${stageKey}`} />;
+      case 'sequencing':
+        return <SequencingScene key={`sequencing-${stageKey}`} />;
       case 'evaluation':
         return <EvaluationScene />;
       default:
@@ -56,7 +59,17 @@ export const App = () => {
   return (
     <div className="game-app">
       <HeaderHUD />
-      <main className="game-viewport">
+      <main
+        className={`game-viewport ${
+          isDialogueCollapsed ? 'dialogue-collapsed' : 'dialogue-expanded'
+        } ${
+          isInventoryCollapsed ? 'inventory-collapsed' : 'inventory-expanded'
+        }`}
+        style={{
+          zoom: zoomLevel,
+          '--game-zoom': zoomLevel,
+        }}
+      >
         <div className="scene-container">
           {renderScene()}
         </div>
