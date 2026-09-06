@@ -6,29 +6,33 @@ import { TOOL_INSPECTION_ITEMS, INGREDIENT_INSPECTION_ITEMS } from '../data/insp
 import { MinigameInspection } from '../components/MinigameInspection';
 
 export const OrientationScene = () => {
-  const { studentName, setScene, addScore, unlockBadge, speak, completeMission, showToast } = useGame();
+  const { studentName, setScene, addScore, unlockBadge, speak, completeMission, showToast, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.orientation);
 
   // Sub-phases: 'lecture' | 'ppe' | 'sanitation' | 'tool_inspection' | 'ingredient_inspection' | 'ready'
-  const [phase, setPhase] = useState('lecture');
+  const [phase, setPhase] = useState(() => (isAlreadyCompleted ? 'ready' : 'lecture'));
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
 
   // PPE states (all 6 equipment items)
-  const [ppeEquipped, setPpeEquipped] = useState({
-    hairnet: false,
-    apron: false,
-    mask: false,
-    gloves: false,
-    heat_gloves: false,
-    shoes: false,
-  });
+  const [ppeEquipped, setPpeEquipped] = useState(() => ({
+    hairnet: isAlreadyCompleted,
+    apron: isAlreadyCompleted,
+    mask: isAlreadyCompleted,
+    gloves: isAlreadyCompleted,
+    heat_gloves: isAlreadyCompleted,
+    shoes: isAlreadyCompleted,
+  }));
 
   // Handwashing states
-  const [completedHandwashSteps, setCompletedHandwashSteps] = useState([]);
+  const [completedHandwashSteps, setCompletedHandwashSteps] = useState(() =>
+    isAlreadyCompleted ? [0, 1, 2, 3, 4] : []
+  );
 
   // Sub-phase completion states for subnav checkmarks
-  const [scienceDone, setScienceDone] = useState(false);
-  const [toolSafetyDone, setToolSafetyDone] = useState(false);
-  const [qualityInspectionDone, setQualityInspectionDone] = useState(false);
+  const [scienceDone, setScienceDone] = useState(() => isAlreadyCompleted);
+  const [toolSafetyDone, setToolSafetyDone] = useState(() => isAlreadyCompleted);
+  const [qualityInspectionDone, setQualityInspectionDone] = useState(() => isAlreadyCompleted);
 
   useEffect(() => {
     if (phase !== 'lecture') {

@@ -5,28 +5,43 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission8Packaging = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission8);
 
   // Streamlined 3-step packaging flow:
   // 0: Empty stand-up kraft pouch -> accept crispy_crackers (50g)
   // 1: Pouch filled with crackers -> accept brand_label OR click "Seal & Apply Label" (combined 150°C weld + label)
   // 2: Branded commercial pouch -> accept retail_box OR click "Pack into Retail Carton" (8 pouches)
   // 3: Retail countertop display box packed (8 pouches) -> complete
-  const [packStep, setPackStep] = useState(0);
+  const [packStep, setPackStep] = useState(() => (isAlreadyCompleted ? 3 : 0));
   const [isSealing, setIsSealing] = useState(false);
   const [sealProgress, setSealProgress] = useState(0);
 
   useEffect(() => {
-    speak(
-      'Stage 8: Packaging Process! Step 23: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers using clean packaging materials.',
-      'neutral',
-      {
-        badge: 'Step 23: Packaging',
-        note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
-        hint: 'Select Crispy Ubod Crackers from bottom shelf and drop into the open pouch.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 8 Completed! Ubod CRUNCH crackers are portioned (50g), hermetically heat-sealed, labeled, and packed into the retail carton box (8 pouches).',
+        'happy',
+        {
+          badge: 'Stage 8 Complete',
+          note: 'Proper packaging protects crackers from moisture absorption, rancidity, and mechanical breakage during transit.',
+          btnText: 'Proceed to Process Sequencing Exam ➔',
+          onNext: () => setScene('sequencing'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 8: Packaging Process! Step 23: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers using clean packaging materials.',
+        'neutral',
+        {
+          badge: 'Step 23: Packaging',
+          note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
+          hint: 'Select Crispy Ubod Crackers from bottom shelf and drop into the open pouch.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const pouchSteps = [

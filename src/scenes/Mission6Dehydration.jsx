@@ -5,7 +5,9 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission6Dehydration = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission6);
 
   // Dehydration states:
   // 0: Empty counter -> accept mesh_tray (place stainless wire mesh tray)
@@ -15,22 +17,35 @@ export const Mission6Dehydration = () => {
   // 4: Dehydrating (12-hour time-lapse, moisture gauge: 70% -> 8%)
   // 5: Translucent brittle cracker pellets ready on tray -> accept storage_container
   // 6: Sealed in airtight storage container -> complete & proceed to frying
-  const [dehydrateStep, setDehydrateStep] = useState(0);
+  const [dehydrateStep, setDehydrateStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
   const [dehydrateProgress, setDehydrateProgress] = useState(0);
-  const [moistureLevel, setMoistureLevel] = useState(70);
+  const [moistureLevel, setMoistureLevel] = useState(() => (isAlreadyCompleted ? 8 : 70));
   const [isDehydrating, setIsDehydrating] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 6: Cooling & Cabinet Dehydration! Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-      'neutral',
-      {
-        badge: 'Step 16: Tray Spacing',
-        note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-        hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 6 Completed! Cracker pellets are vitrified (<8% moisture) and sealed in an airtight storage container.',
+        'happy',
+        {
+          badge: 'Stage 6 Complete',
+          note: 'Maintaining low moisture prevents fungal spoilage and guarantees rapid expansion during deep frying.',
+          btnText: 'Proceed to Stage 7: Deep Frying ➔',
+          onNext: () => setScene('mission7'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 6: Cooling & Cabinet Dehydration! Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+        'neutral',
+        {
+          badge: 'Step 16: Tray Spacing',
+          note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+          hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const dehydratorSteps = [

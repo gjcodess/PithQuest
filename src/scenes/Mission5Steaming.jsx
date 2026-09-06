@@ -6,7 +6,9 @@ import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 
 export const Mission5Steaming = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission5);
 
   // Steamer states:
   // 0: Empty aluminum steamer base on stove -> accept potable water pitcher
@@ -16,21 +18,34 @@ export const Mission5Steaming = () => {
   // 4: Active rolling steam at 100°C (10-minute cycle with progress meter)
   // 5: Steaming complete, cooked translucent pieces -> accept heat mitts / Don Mitts action
   // 6: Mold cooling on wire rack -> Stage 5 complete!
-  const [steamerStep, setSteamerStep] = useState(0);
+  const [steamerStep, setSteamerStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
   const [steamProgress, setSteamProgress] = useState(0);
   const [isSteaming, setIsSteaming] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes. First, pour clean potable water into the empty steamer base.',
-      'neutral',
-      {
-        badge: 'Step 14: Steaming Setup',
-        note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
-        hint: 'First, select the Potable Water Pitcher from your bottom inventory and pour it into the empty steamer base.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 5 Completed! Starch matrix has been gelatinized and cooled on the wire rack.',
+        'happy',
+        {
+          badge: 'Stage 5 Complete',
+          note: 'Gelatinization binds amylose and amylopectin starches, creating the structural foundation required for crisp expansion.',
+          btnText: 'Proceed to Stage 6: Cabinet Dehydration ➔',
+          onNext: () => setScene('mission6'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes. First, pour clean potable water into the empty steamer base.',
+        'neutral',
+        {
+          badge: 'Step 14: Steaming Setup',
+          note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
+          hint: 'First, select the Potable Water Pitcher from your bottom inventory and pour it into the empty steamer base.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const steamerSteps = [

@@ -5,7 +5,9 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission3Mixing = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission3);
 
   // Mixing bowl states:
   // 0: Empty stainless bowl -> accept rice_flour
@@ -15,21 +17,34 @@ export const Mission3Mixing = () => {
   // 4: All ingredients in bowl -> action: fold & mix paste
   // 5: Mixing in progress
   // 6: Smooth uniform paste ready
-  const [bowlStep, setBowlStep] = useState(0);
+  const [bowlStep, setBowlStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
   const [kneadProgress, setKneadProgress] = useState(0);
   const [isKneading, setIsKneading] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 3: Paste Formulation & Mixing! Step 12: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
-      'neutral',
-      {
-        badge: 'Step 12: Formulation',
-        note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform paste is formed.',
-        hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 3 Completed! Starch formulation has been smoothly blended and ready for molding.',
+        'happy',
+        {
+          badge: 'Stage 3 Complete',
+          note: 'Proper paste consistency is critical: uniform paste prevents cracks during dehydration and ensures even puffing during frying.',
+          btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
+          onNext: () => setScene('mission4'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 3: Paste Formulation & Mixing! Step 12: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
+        'neutral',
+        {
+          badge: 'Step 12: Formulation',
+          note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform paste is formed.',
+          hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const bowlSteps = [

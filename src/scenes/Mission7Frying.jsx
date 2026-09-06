@@ -6,7 +6,9 @@ import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission7Frying = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission7);
 
   // Frying states:
   // 0: Empty wok on stove -> accept cooking_oil
@@ -16,23 +18,36 @@ export const Mission7Frying = () => {
   // 4: Golden puffed cracker lifted with tongs -> accept colander to drain
   // 5: Draining in colander -> accept platter to transfer to cooled platter
   // 6: Cooled golden crackers on platter -> complete & proceed to packaging
-  const [fryStep, setFryStep] = useState(0);
-  const [oilTemp, setOilTemp] = useState(25);
+  const [fryStep, setFryStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
+  const [oilTemp, setOilTemp] = useState(() => (isAlreadyCompleted ? 180 : 25));
   const [isHeatingOil, setIsHeatingOil] = useState(false);
   const [isPuffing, setIsPuffing] = useState(false);
   const [puffProgress, setPuffProgress] = useState(0);
 
   useEffect(() => {
-    speak(
-      'Stage 7: Deep Frying & Oil Draining! Step 19: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
-      'neutral',
-      {
-        badge: 'Step 19: Oil Preheat',
-        note: 'Safety Note: Keep a safe distance from the hot oil and use tongs when handling the crackers.',
-        hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 7 Completed! Golden crisp Ubod Crunch crackers have undergone 3x flash expansion and cooled on the serving platter.',
+        'happy',
+        {
+          badge: 'Stage 7 Complete',
+          note: 'Rapid vapor expansion at 180°C creates the signature airy honeycomb structure and audible fracture crunch.',
+          btnText: 'Proceed to Stage 8: Packaging & Labeling ➔',
+          onNext: () => setScene('mission8'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 7: Deep Frying & Oil Draining! Step 19: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
+        'neutral',
+        {
+          badge: 'Step 19: Oil Preheat',
+          note: 'Safety Note: Keep a safe distance from the hot oil and use tongs when handling the crackers.',
+          hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const wokSteps = [

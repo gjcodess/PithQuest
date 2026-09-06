@@ -5,27 +5,42 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 
 export const Mission4Molding = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem } = useGame();
+  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission4);
 
   // Mold Step States:
   // 0: Empty Mold -> accept measuring spoon / paste portion
   // 1: 1 Cavity Calibrated -> accept measuring spoon OR quick fill button
   // 2: 24 Cavities Filled (Unleveled) -> accept leveling spatula
   // 3: 24 Cavities Completely Leveled -> Complete!
-  const [moldStep, setMoldStep] = useState(0);
+  const [moldStep, setMoldStep] = useState(() => (isAlreadyCompleted ? 3 : 0));
   const [isLeveling, setIsLeveling] = useState(false);
 
   useEffect(() => {
-    speak(
-      'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the paste, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
-      'neutral',
-      {
-        badge: 'Step 13: Portioning & Molding',
-        note: "Using the same amount of paste for each piece helps produce crackers with uniform size and thickness, promoting more even cooking and drying. Don't forget to wear gloves!",
-        hint: 'Select the Ubod Paste on your shelf, then tap the mold to place a portion.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 4 Completed! All 24 rectangular crackers are molded and leveled to uniform thickness.',
+        'happy',
+        {
+          badge: 'Stage 4 Complete',
+          note: 'Evenly molded pieces are now ready for steaming to set the starch matrix before dehydration.',
+          btnText: 'Proceed to Stage 5: Starch Steaming ➔',
+          onNext: () => setScene('mission5'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the paste, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
+        'neutral',
+        {
+          badge: 'Step 13: Portioning & Molding',
+          note: "Using the same amount of paste for each piece helps produce crackers with uniform size and thickness, promoting more even cooking and drying. Don't forget to wear gloves!",
+          hint: 'Select the Ubod Paste on your shelf, then tap the mold to place a portion.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const moldSteps = [

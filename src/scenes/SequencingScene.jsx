@@ -4,20 +4,34 @@ import { soundManager } from '../audio/soundManager';
 import { SequencingActivity } from '../components/SequencingActivity';
 
 export const SequencingScene = () => {
-  const { studentName, setScene, speak, hideDialogue } = useGame();
-  const [isCompleted, setIsCompleted] = useState(false);
+  const { studentName, setScene, speak, hideDialogue, missionsCompleted, maxUnlockedStage } = useGame();
+  const isAlreadyCompleted = Boolean(missionsCompleted?.sequencing);
+  const [isCompleted, setIsCompleted] = useState(() => isAlreadyCompleted);
 
   useEffect(() => {
-    speak(
-      `Bonus Activity, ${studentName || 'Food Technologist'}! Arrange the processing stages in their correct chronological sequence from left to right.`,
-      'thinking',
-      {
-        badge: 'Bonus Activity: Sequence Exam',
-        note: 'Recall our laboratory journey: from preparing raw ingredients to finished packaged crackers. Think about which processing stage comes first!',
-        hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        `Validation Exam Completed, ${studentName || 'Master Food Technologist'}! All 8 processing stages are verified in sequence. You are officially cleared for graduation!`,
+        'happy',
+        {
+          badge: 'Mastery Validated',
+          note: 'Congratulations! You have demonstrated mastery over ingredients, tools, PPE, and the full processing sequence of Coconut Pith Crackers.',
+          btnText: 'View Sensory Audit, Achievements & Certificate ➔',
+          onNext: () => setScene('evaluation'),
+        }
+      );
+    } else {
+      speak(
+        `Bonus Activity, ${studentName || 'Food Technologist'}! Arrange the processing stages in their correct chronological sequence from left to right.`,
+        'thinking',
+        {
+          badge: 'Bonus Activity: Sequence Exam',
+          note: 'Recall our laboratory journey: from preparing raw ingredients to finished packaged crackers. Think about which processing stage comes first!',
+          hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   const handleSequenceCompleted = () => {

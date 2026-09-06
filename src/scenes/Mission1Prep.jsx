@@ -7,32 +7,47 @@ import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { FaucetKnobConsole } from '../components/FaucetKnobConsole';
 
 export const Mission1Prep = () => {
-  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge } = useGame();
+  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge, missionsCompleted, maxUnlockedStage } = useGame();
+
+  const isAlreadyCompleted = Boolean(missionsCompleted?.mission1);
 
   // Wash step states:
   // 1. isUbodInColander (false -> place ing_ubod_fresh into sink_colander_empty -> becomes sink_colander_ubod)
   // 2. isWashingActive (running water animation with sink_colander_washing)
   // 3. isWashed (true -> ubod sanitized, ready to load in pot)
-  const [isUbodInColander, setIsUbodInColander] = useState(false);
-  const [isWashed, setIsWashed] = useState(false);
+  const [isUbodInColander, setIsUbodInColander] = useState(() => isAlreadyCompleted);
+  const [isWashed, setIsWashed] = useState(() => isAlreadyCompleted);
   const [isWashingActive, setIsWashingActive] = useState(false);
 
   // Pot state: 0: empty, 1: +ubod, 2: +water, 3: +salt, 4: boiling, 5: drained
-  const [potStep, setPotStep] = useState(0);
+  const [potStep, setPotStep] = useState(() => (isAlreadyCompleted ? 5 : 0));
   const [isBoilingTimerActive, setIsBoilingTimerActive] = useState(false);
   const [boilProgress, setBoilProgress] = useState(0);
 
   useEffect(() => {
-    speak(
-      'Stage 1: Washing & Pre-Cooking! Step 1: Wash the ubod thoroughly. Pick up the fresh cut raw coconut pith from your bottom inventory shelf and place it into the sink colander.',
-      'neutral',
-      {
-        badge: 'Step 1: Raw Preparation',
-        note: 'Always wash the raw ubod thoroughly under clean running water to remove surface dirt, debris, and impurities.',
-        hint: 'Tap "Raw Ubod Strips" on the bottom shelf, then click or drop onto the empty sink colander.',
-        hideButton: true,
-      }
-    );
+    if (isAlreadyCompleted) {
+      speak(
+        'Stage 1 Completed! You have prepared, boiled, and drained the tender coconut pith. You can review your work or proceed to Stage 2.',
+        'happy',
+        {
+          badge: 'Stage 1 Complete',
+          note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
+          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          onNext: () => setScene('mission2'),
+        }
+      );
+    } else {
+      speak(
+        'Stage 1: Washing & Pre-Cooking! Step 1: Wash the ubod thoroughly. Pick up the fresh cut raw coconut pith from your bottom inventory shelf and place it into the sink colander.',
+        'neutral',
+        {
+          badge: 'Step 1: Raw Preparation',
+          note: 'Always wash the raw ubod thoroughly under clean running water to remove surface dirt, debris, and impurities.',
+          hint: 'Tap "Raw Ubod Strips" on the bottom shelf, then click or drop onto the empty sink colander.',
+          hideButton: true,
+        }
+      );
+    }
   }, []);
 
   // MultiStateContainer step configurations
