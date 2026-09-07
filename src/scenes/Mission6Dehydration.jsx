@@ -41,7 +41,7 @@ export const Mission6Dehydration = () => {
         {
           badge: 'Step 16: Tray Spacing',
           note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-          hint: 'Select the Wire Mesh Tray from the bottom inventory and place it on the workstation counter.',
+          hint: 'Select the Wire Mesh Tray from your inventory and place it on the workstation counter.',
           hideButton: true,
         }
       );
@@ -205,7 +205,7 @@ export const Mission6Dehydration = () => {
           {
             badge: 'Step 18: Airtight Transfer',
             note: 'Store dehydrated pieces in a clean, dry, airtight container to prevent re-absorbing ambient moisture before frying.',
-            hint: 'Select the Airtight Chip Box on the bottom shelf and tap the tray to seal.',
+            hint: 'Select the Airtight Chip Box in your inventory and tap the tray to seal.',
             hideButton: true,
           }
         );

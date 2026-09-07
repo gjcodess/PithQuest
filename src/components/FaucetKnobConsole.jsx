@@ -105,7 +105,7 @@ export const FaucetKnobConsole = ({
           : !isComplete
           ? 'Click cross handle to turn 90° to -FLOW and rinse ubod'
           : isSanitizedWaitingPick
-          ? 'Ubod is Sanitized! Pick up Washed Ubod from bottom shelf'
+          ? 'Ubod is Sanitized! Pick up Washed Ubod from inventory'
           : 'Faucet Closed (Standby)'
       }
     >
@@ -184,7 +184,7 @@ export const FaucetKnobConsole = ({
             )
           ) : isSanitizedWaitingPick ? (
             <span className="faucet-action-hint sanitized-text">
-              👉 Pick up Washed Ubod from bottom shelf
+              👉 Pick up Washed Ubod from inventory
             </span>
           ) : !isUbodLoaded ? (
             <span className="faucet-action-hint standby-text">

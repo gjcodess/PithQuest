@@ -43,7 +43,7 @@ export const Mission7Frying = () => {
         {
           badge: 'Step 19: Oil Preheat',
           note: 'Safety Note: Keep a safe distance from the hot oil and use tongs when handling the crackers.',
-          hint: 'First, select Vegetable Oil from the bottom shelf and drop it into the empty wok.',
+          hint: 'First, select Vegetable Oil from your inventory and drop it into the empty wok.',
           hideButton: true,
         }
       );
@@ -117,12 +117,12 @@ export const Mission7Frying = () => {
       setHoldingItem(null);
       showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner', 'success');
       speak(
-        'Oil is loaded! Click the stove dial below to ignite the burner and preheat oil to medium heat (~180°C).',
+        'Oil is loaded! Click the stove dial on the burner console to ignite the burner and preheat oil to medium heat (~180°C).',
         'neutral',
         {
           badge: 'Thermal Heating',
           note: 'Ensure oil reaches proper frying temperature (~175°C–180°C) before dropping crackers to avoid oil absorption.',
-          hint: 'Click the stove dial below to ignite burner.',
+          hint: 'Click the stove dial on the burner console to ignite burner.',
           hideButton: true,
         }
       );
@@ -158,7 +158,7 @@ export const Mission7Frying = () => {
           {
             badge: 'Step 20: Flash Frying',
             note: 'Carefully fry for only about 10 seconds per batch. Coconut pith crackers puff up and become crispy almost immediately!',
-            hint: 'Select Dehydrated Pellets from bottom shelf and drop into the hot oil.',
+            hint: 'Select Dehydrated Pellets from your inventory and drop into the hot oil.',
             hideButton: true,
           }
         );

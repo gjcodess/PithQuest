@@ -41,7 +41,7 @@ export const Mission2Grinding = () => {
         {
           badge: 'Step 8: Load Processor',
           note: 'Safety Check: Check first the wiring, outlet, and the food processor itself before operating.',
-          hint: 'Drop the Drained Boiled Ubod from your bottom inventory shelf into the food processor bowl.',
+          hint: 'Drop the Drained Boiled Ubod from your inventory into the food processor bowl.',
           hideButton: true,
         }
       );
@@ -86,7 +86,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 4,
       acceptedItems: ['spatula', 'red_spatula'],
-      prompt: 'Select Red Spatula on bottom shelf & tap bowl to scrape paste',
+      prompt: 'Select Red Spatula from inventory & tap bowl to scrape paste',
       img: '/assets/processor_open_paste.png',
       fallbackIcon: '🥣',
       label: 'Silky Ubod Paste (Ready to Scrape)',
@@ -108,12 +108,12 @@ export const Mission2Grinding = () => {
       addScore(25);
       showToast('Boiled Ubod Loaded!', 'Now add salt according to client ratio (1 tsp per cup).', 'success');
       speak(
-        'Great! Now add 1 teaspoon of Pure Sea Salt from the bottom tray into the processor bowl (1 tsp per 1 cup ubod).',
+        'Great! Now add 1 teaspoon of Pure Sea Salt from your inventory into the processor bowl (1 tsp per 1 cup ubod).',
         'neutral',
         {
           badge: 'Calibrated Salting',
           note: 'Salt assists in cell rupture during blending and distributes seasoning evenly throughout the puree.',
-          hint: 'Select Measured Sea Salt from the bottom shelf and drop it into the processor.',
+          hint: 'Select Measured Sea Salt from your inventory and drop it into the processor.',
           hideButton: true,
         }
       );
@@ -346,13 +346,13 @@ export const Mission2Grinding = () => {
                       handleScrapePaste();
                     } else {
                       soundManager.playClick();
-                      showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap the bowl!', 'info');
+                      showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap the bowl!', 'info');
                       speak(
-                        'Pick up the red silicone spatula from your bottom shelf first, then tap the bowl to scrape the paste!',
+                        'Pick up the red silicone spatula from your inventory first, then tap the bowl to scrape the paste!',
                         'thinking',
                         {
                           badge: 'Select Spatula',
-                          hint: 'Tap "Red Spatula" on the bottom tray, then tap the bowl.',
+                          hint: 'Tap "Red Spatula" in your inventory, then tap the bowl.',
                         }
                       );
                     }
@@ -360,7 +360,7 @@ export const Mission2Grinding = () => {
                   title="Tap with Red Spatula to scrape"
                 >
                   <span>
-                    🥄 {holdingItem?.id === 'spatula' ? 'Tap Bowl to Scrape Paste' : 'Pick Up Red Spatula Below'}
+                    🥄 {holdingItem?.id === 'spatula' ? 'Tap Bowl to Scrape Paste' : 'Select Red Spatula from Inventory'}
                   </span>
                 </div>
               )}
@@ -397,13 +397,13 @@ export const Mission2Grinding = () => {
                   handleScrapePaste();
                 } else {
                   soundManager.playClick();
-                  showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap here to scrape!', 'info');
+                  showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap here to scrape!', 'info');
                   speak(
-                    'Pick up the red silicone spatula from your bottom shelf first, then tap to transfer the paste into the prep bowl!',
+                    'Pick up the red silicone spatula from your inventory first, then tap to transfer the paste into the prep bowl!',
                     'thinking',
                     {
                       badge: 'Select Spatula',
-                      hint: 'Tap "Red Spatula" on the bottom tray first.',
+                      hint: 'Tap "Red Spatula" in your inventory first.',
                     }
                   );
                 }
@@ -461,7 +461,7 @@ export const Mission2Grinding = () => {
               {/* Floating guidance pill at step 4 */}
               {processorStep === 4 && !isScraping && (
                 <div className="vessel-transfer-guide">
-                  <span>🥣 {holdingItem?.id === 'spatula' ? 'Tap to Transfer Paste' : 'Pick Up Spatula Below'}</span>
+                  <span>🥣 {holdingItem?.id === 'spatula' ? 'Tap to Transfer Paste' : 'Select Spatula from Inventory'}</span>
                 </div>
               )}
 

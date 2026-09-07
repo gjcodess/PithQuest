@@ -114,7 +114,7 @@ export const Mission4Molding = () => {
       {
         badge: 'Leveling Step',
         note: 'Scraping off excess paste ensures each cracker piece has a flat, consistent surface.',
-        hint: 'Select the Leveling Spatula on the bottom shelf, then tap the mold.',
+        hint: 'Select the Leveling Spatula in your inventory, then tap the mold.',
         hideButton: true,
       }
     );
@@ -275,13 +275,13 @@ export const Mission4Molding = () => {
                       handleLevelDough();
                     } else {
                       soundManager.playClick();
-                      showToast('Select Spatula First', 'Click the Leveling Spatula on the bottom shelf, then tap the mold!', 'info');
+                      showToast('Select Spatula First', 'Click the Leveling Spatula in your inventory, then tap the mold!', 'info');
                       speak(
-                        'Pick up the Leveling Spatula from your bottom shelf first, then tap the mold to scrape across the cavities!',
+                        'Pick up the Leveling Spatula from your inventory first, then tap the mold to scrape across the cavities!',
                         'thinking',
                         {
                           badge: 'Select Spatula',
-                          hint: 'Tap "Leveling Spatula" on the bottom tray, then tap the mold.',
+                          hint: 'Tap "Leveling Spatula" in your inventory, then tap the mold.',
                         }
                       );
                     }
@@ -289,7 +289,7 @@ export const Mission4Molding = () => {
                   title="Tap with Leveling Spatula to scrape"
                 >
                   <span>
-                    📐 {holdingItem?.id === 'leveling_spatula' || holdingItem?.id === 'spatula' ? 'Tap Mold to Scrape & Level' : 'Pick Up Leveling Spatula Below'}
+                    📐 {holdingItem?.id === 'leveling_spatula' || holdingItem?.id === 'spatula' ? 'Tap Mold to Scrape & Level' : 'Select Leveling Spatula from Inventory'}
                   </span>
                 </div>
               )}
@@ -311,7 +311,7 @@ export const Mission4Molding = () => {
                   handleLevelDough();
                 } else {
                   soundManager.playClick();
-                  showToast('Select Spatula First', 'Click the Leveling Spatula on the bottom shelf, then tap to level!', 'info');
+                  showToast('Select Spatula First', 'Click the Leveling Spatula in your inventory, then tap to level!', 'info');
                 }
               }
             }}
@@ -446,7 +446,7 @@ export const Mission4Molding = () => {
                     : moldStep === 1
                     ? 'First cavity calibrated. Fill remaining cavities or click Quick-Fill'
                     : moldStep === 2
-                    ? 'Select Leveling Spatula below, then tap mold to level flat'
+                    ? 'Select Leveling Spatula from inventory, then tap mold to level flat'
                     : 'All 24 rectangular crackers leveled for Stage 5 steaming'}
                 </span>
               </div>
