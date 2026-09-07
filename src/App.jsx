@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGame } from './context/GameContext';
 import { HeaderHUD } from './components/HeaderHUD';
 import { DialogueBox } from './components/DialogueBox';
+import { StageNextButton } from './components/StageNextButton';
 import { Toast } from './components/Toast';
 import { RecipeModal } from './components/Modals/RecipeModal';
 import { ObjectivesModal } from './components/Modals/ObjectivesModal';
@@ -90,6 +91,7 @@ export const App = () => {
               <div className="scene-container">
                 {renderScene()}
               </div>
+              <StageNextButton />
             </div>
 
             {/* Right 20% Column: Sidebar (Inventory / Orientation / Exam / Cert) */}
