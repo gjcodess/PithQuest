@@ -72,19 +72,23 @@ export const ResultsScene = () => {
   const reportRef = useRef(null);
 
   useEffect(() => {
-    completeMission('sequencing');
-    completeMission('evaluation');
-    soundManager.playFanfare();
-    speak(
-      `Assessment Complete, ${studentName || 'Food Technologist'}! Here is your comprehensive diagnostic performance report. Review your Pre-Test choices, Handwashing sequence, Equipment safety audits, and Post-Test manufacturing pipeline validation.`,
-      'happy',
-      {
-        badge: 'Diagnostic Report Ready',
-        note: 'Inspect itemized feedback, food science principles, and print your complete diagnostic audit report.',
-        hint: 'Scroll down to review each section of your assessment and save/print your report.',
-        hideButton: true,
-      }
-    );
+    try {
+      completeMission('sequencing');
+      completeMission('evaluation');
+      soundManager.playFanfare();
+      speak(
+        `Assessment Complete, ${studentName || 'Food Technologist'}! Here is your comprehensive diagnostic performance report. Review your Pre-Test choices, Handwashing sequence, Equipment safety audits, and Post-Test manufacturing pipeline validation.`,
+        'happy',
+        {
+          badge: 'Diagnostic Report Ready',
+          note: 'Inspect itemized feedback, food science principles, and print your complete diagnostic audit report.',
+          hint: 'Scroll down to review each section of your assessment and save/print your report.',
+          hideButton: true,
+        }
+      );
+    } catch (err) {
+      console.warn('ResultsScene mount error:', err);
+    }
   }, []);
 
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -100,32 +104,32 @@ export const ResultsScene = () => {
 
   // Pre-Test PPE Audit Data
   const ppeAudit = assessmentResults?.preTest?.ppe;
-  const ppeDistractors = ppeAudit?.distractorsPicked || [];
-  const ppeCorrectSelected = ppeAudit?.correctSelected || [];
+  const ppeDistractors = Array.isArray(ppeAudit?.distractorsPicked) ? ppeAudit.distractorsPicked : [];
+  const ppeCorrectSelected = Array.isArray(ppeAudit?.correctSelected) ? ppeAudit.correctSelected : [];
   const ppeTotalCorrect = ppeAudit?.totalCorrect || 6;
 
   // Pre-Test Handwashing Audit Data
   const handwashAudit = assessmentResults?.preTest?.handwashing;
-  const handwashSubmitted = handwashAudit?.submittedSteps || [];
-  const handwashDistractors = handwashAudit?.distractorsIncluded || [];
+  const handwashSubmitted = Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : [];
+  const handwashDistractors = Array.isArray(handwashAudit?.distractorsIncluded) ? handwashAudit.distractorsIncluded : [];
 
   // Pre-Test Tools Audit Data
-  const toolAudit = assessmentResults?.preTest?.toolSafety || [];
+  const toolAudit = Array.isArray(assessmentResults?.preTest?.toolSafety) ? assessmentResults.preTest.toolSafety : [];
 
   // Pre-Test Ingredients Audit Data
-  const ingredientAudit = assessmentResults?.preTest?.qualityInspection || [];
+  const ingredientAudit = Array.isArray(assessmentResults?.preTest?.qualityInspection) ? assessmentResults.preTest.qualityInspection : [];
 
   // Post-Test Sequencing Audit Data
   const sequenceAudit = assessmentResults?.postTest?.sequencing;
-  const sequenceSubmitted = sequenceAudit?.submittedItems || [];
+  const sequenceSubmitted = Array.isArray(sequenceAudit?.submittedItems) ? sequenceAudit.submittedItems : [];
   const sequenceCorrectCount = sequenceAudit?.correctCount ?? (sequenceAudit?.isCorrect ? 8 : 0);
 
   // Overall Performance Level
   const totalCorrectAssessments =
     (ppeCorrectSelected.length >= 5 ? 1 : 0) +
     (handwashDistractors.length === 0 && handwashSubmitted.length === 7 ? 1 : 0) +
-    (toolAudit.filter((t) => t.isSafe).length >= 5 ? 1 : 0) +
-    (ingredientAudit.filter((i) => i.isSafe).length >= 3 ? 1 : 0) +
+    (toolAudit.filter((t) => t?.isSafe).length >= 5 ? 1 : 0) +
+    (ingredientAudit.filter((i) => i?.isSafe).length >= 3 ? 1 : 0) +
     (sequenceCorrectCount >= 7 ? 1 : 0);
 
   const competencyLevel =
@@ -408,20 +412,15 @@ export const ResultsScene = () => {
                 <tbody>
                   {TOOL_INSPECTION_ITEMS.map((item) => {
                     const recorded = toolAudit.find((t) => t.id === item.id);
-                    const chosenOption = recorded?.selectedOption || (recorded?.isSafe ? 'A' : 'B');
-                    const isSafe = recorded ? recorded.isSafe : true;
+                    const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
 
                     return (
                       <tr key={item.id} className={isSafe ? 'row-pass' : 'row-fail'}>
                         <td>
-                          <strong>{item.title}</strong>
+                          <strong>{item.name}</strong>
                         </td>
                         <td>
-                          {recorded
-                            ? chosenOption === 'A'
-                              ? item.optionA.label
-                              : item.optionB.label
-                            : 'Option A (Sanitary Standard)'}
+                          {isSafe ? item.safe?.name : (recorded?.selectedName || item.damaged?.name)}
                         </td>
                         <td>
                           {isSafe ? (
@@ -431,13 +430,7 @@ export const ResultsScene = () => {
                           )}
                         </td>
                         <td>
-                          {isSafe
-                            ? item.optionA.isSafe
-                              ? item.optionA.feedback
-                              : item.optionB.feedback
-                            : item.optionA.isSafe
-                            ? item.optionB.feedback
-                            : item.optionA.feedback}
+                          {isSafe ? item.safe?.reason : item.damaged?.reason}
                         </td>
                       </tr>
                     );
@@ -480,20 +473,15 @@ export const ResultsScene = () => {
                 <tbody>
                   {INGREDIENT_INSPECTION_ITEMS.map((item) => {
                     const recorded = ingredientAudit.find((i) => i.id === item.id);
-                    const chosenOption = recorded?.selectedOption || (recorded?.isSafe ? 'A' : 'B');
-                    const isSafe = recorded ? recorded.isSafe : true;
+                    const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
 
                     return (
                       <tr key={item.id} className={isSafe ? 'row-pass' : 'row-fail'}>
                         <td>
-                          <strong>{item.title}</strong>
+                          <strong>{item.name}</strong>
                         </td>
                         <td>
-                          {recorded
-                            ? chosenOption === 'A'
-                              ? item.optionA.label
-                              : item.optionB.label
-                            : 'Option A (Grade A Fresh)'}
+                          {isSafe ? item.safe?.name : (recorded?.selectedName || item.damaged?.name)}
                         </td>
                         <td>
                           {isSafe ? (
@@ -503,13 +491,7 @@ export const ResultsScene = () => {
                           )}
                         </td>
                         <td>
-                          {isSafe
-                            ? item.optionA.isSafe
-                              ? item.optionA.feedback
-                              : item.optionB.feedback
-                            : item.optionA.isSafe
-                            ? item.optionB.feedback
-                            : item.optionA.feedback}
+                          {isSafe ? item.safe?.reason : item.damaged?.reason}
                         </td>
                       </tr>
                     );

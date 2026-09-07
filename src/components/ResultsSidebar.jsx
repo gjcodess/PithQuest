@@ -15,19 +15,19 @@ export const ResultsSidebar = () => {
   } = useGame();
 
   const ppeAudit = assessmentResults?.preTest?.ppe;
-  const ppeCorrectCount = ppeAudit?.correctSelected?.length ?? 6;
-  const ppeDistractors = ppeAudit?.distractorsPicked?.length ?? 0;
+  const ppeCorrectCount = Array.isArray(ppeAudit?.correctSelected) ? ppeAudit.correctSelected.length : 6;
+  const ppeDistractors = Array.isArray(ppeAudit?.distractorsPicked) ? ppeAudit.distractorsPicked.length : 0;
 
   const handwashAudit = assessmentResults?.preTest?.handwashing;
-  const handwashCorrect = (handwashAudit?.submittedSteps || []).filter(
-    (s, idx) => s.isCorrect && s.step === idx + 1
+  const handwashCorrect = (Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : []).filter(
+    (s, idx) => s && s.isCorrect && s.step === idx + 1
   ).length;
 
-  const toolAudit = assessmentResults?.preTest?.toolSafety || [];
-  const toolSafeCount = toolAudit.filter((t) => t.isSafe).length;
+  const toolAudit = Array.isArray(assessmentResults?.preTest?.toolSafety) ? assessmentResults.preTest.toolSafety : [];
+  const toolSafeCount = toolAudit.filter((t) => t?.isSafe).length;
 
-  const ingredientAudit = assessmentResults?.preTest?.qualityInspection || [];
-  const ingredientSafeCount = ingredientAudit.filter((i) => i.isSafe).length;
+  const ingredientAudit = Array.isArray(assessmentResults?.preTest?.qualityInspection) ? assessmentResults.preTest.qualityInspection : [];
+  const ingredientSafeCount = ingredientAudit.filter((i) => i?.isSafe).length;
 
   const sequenceAudit = assessmentResults?.postTest?.sequencing;
   const sequenceCorrectCount = sequenceAudit?.correctCount ?? (sequenceAudit?.isCorrect ? 8 : 8);
