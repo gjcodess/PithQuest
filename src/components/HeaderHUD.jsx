@@ -75,7 +75,6 @@ export const HeaderHUD = () => {
 
   const currentStage = STAGE_CONFIG[scene] || { num: 'Lab', title: 'Activity', step: 1 };
   const isStageScene = [
-    'orientation',
     'mission1',
     'mission2',
     'mission3',
