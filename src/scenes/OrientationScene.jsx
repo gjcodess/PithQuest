@@ -26,11 +26,13 @@ export const OrientationScene = () => {
 
   // Handwashing states
   const [completedHandwashSteps, setCompletedHandwashSteps] = useState(() =>
-    isAlreadyCompleted ? [0, 1, 2, 3, 4] : []
+    isAlreadyCompleted ? HANDWASHING_STEPS.map((s) => s.step) : []
   );
 
   // Sub-phase completion states for subnav checkmarks
   const [scienceDone, setScienceDone] = useState(() => isAlreadyCompleted);
+  const [ppeDone, setPpeDone] = useState(() => isAlreadyCompleted);
+  const [handwashingDone, setHandwashingDone] = useState(() => isAlreadyCompleted);
   const [toolSafetyDone, setToolSafetyDone] = useState(() => isAlreadyCompleted);
   const [qualityInspectionDone, setQualityInspectionDone] = useState(() => isAlreadyCompleted);
 
@@ -119,6 +121,7 @@ export const OrientationScene = () => {
     showToast('PPE Equipped', `Put on ${itemId}`, 'success');
 
     if (Object.values(updated).every(Boolean)) {
+      setPpeDone(true);
       unlockBadge('ppe_certified', 'PPE Certified', '🥼');
       setTimeout(() => {
         setPhase('sanitation');
@@ -142,6 +145,7 @@ export const OrientationScene = () => {
     addScore(10);
 
     if (nextSteps.length === HANDWASHING_STEPS.length) {
+      setHandwashingDone(true);
       soundManager.playFanfare();
       unlockBadge('handwash_master', 'Sanitation Guardian', '🧼');
       showToast('Handwashing Complete', 'Hands thoroughly sanitized!', 'success');
@@ -170,7 +174,7 @@ export const OrientationScene = () => {
             {scienceDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
-            className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${Object.values(ppeEquipped).every(Boolean) ? 'completed' : ''}`}
+            className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${ppeDone || Object.values(ppeEquipped).every(Boolean) ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
               setPhase('ppe');
@@ -178,10 +182,10 @@ export const OrientationScene = () => {
           >
             <span className="subnav-pill-icon">🥼</span>
             <span className="subnav-pill-label">2. PPE Attire</span>
-            {Object.values(ppeEquipped).every(Boolean) && <span className="subnav-pill-check">✓</span>}
+            {(ppeDone || Object.values(ppeEquipped).every(Boolean)) && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
-            className={`subnav-pill ${phase === 'sanitation' ? 'active' : ''} ${completedHandwashSteps.length === HANDWASHING_STEPS.length ? 'completed' : ''}`}
+            className={`subnav-pill ${phase === 'sanitation' ? 'active' : ''} ${handwashingDone || completedHandwashSteps.length === HANDWASHING_STEPS.length ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
               setPhase('sanitation');
@@ -189,7 +193,7 @@ export const OrientationScene = () => {
           >
             <span className="subnav-pill-icon">🧼</span>
             <span className="subnav-pill-label">3. Handwashing</span>
-            {completedHandwashSteps.length === HANDWASHING_STEPS.length && <span className="subnav-pill-check">✓</span>}
+            {(handwashingDone || completedHandwashSteps.length === HANDWASHING_STEPS.length) && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
             className={`subnav-pill ${phase === 'tool_inspection' ? 'active' : ''} ${toolSafetyDone ? 'completed' : ''}`}
@@ -360,6 +364,20 @@ export const OrientationScene = () => {
                 );
               })}
             </div>
+
+            {Object.values(ppeEquipped).every(Boolean) && (
+              <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
+                <button
+                  className="btn-primary"
+                  onClick={() => {
+                    soundManager.playClick();
+                    setPhase('sanitation');
+                  }}
+                >
+                  Proceed to Handwashing ➔
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -370,13 +388,17 @@ export const OrientationScene = () => {
             <div className="vessel-header">
               <span className="vessel-title">7-Step Sanitary Handwashing Protocol</span>
               <span className="vessel-badge">
-                Step {completedHandwashSteps.length + 1} of {HANDWASHING_STEPS.length}
+                {completedHandwashSteps.length === HANDWASHING_STEPS.length
+                  ? '7/7 Completed'
+                  : `Step ${completedHandwashSteps.length + 1} of ${HANDWASHING_STEPS.length}`}
               </span>
             </div>
             <div className="vessel-header-divider" />
 
             <p className="section-instruction">
-              Tap each handwashing step in strict chronological order to properly sanitize:
+              {completedHandwashSteps.length === HANDWASHING_STEPS.length
+                ? 'All 7 handwashing steps completed! Hands are sanitized.'
+                : 'Tap each handwashing step in strict chronological order to properly sanitize:'}
             </p>
 
             <div className="handwashing-steps-list">
@@ -409,6 +431,20 @@ export const OrientationScene = () => {
                 );
               })}
             </div>
+
+            {completedHandwashSteps.length === HANDWASHING_STEPS.length && (
+              <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
+                <button
+                  className="btn-primary"
+                  onClick={() => {
+                    soundManager.playClick();
+                    setPhase('tool_inspection');
+                  }}
+                >
+                  Proceed to Tool Safety Inspection ➔
+                </button>
+              </div>
+            )}
           </div>
         )}
 
