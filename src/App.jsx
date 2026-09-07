@@ -83,12 +83,11 @@ export const App = () => {
           </div>
         ) : (
           <div className="viewport-layout-grid">
-            {/* Left 80% Column: Workstation & Footer Dialogue Dock */}
+            {/* Left 80% Column: Workstation */}
             <div className="viewport-left-column">
               <div className="scene-container">
                 {renderScene()}
               </div>
-              <DialogueBox />
             </div>
 
             {/* Right 20% Column: Sidebar (Inventory / Orientation / Exam / Cert) */}
@@ -101,6 +100,7 @@ export const App = () => {
           </div>
         )}
       </main>
+      <DialogueBox />
       <Toast />
       <RecipeModal />
       <ObjectivesModal />

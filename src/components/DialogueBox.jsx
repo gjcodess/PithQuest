@@ -13,7 +13,10 @@ export const DialogueBox = () => {
   const { dialogue, scene, isDialogueCollapsed, setIsDialogueCollapsed } = useGame();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [hasUnread, setHasUnread] = useState(false);
   const timerRef = useRef(null);
+  const popoverRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const finishTyping = () => {
     if (timerRef.current) {
@@ -24,13 +27,44 @@ export const DialogueBox = () => {
     setIsTyping(false);
   };
 
-  // Auto-expand when a primary mission transition button appears
+  // When new dialogue text arrives, trigger unread indicator if collapsed
   useEffect(() => {
-    if (dialogue.btnText) {
-      setIsDialogueCollapsed(false);
+    if (dialogue.text) {
+      setHasUnread(true);
     }
-  }, [dialogue.btnText, setIsDialogueCollapsed]);
+  }, [dialogue.text]);
 
+  // Click outside to auto-collapse
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isDialogueCollapsed) return;
+
+      const isInsidePopover = popoverRef.current && popoverRef.current.contains(e.target);
+      const isInsideButton = buttonRef.current && buttonRef.current.contains(e.target);
+
+      if (!isInsidePopover && !isInsideButton) {
+        setIsDialogueCollapsed(true);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !isDialogueCollapsed) {
+        setIsDialogueCollapsed(true);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isDialogueCollapsed, setIsDialogueCollapsed]);
+
+  // Typing effect when dialogue text changes
   useEffect(() => {
     if (!dialogue.visible || !dialogue.text) {
       setDisplayedText('');
@@ -59,7 +93,7 @@ export const DialogueBox = () => {
         }
         setIsTyping(false);
       }
-    }, 14);
+    }, 12);
 
     return () => {
       if (timerRef.current) {
@@ -70,6 +104,18 @@ export const DialogueBox = () => {
   }, [dialogue.text, dialogue.visible]);
 
   if (!dialogue.visible || scene === 'title') return null;
+
+  const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
+
+  const handleToggleOpen = (e) => {
+    e.stopPropagation();
+    soundManager.playClick();
+    const willOpen = isDialogueCollapsed;
+    setIsDialogueCollapsed(!willOpen);
+    if (willOpen) {
+      setHasUnread(false);
+    }
+  };
 
   const handleNextClick = (e) => {
     e.stopPropagation();
@@ -88,118 +134,117 @@ export const DialogueBox = () => {
     }
   };
 
-  const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
-
-  // Render Collapsed Floating Pill Tab
-  if (isDialogueCollapsed) {
-    return (
-      <aside
-        className="floating-dialogue-dock collapsed"
-        onClick={() => {
-          soundManager.playClick();
-          setIsDialogueCollapsed(false);
-        }}
-        title="Click to open Teacher Mia's guidance (▲)"
-        role="button"
-        tabIndex={0}
-      >
-        <div className="dock-pill-avatar-wrap">
-          <img src={avatarSrc} alt="Teacher Mia" className="dock-pill-avatar" />
-          <span className={`dock-pill-mood ${dialogue.avatar || 'neutral'}`} />
-        </div>
-        <div className="dock-pill-info">
-          <span className="dock-pill-name">TEACHER MIA</span>
-          <span className="dock-pill-teaser">
-            {dialogue.text ? `💬 ${dialogue.text.slice(0, 75)}${dialogue.text.length > 75 ? '...' : ''}` : 'Guidance Available'}
-          </span>
-        </div>
-        <div className="dock-pill-action">
-          <span>▲ Open Guide</span>
-        </div>
-      </aside>
-    );
-  }
-
-  // Render Full Expanded Floating Dialogue Card
   return (
-    <aside
-      className={`floating-dialogue-dock expanded ${isTyping ? 'is-typing' : ''}`}
-      onClick={handleBoxClick}
-      title={isTyping ? 'Click speech bubble to reveal text instantly' : undefined}
-    >
-      {/* Top Header Bar: Character Identity + Minimize Button */}
-      <div className="card-top-bar">
-        <div className="card-character-group">
-          <div className="card-avatar-box">
-            <img src={avatarSrc} alt="Teacher Mia" className="card-avatar-img" />
-            <span className={`card-mood-dot ${dialogue.avatar || 'neutral'}`} />
-          </div>
-          <div className="card-character-info">
-            <div className="card-title-row">
-              <span className="card-character-name">Teacher Mia</span>
-              <span className="card-role-pill">Food Science Mentor</span>
-            </div>
-            {dialogue.badge && (
-              <span className="card-stage-badge">{dialogue.badge}</span>
-            )}
-          </div>
+    <div className="floating-companion-wrapper">
+      {/* 1. Floating Circular Avatar Trigger (Bottom Left) */}
+      <button
+        ref={buttonRef}
+        type="button"
+        className={`floating-companion-btn ${!isDialogueCollapsed ? 'active-open' : ''} ${hasUnread ? 'has-unread' : ''}`}
+        onClick={handleToggleOpen}
+        title={isDialogueCollapsed ? "Teacher Mia: Tips & Guidance (Click to Open)" : "Close Teacher Mia's Guide"}
+        aria-label="Toggle Teacher Mia Guidance"
+      >
+        <div className="companion-avatar-frame">
+          <img src={avatarSrc} alt="Teacher Mia" className="companion-avatar-img" />
+          <span className={`companion-mood-indicator ${dialogue.avatar || 'neutral'}`} />
         </div>
 
-        <button
-          className="card-minimize-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            soundManager.playClick();
-            setIsDialogueCollapsed(true);
-          }}
-          title="Minimize Teacher Mia guidance (▼)"
-          aria-label="Minimize Dialogue"
+        {/* Pulse / Tip Indicator Bubble */}
+        <div className="companion-notification-bubble" title="Guide Available">
+          <span className="bubble-icon">💡</span>
+        </div>
+
+        {/* Hover / Hint Tooltip */}
+        <span className="companion-tooltip-tag">Teacher Mia</span>
+      </button>
+
+      {/* 2. Expanded Floating Dialogue Popover Card */}
+      {!isDialogueCollapsed && (
+        <aside
+          ref={popoverRef}
+          className={`companion-popover-card ${isTyping ? 'is-typing' : ''}`}
+          onClick={handleBoxClick}
+          title={isTyping ? 'Click to reveal full text instantly' : undefined}
+          role="dialog"
+          aria-label="Teacher Mia Guidance"
         >
-          <span>▼</span>
-        </button>
-      </div>
-
-      {/* Main Dialogue Speech Body */}
-      <div className="card-speech-body">
-        <p className="card-speech-text">
-          {displayedText}
-          {isTyping && <span className="dialogue-typing-cursor">▌</span>}
-        </p>
-      </div>
-
-      {/* Bottom Footer Row: Note/Hint Callouts & Next Stage Action Button */}
-      {((dialogue.note || dialogue.hint) || (!dialogue.hideButton && Boolean(dialogue.btnText))) && (
-        <div className="card-footer-row">
-          <div className="card-callouts-col">
-            {dialogue.note && (
-              <div className="card-note-pill">
-                <span className="callout-icon">📝</span>
-                <span className="callout-content">
-                  <strong>{dialogue.noteTitle || 'Note'}:</strong> {dialogue.note}
-                </span>
+          {/* Card Top Header */}
+          <div className="companion-card-header">
+            <div className="companion-header-identity">
+              <div className="companion-mini-avatar">
+                <img src={avatarSrc} alt="Teacher Mia" />
               </div>
-            )}
-            {dialogue.hint && (
-              <div className="card-hint-pill">
-                <span className="callout-icon">💡</span>
-                <span className="callout-content">
-                  <strong>Hint:</strong> {dialogue.hint}
-                </span>
+              <div className="companion-name-stack">
+                <span className="companion-mentor-name">Teacher Mia</span>
+                <span className="companion-mentor-role">Food Science Mentor</span>
               </div>
-            )}
+            </div>
+
+            <div className="companion-header-actions">
+              {dialogue.badge && (
+                <span className="companion-stage-badge">{dialogue.badge}</span>
+              )}
+              <button
+                type="button"
+                className="companion-close-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  soundManager.playClick();
+                  setIsDialogueCollapsed(true);
+                }}
+                title="Close Guide (Esc)"
+                aria-label="Close Guide"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
-          {!dialogue.hideButton && Boolean(dialogue.btnText) && (
-            <button
-              className="card-action-btn ready"
-              onClick={handleNextClick}
-              title={dialogue.btnText}
-            >
-              <span>{dialogue.btnText}</span>
-            </button>
+          {/* Speech Bubble Content */}
+          <div className="companion-speech-content">
+            <p className="companion-dialogue-text">
+              {displayedText}
+              {isTyping && <span className="dialogue-typing-cursor">▌</span>}
+            </p>
+          </div>
+
+          {/* Notes & Hints Callouts */}
+          {(dialogue.note || dialogue.hint) && (
+            <div className="companion-callouts-box">
+              {dialogue.note && (
+                <div className="companion-note-item">
+                  <span className="callout-icon">📝</span>
+                  <div className="callout-text">
+                    <strong>{dialogue.noteTitle || 'Standard Note'}:</strong> {dialogue.note}
+                  </div>
+                </div>
+              )}
+              {dialogue.hint && (
+                <div className="companion-hint-item">
+                  <span className="callout-icon">💡</span>
+                  <div className="callout-text">
+                    <strong>Lab Hint:</strong> {dialogue.hint}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
-        </div>
+
+          {/* Action / Next Stage Button */}
+          {!dialogue.hideButton && Boolean(dialogue.btnText) && (
+            <div className="companion-card-footer">
+              <button
+                type="button"
+                className="btn-primary companion-action-btn"
+                onClick={handleNextClick}
+              >
+                <span>{dialogue.btnText}</span>
+              </button>
+            </div>
+          )}
+        </aside>
       )}
-    </aside>
+    </div>
   );
 };
