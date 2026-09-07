@@ -225,7 +225,7 @@ export const Mission3Mixing = () => {
     {
       id: 'rice_flour',
       name: 'Erawan Rice Flour',
-      measure: '2 Cups (1:1 Base)',
+      measure: '1 Cup (1:1 Base)',
       img: '/assets/portion_rice_flour_1cup.png',
       fallbackIcon: '🌾',
       isUsed: bowlStep >= 1,
@@ -245,7 +245,7 @@ export const Mission3Mixing = () => {
     {
       id: 'ubod_paste',
       name: 'Silky Ubod Paste',
-      measure: '2 Cups Puree',
+      measure: '1 Cup Puree',
       img: '/assets/portion_ubod_paste_1cup.png',
       fallbackIcon: '🥥',
       isUsed: bowlStep >= 3,
@@ -255,7 +255,7 @@ export const Mission3Mixing = () => {
     {
       id: 'water_hydration',
       name: 'Hydration Water',
-      measure: 'Gradual Addition',
+      measure: '1 Cup (Gradual)',
       img: '/assets/portion_water_1cup.png',
       fallbackIcon: '💧',
       isUsed: bowlStep >= 4,
@@ -438,7 +438,7 @@ export const Mission3Mixing = () => {
                   </div>
                   <div className="qc-item-meta">
                     <strong>Erawan Rice Flour</strong>
-                    <span>2 Cups • 1:1 Starch Base</span>
+                    <span>1 Cup • 1:1 Starch Base</span>
                   </div>
                   <div className={`qc-status-chip ${bowlStep >= 1 ? 'chip-done' : bowlStep === 0 ? 'chip-next' : ''}`}>
                     {bowlStep >= 1 ? '✓ Added' : bowlStep === 0 ? '👉 Next' : 'Pending'}
@@ -466,7 +466,7 @@ export const Mission3Mixing = () => {
                   </div>
                   <div className="qc-item-meta">
                     <strong>Silky Ubod Paste</strong>
-                    <span>2 Cups • 1:1 Puree Base</span>
+                    <span>1 Cup • 1:1 Puree Base</span>
                   </div>
                   <div className={`qc-status-chip ${bowlStep >= 3 ? 'chip-done' : bowlStep === 2 ? 'chip-next' : ''}`}>
                     {bowlStep >= 3 ? '✓ Added' : bowlStep === 2 ? '👉 Next' : 'Pending'}
@@ -480,7 +480,7 @@ export const Mission3Mixing = () => {
                   </div>
                   <div className="qc-item-meta">
                     <strong>Potable Water</strong>
-                    <span>Gradual • Starch Hydration</span>
+                    <span>1 Cup • Gradual Hydration</span>
                   </div>
                   <div className={`qc-status-chip ${bowlStep >= 4 ? 'chip-done' : bowlStep === 3 ? 'chip-next' : ''}`}>
                     {bowlStep >= 4 ? '✓ Added' : bowlStep === 3 ? '👉 Next' : 'Pending'}
@@ -524,15 +524,15 @@ export const Mission3Mixing = () => {
                 />
                 <span className="status-text">
                   {bowlStep === 0
-                    ? 'Add 2 cups Erawan Rice Flour into bowl'
+                    ? 'Add 1 cup Erawan Rice Flour into bowl'
                     : bowlStep === 1
                     ? 'Add 1 tsp Pure Sea Salt to dry flour'
                     : bowlStep === 2
-                    ? 'Add 2 cups Boiled Ubod Paste for 1:1 ratio'
+                    ? 'Add 1 cup Boiled Ubod Paste for 1:1 ratio'
                     : bowlStep === 3
-                    ? 'Add potable water gradually for hydration'
+                    ? 'Add 1 cup potable water gradually for hydration'
                     : bowlStep === 4
-                    ? 'Tap Red Spatula on shelf, then tap bowl to mix'
+                    ? 'Tap Red Spatula in inventory, then tap bowl to mix'
                     : bowlStep === 5
                     ? 'Forming cohesive starch-protein matrix...'
                     : '1:1 cracker paste calibrated for rectangular molding'}
