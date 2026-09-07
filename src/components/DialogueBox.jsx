@@ -17,6 +17,7 @@ export const DialogueBox = () => {
   const timerRef = useRef(null);
   const popoverRef = useRef(null);
   const buttonRef = useRef(null);
+  const lastReadTextRef = useRef('');
 
   const finishTyping = () => {
     if (timerRef.current) {
@@ -27,12 +28,19 @@ export const DialogueBox = () => {
     setIsTyping(false);
   };
 
-  // When new dialogue text arrives, trigger unread indicator if collapsed
+  // When new dialogue text arrives, trigger unread indicator only if dialogue is collapsed
   useEffect(() => {
     if (dialogue.text) {
-      setHasUnread(true);
+      if (dialogue.text !== lastReadTextRef.current) {
+        if (isDialogueCollapsed) {
+          setHasUnread(true);
+        } else {
+          lastReadTextRef.current = dialogue.text;
+          setHasUnread(false);
+        }
+      }
     }
-  }, [dialogue.text]);
+  }, [dialogue.text, isDialogueCollapsed]);
 
   // Click outside to auto-collapse
   useEffect(() => {
@@ -113,6 +121,7 @@ export const DialogueBox = () => {
     const willOpen = isDialogueCollapsed;
     setIsDialogueCollapsed(!willOpen);
     if (willOpen) {
+      lastReadTextRef.current = dialogue.text || '';
       setHasUnread(false);
     }
   };
@@ -142,7 +151,13 @@ export const DialogueBox = () => {
         type="button"
         className={`floating-companion-btn ${!isDialogueCollapsed ? 'active-open' : ''} ${hasUnread ? 'has-unread' : ''}`}
         onClick={handleToggleOpen}
-        title={isDialogueCollapsed ? "Teacher Mia: Tips & Guidance (Click to Open)" : "Close Teacher Mia's Guide"}
+        title={
+          hasUnread
+            ? "Teacher Mia has guidance for you! (Click to open)"
+            : isDialogueCollapsed
+            ? "Teacher Mia's Guide (Click to open)"
+            : "Close Guide"
+        }
         aria-label="Toggle Teacher Mia Guidance"
       >
         <div className="companion-avatar-frame">
@@ -150,101 +165,104 @@ export const DialogueBox = () => {
           <span className={`companion-mood-indicator ${dialogue.avatar || 'neutral'}`} />
         </div>
 
-        {/* Pulse / Tip Indicator Bubble */}
-        <div className="companion-notification-bubble" title="Guide Available">
-          <span className="bubble-icon">💡</span>
-        </div>
+        {/* Pulse / Tip Indicator Bubble: ONLY visible when there is an unread message */}
+        {hasUnread && isDialogueCollapsed && (
+          <div className="companion-notification-bubble" title="New guidance from Teacher Mia">
+            <span className="bubble-icon">💡</span>
+          </div>
+        )}
 
         {/* Hover / Hint Tooltip */}
-        <span className="companion-tooltip-tag">Teacher Mia</span>
+        <span className="companion-tooltip-tag">
+          {hasUnread ? '💡 New Guidance!' : 'Teacher Mia'}
+        </span>
       </button>
 
       {/* 2. Expanded Floating Dialogue Popover Card */}
-      {!isDialogueCollapsed && (
-        <aside
-          ref={popoverRef}
-          className={`companion-popover-card ${isTyping ? 'is-typing' : ''}`}
-          onClick={handleBoxClick}
-          title={isTyping ? 'Click to reveal full text instantly' : undefined}
-          role="dialog"
-          aria-label="Teacher Mia Guidance"
-        >
-          {/* Card Top Header */}
-          <div className="companion-card-header">
-            <div className="companion-header-identity">
-              <div className="companion-mini-avatar">
-                <img src={avatarSrc} alt="Teacher Mia" />
-              </div>
-              <div className="companion-name-stack">
-                <span className="companion-mentor-name">Teacher Mia</span>
-                <span className="companion-mentor-role">Food Science Mentor</span>
-              </div>
+      <aside
+        ref={popoverRef}
+        className={`companion-popover-card ${isDialogueCollapsed ? 'is-closed' : 'is-open'} ${isTyping ? 'is-typing' : ''}`}
+        onClick={handleBoxClick}
+        title={isTyping ? 'Click to reveal full text instantly' : undefined}
+        role="dialog"
+        aria-hidden={isDialogueCollapsed}
+        aria-label="Teacher Mia Guidance"
+      >
+        {/* Card Top Header */}
+        <div className="companion-card-header">
+          <div className="companion-header-identity">
+            <div className="companion-mini-avatar">
+              <img src={avatarSrc} alt="Teacher Mia" />
             </div>
-
-            <div className="companion-header-actions">
-              {dialogue.badge && (
-                <span className="companion-stage-badge">{dialogue.badge}</span>
-              )}
-              <button
-                type="button"
-                className="companion-close-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  soundManager.playClick();
-                  setIsDialogueCollapsed(true);
-                }}
-                title="Close Guide (Esc)"
-                aria-label="Close Guide"
-              >
-                ✕
-              </button>
+            <div className="companion-name-stack">
+              <span className="companion-mentor-name">Teacher Mia</span>
+              <span className="companion-mentor-role">Food Science Mentor</span>
             </div>
           </div>
 
-          {/* Speech Bubble Content */}
-          <div className="companion-speech-content">
-            <p className="companion-dialogue-text">
-              {displayedText}
-              {isTyping && <span className="dialogue-typing-cursor">▌</span>}
-            </p>
+          <div className="companion-header-actions">
+            {dialogue.badge && (
+              <span className="companion-stage-badge">{dialogue.badge}</span>
+            )}
+            <button
+              type="button"
+              className="companion-close-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                soundManager.playClick();
+                setIsDialogueCollapsed(true);
+              }}
+              title="Close Guide (Esc)"
+              aria-label="Close Guide"
+            >
+              ✕
+            </button>
           </div>
+        </div>
 
-          {/* Notes & Hints Callouts */}
-          {(dialogue.note || dialogue.hint) && (
-            <div className="companion-callouts-box">
-              {dialogue.note && (
-                <div className="companion-note-item">
-                  <span className="callout-icon">📝</span>
-                  <div className="callout-text">
-                    <strong>{dialogue.noteTitle || 'Standard Note'}:</strong> {dialogue.note}
-                  </div>
-                </div>
-              )}
-              {dialogue.hint && (
-                <div className="companion-hint-item">
-                  <span className="callout-icon">💡</span>
-                  <div className="callout-text">
-                    <strong>Lab Hint:</strong> {dialogue.hint}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+        {/* Speech Bubble Content */}
+        <div className="companion-speech-content">
+          <p className="companion-dialogue-text">
+            {displayedText}
+            {isTyping && <span className="dialogue-typing-cursor">▌</span>}
+          </p>
+        </div>
 
-          {/* Action / Next Stage Button */}
-          {!dialogue.hideButton && Boolean(dialogue.btnText) && (
-            <div className="companion-card-footer">
-              <button
-                type="button"
-                className="btn-primary companion-action-btn"
-                onClick={handleNextClick}
-              >
-                <span>{dialogue.btnText}</span>
-              </button>
-            </div>
-          )}
-        </aside>
-      )}
+        {/* Notes & Hints Callouts */}
+        {(dialogue.note || dialogue.hint) && (
+          <div className="companion-callouts-box">
+            {dialogue.note && (
+              <div className="companion-note-item">
+                <span className="callout-icon">📝</span>
+                <div className="callout-text">
+                  <strong>{dialogue.noteTitle || 'Standard Note'}:</strong> {dialogue.note}
+                </div>
+              </div>
+            )}
+            {dialogue.hint && (
+              <div className="companion-hint-item">
+                <span className="callout-icon">💡</span>
+                <div className="callout-text">
+                  <strong>Lab Hint:</strong> {dialogue.hint}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Action / Next Stage Button */}
+        {!dialogue.hideButton && Boolean(dialogue.btnText) && (
+          <div className="companion-card-footer">
+            <button
+              type="button"
+              className="btn-primary companion-action-btn"
+              onClick={handleNextClick}
+            >
+              <span>{dialogue.btnText}</span>
+            </button>
+          </div>
+        )}
+      </aside>
     </div>
   );
 };

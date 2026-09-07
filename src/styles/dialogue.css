@@ -57,6 +57,33 @@
     0 8px 20px rgba(245, 158, 11, 0.35);
 }
 
+.floating-companion-btn.has-unread {
+  border-color: #f59e0b;
+  border-bottom-color: #d97706;
+  box-shadow:
+    0 5px 0 #b45309,
+    0 0 0 3px rgba(245, 158, 11, 0.35),
+    0 10px 24px rgba(245, 158, 11, 0.45);
+  animation: unreadPulse 2.2s infinite ease-in-out;
+}
+
+@keyframes unreadPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 5px 0 #b45309,
+      0 0 0 3px rgba(245, 158, 11, 0.35),
+      0 10px 24px rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 6px 0 #b45309,
+      0 0 0 7px rgba(245, 158, 11, 0.2),
+      0 12px 28px rgba(245, 158, 11, 0.55);
+  }
+}
+
 .companion-avatar-frame {
   position: relative;
   width: 52px;
@@ -179,21 +206,57 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  pointer-events: auto;
-  animation: popoverSpringIn 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-origin: bottom left;
   overflow-y: auto;
   box-sizing: border-box;
+  will-change: transform, opacity, visibility;
 }
 
-@keyframes popoverSpringIn {
+/* Open State Animation: Spring pop from bottom-left avatar */
+.companion-popover-card.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1) translate3d(0, 0, 0);
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear;
+}
+
+/* Closed State Animation: Smoothly shrinks back down into the avatar */
+.companion-popover-card.is-closed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.65) translate3d(-10px, 20px, 0);
+  transition:
+    transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0.22s;
+}
+
+/* Smooth internal stagger when opening */
+.companion-popover-card.is-open .companion-speech-content {
+  animation: companionItemSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both 0.04s;
+}
+
+.companion-popover-card.is-open .companion-callouts-box {
+  animation: companionItemSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both 0.08s;
+}
+
+.companion-popover-card.is-open .companion-card-footer {
+  animation: companionItemSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both 0.12s;
+}
+
+@keyframes companionItemSlideIn {
   from {
     opacity: 0;
-    transform: scale(0.85) translateY(20px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translateY(0);
   }
 }
 
