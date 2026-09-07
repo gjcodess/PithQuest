@@ -163,7 +163,6 @@ export const MinigameInspection = ({
       {/* Progress & Item Quick-Selector Bar */}
       <div className="inspection-header-row">
         <div className="inspection-title-box">
-          <span className="mode-badge">{mode === 'tools' ? '🛠️ Equipment Clearance' : '🥥 Ingredient Clearance'}</span>
           <h3 className="item-target-title">Target: {currentItem?.name}</h3>
         </div>
         <div className="inspection-counter">

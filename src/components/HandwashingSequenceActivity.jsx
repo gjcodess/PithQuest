@@ -381,19 +381,20 @@ export const HandwashingSequenceActivity = ({
   return (
     <div className="handwash-sequence-container">
       {/* Header Info & Progress */}
-      <div className="hw-sequence-header">
-        <div className="hw-sequence-titles">
-          <h3 className="hw-title">Arrange the 7 Sanitary Handwashing Steps in Order</h3>
-          <p className="hw-subtitle">
-            {isLocked
-              ? '🔒 Pre-Test Completed: Review your submitted handwashing sequence below.'
-              : 'Drag steps between slots to reorder live, or tap to swap! Beware of 3 hazardous distractor practices.'}
-          </p>
+      <div className="inspection-header-row">
+        <div className="inspection-title-box">
+          <h3 className="item-target-title">Target: 7-Step Handwashing Sequence</h3>
         </div>
-        <div className="hw-count-badge">
-          <span>{isLocked ? '🔒 Submitted' : `${filledCount}/7 Steps Assigned`}</span>
+        <div className="inspection-counter">
+          Assigned: {filledCount} / 7 Steps
         </div>
       </div>
+
+      <p className="inspection-prompt">
+        {isLocked
+          ? 'Review your submitted handwashing sequence below:'
+          : 'Drag steps between slots to reorder live, or tap to swap! Beware of 3 hazardous distractor practices:'}
+      </p>
 
       {/* Target Slots (1 to 7) with Live Interactive Reordering */}
       <div className="hw-slots-grid">

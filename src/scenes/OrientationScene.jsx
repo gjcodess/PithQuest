@@ -248,11 +248,63 @@ export const OrientationScene = () => {
     }
   };
 
+  const handleNavigatePhase = (targetPhase) => {
+    soundManager.playClick();
+    if (isAlreadyCompleted) {
+      setPhase(targetPhase);
+      return;
+    }
+
+    if (targetPhase === 'sanitation' && !ppeDone) {
+      soundManager.playError();
+      showToast('Task Locked', 'Please complete Task 1: PPE Attire Selection first!', 'warning');
+      return;
+    }
+    if (targetPhase === 'tool_inspection' && !handwashingDone) {
+      soundManager.playError();
+      showToast('Task Locked', 'Please complete Task 2: Handwashing Sequence first!', 'warning');
+      return;
+    }
+    if (targetPhase === 'ingredient_inspection' && !toolSafetyDone) {
+      soundManager.playError();
+      showToast('Task Locked', 'Please complete Task 3: Tool & Equipment Safety Inspection first!', 'warning');
+      return;
+    }
+
+    setPhase(targetPhase);
+  };
+
   const handleIngredientComplete = (answersList) => {
     setQualityInspectionDone(true);
     setIngredientAnswers(answersList);
 
     if (!isAlreadyCompleted) {
+      // Validate all 4 pre-test tasks before completing orientation
+      if (!ppeDone || selectedPpeCount === 0) {
+        soundManager.playError();
+        showToast('Incomplete Pre-Test', 'Please complete Task 1: PPE Attire Selection first!', 'warning');
+        setPhase('ppe');
+        return;
+      }
+      if (!handwashingDone || (handwashData?.slots?.filter(Boolean).length < 7)) {
+        soundManager.playError();
+        showToast('Incomplete Pre-Test', 'Please complete Task 2: Handwashing Sequence first!', 'warning');
+        setPhase('sanitation');
+        return;
+      }
+      if (!toolSafetyDone || toolAnswers.length < TOOL_INSPECTION_ITEMS.length) {
+        soundManager.playError();
+        showToast('Incomplete Pre-Test', 'Please complete Task 3: Tool & Equipment Safety Inspection first!', 'warning');
+        setPhase('tool_inspection');
+        return;
+      }
+      if (answersList.length < INGREDIENT_INSPECTION_ITEMS.length) {
+        soundManager.playError();
+        showToast('Incomplete Inspection', `Please inspect all ${INGREDIENT_INSPECTION_ITEMS.length} ingredients!`, 'warning');
+        return;
+      }
+
+      // All 4 tasks successfully completed
       recordPreTestIngredient(answersList);
       soundManager.playFanfare();
       completeMission('orientation');
@@ -285,50 +337,48 @@ export const OrientationScene = () => {
     <div className="workstation-scene orientation-scene">
       <div className="workstation-overlay" />
 
-      {/* Sub-phase navigation indicator */}
+      {/* Sub-phase navigation indicator with sequential lock states */}
       <div className="orientation-subnav-container">
         <nav className="orientation-subnav" aria-label="Laboratory Pre-Test Stages">
+          {/* 1. PPE Attire */}
           <button
             className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${ppeDone ? 'completed' : ''}`}
-            onClick={() => {
-              soundManager.playClick();
-              setPhase('ppe');
-            }}
+            onClick={() => handleNavigatePhase('ppe')}
           >
             <span className="subnav-pill-icon">🥼</span>
             <span className="subnav-pill-label">1. PPE Attire</span>
             {ppeDone && <span className="subnav-pill-check">✓</span>}
           </button>
+
+          {/* 2. Handwashing */}
           <button
-            className={`subnav-pill ${phase === 'sanitation' ? 'active' : ''} ${handwashingDone ? 'completed' : ''}`}
-            onClick={() => {
-              soundManager.playClick();
-              setPhase('sanitation');
-            }}
+            className={`subnav-pill ${phase === 'sanitation' ? 'active' : ''} ${handwashingDone ? 'completed' : ''} ${!isAlreadyCompleted && !ppeDone ? 'locked' : ''}`}
+            onClick={() => handleNavigatePhase('sanitation')}
+            title={!isAlreadyCompleted && !ppeDone ? 'Complete Task 1: PPE Attire first' : undefined}
           >
-            <span className="subnav-pill-icon">🧼</span>
+            <span className="subnav-pill-icon">{!isAlreadyCompleted && !ppeDone ? '🔒' : '🧼'}</span>
             <span className="subnav-pill-label">2. Handwashing</span>
             {handwashingDone && <span className="subnav-pill-check">✓</span>}
           </button>
+
+          {/* 3. Tool Safety */}
           <button
-            className={`subnav-pill ${phase === 'tool_inspection' ? 'active' : ''} ${toolSafetyDone ? 'completed' : ''}`}
-            onClick={() => {
-              soundManager.playClick();
-              setPhase('tool_inspection');
-            }}
+            className={`subnav-pill ${phase === 'tool_inspection' ? 'active' : ''} ${toolSafetyDone ? 'completed' : ''} ${!isAlreadyCompleted && !handwashingDone ? 'locked' : ''}`}
+            onClick={() => handleNavigatePhase('tool_inspection')}
+            title={!isAlreadyCompleted && !handwashingDone ? 'Complete Task 2: Handwashing first' : undefined}
           >
-            <span className="subnav-pill-icon">🔍</span>
+            <span className="subnav-pill-icon">{!isAlreadyCompleted && !handwashingDone ? '🔒' : '🔍'}</span>
             <span className="subnav-pill-label">3. Tool Safety</span>
             {toolSafetyDone && <span className="subnav-pill-check">✓</span>}
           </button>
+
+          {/* 4. Quality Inspection */}
           <button
-            className={`subnav-pill ${phase === 'ingredient_inspection' ? 'active' : ''} ${qualityInspectionDone ? 'completed' : ''}`}
-            onClick={() => {
-              soundManager.playClick();
-              setPhase('ingredient_inspection');
-            }}
+            className={`subnav-pill ${phase === 'ingredient_inspection' ? 'active' : ''} ${qualityInspectionDone ? 'completed' : ''} ${!isAlreadyCompleted && !toolSafetyDone ? 'locked' : ''}`}
+            onClick={() => handleNavigatePhase('ingredient_inspection')}
+            title={!isAlreadyCompleted && !toolSafetyDone ? 'Complete Task 3: Tool Safety first' : undefined}
           >
-            <span className="subnav-pill-icon">🥥</span>
+            <span className="subnav-pill-icon">{!isAlreadyCompleted && !toolSafetyDone ? '🔒' : '🥥'}</span>
             <span className="subnav-pill-label">4. Quality Inspection</span>
             {qualityInspectionDone && <span className="subnav-pill-check">✓</span>}
           </button>
@@ -343,14 +393,23 @@ export const OrientationScene = () => {
             <div className="vessel-header">
               <span className="vessel-title">Personal Protective Equipment (PPE) Selection</span>
               <span className="vessel-badge">
-                {isAlreadyCompleted ? '🔒 Submitted' : `${selectedPpeCount} Selected`}
+                {isAlreadyCompleted ? '🔒 Submitted' : 'Task 1 of 4'}
               </span>
             </div>
             <div className="vessel-header-divider" />
 
-            <p className="vessel-desc">
+            <div className="inspection-header-row">
+              <div className="inspection-title-box">
+                <h3 className="item-target-title">Target: Standard Food Laboratory Attire</h3>
+              </div>
+              <div className="inspection-counter">
+                Selected: {selectedPpeCount} / {PPE_ITEMS.length}
+              </div>
+            </div>
+
+            <p className="inspection-prompt">
               {isAlreadyCompleted
-                ? 'Review the personal protective equipment you submitted for the diagnostic orientation pre-test below.'
+                ? 'Review the personal protective equipment you submitted for the diagnostic orientation pre-test below:'
                 : 'Select the protective items required for clean, sterile food preparation before entering the laboratory. Beware of non-approved or hazardous gear!'}
             </p>
 
@@ -366,8 +425,6 @@ export const OrientationScene = () => {
                     tabIndex={0}
                     style={{
                       cursor: isAlreadyCompleted ? 'default' : 'pointer',
-                      border: isSelected ? '3px solid #10b981' : '2px solid #e2d3c2',
-                      background: isSelected ? '#f0fdf4' : '#ffffff',
                     }}
                   >
                     <img
@@ -408,8 +465,8 @@ export const OrientationScene = () => {
                 {isAlreadyCompleted
                   ? 'Proceed to Handwashing Sequence ➔'
                   : selectedPpeCount === 0
-                  ? 'Select PPE Items to Proceed'
-                  : `Confirm PPE Attire (${selectedPpeCount} Selected) ➔`}
+                    ? 'Select PPE Items to Proceed'
+                    : `Confirm PPE Attire (${selectedPpeCount} Selected) ➔`}
               </button>
             </div>
           </div>
@@ -421,7 +478,9 @@ export const OrientationScene = () => {
             <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Sanitation Protocol</div>
             <div className="vessel-header">
               <span className="vessel-title">7-Step Sanitary Handwashing Sequence</span>
-              <span className="vessel-badge">7 Steps • 3 Distractors</span>
+              <span className="vessel-badge">
+                {isAlreadyCompleted ? '🔒 Submitted' : 'Task 2 of 4'}
+              </span>
             </div>
             <div className="vessel-header-divider" />
 
@@ -447,6 +506,7 @@ export const OrientationScene = () => {
               onAnswersChange={handleToolAnswersChange}
               onComplete={handleToolComplete}
               isLocked={isAlreadyCompleted}
+              mode="tools"
             />
           </div>
         )}
@@ -463,6 +523,7 @@ export const OrientationScene = () => {
               onAnswersChange={handleIngredientAnswersChange}
               onComplete={handleIngredientComplete}
               isLocked={isAlreadyCompleted}
+              mode="ingredients"
             />
           </div>
         )}
