@@ -118,6 +118,15 @@
     padding: 0 10px;
   }
 
+  .hud-brand-title {
+    font-size: 1.65rem;
+    padding: 2px 4px;
+  }
+
+  .hud-brand-divider {
+    height: 22px;
+  }
+
   .hud-btn .label {
     display: none; /* Show only icon on mobile */
   }
