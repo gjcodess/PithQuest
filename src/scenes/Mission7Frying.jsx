@@ -113,7 +113,6 @@ export const Mission7Frying = () => {
     if (stepIndex === 0 && (item.id === 'cooking_oil' || item.id === 'oil' || item.id === 'portion_oil_5cups' || item.id === 'ing_oil_fresh')) {
       soundManager.playPour();
       setFryStep(1);
-      addScore(25);
       setHoldingItem(null);
       showToast('Oil Poured!', 'Wok filled with 5 cups vegetable oil. Preheat burner', 'success');
       speak(
@@ -150,7 +149,6 @@ export const Mission7Frying = () => {
         setIsHeatingOil(false);
         setFryStep(2);
         soundManager.playSuccess();
-        addScore(20);
         showToast('Optimal Temperature Reached!', 'Oil ready at 180°C green zone', 'success');
         speak(
           'Step 20: Carefully fry the dehydrated ubod pieces for approximately 10 seconds or until they become crispy. Drop the dehydrated pellets into the hot oil!',
@@ -171,7 +169,6 @@ export const Mission7Frying = () => {
     setFryStep(3);
     setIsPuffing(true);
     setHoldingItem(null);
-    addScore(30);
     showToast('Chips Dropped!', 'Rapid steam expansion active! 10-second puff...', 'info');
 
     let progress = 0;
@@ -183,7 +180,6 @@ export const Mission7Frying = () => {
         setIsPuffing(false);
         setFryStep(4);
         soundManager.playSuccess();
-        addScore(35);
         showToast('Puffed to Perfection!', 'Glassy chips expanded 3x into golden crispy crackers', 'success');
         speak(
           'Step 21: Using tongs, remove the fried ubod crackers and transfer them to a colander to drain the excess oil.',
@@ -203,7 +199,6 @@ export const Mission7Frying = () => {
     soundManager.playClick();
     setFryStep(5);
     setHoldingItem(null);
-    addScore(20);
     showToast('Draining Oil...', 'Surface oil draining through paper towel lined colander', 'info');
     speak(
       'Step 22: Allow the crackers to cool completely before proceeding to the packaging stage. Select the Presentation Platter to arrange the crackers!',
@@ -221,7 +216,6 @@ export const Mission7Frying = () => {
     soundManager.playClick();
     setFryStep(6);
     setHoldingItem(null);
-    addScore(35);
     unlockBadge('puff_master', 'Aeration Expansion Master', '🍳');
     completeMission('mission7');
     showToast('Crackers Cooled!', 'Crisp, golden, and non-greasy', 'success');

@@ -82,7 +82,6 @@ export const Mission4Molding = () => {
     if (stepIndex === 0 && (item.id === 'dough_bowl' || item.id === 'dough_portion' || item.id === 'measuring_spoon')) {
       soundManager.playSuccess();
       setMoldStep(1);
-      addScore(25);
       setHoldingItem(null);
       showToast('Cavity Calibrated!', 'First cavity filled with 3 tsp portion', 'success');
       speak(
@@ -105,7 +104,6 @@ export const Mission4Molding = () => {
   const handleFillBatch = () => {
     soundManager.playFanfare();
     setMoldStep(2);
-    addScore(25);
     setHoldingItem(null);
     showToast('Batch Portioned!', 'All 24 cavities filled! Now level flat with spatula', 'success');
     speak(
@@ -138,7 +136,6 @@ export const Mission4Molding = () => {
       setIsLeveling(false);
       setMoldStep(3);
       soundManager.playSuccess();
-      addScore(50);
       unlockBadge('molding_master', 'Geometric Portioning Master', '🧈');
       completeMission('mission4');
       showToast('Mold Leveled!', 'All 24 rectangular cavities uniformly flat', 'success');

@@ -455,3 +455,12 @@
     bottom: 80px;
   }
 }
+
+@media print {
+  .floating-companion-wrapper,
+  .floating-companion-btn,
+  .companion-popover-card {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}

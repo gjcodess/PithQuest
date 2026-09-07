@@ -116,7 +116,6 @@ export const Mission5Steaming = () => {
     if (stepIndex === 0 && (item.id === 'steamer_water' || item.id === 'water_pitcher' || item.id === 'water' || item.id === 'portion_water_1cup')) {
       soundManager.playPour();
       setSteamerStep(1);
-      addScore(15);
       setHoldingItem(null);
       showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier', 'success');
       speak(
@@ -132,7 +131,6 @@ export const Mission5Steaming = () => {
     } else if (stepIndex === 1 && (item.id === 'perforated_tier' || item.id === 'steam_tier' || item.id === 'tier_perforated')) {
       soundManager.playClick();
       setSteamerStep(2);
-      addScore(15);
       setHoldingItem(null);
       showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray', 'success');
       speak(
@@ -148,7 +146,6 @@ export const Mission5Steaming = () => {
     } else if (stepIndex === 2 && (item.id === 'molded_tray' || item.id === 'molded_ubod' || item.id === 'molder_completely_filled')) {
       soundManager.playClick();
       setSteamerStep(3);
-      addScore(20);
       setHoldingItem(null);
       showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam', 'success');
       speak(
@@ -191,7 +188,6 @@ export const Mission5Steaming = () => {
         setIsSteaming(false);
         setSteamerStep(5);
         soundManager.playSuccess();
-        addScore(30);
         showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set', 'success');
         speak(
           'Step 15: Allow the molded ubod pieces to cool before transferring them to the dehydrator trays. Don your silicone heat mitts and transfer the hot mold to the cooling rack!',
@@ -211,7 +207,6 @@ export const Mission5Steaming = () => {
     soundManager.playClick();
     setSteamerStep(6);
     setHoldingItem(null);
-    addScore(20);
     unlockBadge('steam_artisan', 'Gelatinization Specialist', '♨️');
     completeMission('mission5');
     showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts', 'success');

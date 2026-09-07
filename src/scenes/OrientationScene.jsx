@@ -187,16 +187,19 @@ export const OrientationScene = () => {
         reason: i.reason,
       }));
 
+      const ppeScore = Math.max(0, Math.round((correctSelected.length / (correctItems.length || 6)) * 25 - (distractorsPicked.length * 5)));
+
       recordPreTestPpe({
         selectedIds,
         correctIds: correctItems.map((i) => i.id),
         correctSelected,
         distractorsPicked,
         totalCorrect: correctItems.length,
-        score: correctSelected.length * 10,
+        score: ppeScore,
+        maxPts: 25,
       });
 
-      showToast('PPE Recorded', `${selectedIds.length} item(s) selected for diagnostic assessment`, 'info');
+      showToast('Task 1 Recorded!', `PPE Attire: ${ppeScore}/25 pts earned (${selectedIds.length} items selected)`, 'info');
     }
 
     setPhase('sanitation');
@@ -215,8 +218,19 @@ export const OrientationScene = () => {
     setHandwashData(data);
 
     if (!isAlreadyCompleted) {
-      recordPreTestHandwash(data);
-      showToast('Handwashing Recorded', 'Sequence logged for diagnostic evaluation', 'info');
+      const hwSlots = Array.isArray(data?.slots) ? data.slots : [];
+      const hwCorrectCount = hwSlots.filter((s, idx) => s && s.isCorrect && s.step === idx + 1).length;
+      const hwDistractorsCount = hwSlots.filter((s) => s && !s.isCorrect).length;
+      const hwScore = Math.max(0, Math.round((hwCorrectCount / 7) * 25 - (hwDistractorsCount * 5)));
+
+      const enhancedData = {
+        ...data,
+        score: hwScore,
+        maxPts: 25,
+      };
+
+      recordPreTestHandwash(enhancedData);
+      showToast('Task 2 Recorded!', `Handwashing: ${hwScore}/25 pts earned (${hwCorrectCount}/7 correct)`, 'info');
     }
 
     setPhase('tool_inspection');
@@ -234,8 +248,11 @@ export const OrientationScene = () => {
     setToolSafetyDone(true);
     setToolAnswers(answersList);
     if (!isAlreadyCompleted) {
+      const toolSafeCount = answersList.filter((t) => t && t.isSafe).length;
+      const toolScore = Math.round((toolSafeCount / (TOOL_INSPECTION_ITEMS.length || 6)) * 25);
+
       recordPreTestTool(answersList);
-      showToast('Tool Safety Recorded!', 'Proceeding to Ingredient Inspection', 'success');
+      showToast('Task 3 Recorded!', `Tool Safety: ${toolScore}/25 pts earned (${toolSafeCount}/6 safe)`, 'info');
     }
     setPhase('ingredient_inspection');
   };
@@ -306,9 +323,30 @@ export const OrientationScene = () => {
 
       // All 4 tasks successfully completed
       recordPreTestIngredient(answersList);
+
+      // Calculate Pre-Test Score (100 pts total / 25 pts per task)
+      const ppeSelectedIds = Object.entries(ppeEquipped).filter(([, v]) => Boolean(v)).map(([k]) => k);
+      const ppeCorrectCount = ppeSelectedIds.filter((id) => PPE_ITEMS.find((item) => item.id === id)?.isCorrect).length;
+      const ppeDistractorsCount = ppeSelectedIds.filter((id) => !PPE_ITEMS.find((item) => item.id === id)?.isCorrect).length;
+      const ppeScore = Math.max(0, Math.round((ppeCorrectCount / 6) * 25 - (ppeDistractorsCount * 5)));
+
+      const hwSlots = Array.isArray(handwashData?.slots) ? handwashData.slots : [];
+      const hwCorrectCount = hwSlots.filter((s, idx) => s && s.isCorrect && s.step === idx + 1).length;
+      const hwDistractorsCount = hwSlots.filter((s) => s && !s.isCorrect).length;
+      const hwScore = Math.max(0, Math.round((hwCorrectCount / 7) * 25 - (hwDistractorsCount * 5)));
+
+      const toolSafeCount = toolAnswers.filter((t) => t && t.isSafe).length;
+      const toolScore = Math.round((toolSafeCount / (TOOL_INSPECTION_ITEMS.length || 6)) * 25);
+
+      const ingredientSafeCount = answersList.filter((i) => i && i.isSafe).length;
+      const ingredientScore = Math.round((ingredientSafeCount / (INGREDIENT_INSPECTION_ITEMS.length || 4)) * 25);
+
+      const totalPreTestScore = ppeScore + hwScore + toolScore + ingredientScore;
+      addScore(totalPreTestScore);
+
       soundManager.playFanfare();
       completeMission('orientation');
-      showToast('Pre-Test Complete!', 'Entering Stage 1: Washing & Boiling Laboratory', 'success');
+      showToast('Pre-Test Complete!', `Score: ${totalPreTestScore}/100 pts. Entering Stage 1: Washing & Boiling`, 'success');
 
       speak(
         `Pre-Test Completed, ${studentName || 'Food Technologist'}! All your baseline diagnostic answers have been recorded. You are now entering Stage 1: Washing & Boiling!`,

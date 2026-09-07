@@ -17,20 +17,27 @@ export const ResultsSidebar = () => {
   const ppeAudit = assessmentResults?.preTest?.ppe;
   const ppeCorrectCount = Array.isArray(ppeAudit?.correctSelected) ? ppeAudit.correctSelected.length : 6;
   const ppeDistractors = Array.isArray(ppeAudit?.distractorsPicked) ? ppeAudit.distractorsPicked.length : 0;
+  const ppeScore = ppeAudit?.score !== undefined ? ppeAudit.score : Math.max(0, Math.round((ppeCorrectCount / 6) * 25 - (ppeDistractors * 5)));
 
   const handwashAudit = assessmentResults?.preTest?.handwashing;
-  const handwashCorrect = (Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : []).filter(
+  const handwashSubmitted = Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : [];
+  const handwashDistractors = Array.isArray(handwashAudit?.distractorsIncluded) ? handwashAudit.distractorsIncluded.length : 0;
+  const handwashCorrect = handwashSubmitted.filter(
     (s, idx) => s && s.isCorrect && s.step === idx + 1
   ).length;
+  const handwashScore = handwashAudit?.score !== undefined ? handwashAudit.score : Math.max(0, Math.round((handwashCorrect / 7) * 25 - (handwashDistractors * 5)));
 
   const toolAudit = Array.isArray(assessmentResults?.preTest?.toolSafety) ? assessmentResults.preTest.toolSafety : [];
   const toolSafeCount = toolAudit.filter((t) => t?.isSafe).length;
+  const toolScore = Math.round((toolSafeCount / 6) * 25);
 
   const ingredientAudit = Array.isArray(assessmentResults?.preTest?.qualityInspection) ? assessmentResults.preTest.qualityInspection : [];
   const ingredientSafeCount = ingredientAudit.filter((i) => i?.isSafe).length;
+  const ingredientScore = Math.round((ingredientSafeCount / 4) * 25);
 
   const sequenceAudit = assessmentResults?.postTest?.sequencing;
   const sequenceCorrectCount = sequenceAudit?.correctCount ?? (sequenceAudit?.isCorrect ? 8 : 8);
+  const sequenceScore = Math.round(sequenceCorrectCount * 12.5);
 
   if (isInventoryCollapsed) {
     return (
@@ -100,8 +107,10 @@ export const ResultsSidebar = () => {
           <div
             className="drag-card horizontal-item-card"
             style={{
-              borderColor: '#d97706',
-              background: 'linear-gradient(135deg, #3d2311 0%, #29160a 100%)',
+              borderColor: '#f59e0b',
+              borderBottom: '4px solid #d97706',
+              background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+              boxShadow: '0 2px 0 #d97706',
             }}
           >
             <div className="card-icon-col">
@@ -109,15 +118,15 @@ export const ResultsSidebar = () => {
             </div>
             <div className="card-info-col">
               <div className="card-title-row">
-                <span className="card-title" style={{ color: '#fef08a' }}>
+                <span className="card-title" style={{ color: '#78350f', fontWeight: 800 }}>
                   {studentName || 'Candidate'}
                 </span>
-                <span className="card-measure">
+                <span className="card-measure" style={{ color: '#92400e', fontWeight: 800 }}>
                   {stars === 3 ? '⭐⭐⭐' : stars === 2 ? '⭐⭐' : '⭐'}
                 </span>
               </div>
-              <p className="card-desc-text" style={{ color: '#fde68a' }}>
-                Total Score: <strong>{score} pts</strong> • Status: <strong>Assessed</strong>
+              <p className="card-desc-text" style={{ color: '#854d0e', fontWeight: 600 }}>
+                Total Score: <strong style={{ color: '#78350f' }}>{score} / 200 pts</strong> • Pre & Post-Tests
               </p>
             </div>
           </div>
@@ -131,13 +140,13 @@ export const ResultsSidebar = () => {
               <div className="card-title-row">
                 <span className="card-title">Pre-Test PPE Attire</span>
                 <span className="card-measure">
-                  {ppeDistractors === 0 ? `${ppeCorrectCount}/6 PASSED` : `${ppeDistractors} HAZARD`}
+                  {ppeScore}/25 PTS
                 </span>
               </div>
               <p className="card-desc-text">
                 {ppeDistractors === 0
-                  ? 'All 6 food-grade barriers verified without contamination.'
-                  : 'Distractor attire flagged during pre-test diagnostic.'}
+                  ? `${ppeCorrectCount}/6 required gear selected • 0 hazards`
+                  : `${ppeDistractors} hazard(s) flagged during pre-test`}
               </p>
             </div>
           </div>
@@ -150,10 +159,10 @@ export const ResultsSidebar = () => {
             <div className="card-info-col">
               <div className="card-title-row">
                 <span className="card-title">Handwashing Sequence</span>
-                <span className="card-measure">{handwashCorrect}/7 STEPS</span>
+                <span className="card-measure">{handwashScore}/25 PTS</span>
               </div>
               <p className="card-desc-text">
-                Chronological hygiene flow from wet to soap scrub to clean dry.
+                {handwashCorrect}/7 hygiene steps ordered • {handwashScore} pts
               </p>
             </div>
           </div>
@@ -167,11 +176,11 @@ export const ResultsSidebar = () => {
               <div className="card-title-row">
                 <span className="card-title">Tool & Raw Material QC</span>
                 <span className="card-measure">
-                  {toolSafeCount + ingredientSafeCount}/10 INSPECTED
+                  {toolScore + ingredientScore}/50 PTS
                 </span>
               </div>
               <p className="card-desc-text">
-                Sanitary equipment selection and fresh coconut pith grading.
+                Tools: {toolScore}/25 pts • Ingredients: {ingredientScore}/25 pts
               </p>
             </div>
           </div>
@@ -184,10 +193,10 @@ export const ResultsSidebar = () => {
             <div className="card-info-col">
               <div className="card-title-row">
                 <span className="card-title">Post-Test Pipeline</span>
-                <span className="card-measure">{sequenceCorrectCount}/8 STAGES</span>
+                <span className="card-measure">{sequenceScore}/100 PTS</span>
               </div>
               <p className="card-desc-text">
-                8-Stage coconut pith processing lifecycle order validation.
+                {sequenceCorrectCount}/8 stages correctly positioned • {sequenceScore} pts
               </p>
             </div>
           </div>

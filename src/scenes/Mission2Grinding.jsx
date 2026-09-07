@@ -105,7 +105,6 @@ export const Mission2Grinding = () => {
     if (stepIndex === 0 && item.id === 'boiled_ubod') {
       soundManager.playPour();
       setProcessorStep(1);
-      addScore(25);
       showToast('Boiled Ubod Loaded!', 'Now add salt according to client ratio (1 tsp per cup).', 'success');
       speak(
         'Great! Now add 1 teaspoon of Pure Sea Salt from your inventory into the processor bowl (1 tsp per 1 cup ubod).',
@@ -120,7 +119,6 @@ export const Mission2Grinding = () => {
     } else if (stepIndex === 1 && (item.id === 'salt_portion' || item.id === 'salt')) {
       soundManager.playClick();
       setProcessorStep(2);
-      addScore(25);
       showToast('Salt Added!', 'Ingredients loaded. Now lock the safety lid to engage the interlock.', 'success');
       speak(
         'Ingredients loaded! Now align and lock the transparent safety lid onto the bowl to engage the motor safety interlock.',
@@ -141,7 +139,6 @@ export const Mission2Grinding = () => {
     soundManager.playClick();
     soundManager.playSuccess();
     setIsLidLocked(true);
-    addScore(15);
     showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready!', 'success');
     speak(
       'Step 9: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
@@ -178,7 +175,6 @@ export const Mission2Grinding = () => {
         setIsBlending(false);
         setProcessorStep(4);
         soundManager.playSuccess();
-        addScore(30);
         showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste', 'success');
         speak(
           'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Pick up the red silicone spatula to scrape!',
@@ -213,7 +209,6 @@ export const Mission2Grinding = () => {
       setIsScraping(false);
       soundManager.playSuccess();
       setProcessorStep(5);
-      addScore(30);
       unlockBadge('puree_artisan', 'Micro-Fiber Milling Artisan', '⚙️');
       completeMission('mission2');
       showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl', 'success');

@@ -64,6 +64,46 @@ const STAGE_SCIENCE_FACTS = [
   },
 ];
 
+const ASSESSMENT_SCORING_RUBRIC = [
+  {
+    stage: 'Pre-Test Task 1: PPE Attire Selection',
+    icon: '🥼',
+    activities: '6 food-grade protective barriers identified & hazardous attire avoided',
+    maxPts: 25,
+  },
+  {
+    stage: 'Pre-Test Task 2: Sanitary Handwashing Sequence',
+    icon: '🧼',
+    activities: 'WHO 7-step chronological hygiene order without cross-contamination',
+    maxPts: 25,
+  },
+  {
+    stage: 'Pre-Test Task 3: Tool & Equipment Safety Inspection',
+    icon: '🔍',
+    activities: 'Sanitary blades, intact cords, food-grade materials & undamaged appliances',
+    maxPts: 25,
+  },
+  {
+    stage: 'Pre-Test Task 4: Raw Material Quality Inspection',
+    icon: '🥥',
+    activities: 'Fresh coconut pith, unexpired rice flour, pure sea salt & fresh oil',
+    maxPts: 25,
+  },
+  {
+    stage: 'Interactive Lessons (Stages 1–8)',
+    icon: '🎓',
+    activities: 'Hands-on practical manufacturing simulations & SOP training (Interactive Lesson)',
+    maxPts: 0,
+    isLesson: true,
+  },
+  {
+    stage: 'Post-Test Task 5: Manufacturing Stage Sequencing',
+    icon: '🔄',
+    activities: 'Chronological reconstruction of the authentic 8-stage manufacturing lifecycle (12.5 pts × 8)',
+    maxPts: 100,
+  },
+];
+
 export const ResultsScene = () => {
   const {
     studentName,
@@ -115,22 +155,83 @@ export const ResultsScene = () => {
   const ppeDistractors = Array.isArray(ppeAudit?.distractorsPicked) ? ppeAudit.distractorsPicked : [];
   const ppeCorrectSelected = Array.isArray(ppeAudit?.correctSelected) ? ppeAudit.correctSelected : [];
   const ppeTotalCorrect = ppeAudit?.totalCorrect || 6;
+  const ppeScore = ppeAudit?.score !== undefined ? ppeAudit.score : Math.max(0, Math.round((ppeCorrectSelected.length / (ppeTotalCorrect || 6)) * 25 - (ppeDistractors.length * 5)));
 
   // Pre-Test Handwashing Audit Data
   const handwashAudit = assessmentResults?.preTest?.handwashing;
   const handwashSubmitted = Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : [];
   const handwashDistractors = Array.isArray(handwashAudit?.distractorsIncluded) ? handwashAudit.distractorsIncluded : [];
+  const hwCorrectCount = handwashSubmitted.filter((s, idx) => s && s.isCorrect && s.step === idx + 1).length;
+  const handwashScore = handwashAudit?.score !== undefined ? handwashAudit.score : Math.max(0, Math.round((hwCorrectCount / 7) * 25 - (handwashDistractors.length * 5)));
 
   // Pre-Test Tools Audit Data
   const toolAudit = Array.isArray(assessmentResults?.preTest?.toolSafety) ? assessmentResults.preTest.toolSafety : [];
+  const toolSafeCount = toolAudit.filter((t) => t?.isSafe).length;
+  const toolScore = Math.round((toolSafeCount / (TOOL_INSPECTION_ITEMS.length || 6)) * 25);
 
   // Pre-Test Ingredients Audit Data
   const ingredientAudit = Array.isArray(assessmentResults?.preTest?.qualityInspection) ? assessmentResults.preTest.qualityInspection : [];
+  const ingredientSafeCount = ingredientAudit.filter((i) => i?.isSafe).length;
+  const ingredientScore = Math.round((ingredientSafeCount / (INGREDIENT_INSPECTION_ITEMS.length || 4)) * 25);
 
   // Post-Test Sequencing Audit Data
   const sequenceAudit = assessmentResults?.postTest?.sequencing;
   const sequenceSubmitted = Array.isArray(sequenceAudit?.submittedItems) ? sequenceAudit.submittedItems : [];
   const sequenceCorrectCount = sequenceAudit?.correctCount ?? (sequenceAudit?.isCorrect ? 8 : 0);
+  const sequenceScore = Math.round(sequenceCorrectCount * 12.5);
+
+  // Dynamic Itemized Scoring Breakdown
+  const scoringBreakdown = [
+    {
+      task: 'Pre-Test Task 1: PPE Attire Selection',
+      icon: '🥼',
+      criteria: '6 food-grade protective barriers identified & hazardous attire avoided',
+      earnedPts: ppeScore,
+      maxPts: 25,
+      detail: `${ppeCorrectSelected.length}/${ppeTotalCorrect} items (${ppeDistractors.length} hazards)`,
+    },
+    {
+      task: 'Pre-Test Task 2: Sanitary Handwashing Sequence',
+      icon: '🧼',
+      criteria: 'WHO 7-step chronological hygiene order without cross-contamination',
+      earnedPts: handwashScore,
+      maxPts: 25,
+      detail: `${hwCorrectCount}/7 steps (${handwashDistractors.length} hazards)`,
+    },
+    {
+      task: 'Pre-Test Task 3: Tool & Equipment Safety Inspection',
+      icon: '🔍',
+      criteria: 'Sanitary blades, intact cords, food-grade materials & undamaged appliances',
+      earnedPts: toolScore,
+      maxPts: 25,
+      detail: `${toolSafeCount}/${TOOL_INSPECTION_ITEMS.length || 6} safe tools selected`,
+    },
+    {
+      task: 'Pre-Test Task 4: Raw Material Quality Inspection',
+      icon: '🥥',
+      criteria: 'Fresh coconut pith, unexpired rice flour, pure sea salt & fresh oil',
+      earnedPts: ingredientScore,
+      maxPts: 25,
+      detail: `${ingredientSafeCount}/${INGREDIENT_INSPECTION_ITEMS.length || 4} fresh ingredients graded`,
+    },
+    {
+      task: 'Interactive Lessons (Stages 1–8)',
+      icon: '🎓',
+      criteria: 'Hands-on practical manufacturing simulations & SOP training (Interactive Lesson)',
+      earnedPts: 0,
+      maxPts: 0,
+      isLesson: true,
+      detail: '8 Practical Simulation Stages (0 pts)',
+    },
+    {
+      task: 'Post-Test Task 5: Manufacturing Stage Sequencing',
+      icon: '🔄',
+      criteria: 'Chronological reconstruction of the authentic 8-stage manufacturing lifecycle (12.5 pts × 8)',
+      earnedPts: sequenceScore,
+      maxPts: 100,
+      detail: `${sequenceCorrectCount}/8 stages correctly positioned`,
+    },
+  ];
 
   // Overall Performance Level
   const totalCorrectAssessments =
@@ -204,57 +305,148 @@ export const ResultsScene = () => {
         {/* Executive Summary Metrics Grid */}
         <div className="results-metrics-grid">
           <div className="res-metric-box">
-            <span className="res-metric-icon">⭐</span>
-            <h4>Total Assessment Score</h4>
-            <div className="res-score-highlight">{score} pts</div>
-            <p>Calculated across Pre-Test diagnostics, 8 lab stages, and Post-Test sequencing.</p>
+            <div className="res-metric-icon-box">
+              <span>⭐</span>
+            </div>
+            <h4>Total Score</h4>
+            <div className="res-score-highlight">{score} / 200 pts</div>
+            <p>Pre-Test ({ppeScore + handwashScore + toolScore + ingredientScore} pts) + Post-Test ({sequenceScore} pts)</p>
           </div>
 
           <div className="res-metric-box">
-            <span className="res-metric-icon">🥼</span>
-            <h4>Pre-Test PPE Attire</h4>
+            <div className="res-metric-icon-box">
+              <span>🥼</span>
+            </div>
+            <h4>Pre-Test PPE</h4>
             <div className="res-score-highlight">
-              {ppeCorrectSelected.length}/{ppeTotalCorrect} Standard Items
+              {ppeScore} / 25 pts
             </div>
             <p>
               {ppeDistractors.length === 0
-                ? 'Zero hazardous distractors selected. 100% sanitary compliance.'
-                : `${ppeDistractors.length} non-approved attire item(s) detected.`}
+                ? `${ppeCorrectSelected.length}/${ppeTotalCorrect} items • 100% compliant`
+                : `${ppeDistractors.length} non-approved attire item(s) flagged`}
             </p>
           </div>
 
           <div className="res-metric-box">
-            <span className="res-metric-icon">🧼</span>
-            <h4>Handwashing Sanitation</h4>
+            <div className="res-metric-icon-box">
+              <span>🧼</span>
+            </div>
+            <h4>Handwashing</h4>
             <div className="res-score-highlight">
-              {handwashSubmitted.filter((s, idx) => s.isCorrect && s.step === idx + 1).length}/7 Steps Ordered
+              {handwashScore} / 25 pts
             </div>
             <p>
               {handwashDistractors.length === 0
-                ? 'Standard WHO 7-step sequence maintained without cross-contamination.'
-                : `${handwashDistractors.length} cross-contamination hazard(s) flagged.`}
+                ? `${hwCorrectCount}/7 steps correctly ordered`
+                : `${handwashDistractors.length} cross-contamination hazard(s) flagged`}
             </p>
           </div>
 
           <div className="res-metric-box">
-            <span className="res-metric-icon">🔄</span>
+            <div className="res-metric-icon-box">
+              <span>🔄</span>
+            </div>
             <h4>Post-Test Sequencing</h4>
-            <div className="res-score-highlight">{sequenceCorrectCount}/8 Stages Correct</div>
-            <p>Manufacturing lifecycle from raw ubod boiling to hermetic carton packaging.</p>
+            <div className="res-score-highlight">{sequenceScore} / 100 pts</div>
+            <p>{sequenceCorrectCount}/8 stages correctly positioned (12.5 pts each)</p>
           </div>
         </div>
 
         {/* ========================================================================= */}
+        {/* SCORING RUBRIC & POINT BREAKDOWN SECTION */}
+        {/* ========================================================================= */}
+        <section className="results-section-card results-score-rubric-card">
+          <div className="section-card-header">
+            <div className="section-title-wrap">
+              <span className="section-num-badge">Score Breakdown</span>
+              <h3>Laboratory Scoring & Task Points Accumulated Breakdown</h3>
+            </div>
+            <span className="section-status-tag">
+              Total Score: {score} / 200 pts
+            </span>
+          </div>
+
+          <div className="audit-content-block">
+            <p className="audit-lead-text">
+              Detailed point accumulation per diagnostic pre-test task and post-test sequencing evaluation. Stages 1–8 are interactive guided lessons:
+            </p>
+
+            <div className="scoring-rubric-wrap">
+              <table className="rubric-table">
+                <thead>
+                  <tr>
+                    <th>Evaluation Module / Task</th>
+                    <th>Operating Criteria & Audit Details</th>
+                    <th style={{ textAlign: 'center', width: '130px' }}>Task Score</th>
+                    <th style={{ textAlign: 'right', width: '130px' }}>Max Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {scoringBreakdown.map((item, idx) => (
+                    <tr key={idx} className={item.isLesson ? 'rubric-lesson-row' : ''}>
+                      <td>
+                        <div className="rubric-stage-cell">
+                          <span className="rubric-stage-icon">{item.icon}</span>
+                          <div>
+                            <div>{item.task}</div>
+                            <small style={{ color: '#854d0e', fontWeight: 600 }}>{item.detail}</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{item.criteria}</td>
+                      <td style={{ textAlign: 'center' }}>
+                        {item.isLesson ? (
+                          <span className="rubric-pts-pill lesson-pill">Interactive Lesson</span>
+                        ) : (
+                          <span
+                            className="rubric-pts-pill"
+                            style={{
+                              background: item.earnedPts === item.maxPts ? '#dcfce7' : item.earnedPts > 0 ? '#fef3c7' : '#fee2e2',
+                              color: item.earnedPts === item.maxPts ? '#15803d' : item.earnedPts > 0 ? '#92400e' : '#b91c1c',
+                              borderColor: item.earnedPts === item.maxPts ? '#86efac' : item.earnedPts > 0 ? '#fde68a' : '#fca5a5',
+                              boxShadow: item.earnedPts === item.maxPts ? '0 2px 0 #bbf7d0' : item.earnedPts > 0 ? '0 2px 0 #fcd34d' : '0 2px 0 #fecaca',
+                            }}
+                          >
+                            {item.earnedPts} pts
+                          </span>
+                        )}
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <span style={{ fontWeight: 800, color: '#5c4228' }}>
+                          {item.isLesson ? '0 pts' : `/${item.maxPts} pts`}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="rubric-total-row">
+                    <td colSpan="2" style={{ textAlign: 'right', paddingRight: '20px' }}>
+                      <strong>Total Accumulated Assessment Score:</strong>
+                    </td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className="rubric-total-pts">{score} pts</span>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <span className="rubric-total-pts" style={{ color: '#5c4228' }}>/ 200 pts</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
         {/* SECTION 1: PRE-TEST PPE ATTIRE DIAGNOSTIC AUDIT */}
         {/* ========================================================================= */}
-        <section className="results-section-card">
+        <section className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
               <span className="section-num-badge">Pre-Test Task 1</span>
               <h3>Personal Protective Equipment (PPE) Diagnostic Audit</h3>
             </div>
             <span className="section-status-tag">
-              {ppeDistractors.length === 0 ? '✓ COMPLIANT' : '⚠️ HAZARDS FLAGGED'}
+              {ppeScore} / 25 pts • {ppeDistractors.length === 0 ? '✓ COMPLIANT' : '⚠️ HAZARDS FLAGGED'}
             </span>
           </div>
 
@@ -289,7 +481,7 @@ export const ResultsScene = () => {
 
                       <div className="ppe-audit-verdict">
                         {isCorrect && wasSelected && (
-                          <span className="verdict-good">✓ Correctly Equipped (+10 pts)</span>
+                          <span className="verdict-good">✓ Correctly Equipped (Required PPE)</span>
                         )}
                         {isCorrect && !wasSelected && (
                           <span className="verdict-warn">⚠️ Missed Required Gear (0 pts)</span>
@@ -312,14 +504,14 @@ export const ResultsScene = () => {
         {/* ========================================================================= */}
         {/* SECTION 2: PRE-TEST HANDWASHING PROTOCOL AUDIT */}
         {/* ========================================================================= */}
-        <section className="results-section-card">
+        <section className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
               <span className="section-num-badge">Pre-Test Task 2</span>
               <h3>Sanitary Handwashing 7-Step Sequence Audit</h3>
             </div>
             <span className="section-status-tag">
-              {handwashDistractors.length === 0 ? '✓ ZERO CONTAMINATION' : '⚠️ CROSS-CONTAMINATION DETECTED'}
+              {handwashScore} / 25 pts • {handwashDistractors.length === 0 && hwCorrectCount === 7 ? '✓ ZERO CONTAMINATION' : '⚠️ HAZARDS DETECTED'}
             </span>
           </div>
 
@@ -391,14 +583,14 @@ export const ResultsScene = () => {
         {/* ========================================================================= */}
         {/* SECTION 3: PRE-TEST TOOL & EQUIPMENT SAFETY AUDIT */}
         {/* ========================================================================= */}
-        <section className="results-section-card">
+        <section className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
               <span className="section-num-badge">Pre-Test Task 3</span>
               <h3>Laboratory Tool & Equipment Safety Inspection Audit</h3>
             </div>
             <span className="section-status-tag">
-              {toolAudit.filter((t) => t.isSafe).length}/{TOOL_INSPECTION_ITEMS.length || 6} Safe Choices
+              {toolScore} / 25 pts • {toolSafeCount}/{TOOL_INSPECTION_ITEMS.length || 6} Safe Choices
             </span>
           </div>
 
@@ -452,14 +644,14 @@ export const ResultsScene = () => {
         {/* ========================================================================= */}
         {/* SECTION 4: PRE-TEST INGREDIENT QUALITY INSPECTION AUDIT */}
         {/* ========================================================================= */}
-        <section className="results-section-card">
+        <section className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
               <span className="section-num-badge">Pre-Test Task 4</span>
               <h3>Raw Ingredient Quality & Spoilage Inspection Audit</h3>
             </div>
             <span className="section-status-tag">
-              {ingredientAudit.filter((i) => i.isSafe).length}/{INGREDIENT_INSPECTION_ITEMS.length || 4} Fresh Choices
+              {ingredientScore} / 25 pts • {ingredientSafeCount}/{INGREDIENT_INSPECTION_ITEMS.length || 4} Fresh Choices
             </span>
           </div>
 
@@ -513,14 +705,14 @@ export const ResultsScene = () => {
         {/* ========================================================================= */}
         {/* SECTION 5: POST-TEST MANUFACTURING SEQUENCE & FOOD SCIENCE AUDIT */}
         {/* ========================================================================= */}
-        <section className="results-section-card">
+        <section className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
               <span className="section-num-badge">Post-Test Task 5</span>
               <h3>Manufacturing Lifecycle Sequence & Food Science Principles</h3>
             </div>
             <span className="section-status-tag">
-              {sequenceCorrectCount}/8 Stages Correctly Positioned
+              {sequenceScore} / 100 pts • {sequenceCorrectCount}/8 Correctly Positioned
             </span>
           </div>
 
@@ -573,13 +765,13 @@ export const ResultsScene = () => {
         {/* Action Controls */}
         <div className="results-actions-bar">
           <button className="btn-gold btn-print-report" onClick={handlePrint}>
-            <span>🖨️ Print / Save Comprehensive Audit Report (PDF)</span>
+            <span>Print / Save Comprehensive Audit Report (PDF)</span>
           </button>
           <button className="btn-primary" onClick={() => setScene('sequencing')}>
-            <span>🔄 Retake Post-Test Sequence</span>
+            <span>Retake Post-Test Sequence</span>
           </button>
           <button className="btn-secondary" onClick={resetGame}>
-            <span>🥥 Process New Laboratory Batch</span>
+            <span>Process New Laboratory Batch</span>
           </button>
         </div>
 

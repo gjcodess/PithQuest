@@ -506,19 +506,9 @@
 }
 
 @media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .certificate-wrapper,
-  .certificate-wrapper * {
+  .evaluation-scene .certificate-wrapper {
     visibility: visible;
-  }
-
-  .certificate-wrapper {
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: relative;
     width: 100%;
     box-shadow: none;
     border: none;

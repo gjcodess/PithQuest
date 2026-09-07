@@ -114,7 +114,6 @@ export const Mission1Prep = () => {
     soundManager.playPour();
     setIsUbodInColander(true);
     setHoldingItem(null);
-    addScore(15);
     showToast('Loaded into Colander!', 'Raw ubod placed in colander. Now turn on faucet to rinse!', 'success');
     speak(
       'Great! Raw coconut pith is loaded into the colander. Now click or turn the cross handle on the faucet knob on the washing console to rinse under running water!',
@@ -137,7 +136,6 @@ export const Mission1Prep = () => {
       setIsWashingActive(false);
       setIsWashed(true);
       soundManager.playSuccess();
-      addScore(20);
       showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean under running faucet', 'success');
       speak(
         'Step 2: After washing, transfer the ubod to a pan/stockpot. Pick up the Washed Ubod from your inventory and transfer it into the pot!',
@@ -156,7 +154,6 @@ export const Mission1Prep = () => {
     if (stepIndex === 0 && item.id === 'washed_ubod') {
       soundManager.playPour();
       setPotStep(1);
-      addScore(20);
       showToast('Ubod Added!', 'Now pour clean potable water to submerge the ubod.', 'success');
       speak(
         'Step 3: Add water to the pan with the ubod. Pick up the Potable Water from your inventory and pour until submerged.',
@@ -171,7 +168,6 @@ export const Mission1Prep = () => {
     } else if (stepIndex === 1 && (item.id === 'water_pitcher' || item.id === 'water')) {
       soundManager.playPour();
       setPotStep(2);
-      addScore(20);
       showToast('Water Added!', 'Now add Sea Salt to season and regulate osmotic moisture.', 'success');
       speak(
         'Step 3 (cont): Add a pinch of salt to the pan with the ubod.',
@@ -186,7 +182,6 @@ export const Mission1Prep = () => {
     } else if (stepIndex === 2 && (item.id === 'sea_salt' || item.id === 'salt')) {
       soundManager.playClick();
       setPotStep(3);
-      addScore(20);
       showToast('Salt Added!', 'Pot is ready! Ignite the high heat burner.', 'success');
       speak(
         'Step 4: Boil the ubod over medium heat for approximately 10–15 minutes, or until it becomes tender. Press the "Ignite Burner" button to begin!',
@@ -217,7 +212,6 @@ export const Mission1Prep = () => {
         setIsBoilingTimerActive(false);
         setPotStep(4);
         soundManager.playSuccess();
-        addScore(30);
         showToast('Boiling Complete!', 'Ubod fibers are fork-tender and translucent', 'success');
         speak(
           'Step 5: Use a colander to drain the water from the boiled ubod. Pick up the stainless colander and tap the sink to drain!',
@@ -237,7 +231,6 @@ export const Mission1Prep = () => {
     soundManager.playPour();
     setPotStep(5);
     setHoldingItem(null);
-    addScore(25);
     showToast('Drained in Sink!', 'Boiled ubod drained into colander. Now turn on faucet to rinse & cool!', 'info');
     speak(
       'Step 6: While the ubod is in the colander, wash it again to remove any unwanted residue and to cool it down.',
@@ -260,7 +253,6 @@ export const Mission1Prep = () => {
       setIsCoolingRinseActive(false);
       setIsCoolingRinseComplete(true);
       soundManager.playSuccess();
-      addScore(30);
       unlockBadge('boil_master', 'Thermal Softening Specialist', '🫕');
       completeMission('mission1');
       showToast('Cooled & Drained!', 'Ubod residue washed away and properly cooled!', 'success');

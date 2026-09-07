@@ -83,7 +83,6 @@ export const Mission8Packaging = () => {
     if (stepIndex === 0 && (item.id === 'crispy_crackers' || item.id === 'crackers' || item.id === 'platter_crackers_cooled')) {
       soundManager.playPour();
       setPackStep(1);
-      addScore(25);
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
@@ -120,7 +119,6 @@ export const Mission8Packaging = () => {
         setIsSealing(false);
         setPackStep(2);
         soundManager.playSuccess();
-        addScore(40);
         showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
           'Airtight thermal weld complete with authentic product seal! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
@@ -140,7 +138,6 @@ export const Mission8Packaging = () => {
     soundManager.playSuccess();
     setPackStep(3);
     setHoldingItem(null);
-    addScore(35);
     unlockBadge('packaging_specialist', 'Packaging & Quality Assurance Specialist', '🏷️');
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
