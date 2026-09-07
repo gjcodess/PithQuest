@@ -62,7 +62,7 @@ const CORRECT_ORDER = [
 ];
 
 export const SequencingActivity = ({ onComplete }) => {
-  const { addScore, unlockBadge, showToast, missionsCompleted } = useGame();
+  const { addScore, unlockBadge, showToast, missionsCompleted, recordPostTestSequence } = useGame();
   const isAlreadyDone = Boolean(missionsCompleted?.sequencing);
 
   const [items, setItems] = useState(() => {
@@ -236,26 +236,43 @@ export const SequencingActivity = ({ onComplete }) => {
     setDragOverIndex(null);
   };
 
-  const checkOrder = () => {
+  const handleSubmitSequence = () => {
     const isCorrect = items.every((item, idx) => item.id === CORRECT_ORDER[idx].id);
     const correctCount = items.filter((item, idx) => item.id === CORRECT_ORDER[idx].id).length;
-    
+    const correctMap = items.map((item, idx) => item.id === CORRECT_ORDER[idx].id);
+
     setVerificationResult({
       correctCount,
       isCorrect,
-      correctMap: items.map((item, idx) => item.id === CORRECT_ORDER[idx].id),
+      correctMap,
     });
+
+    // Record in diagnostic assessment state
+    recordPostTestSequence({
+      submittedOrder: items.map((i) => i.id),
+      submittedItems: items,
+      correctOrder: CORRECT_ORDER.map((i) => i.id),
+      correctItems: CORRECT_ORDER,
+      score: correctCount * 12.5,
+      correctCount,
+      isCorrect,
+      correctMap,
+    });
+
+    addScore(correctCount * 12.5);
 
     if (isCorrect) {
       soundManager.playFanfare();
-      addScore(100);
       unlockBadge('master_sequencer', 'Master Food Technologist');
       setIsSolved(true);
-      showToast('Mastery Achieved!', 'Perfect chronological order verified!', 'success');
-      if (onComplete) onComplete();
+      showToast('Mastery Validated!', 'Perfect sequence recorded! Proceeding to Results...', 'success');
     } else {
-      soundManager.playError();
-      showToast('Keep Trying', `${correctCount} of 8 steps are in the correct position.`, 'warning');
+      soundManager.playSuccess();
+      showToast('Assessment Submitted', `Sequence order recorded (${correctCount}/8 correct). Proceeding to Results...`, 'info');
+    }
+
+    if (onComplete) {
+      onComplete({ isCorrect, correctCount, submittedItems: items });
     }
   };
 
@@ -400,8 +417,8 @@ export const SequencingActivity = ({ onComplete }) => {
       <div className="sequencing-actions">
         {!isSolved ? (
           <div className="actions-button-row">
-            <button className="btn-primary btn-check-sequence" onClick={checkOrder}>
-              <span>Verify Chronological Order ➔</span>
+            <button className="btn-primary btn-check-sequence" onClick={handleSubmitSequence}>
+              <span>Submit Chronological Sequence & View Results ➔</span>
             </button>
             <button
               className="btn-secondary btn-reshuffle"

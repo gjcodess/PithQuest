@@ -27,7 +27,7 @@ export const OrientationSidebar = ({
             soundManager.playClick();
             setIsInventoryCollapsed(false);
           }}
-          title="Click to open Orientation Guide (◀)"
+          title="Click to open Pre-Test Assessment Guide (◀)"
           role="button"
           tabIndex={0}
         >
@@ -36,7 +36,7 @@ export const OrientationSidebar = ({
             <span className="inventory-tab-count-pill">5</span>
           </div>
           <div className="inventory-tab-label-stack">
-            <span className="inventory-tab-name">PREP</span>
+            <span className="inventory-tab-name">PRE-TEST</span>
             <span className="inventory-tab-sub">GUIDE</span>
           </div>
           <div className="inventory-tab-chevron-box">
@@ -57,8 +57,8 @@ export const OrientationSidebar = ({
               <span style={{ fontSize: '1.4rem' }}>📋</span>
             </div>
             <div className="rack-titles">
-              <span className="rack-title-text">Orientation Checklist</span>
-              <span className="rack-count-pill">Lab Protocol</span>
+              <span className="rack-title-text">Pre-Test Diagnostic</span>
+              <span className="rack-count-pill">Orientation</span>
             </div>
           </div>
           <button

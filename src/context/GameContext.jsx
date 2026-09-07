@@ -40,6 +40,60 @@ export const GameProvider = ({ children }) => {
   const [badges, setBadges] = useState([]);
   const [isMuted, setIsMuted] = useState(() => soundManager.isMuted);
 
+  // Diagnostic & Formative Assessment Tracking (Pre-Test & Post-Test)
+  const [assessmentResults, setAssessmentResults] = useState({
+    preTest: {
+      ppe: null, // { selectedIds: [], correctCount: 0, totalCorrect: 6, distractorsPicked: [] }
+      handwashing: null, // { submittedSteps: [], correctSequence: [], score: 0, distractorsPicked: [] }
+      toolSafety: [], // Array<{ id, toolName, selectedOption, isSafe, reason, safeOption, damagedOption }>
+      qualityInspection: [], // Array<{ id, ingredientName, selectedOption, isSafe, reason, safeOption, damagedOption }>
+    },
+    postTest: {
+      sequencing: null, // { submittedOrder: [], correctOrder: [], score: 0, totalStages: 8 }
+    },
+  });
+
+  const recordPreTestPpe = (ppeData) => {
+    setAssessmentResults(prev => ({
+      ...prev,
+      preTest: { ...prev.preTest, ppe: ppeData },
+    }));
+  };
+
+  const recordPreTestHandwash = (handwashData) => {
+    setAssessmentResults(prev => ({
+      ...prev,
+      preTest: { ...prev.preTest, handwashing: handwashData },
+    }));
+  };
+
+  const recordPreTestTool = (toolChoice) => {
+    setAssessmentResults(prev => {
+      const existing = (prev.preTest.toolSafety || []).filter(t => t.id !== toolChoice.id);
+      return {
+        ...prev,
+        preTest: { ...prev.preTest, toolSafety: [...existing, toolChoice] },
+      };
+    });
+  };
+
+  const recordPreTestIngredient = (ingredientChoice) => {
+    setAssessmentResults(prev => {
+      const existing = (prev.preTest.qualityInspection || []).filter(i => i.id !== ingredientChoice.id);
+      return {
+        ...prev,
+        preTest: { ...prev.preTest, qualityInspection: [...existing, ingredientChoice] },
+      };
+    });
+  };
+
+  const recordPostTestSequence = (sequenceData) => {
+    setAssessmentResults(prev => ({
+      ...prev,
+      postTest: { ...prev.postTest, sequencing: sequenceData },
+    }));
+  };
+
   const [dialogue, setDialogue] = useState({
     visible: false,
     text: '',
@@ -296,6 +350,17 @@ export const GameProvider = ({ children }) => {
       sequencing: 0,
     });
     setBadges([]);
+    setAssessmentResults({
+      preTest: {
+        ppe: null,
+        handwashing: null,
+        toolSafety: [],
+        qualityInspection: [],
+      },
+      postTest: {
+        sequencing: null,
+      },
+    });
     setMaxUnlockedStage(0);
     setMissionsCompleted({
       orientation: false,
@@ -365,6 +430,13 @@ export const GameProvider = ({ children }) => {
         zoomIn,
         zoomOut,
         resetZoom,
+        // Diagnostic & Formative Assessment State & Helpers
+        assessmentResults,
+        recordPreTestPpe,
+        recordPreTestHandwash,
+        recordPreTestTool,
+        recordPreTestIngredient,
+        recordPostTestSequence,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { soundManager } from '../audio/soundManager';
 import { RestartIcon, ZoomInIcon, ZoomOutIcon } from './Icons';
 
 const STAGE_CONFIG = {
-  orientation: { num: 'Prep', title: 'Orientation & Safety', step: 0 },
+  orientation: { num: 'Pre-Test', title: 'Diagnostic Orientation & Safety', step: 0 },
   mission1: { num: 'Stage 1', title: 'Washing & Boiling', step: 1 },
   mission2: { num: 'Stage 2', title: 'Pureeing & Grinding', step: 2 },
   mission3: { num: 'Stage 3', title: 'Paste Formulation', step: 3 },
@@ -14,12 +14,13 @@ const STAGE_CONFIG = {
   mission6: { num: 'Stage 6', title: 'Cabinet Dehydration', step: 6 },
   mission7: { num: 'Stage 7', title: 'Deep Frying', step: 7 },
   mission8: { num: 'Stage 8', title: 'Packaging & Labeling', step: 8 },
-  sequencing: { num: 'Final Exam', title: 'Process Sequencing Exam', step: 9 },
-  evaluation: { num: 'Mastery', title: 'Sensory & Achievements', step: 10 },
+  sequencing: { num: 'Post-Test', title: 'Process Sequence Assessment', step: 9 },
+  evaluation: { num: 'Results', title: 'Diagnostic Assessment Report', step: 10 },
+  results: { num: 'Results', title: 'Diagnostic Assessment Report', step: 10 },
 };
 
 const HUD_STEPS = [
-  { id: 'orientation', label: 'PREP', step: 0, isText: true, title: 'Orientation & Safety' },
+  { id: 'orientation', label: 'PRE-TEST', step: 0, isText: true, title: 'Pre-Test: Orientation & Safety' },
   { id: 'mission1', label: '1', step: 1, isText: false, title: 'Stage 1: Washing & Boiling' },
   { id: 'mission2', label: '2', step: 2, isText: false, title: 'Stage 2: Pureeing & Grinding' },
   { id: 'mission3', label: '3', step: 3, isText: false, title: 'Stage 3: Paste Formulation' },
@@ -28,8 +29,8 @@ const HUD_STEPS = [
   { id: 'mission6', label: '6', step: 6, isText: false, title: 'Stage 6: Cabinet Dehydration' },
   { id: 'mission7', label: '7', step: 7, isText: false, title: 'Stage 7: Deep Frying' },
   { id: 'mission8', label: '8', step: 8, isText: false, title: 'Stage 8: Packaging & Labeling' },
-  { id: 'sequencing', label: 'EXAM', step: 9, isText: true, title: 'Final Exam: Process Sequencing' },
-  { id: 'evaluation', label: 'CERT', step: 10, isText: true, title: 'Mastery: Certificate & Sensory Audit' },
+  { id: 'sequencing', label: 'POST-TEST', step: 9, isText: true, title: 'Post-Test: Process Sequencing' },
+  { id: 'evaluation', label: 'RESULTS', step: 10, isText: true, title: 'Results: Diagnostic Audit & Report' },
 ];
 
 export const HeaderHUD = () => {

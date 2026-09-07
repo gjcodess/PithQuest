@@ -1011,3 +1011,296 @@
     text-align: left;
   }
 }
+
+/* ==========================================================================
+   HANDWASHING SEQUENCE INTERACTIVE PUZZLE STYLES
+   ========================================================================== */
+.handwash-sequence-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.hw-sequence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #fdfaf6;
+  border: 1px solid #ebdccc;
+  border-radius: 14px;
+  padding: 14px 20px;
+}
+
+.hw-sequence-titles .hw-title {
+  margin: 0 0 4px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #3b2310;
+}
+
+.hw-sequence-titles .hw-subtitle {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #6b4d32;
+}
+
+.hw-count-badge {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+}
+
+/* 7 Slots Timeline */
+.hw-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.hw-slot-box {
+  background: #ffffff;
+  border: 2px dashed #cfbc9f;
+  border-radius: 14px;
+  padding: 8px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.hw-slot-box.filled {
+  border: 2px solid #10b981;
+  background: #f0fdf4;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.12);
+}
+
+.hw-slot-box.selected {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.35);
+}
+
+.hw-slot-box.drag-target {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  transform: scale(1.02);
+}
+
+.slot-number-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #78350f;
+  background: #fef3c7;
+  padding: 2px 8px;
+  border-radius: 6px;
+  align-self: flex-start;
+  margin-bottom: 6px;
+}
+
+.slot-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 4px;
+  color: #a8947c;
+}
+
+.slot-placeholder .placeholder-icon {
+  font-size: 1.2rem;
+}
+
+.slot-placeholder .placeholder-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.slot-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  position: relative;
+  gap: 4px;
+}
+
+.slot-card-icon {
+  font-size: 1.5rem;
+}
+
+.slot-card-action {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.slot-card-desc {
+  margin: 0;
+  font-size: 0.68rem;
+  color: #64748b;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.slot-remove-btn {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.slot-remove-btn:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Available Techniques Pool */
+.hw-pool-section {
+  background: #fbf8f2;
+  border: 1px solid #ebdccc;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hw-pool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hw-pool-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #4a2c11;
+}
+
+.hw-reset-btn {
+  font-size: 0.78rem !important;
+  padding: 4px 12px !important;
+}
+
+.hw-pool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.hw-pool-card {
+  background: #ffffff;
+  border: 2px solid #e2d3c2;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: grab;
+  transition: all 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.hw-pool-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.hw-pool-card.selected {
+  border-color: #f59e0b;
+  background: #fffbeb;
+  box-shadow: 0 0 0 2px #f59e0b;
+}
+
+.pool-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pool-card-icon {
+  font-size: 1.2rem;
+}
+
+.pool-card-action {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.pool-card-desc {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.pool-card-hint {
+  margin-top: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.hw-pool-empty-message {
+  padding: 16px;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.hw-sequence-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.btn-submit-sequence {
+  padding: 12px 32px !important;
+  font-size: 0.98rem !important;
+}
+
+@media (max-width: 1024px) {
+  .hw-slots-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hw-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

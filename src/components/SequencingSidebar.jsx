@@ -26,7 +26,7 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
             soundManager.playClick();
             setIsInventoryCollapsed(false);
           }}
-          title="Click to open Exam Protocol Reference (◀)"
+          title="Click to open Post-Test Protocol Reference (◀)"
           role="button"
           tabIndex={0}
         >
@@ -35,7 +35,7 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
             <span className="inventory-tab-count-pill">8</span>
           </div>
           <div className="inventory-tab-label-stack">
-            <span className="inventory-tab-name">EXAM</span>
+            <span className="inventory-tab-name">POST-TEST</span>
             <span className="inventory-tab-sub">STEPS</span>
           </div>
           <div className="inventory-tab-chevron-box">
@@ -56,8 +56,8 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
               <span style={{ fontSize: '1.4rem' }}>📋</span>
             </div>
             <div className="rack-titles">
-              <span className="rack-title-text">Exam Pipeline Protocol</span>
-              <span className="rack-count-pill">{isCompleted ? '✓ Verified' : '8 Stages'}</span>
+              <span className="rack-title-text">Post-Test Sequence</span>
+              <span className="rack-count-pill">{isCompleted ? '✓ Assessed' : '8 Stages'}</span>
             </div>
           </div>
           <button

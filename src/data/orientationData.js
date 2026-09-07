@@ -121,11 +121,97 @@ export const PPE_ITEMS = [
 ];
 
 export const HANDWASHING_STEPS = [
-  { step: 1, action: "Wet Hands", desc: "Wet hands with clean running potable water.", icon: "🚰" },
-  { step: 2, action: "Apply Antibacterial Soap", desc: "Dispense enough soap to cover all hand surfaces.", icon: "🧼", img: "/assets/sanitation_handwash_soap.png" },
-  { step: 3, action: "Rub Palms & Interlace Fingers", desc: "Rub palm to palm and scrub between webbed fingers.", icon: "👐" },
-  { step: 4, action: "Scrub Backs of Hands & Thumbs", desc: "Clean dorsal surfaces and rotational rubbing of thumbs.", icon: "✋" },
-  { step: 5, action: "Scrub Nails & Fingertips", desc: "Rub fingertips into opposite palms to clean under nail beds.", icon: "💅" },
-  { step: 6, action: "Rinse for 20 Seconds", desc: "Thoroughly rinse all soap lather away under flowing water.", icon: "💧" },
-  { step: 7, action: "Dry with Clean Towel", desc: "Dry with single-use paper towel and turn off faucet with elbow.", icon: "🧻", img: "/assets/sanitation_spray_cloth.png" }
+  {
+    id: "wet_hands",
+    step: 1,
+    action: "Wet Hands with Clean Water",
+    desc: "Wet hands thoroughly under clean, warm running potable water before applying cleanser.",
+    icon: "🚰",
+    isCorrect: true,
+    reason: "Water wets skin and creates the emulsion base needed for soap lathering."
+  },
+  {
+    id: "apply_soap",
+    step: 2,
+    action: "Apply Antibacterial Soap",
+    desc: "Dispense enough antibacterial soap to cover all hand and palm surfaces.",
+    icon: "🧼",
+    img: "/assets/sanitation_handwash_soap.png",
+    isCorrect: true,
+    reason: "Soap surfactants emulsify surface oils and trap food residues and microbes."
+  },
+  {
+    id: "distractor_quick_rinse",
+    step: null,
+    action: "Quick Water-Only Splash (No Soap)",
+    desc: "Rinse hands quickly under cold water for 3 seconds without dispensing soap.",
+    icon: "🌊",
+    isCorrect: false,
+    reason: "Water alone cannot dissolve grease or break down lipophilic bacterial cell membranes."
+  },
+  {
+    id: "rub_palms",
+    step: 3,
+    action: "Rub Palms & Interlace Fingers",
+    desc: "Rub palm to palm and interlace fingers to clean webbing between digits.",
+    icon: "👐",
+    isCorrect: true,
+    reason: "Mechanical friction dislodges bacteria hidden between webbed fingers."
+  },
+  {
+    id: "scrub_backs",
+    step: 4,
+    action: "Scrub Backs of Hands & Thumbs",
+    desc: "Rub right palm over left dorsum with interlaced fingers, rotate around both thumbs.",
+    icon: "✋",
+    isCorrect: true,
+    reason: "Dorsal skin and thumbs are the most frequently missed areas during hand hygiene."
+  },
+  {
+    id: "distractor_sanitizer_grease",
+    step: null,
+    action: "Apply Alcohol Gel on Greasy Hands",
+    desc: "Squirt alcohol hand rub directly onto oily, visibly soiled hands instead of washing.",
+    icon: "🧴",
+    isCorrect: false,
+    reason: "Alcohol gel is inactivated by organic grease and food soil; soap and water is mandatory for soiled hands."
+  },
+  {
+    id: "scrub_nails",
+    step: 5,
+    action: "Scrub Nails & Fingertips",
+    desc: "Rub rotational fingertips back and forth in opposite palms to scrub subungual areas.",
+    icon: "💅",
+    isCorrect: true,
+    reason: "Nail beds harbor high densities of bacteria and food soil that require direct friction."
+  },
+  {
+    id: "rinse_hands",
+    step: 6,
+    action: "Rinse Thoroughly for 20 Seconds",
+    desc: "Rinse all lather and suspended dirt away completely under continuous flowing water.",
+    icon: "💧",
+    isCorrect: true,
+    reason: "Flowing water carries away emulsified soil, dead skin cells, and dislodged pathogens."
+  },
+  {
+    id: "distractor_wipe_apron",
+    step: null,
+    action: "Wipe Hands on Cooking Apron",
+    desc: "Dry damp hands on work apron fabric to save time during food preparation.",
+    icon: "🥼",
+    isCorrect: false,
+    reason: "Aprons collect grease and airborne contaminants; wiping on clothing instantly re-contaminates clean hands."
+  },
+  {
+    id: "dry_towel",
+    step: 7,
+    action: "Dry with Single-Use Towel",
+    desc: "Pat dry thoroughly with clean disposable paper towel; use towel to shut off faucet.",
+    icon: "🧻",
+    img: "/assets/sanitation_spray_cloth.png",
+    isCorrect: true,
+    reason: "Single-use paper towels dry hands without recontamination and prevent bare-hand faucet contact."
+  }
 ];
+

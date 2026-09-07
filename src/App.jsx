@@ -21,7 +21,7 @@ import { Mission6Dehydration } from './scenes/Mission6Dehydration';
 import { Mission7Frying } from './scenes/Mission7Frying';
 import { Mission8Packaging } from './scenes/Mission8Packaging';
 import { SequencingScene } from './scenes/SequencingScene';
-import { EvaluationScene } from './scenes/EvaluationScene';
+import { ResultsScene } from './scenes/ResultsScene';
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +52,8 @@ export const App = () => {
       case 'sequencing':
         return <SequencingScene key={`sequencing-${stageKey}`} />;
       case 'evaluation':
-        return <EvaluationScene />;
+      case 'results':
+        return <ResultsScene key={`results-${stageKey}`} />;
       default:
         return <TitleScene />;
     }
