@@ -142,8 +142,21 @@ export const HeaderHUD = () => {
 
   return (
     <header className="game-hud" style={{ zoom: effectiveZoom }}>
-      {/* Left: Stage Title Pill */}
+      {/* Left: Website Title & Stage Title Pill */}
       <div className="hud-left">
+        <button
+          type="button"
+          className="hud-brand-title"
+          onClick={handleHomeClick}
+          title="PithQuest - Return to Main Menu"
+          aria-label="PithQuest Main Menu"
+        >
+          <span className="brand-pith">PITH</span>
+          <span className="brand-quest">QUEST</span>
+        </button>
+
+        <div className="hud-brand-divider" aria-hidden="true" />
+
         <div className="mission-pill">
           <span className="pill-badge">{currentStage.num}</span>
           <span className="pill-title">{currentStage.title}</span>
