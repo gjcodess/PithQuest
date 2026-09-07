@@ -156,41 +156,6 @@ export const MinigameInspection = ({
         </div>
       </div>
 
-      {/* Item Jump Tabs */}
-      <div className="inspection-items-navigator" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '4px 0 8px 0' }}>
-        {items.map((it, idx) => {
-          const isItemAnswered = Boolean(answers[it.id]);
-          const isItemActive = idx === currentIndex;
-          return (
-            <button
-              key={it.id}
-              type="button"
-              className={`inspection-step-tab ${isItemActive ? 'active' : ''} ${isItemAnswered ? 'answered' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setCurrentIndex(idx);
-              }}
-              style={{
-                background: isItemActive ? '#10b981' : isItemAnswered ? '#ecfdf5' : '#ffffff',
-                color: isItemActive ? '#ffffff' : isItemAnswered ? '#047857' : '#54361e',
-                border: isItemActive ? '2px solid #059669' : isItemAnswered ? '1.5px solid #86efac' : '1.5px solid #dfcfb9',
-                borderRadius: '8px',
-                padding: '4px 10px',
-                fontSize: '0.78rem',
-                fontWeight: 800,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <span>{idx + 1}. {it.name}</span>
-              {isItemAnswered && <span>✓</span>}
-            </button>
-          );
-        })}
-      </div>
-
       <p className="inspection-prompt">
         {isLocked
           ? 'Review your submitted choices for this item below:'

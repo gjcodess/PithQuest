@@ -148,11 +148,18 @@ export const OrientationScene = () => {
   };
 
   const handleConfirmPpe = () => {
+    const selectedIds = Object.keys(ppeEquipped).filter((k) => ppeEquipped[k]);
+
+    if (!isAlreadyCompleted && selectedIds.length === 0) {
+      soundManager.playError();
+      showToast('No PPE Selected', 'Please select at least one PPE item before confirming!', 'warning');
+      return;
+    }
+
     soundManager.playSuccess();
     setPpeDone(true);
 
     if (!isAlreadyCompleted) {
-      const selectedIds = Object.keys(ppeEquipped).filter((k) => ppeEquipped[k]);
       const correctItems = PPE_ITEMS.filter((i) => i.isCorrect);
       const correctSelected = correctItems.filter((i) => ppeEquipped[i.id]).map((i) => i.id);
       const distractorsPicked = PPE_ITEMS.filter((i) => !i.isCorrect && ppeEquipped[i.id]).map((i) => ({
@@ -367,13 +374,23 @@ export const OrientationScene = () => {
 
             <div className="orientation-btn-row">
               <button
-                className="btn-primary"
+                className={`btn-primary ${!isAlreadyCompleted && selectedPpeCount === 0 ? 'btn-disabled' : ''}`}
                 onClick={handleConfirmPpe}
-                style={{ marginLeft: 'auto', padding: '12px 28px' }}
+                disabled={!isAlreadyCompleted && selectedPpeCount === 0}
+                title={!isAlreadyCompleted && selectedPpeCount === 0 ? 'Please select at least one PPE item to proceed' : undefined}
+                style={{
+                  marginLeft: 'auto',
+                  padding: '12px 28px',
+                  opacity: !isAlreadyCompleted && selectedPpeCount === 0 ? 0.45 : 1,
+                  cursor: !isAlreadyCompleted && selectedPpeCount === 0 ? 'not-allowed' : 'pointer',
+                  filter: !isAlreadyCompleted && selectedPpeCount === 0 ? 'grayscale(0.6)' : 'none',
+                }}
               >
                 {isAlreadyCompleted
                   ? 'Proceed to Handwashing Sequence ➔'
-                  : 'Confirm PPE Attire & Proceed to Handwashing ➔'}
+                  : selectedPpeCount === 0
+                  ? 'Select PPE Items to Proceed'
+                  : `Confirm PPE Attire (${selectedPpeCount} Selected) ➔`}
               </button>
             </div>
           </div>
