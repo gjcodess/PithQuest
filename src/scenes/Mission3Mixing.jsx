@@ -40,7 +40,7 @@ export const Mission3Mixing = () => {
         {
           badge: 'Step 12: Formulation',
           note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform paste is formed.',
-          hint: 'Select the Erawan Rice Flour from your bottom inventory shelf and add it into the bowl.',
+          hint: 'Select the Erawan Rice Flour from your inventory and add it into the bowl.',
           hideButton: true,
         }
       );
@@ -113,12 +113,12 @@ export const Mission3Mixing = () => {
       addScore(20);
       showToast('Rice Flour Added!', 'Next: Add Sea Salt to distribute evenly in dry mix.', 'success');
       speak(
-        'Rice flour added! Now add the Pure Sea Salt from the bottom shelf so it blends thoroughly into the dry flour particles.',
+        'Rice flour added! Now add the Pure Sea Salt from your inventory so it blends thoroughly into the dry flour particles.',
         'neutral',
         {
           badge: 'Dry Blending',
           note: 'Blending the dry ingredients (flour + salt) first ensures even salt dispersal without concentrated salty spots.',
-          hint: 'Select Pure Sea Salt from the bottom shelf and drop it into the bowl.',
+          hint: 'Select Pure Sea Salt from your inventory and drop it into the bowl.',
           hideButton: true,
         }
       );
@@ -133,7 +133,7 @@ export const Mission3Mixing = () => {
         {
           badge: '1:1 Ratio Formulation',
           note: 'Rice flour acts as a binder holding the ubod fibers together and providing crispy expansion upon frying.',
-          hint: 'Select Ubod Paste on the bottom shelf and drop it into the bowl.',
+          hint: 'Select Ubod Paste in your inventory and drop it into the bowl.',
           hideButton: true,
         }
       );
@@ -158,12 +158,12 @@ export const Mission3Mixing = () => {
       addScore(25);
       showToast('Hydration Complete!', 'All ingredients added! Fold and mix with spatula.', 'success');
       speak(
-        'All formulation ingredients are in the bowl! Pick up the Red Silicone Spatula on your bottom shelf and tap the bowl to mix into paste.',
+        'All formulation ingredients are in the bowl! Pick up the Red Silicone Spatula from your inventory and tap the bowl to mix into paste.',
         'thinking',
         {
           badge: 'Paste Mixing',
           note: 'Mix the ingredients gradually and gently until all components are well combined and a uniform paste is formed.',
-          hint: 'Select Red Spatula on the bottom shelf, then tap the mixing bowl.',
+          hint: 'Select Red Spatula in your inventory, then tap the mixing bowl.',
           hideButton: true,
         }
       );
@@ -324,13 +324,13 @@ export const Mission3Mixing = () => {
                       handleKneadDough();
                     } else {
                       soundManager.playClick();
-                      showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap the bowl!', 'info');
+                      showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap the bowl!', 'info');
                       speak(
-                        'Pick up the red silicone spatula from your bottom shelf first, then tap the bowl to mix the paste!',
+                        'Pick up the red silicone spatula from your inventory first, then tap the bowl to mix the paste!',
                         'thinking',
                         {
                           badge: 'Select Spatula',
-                          hint: 'Tap "Red Spatula" on the bottom tray, then tap the bowl.',
+                          hint: 'Tap "Red Spatula" in your inventory, then tap the bowl.',
                         }
                       );
                     }
@@ -338,7 +338,7 @@ export const Mission3Mixing = () => {
                   title="Tap with Red Spatula to mix"
                 >
                   <span>
-                    🥄 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap Bowl to Mix Paste' : 'Pick Up Red Spatula Below'}
+                    🥄 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap Bowl to Mix Paste' : 'Select Red Spatula from Inventory'}
                   </span>
                 </div>
               )}
@@ -360,13 +360,13 @@ export const Mission3Mixing = () => {
                   handleKneadDough();
                 } else {
                   soundManager.playClick();
-                  showToast('Select Spatula First', 'Click the Red Spatula on the bottom shelf, then tap to mix!', 'info');
+                  showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap to mix!', 'info');
                   speak(
-                    'Pick up the red silicone spatula from your bottom shelf first, then tap to fold and mix the formulation!',
+                    'Pick up the red silicone spatula from your inventory first, then tap to fold and mix the formulation!',
                     'thinking',
                     {
                       badge: 'Select Spatula',
-                      hint: 'Tap "Red Spatula" on the bottom tray first.',
+                      hint: 'Tap "Red Spatula" in your inventory first.',
                     }
                   );
                 }

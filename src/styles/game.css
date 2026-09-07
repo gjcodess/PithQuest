@@ -7709,6 +7709,21 @@ body.holding-item-cursor * {
   box-shadow: 0 1px 0 #064e3b;
 }
 
+.sink-cooling-guidance-pill {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  border-color: #38bdf8;
+  box-shadow: 0 3.5px 0 #075985, 0 6px 18px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.sink-cooling-guidance-pill:hover {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 4.5px 0 #075985, 0 8px 22px rgba(2, 132, 199, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.sink-cooling-guidance-pill:active {
+  box-shadow: 0 1px 0 #075985;
+}
+
 /* Red Spatula Scraping Guide & Motion Animation */
 .spatula-scrape-guide {
   position: absolute;

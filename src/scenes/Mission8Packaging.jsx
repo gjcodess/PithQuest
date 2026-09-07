@@ -37,7 +37,7 @@ export const Mission8Packaging = () => {
         {
           badge: 'Step 23: Packaging',
           note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
-          hint: 'Select Crispy Ubod Crackers from bottom shelf and drop into the open pouch.',
+          hint: 'Select Crispy Ubod Crackers from your inventory and drop into the open pouch.',
           hideButton: true,
         }
       );
@@ -128,7 +128,7 @@ export const Mission8Packaging = () => {
           {
             badge: 'Retail Packing',
             note: 'Proper outer master cartons protect the individual pouches from mechanical crushing during transit.',
-            hint: 'Select Retail Display Box from bottom shelf or click button to pack.',
+            hint: 'Select Retail Display Box from your inventory or click button to pack.',
             hideButton: true,
           }
         );

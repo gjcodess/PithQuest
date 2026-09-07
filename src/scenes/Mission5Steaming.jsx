@@ -41,7 +41,7 @@ export const Mission5Steaming = () => {
         {
           badge: 'Step 14: Steaming Setup',
           note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
-          hint: 'First, select the Potable Water Pitcher from your bottom inventory and pour it into the empty steamer base.',
+          hint: 'First, select the Potable Water Pitcher from your inventory and pour it into the empty steamer base.',
           hideButton: true,
         }
       );
@@ -115,12 +115,12 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier', 'success');
       speak(
-        'Water is loaded in the base! Now select the Perforated Steam Tier from your bottom inventory and place it onto the pot.',
+        'Water is loaded in the base! Now select the Perforated Steam Tier from your inventory and place it onto the pot.',
         'neutral',
         {
           badge: 'Steam Tier Placement',
           note: 'Ensure adequate water in the base pot to prevent boiling dry during the 10-minute steaming cycle.',
-          hint: 'Select the Perforated Steam Tier on the bottom shelf, then place it on the pot.',
+          hint: 'Select the Perforated Steam Tier in your inventory, then place it on the pot.',
           hideButton: true,
         }
       );
@@ -136,7 +136,7 @@ export const Mission5Steaming = () => {
         {
           badge: 'Middle Tier Loading',
           note: 'The perforated tier allows steam vapors to circulate evenly around all 24 cracker cavities.',
-          hint: 'Select the Molded Ubod Tray on the bottom shelf, then place it inside the tier.',
+          hint: 'Select the Molded Ubod Tray in your inventory, then place it inside the tier.',
           hideButton: true,
         }
       );
@@ -194,7 +194,7 @@ export const Mission5Steaming = () => {
           {
             badge: 'Step 15: Cooling Hot Pieces',
             note: 'Safety Note: Wear heat-resistant gloves or oven mitts when handling hot steaming equipment to prevent steam burns.',
-            hint: 'Select the Silicone Heat Mitts below and tap the hot mold to transfer.',
+            hint: 'Select the Silicone Heat Mitts from your inventory and tap the hot mold to transfer.',
             hideButton: true,
           }
         );
