@@ -418,8 +418,15 @@
 
 
 /* ==========================================================================
-   PHASE 2: PPE ITEMS GRID (OPEN TACTILE TILES DIRECTLY ON BACKGROUND)
+   TASK 1: PPE ITEMS GRID (OPEN TACTILE TILES DIRECTLY ON BACKGROUND)
    ========================================================================== */
+.orientation-card .vessel-desc {
+  font-size: 0.98rem;
+  color: #5c3e21;
+  line-height: 1.55;
+  margin: 0 0 26px 0;
+}
+
 .ppe-items-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
