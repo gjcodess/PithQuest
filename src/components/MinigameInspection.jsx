@@ -5,88 +5,135 @@ import { soundManager } from '../audio/soundManager';
 /**
  * MinigameInspection: Diagnostic safety inspection assessment component
  * Learners select their preferred option (Safe vs. Defective/Hazardous).
- * In assessment mode, learners make their choice without being blocked or forced to correct it,
- * recording all responses for the final RESULTS diagnostic audit.
+ * In assessment mode:
+ * - Learners make choices freely without blocking.
+ * - Previous choices are saved and remembered when returning to this screen.
+ * - When pre-test is completed (isLocked = true), choices are read-only.
  */
 export const MinigameInspection = ({
   title = "Tool Safety Inspection",
   items = [],
+  initialAnswers = [], // Array of recorded choice objects from context / state
+  onAnswersChange,
   onComplete,
-  onItemRecorded,
+  isLocked = false,
   mode = "tools", // "tools" | "ingredients"
 }) => {
   const { speak } = useGame();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [shuffledPair, setShuffledPair] = useState([]);
-  const [selectedSide, setSelectedSide] = useState(null); // 'left' or 'right'
-  const [selectedCard, setSelectedCard] = useState(null);
+
+  // Map of answers keyed by item id: { [itemId]: { chosen, isSafe, selectedSide, optionLabel } }
+  const [answers, setAnswers] = useState(() => {
+    const map = {};
+    if (Array.isArray(initialAnswers)) {
+      initialAnswers.forEach((ans) => {
+        if (ans && ans.id) {
+          map[ans.id] = ans;
+        }
+      });
+    }
+    return map;
+  });
+
+  // Keep pairs stable for each item
+  const [pairsByItemId, setPairsByItemId] = useState(() => {
+    const pairs = {};
+    items.forEach((item) => {
+      const isSafeFirst = Math.random() < 0.5;
+      pairs[item.id] = [
+        isSafeFirst
+          ? { ...item.safe, isSafe: true, side: 'left', optionLabel: 'Option A' }
+          : { ...item.damaged, isSafe: false, side: 'left', optionLabel: 'Option A' },
+        isSafeFirst
+          ? { ...item.damaged, isSafe: false, side: 'right', optionLabel: 'Option B' }
+          : { ...item.safe, isSafe: true, side: 'right', optionLabel: 'Option B' },
+      ];
+    });
+    return pairs;
+  });
 
   const currentItem = items[currentIndex] || items[0];
   const isLastItem = currentIndex + 1 >= items.length;
+  const currentPair = pairsByItemId[currentItem?.id] || [];
+  const currentAnswer = answers[currentItem?.id] || null;
+  const selectedSide = currentAnswer?.selectedSide || null;
 
-  // Randomize Option A and Option B positions (50% chance safe is A, 50% chance safe is B)
   useEffect(() => {
     if (!currentItem) return;
-    const isSafeFirst = Math.random() < 0.5;
-    setShuffledPair([
-      isSafeFirst
-        ? { ...currentItem.safe, isSafe: true, side: 'left', optionLabel: 'Option A' }
-        : { ...currentItem.damaged, isSafe: false, side: 'left', optionLabel: 'Option A' },
-      isSafeFirst
-        ? { ...currentItem.damaged, isSafe: false, side: 'right', optionLabel: 'Option B' }
-        : { ...currentItem.safe, isSafe: true, side: 'right', optionLabel: 'Option B' },
-    ]);
-    setSelectedSide(null);
-    setSelectedCard(null);
-
     speak(
       `Inspect the ${currentItem.name}. Select the item you consider safe and suitable for food preparation.`,
       'neutral',
-      { hint: 'Examine surface condition, cleanliness, structural integrity, and freshness.' }
+      { hint: isLocked ? 'Pre-Test is completed. You are viewing your submitted diagnostic choices.' : 'Examine surface condition, cleanliness, structural integrity, and freshness.' }
     );
-  }, [currentIndex, currentItem]);
+  }, [currentIndex, currentItem, isLocked]);
 
   const handleCardClick = (card) => {
+    if (isLocked) {
+      soundManager.playError();
+      return;
+    }
+
     soundManager.playClick();
+
+    let updatedAnswers;
     if (selectedSide === card.side) {
-      // Toggle off if clicking the already selected card
-      setSelectedSide(null);
-      setSelectedCard(null);
+      // Toggle off / deselect
+      updatedAnswers = { ...answers };
+      delete updatedAnswers[currentItem.id];
     } else {
-      setSelectedSide(card.side);
-      setSelectedCard(card);
+      const answerObj = {
+        id: currentItem.id,
+        name: currentItem.name,
+        toolType: currentItem.toolType || currentItem.category,
+        chosen: card,
+        isSafe: card.isSafe,
+        selectedSide: card.side,
+        optionLabel: card.optionLabel,
+        safeOption: currentItem.safe,
+        damagedOption: currentItem.damaged,
+      };
+      updatedAnswers = {
+        ...answers,
+        [currentItem.id]: answerObj,
+      };
+    }
+
+    setAnswers(updatedAnswers);
+    if (onAnswersChange) {
+      onAnswersChange(Object.values(updatedAnswers));
     }
   };
 
   const handleUnselect = () => {
+    if (isLocked) return;
     soundManager.playClick();
-    setSelectedSide(null);
-    setSelectedCard(null);
+    const updatedAnswers = { ...answers };
+    delete updatedAnswers[currentItem.id];
+    setAnswers(updatedAnswers);
+    if (onAnswersChange) {
+      onAnswersChange(Object.values(updatedAnswers));
+    }
   };
 
   const handleNextItem = () => {
-    if (!selectedCard) return;
     soundManager.playClick();
-
-    if (onItemRecorded) {
-      onItemRecorded({
-        id: currentItem.id,
-        name: currentItem.name,
-        toolType: currentItem.toolType || currentItem.category,
-        chosen: selectedCard,
-        isSafe: selectedCard.isSafe,
-        safeOption: currentItem.safe,
-        damagedOption: currentItem.damaged,
-      });
-    }
-
     if (isLastItem) {
-      soundManager.playSuccess();
-      if (onComplete) onComplete();
+      if (onComplete) {
+        onComplete(Object.values(answers));
+      }
     } else {
       setCurrentIndex((prev) => prev + 1);
     }
   };
+
+  const handlePrevItem = () => {
+    if (currentIndex > 0) {
+      soundManager.playClick();
+      setCurrentIndex((prev) => prev - 1);
+    }
+  };
+
+  const answeredCount = Object.keys(answers).length;
 
   return (
     <div className="inspection-minigame-container">
@@ -95,29 +142,69 @@ export const MinigameInspection = ({
       </div>
       <div className="vessel-header">
         <span className="vessel-title">{title}</span>
-        <span className="vessel-badge">Item {currentIndex + 1} of {items.length}</span>
+        <span className="vessel-badge">
+          {isLocked ? '🔒 Completed (Read-Only)' : `Item ${currentIndex + 1} of ${items.length}`}
+        </span>
       </div>
       <div className="vessel-header-divider" />
 
+      {/* Progress & Item Quick-Selector Bar */}
       <div className="inspection-header-row">
         <div className="inspection-title-box">
           <span className="mode-badge">{mode === 'tools' ? '🛠️ Equipment Clearance' : '🥥 Ingredient Clearance'}</span>
           <h3 className="item-target-title">Target: {currentItem?.name}</h3>
         </div>
         <div className="inspection-counter">
-          Progress: {currentIndex + 1} / {items.length}
+          Answered: {answeredCount} / {items.length}
         </div>
       </div>
 
+      {/* Item Jump Tabs */}
+      <div className="inspection-items-navigator" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '4px 0 8px 0' }}>
+        {items.map((it, idx) => {
+          const isItemAnswered = Boolean(answers[it.id]);
+          const isItemActive = idx === currentIndex;
+          return (
+            <button
+              key={it.id}
+              type="button"
+              className={`inspection-step-tab ${isItemActive ? 'active' : ''} ${isItemAnswered ? 'answered' : ''}`}
+              onClick={() => {
+                soundManager.playClick();
+                setCurrentIndex(idx);
+              }}
+              style={{
+                background: isItemActive ? '#10b981' : isItemAnswered ? '#ecfdf5' : '#ffffff',
+                color: isItemActive ? '#ffffff' : isItemAnswered ? '#047857' : '#54361e',
+                border: isItemActive ? '2px solid #059669' : isItemAnswered ? '1.5px solid #86efac' : '1.5px solid #dfcfb9',
+                borderRadius: '8px',
+                padding: '4px 10px',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              <span>{idx + 1}. {it.name}</span>
+              {isItemAnswered && <span>✓</span>}
+            </button>
+          );
+        })}
+      </div>
+
       <p className="inspection-prompt">
-        Select the option you would choose for laboratory food processing:
+        {isLocked
+          ? 'Review your submitted choices for this item below:'
+          : 'Select the option you would choose for laboratory food processing (or click again to deselect):'}
       </p>
 
       {/* Comparison Grid */}
       <div className="inspection-cards-grid">
-        {shuffledPair.map((card, idx) => {
+        {currentPair.map((card, idx) => {
           const isSelected = selectedSide === card.side;
-          const cardClass = `inspection-card ${isSelected ? 'selected' : ''}`;
+          const cardClass = `inspection-card ${isSelected ? 'selected' : ''} ${isLocked ? 'is-locked-view' : ''}`;
 
           return (
             <div
@@ -126,8 +213,9 @@ export const MinigameInspection = ({
               onClick={() => handleCardClick(card)}
               role="button"
               tabIndex={0}
+              style={{ cursor: isLocked ? 'default' : 'pointer' }}
             >
-              <div className="card-badge-tag">{idx === 0 ? 'Option A' : 'Option B'}</div>
+              <div className="card-badge-tag">{card.optionLabel}</div>
               <div className="card-img-wrapper">
                 <img
                   src={card.img}
@@ -151,7 +239,15 @@ export const MinigameInspection = ({
               </div>
 
               <div className={`card-verdict-banner ${isSelected ? 'selected-banner' : 'select-prompt'}`}>
-                <span>{isSelected ? '✓ Selected Choice (Click to Deselect)' : '👆 Click to Select'}</span>
+                <span>
+                  {isSelected
+                    ? isLocked
+                      ? '✓ Your Submitted Choice'
+                      : '✓ Selected Choice (Click to Deselect)'
+                    : isLocked
+                    ? 'Not Selected'
+                    : '👆 Click to Select'}
+                </span>
               </div>
             </div>
           );
@@ -159,28 +255,42 @@ export const MinigameInspection = ({
       </div>
 
       {/* Action Row */}
-      <div className="inspection-actions-row">
-        {selectedCard && (
-          <button
-            className="btn-secondary btn-unselect-inspection"
-            onClick={handleUnselect}
-            title="Clear current selection"
-          >
-            <span>✕ Deselect Choice</span>
-          </button>
-        )}
+      <div className="inspection-actions-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px' }}>
         <button
-          className="btn-primary btn-gold btn-next-inspection"
-          onClick={handleNextItem}
-          disabled={!selectedCard}
-          style={{ opacity: selectedCard ? 1 : 0.5 }}
+          className="btn-secondary"
+          onClick={handlePrevItem}
+          disabled={currentIndex === 0}
+          style={{ opacity: currentIndex === 0 ? 0.4 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer', padding: '10px 18px' }}
         >
-          <span>
-            {isLastItem
-              ? (mode === 'tools' ? 'Proceed to Ingredient Inspection ➔' : 'Finish Pre-Test & Enter Laboratory ➔')
-              : `Confirm Choice & Next Item (${currentIndex + 2} of ${items.length}) ▶`}
-          </span>
+          <span>◀ Previous Item</span>
         </button>
+
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {!isLocked && currentAnswer && (
+            <button
+              className="btn-secondary btn-unselect-inspection"
+              onClick={handleUnselect}
+              title="Clear selection for this item"
+            >
+              <span>✕ Deselect</span>
+            </button>
+          )}
+
+          <button
+            className="btn-primary btn-gold btn-next-inspection"
+            onClick={handleNextItem}
+            disabled={!isLocked && !currentAnswer && !isLastItem}
+            style={{ opacity: !isLocked && !currentAnswer && !isLastItem ? 0.6 : 1 }}
+          >
+            <span>
+              {isLastItem
+                ? mode === 'tools'
+                  ? 'Proceed to Ingredient Inspection ➔'
+                  : 'Finish Pre-Test & Enter Laboratory ➔'
+                : `Next Item (${currentIndex + 2} of ${items.length}) ▶`}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );

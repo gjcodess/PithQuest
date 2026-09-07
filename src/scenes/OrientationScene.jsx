@@ -16,6 +16,7 @@ export const OrientationScene = () => {
     completeMission,
     showToast,
     missionsCompleted,
+    assessmentResults,
     recordPreTestPpe,
     recordPreTestHandwash,
     recordPreTestTool,
@@ -29,23 +30,48 @@ export const OrientationScene = () => {
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
 
   // PPE states (selection tracking for all 8 items in bank)
-  const [ppeEquipped, setPpeEquipped] = useState(() => ({
-    hairnet: isAlreadyCompleted,
-    apron: isAlreadyCompleted,
-    mask: isAlreadyCompleted,
-    gloves: isAlreadyCompleted,
-    heat_gloves: isAlreadyCompleted,
-    shoes: isAlreadyCompleted,
-    distractor_scarf: false,
-    distractor_goggles: false,
-  }));
+  const [ppeEquipped, setPpeEquipped] = useState(() => {
+    const savedPpe = assessmentResults?.preTest?.ppe?.selectedIds;
+    if (savedPpe && Array.isArray(savedPpe)) {
+      const map = {};
+      PPE_ITEMS.forEach((item) => {
+        map[item.id] = savedPpe.includes(item.id);
+      });
+      return map;
+    }
+    return {
+      hairnet: isAlreadyCompleted,
+      apron: isAlreadyCompleted,
+      mask: isAlreadyCompleted,
+      gloves: isAlreadyCompleted,
+      heat_gloves: isAlreadyCompleted,
+      shoes: isAlreadyCompleted,
+      distractor_scarf: false,
+      distractor_goggles: false,
+    };
+  });
+
+  // Handwashing state persistence
+  const [handwashData, setHandwashData] = useState(() => {
+    return assessmentResults?.preTest?.handwashing || null;
+  });
+
+  // Tool inspection state persistence
+  const [toolAnswers, setToolAnswers] = useState(() => {
+    return assessmentResults?.preTest?.toolSafety || [];
+  });
+
+  // Ingredient inspection state persistence
+  const [ingredientAnswers, setIngredientAnswers] = useState(() => {
+    return assessmentResults?.preTest?.qualityInspection || [];
+  });
 
   // Sub-phase completion states for subnav checkmarks
   const [scienceDone, setScienceDone] = useState(() => isAlreadyCompleted);
-  const [ppeDone, setPpeDone] = useState(() => isAlreadyCompleted);
-  const [handwashingDone, setHandwashingDone] = useState(() => isAlreadyCompleted);
-  const [toolSafetyDone, setToolSafetyDone] = useState(() => isAlreadyCompleted);
-  const [qualityInspectionDone, setQualityInspectionDone] = useState(() => isAlreadyCompleted);
+  const [ppeDone, setPpeDone] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.ppe));
+  const [handwashingDone, setHandwashingDone] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.handwashing));
+  const [toolSafetyDone, setToolSafetyDone] = useState(() => isAlreadyCompleted || (assessmentResults?.preTest?.toolSafety?.length || 0) > 0);
+  const [qualityInspectionDone, setQualityInspectionDone] = useState(() => isAlreadyCompleted || (assessmentResults?.preTest?.qualityInspection?.length || 0) > 0);
 
   useEffect(() => {
     if (phase !== 'lecture') {
@@ -68,53 +94,74 @@ export const OrientationScene = () => {
       );
     } else if (phase === 'ppe') {
       speak(
-        'Diagnostic Pre-Test (Task 1: PPE Attire): Select the personal protective equipment you consider required for sanitary food processing.',
-        'thinking',
+        isAlreadyCompleted
+          ? 'Pre-Test Completed: Review your submitted PPE attire choices below (Read-Only).'
+          : 'Diagnostic Pre-Test (Task 1: PPE Attire): Select the personal protective equipment you consider required for sanitary food processing.',
+        isAlreadyCompleted ? 'happy' : 'thinking',
         {
           badge: 'Pre-Test: PPE Attire',
-          note: 'Select all standard food-grade protective gear. Beware of non-approved or hazardous items!',
-          hint: 'Click to select all required gear, then click Confirm PPE Attire.',
+          note: isAlreadyCompleted
+            ? 'Pre-Test is finished. You can review your equipped protective gear.'
+            : 'Select all standard food-grade protective gear. Beware of non-approved or hazardous items!',
+          hint: isAlreadyCompleted
+            ? 'Pre-Test is submitted and locked.'
+            : 'Click to select or deselect gear, then click Confirm PPE Attire.',
           hideButton: true,
         }
       );
     } else if (phase === 'sanitation') {
       speak(
-        'Diagnostic Pre-Test (Task 2: Handwashing Sequence): Arrange the 7 handwashing steps in their strict chronological order. Avoid 3 distractor hazards!',
-        'happy',
+        isAlreadyCompleted
+          ? 'Pre-Test Completed: Review your submitted 7-step handwashing sequence below (Read-Only).'
+          : 'Diagnostic Pre-Test (Task 2: Handwashing Sequence): Arrange the 7 handwashing steps in their strict chronological order. Avoid 3 distractor hazards!',
+        isAlreadyCompleted ? 'happy' : 'happy',
         {
           badge: 'Pre-Test: Sanitation Protocol',
-          note: 'Drag or tap cards into Step slots 1 through 7. Your sequence will be recorded for the final Results diagnostic audit.',
-          hint: 'Arrange the sequence from first water contact to drying.',
+          note: isAlreadyCompleted
+            ? 'Pre-Test is finished. Your submitted sequence is logged in the Results audit.'
+            : 'Drag or tap cards into Step slots 1 through 7. You can return to adjust your sequence anytime before completing the pre-test.',
+          hint: isAlreadyCompleted
+            ? 'Pre-Test is submitted and locked.'
+            : 'Arrange the sequence from first water contact to drying.',
           hideButton: true,
         }
       );
     } else if (phase === 'tool_inspection') {
       speak(
-        'Diagnostic Pre-Test (Task 3: Tool & Equipment Safety): Inspect each equipment pair and select the safe, food-grade option.',
+        isAlreadyCompleted
+          ? 'Pre-Test Completed: Review your tool safety inspection choices below (Read-Only).'
+          : 'Diagnostic Pre-Test (Task 3: Tool & Equipment Safety): Inspect each equipment pair and select the safe, food-grade option. You can navigate between items and change answers anytime.',
         'neutral',
         {
           badge: 'Pre-Test: Tool Safety',
           note: 'Safety Check: Examine blades, cords, and surfaces for cracks, rust, or electrical hazards.',
-          hint: 'Select Option A or Option B for each tool.',
+          hint: isAlreadyCompleted
+            ? 'Pre-Test is submitted and locked.'
+            : 'Select Option A or Option B for each tool. Click an item again or press Deselect to change.',
           hideButton: true,
         }
       );
     } else if (phase === 'ingredient_inspection') {
       speak(
-        'Diagnostic Pre-Test (Task 4: Ingredient Quality Inspection): Inspect raw materials and choose the fresh, uncontaminated food items.',
+        isAlreadyCompleted
+          ? 'Pre-Test Completed: Review your ingredient quality inspection choices below (Read-Only).'
+          : 'Diagnostic Pre-Test (Task 4: Ingredient Quality Inspection): Inspect raw materials and choose the fresh, uncontaminated food items.',
         'neutral',
         {
           badge: 'Pre-Test: Ingredient Quality',
           note: 'Check color, texture, expiration, and packaging integrity for all ingredients.',
-          hint: 'Select the fresh, sanitary option for each ingredient.',
+          hint: isAlreadyCompleted
+            ? 'Pre-Test is submitted and locked.'
+            : 'Select the fresh, sanitary option for each ingredient.',
           hideButton: true,
         }
       );
     }
-  }, [phase, studentName]);
+  }, [phase, studentName, isAlreadyCompleted]);
 
-  // PPE toggle handler (non-blocking selection)
+  // PPE toggle handler (disabled if isAlreadyCompleted)
   const handleTogglePpe = (item) => {
+    if (isAlreadyCompleted) return;
     soundManager.playClick();
     const updated = { ...ppeEquipped, [item.id]: !ppeEquipped[item.id] };
     setPpeEquipped(updated);
@@ -124,79 +171,106 @@ export const OrientationScene = () => {
     soundManager.playSuccess();
     setPpeDone(true);
 
-    const selectedIds = Object.keys(ppeEquipped).filter((k) => ppeEquipped[k]);
-    const correctItems = PPE_ITEMS.filter((i) => i.isCorrect);
-    const correctSelected = correctItems.filter((i) => ppeEquipped[i.id]).map((i) => i.id);
-    const distractorsPicked = PPE_ITEMS.filter((i) => !i.isCorrect && ppeEquipped[i.id]).map((i) => ({
-      id: i.id,
-      name: i.name,
-      reason: i.reason,
-    }));
+    if (!isAlreadyCompleted) {
+      const selectedIds = Object.keys(ppeEquipped).filter((k) => ppeEquipped[k]);
+      const correctItems = PPE_ITEMS.filter((i) => i.isCorrect);
+      const correctSelected = correctItems.filter((i) => ppeEquipped[i.id]).map((i) => i.id);
+      const distractorsPicked = PPE_ITEMS.filter((i) => !i.isCorrect && ppeEquipped[i.id]).map((i) => ({
+        id: i.id,
+        name: i.name,
+        reason: i.reason,
+      }));
 
-    recordPreTestPpe({
-      selectedIds,
-      correctIds: correctItems.map((i) => i.id),
-      correctSelected,
-      distractorsPicked,
-      totalCorrect: correctItems.length,
-      score: correctSelected.length * 10,
-    });
+      recordPreTestPpe({
+        selectedIds,
+        correctIds: correctItems.map((i) => i.id),
+        correctSelected,
+        distractorsPicked,
+        totalCorrect: correctItems.length,
+        score: correctSelected.length * 10,
+      });
 
-    addScore(correctSelected.length * 10);
-    showToast('PPE Recorded', `${selectedIds.length} item(s) selected for diagnostic assessment`, 'info');
+      showToast('PPE Recorded', `${selectedIds.length} item(s) selected for diagnostic assessment`, 'info');
+    }
+
     setPhase('sanitation');
   };
 
-  // Handwashing completion handler
-  const handleHandwashComplete = (handwashData) => {
+  // Handwashing handlers
+  const handleHandwashChange = (data) => {
+    setHandwashData(data);
+    if (!isAlreadyCompleted) {
+      recordPreTestHandwash(data);
+    }
+  };
+
+  const handleHandwashComplete = (data) => {
     setHandwashingDone(true);
-    recordPreTestHandwash(handwashData);
+    setHandwashData(data);
 
-    const correctCount = (handwashData.submittedSteps || []).filter(
-      (step, idx) => step.isCorrect && step.step === idx + 1
-    ).length;
-    addScore(correctCount * 10);
+    if (!isAlreadyCompleted) {
+      recordPreTestHandwash(data);
+      showToast('Handwashing Recorded', 'Sequence logged for diagnostic evaluation', 'info');
+    }
 
-    showToast('Handwashing Recorded', 'Sequence logged for diagnostic evaluation', 'info');
     setPhase('tool_inspection');
   };
 
-  // Tool Safety recording handler
-  const handleToolItemRecorded = (toolChoice) => {
-    recordPreTestTool(toolChoice);
-    if (toolChoice.isSafe) {
-      addScore(15);
+  // Tool Safety handlers
+  const handleToolAnswersChange = (answersList) => {
+    setToolAnswers(answersList);
+    if (!isAlreadyCompleted) {
+      recordPreTestTool(answersList);
     }
   };
 
-  // Ingredient Quality recording handler & direct transition to Stage 1
-  const handleIngredientItemRecorded = (ingredientChoice) => {
-    recordPreTestIngredient(ingredientChoice);
-    if (ingredientChoice.isSafe) {
-      addScore(15);
+  const handleToolComplete = (answersList) => {
+    setToolSafetyDone(true);
+    setToolAnswers(answersList);
+    if (!isAlreadyCompleted) {
+      recordPreTestTool(answersList);
+      showToast('Tool Safety Recorded!', 'Proceeding to Ingredient Inspection', 'success');
+    }
+    setPhase('ingredient_inspection');
+  };
+
+  // Ingredient Quality handlers
+  const handleIngredientAnswersChange = (answersList) => {
+    setIngredientAnswers(answersList);
+    if (!isAlreadyCompleted) {
+      recordPreTestIngredient(answersList);
     }
   };
 
-  const handleFinishPreTest = () => {
-    soundManager.playFanfare();
+  const handleIngredientComplete = (answersList) => {
     setQualityInspectionDone(true);
-    completeMission('orientation');
-    showToast('Pre-Test Complete!', 'Entering Stage 1: Washing & Boiling Laboratory', 'success');
+    setIngredientAnswers(answersList);
 
-    speak(
-      `Pre-Test Completed, ${studentName || 'Food Technologist'}! All your baseline diagnostic answers have been recorded. You are now entering Stage 1: Washing & Boiling!`,
-      'happy',
-      {
-        badge: 'Entering Laboratory',
-        note: 'Apply safe handling and sanitary technique as you begin processing fresh coconut pith.',
-        btnText: 'Start Stage 1: Washing & Boiling ➔',
-        onNext: () => setScene('mission1'),
-      }
-    );
+    if (!isAlreadyCompleted) {
+      recordPreTestIngredient(answersList);
+      soundManager.playFanfare();
+      completeMission('orientation');
+      showToast('Pre-Test Complete!', 'Entering Stage 1: Washing & Boiling Laboratory', 'success');
 
-    setTimeout(() => {
+      speak(
+        `Pre-Test Completed, ${studentName || 'Food Technologist'}! All your baseline diagnostic answers have been recorded. You are now entering Stage 1: Washing & Boiling!`,
+        'happy',
+        {
+          badge: 'Entering Laboratory',
+          note: 'Apply safe handling and sanitary technique as you begin processing fresh coconut pith.',
+          btnText: 'Start Stage 1: Washing & Boiling ➔',
+          onNext: () => setScene('mission1'),
+        }
+      );
+
+      setTimeout(() => {
+        setScene('mission1');
+      }, 1200);
+    } else {
+      // Just reviewing; return to Stage 1 or current stage
+      soundManager.playClick();
       setScene('mission1');
-    }, 1200);
+    }
   };
 
   const selectedPpeCount = Object.values(ppeEquipped).filter(Boolean).length;
@@ -378,13 +452,15 @@ export const OrientationScene = () => {
             <div className="vessel-header">
               <span className="vessel-title">Personal Protective Equipment (PPE) Selection</span>
               <span className="vessel-badge">
-                {selectedPpeCount} Selected
+                {isAlreadyCompleted ? '🔒 Submitted' : `${selectedPpeCount} Selected`}
               </span>
             </div>
             <div className="vessel-header-divider" />
 
             <p className="section-instruction">
-              Click to select all protective attire required for food preparation. Avoid unapproved or hazardous gear:
+              {isAlreadyCompleted
+                ? 'Review your submitted protective attire choices below:'
+                : 'Click to select all protective attire required for food preparation. Avoid unapproved or hazardous gear:'}
             </p>
 
             <div className="ppe-items-grid">
@@ -393,10 +469,11 @@ export const OrientationScene = () => {
                 return (
                   <div
                     key={item.id}
-                    className={`ppe-box ${isSelected ? 'equipped' : ''}`}
+                    className={`ppe-box ${isSelected ? 'equipped' : ''} ${isAlreadyCompleted ? 'is-locked-view' : ''}`}
                     onClick={() => handleTogglePpe(item)}
                     role="button"
                     tabIndex={0}
+                    style={{ cursor: isAlreadyCompleted ? 'default' : 'pointer' }}
                   >
                     <img src={item.img} alt={item.name} className="ppe-icon-img" />
                     <div className="gear-details">
@@ -404,7 +481,13 @@ export const OrientationScene = () => {
                       <p className="ppe-desc">{item.role}</p>
                     </div>
                     <div className={`gear-status-badge ${isSelected ? 'worn' : 'pending'}`}>
-                      {isSelected ? '✓ Selected' : '👆 Click to Select'}
+                      {isSelected
+                        ? isAlreadyCompleted
+                          ? '✓ Equipped'
+                          : '✓ Selected'
+                        : isAlreadyCompleted
+                        ? 'Not Equipped'
+                        : '👆 Click to Select'}
                     </div>
                   </div>
                 );
@@ -415,10 +498,12 @@ export const OrientationScene = () => {
               <button
                 className="btn-primary btn-gold"
                 onClick={handleConfirmPpe}
-                disabled={selectedPpeCount === 0}
-                style={{ opacity: selectedPpeCount === 0 ? 0.5 : 1, padding: '12px 32px', fontSize: '1rem' }}
+                disabled={!isAlreadyCompleted && selectedPpeCount === 0}
+                style={{ opacity: !isAlreadyCompleted && selectedPpeCount === 0 ? 0.5 : 1, padding: '12px 32px', fontSize: '1rem' }}
               >
-                Confirm PPE Attire & Proceed to Handwashing ➔
+                {isAlreadyCompleted
+                  ? 'Proceed to Handwashing Sequence ➔'
+                  : 'Confirm PPE Attire & Proceed to Handwashing ➔'}
               </button>
             </div>
           </div>
@@ -427,7 +512,13 @@ export const OrientationScene = () => {
         {/* PHASE 3: HANDWASHING SEQUENCE PUZZLE */}
         {phase === 'sanitation' && (
           <div className="active-vessel-card orientation-card">
-            <HandwashingSequenceActivity onComplete={handleHandwashComplete} />
+            <HandwashingSequenceActivity
+              initialSlots={handwashData?.slots}
+              initialPool={handwashData?.pool}
+              onSequenceChange={handleHandwashChange}
+              onComplete={handleHandwashComplete}
+              isLocked={isAlreadyCompleted}
+            />
           </div>
         )}
 
@@ -438,12 +529,10 @@ export const OrientationScene = () => {
               title="Tool & Equipment Safety Inspection"
               mode="tools"
               items={TOOL_INSPECTION_ITEMS}
-              onItemRecorded={handleToolItemRecorded}
-              onComplete={() => {
-                setToolSafetyDone(true);
-                showToast('Tool Safety Recorded!', 'Proceeding to Ingredient Inspection', 'success');
-                setPhase('ingredient_inspection');
-              }}
+              initialAnswers={toolAnswers}
+              onAnswersChange={handleToolAnswersChange}
+              onComplete={handleToolComplete}
+              isLocked={isAlreadyCompleted}
             />
           </div>
         )}
@@ -455,8 +544,10 @@ export const OrientationScene = () => {
               title="Ingredient Quality Inspection"
               mode="ingredients"
               items={INGREDIENT_INSPECTION_ITEMS}
-              onItemRecorded={handleIngredientItemRecorded}
-              onComplete={handleFinishPreTest}
+              initialAnswers={ingredientAnswers}
+              onAnswersChange={handleIngredientAnswersChange}
+              onComplete={handleIngredientComplete}
+              isLocked={isAlreadyCompleted}
             />
           </div>
         )}

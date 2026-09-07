@@ -67,22 +67,34 @@ export const GameProvider = ({ children }) => {
     }));
   };
 
-  const recordPreTestTool = (toolChoice) => {
-    setAssessmentResults(prev => {
-      const existing = (prev.preTest.toolSafety || []).filter(t => t.id !== toolChoice.id);
+  const recordPreTestTool = (toolChoiceOrList) => {
+    setAssessmentResults((prev) => {
+      if (Array.isArray(toolChoiceOrList)) {
+        return {
+          ...prev,
+          preTest: { ...prev.preTest, toolSafety: toolChoiceOrList },
+        };
+      }
+      const existing = (prev.preTest.toolSafety || []).filter((t) => t.id !== toolChoiceOrList.id);
       return {
         ...prev,
-        preTest: { ...prev.preTest, toolSafety: [...existing, toolChoice] },
+        preTest: { ...prev.preTest, toolSafety: [...existing, toolChoiceOrList] },
       };
     });
   };
 
-  const recordPreTestIngredient = (ingredientChoice) => {
-    setAssessmentResults(prev => {
-      const existing = (prev.preTest.qualityInspection || []).filter(i => i.id !== ingredientChoice.id);
+  const recordPreTestIngredient = (ingredientChoiceOrList) => {
+    setAssessmentResults((prev) => {
+      if (Array.isArray(ingredientChoiceOrList)) {
+        return {
+          ...prev,
+          preTest: { ...prev.preTest, qualityInspection: ingredientChoiceOrList },
+        };
+      }
+      const existing = (prev.preTest.qualityInspection || []).filter((i) => i.id !== ingredientChoiceOrList.id);
       return {
         ...prev,
-        preTest: { ...prev.preTest, qualityInspection: [...existing, ingredientChoice] },
+        preTest: { ...prev.preTest, qualityInspection: [...existing, ingredientChoiceOrList] },
       };
     });
   };
