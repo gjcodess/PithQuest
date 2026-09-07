@@ -67,11 +67,10 @@
 }
 
 .steaming-scene .container-state-img {
-  max-width: 86%;
-  max-height: 86%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-  transform: none;
-  transform-origin: center center;
+  filter: drop-shadow(0 20px 36px rgba(78, 52, 28, 0.26));
 }
 
 .steaming-spec-card {
@@ -242,5 +241,3 @@
 .steaming-science-note strong {
   color: #0284c7;
 }
-
-

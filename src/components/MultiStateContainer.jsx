@@ -30,6 +30,7 @@ export const MultiStateContainer = ({
   const [isDragOver, setIsDragOver] = useState(false);
   const [shake, setShake] = useState(false);
   const [justAccepted, setJustAccepted] = useState(false);
+  const shakeTimeoutRef = React.useRef(null);
 
   const currentStep = steps[currentStepIndex] || steps[steps.length - 1] || {};
   const acceptedIds = currentStep.acceptedItems || [];
@@ -37,8 +38,20 @@ export const MultiStateContainer = ({
   const triggerErrorFeedback = (droppedItem) => {
     soundManager.playError();
     recordMistake();
-    setShake(true);
-    setTimeout(() => setShake(false), 500);
+
+    if (shakeTimeoutRef.current) {
+      clearTimeout(shakeTimeoutRef.current);
+    }
+
+    setShake(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setShake(true);
+        shakeTimeoutRef.current = setTimeout(() => {
+          setShake(false);
+        }, 450);
+      });
+    });
     
     if (onWrongItem) {
       onWrongItem(droppedItem);
@@ -131,7 +144,7 @@ export const MultiStateContainer = ({
 
       {/* Main Container Viewport */}
       <div
-        className="workstation-viewport"
+        className={`workstation-viewport ${activeAnimation ? `viewport-anim-${activeAnimation}` : ''}`}
         style={containerHeight && containerHeight !== 'auto' && containerHeight !== '330px' ? { minHeight: containerHeight } : {}}
       >
         {/* Animated Visual Effects Overlay */}
