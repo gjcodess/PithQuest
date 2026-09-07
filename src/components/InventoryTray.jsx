@@ -2,6 +2,8 @@ import React from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 
+import { SidebarPortal } from './SidebarPortal';
+
 /**
  * InventoryTray: Vertical right-sidebar rack of draggable and clickable tools & ingredients
  * Features item descriptions, measure badges, collapsible state, and rich tactile kitchen cabinetry styling.
@@ -11,6 +13,8 @@ export const InventoryTray = ({
   hint = "Click item to hold, then drop or tap into workstation",
   items = [],
   onItemClick,
+  onItemSelect,
+  activeItemId,
 }) => {
   const { holdingItem, setHoldingItem, isInventoryCollapsed, setIsInventoryCollapsed } = useGame();
 
@@ -24,8 +28,9 @@ export const InventoryTray = ({
       return;
     }
 
-    if (onItemClick) {
-      onItemClick(item);
+    const clickHandler = onItemClick || onItemSelect;
+    if (clickHandler) {
+      clickHandler(item);
       return;
     }
 
@@ -45,34 +50,37 @@ export const InventoryTray = ({
   if (isInventoryCollapsed) {
     const availableCount = items.filter((i) => !i.isUsed).length;
     return (
-      <div
-        className="right-inventory-rack collapsed"
-        onClick={() => {
-          soundManager.playClick();
-          setIsInventoryCollapsed(false);
-        }}
-        title="Click to open Cookware & Ingredients Rack (◀)"
-        role="button"
-        tabIndex={0}
-      >
-        <div className="inventory-tab-icon-wrapper">
-          <img src="/assets/icon_inventory_crate.png" alt="Inventory" className="inventory-tab-icon-img" />
-          <span className="inventory-tab-count-pill">{availableCount}</span>
+      <SidebarPortal>
+        <div
+          className="right-inventory-rack collapsed"
+          onClick={() => {
+            soundManager.playClick();
+            setIsInventoryCollapsed(false);
+          }}
+          title="Click to open Cookware & Ingredients Rack (◀)"
+          role="button"
+          tabIndex={0}
+        >
+          <div className="inventory-tab-icon-wrapper">
+            <img src="/assets/icon_inventory_crate.png" alt="Inventory" className="inventory-tab-icon-img" />
+            <span className="inventory-tab-count-pill">{availableCount}</span>
+          </div>
+          <div className="inventory-tab-label-stack">
+            <span className="inventory-tab-name">ITEMS</span>
+            <span className="inventory-tab-sub">RACK</span>
+          </div>
+          <div className="inventory-tab-chevron-box">
+            <span className="inventory-tab-chevron">◀</span>
+          </div>
         </div>
-        <div className="inventory-tab-label-stack">
-          <span className="inventory-tab-name">ITEMS</span>
-          <span className="inventory-tab-sub">RACK</span>
-        </div>
-        <div className="inventory-tab-chevron-box">
-          <span className="inventory-tab-chevron">◀</span>
-        </div>
-      </div>
+      </SidebarPortal>
     );
   }
 
   // Render Full Expanded Right Inventory Rack
   return (
-    <div className="right-inventory-rack expanded">
+    <SidebarPortal>
+      <div className="right-inventory-rack expanded">
       {/* Header Bar */}
       <div className="rack-header">
         <div className="rack-title-group">
@@ -106,7 +114,7 @@ export const InventoryTray = ({
       {/* Vertical Item Cards Stack with Rich Descriptions */}
       <div className="inventory-vertical-stack">
         {items.map((item) => {
-          const isHeld = holdingItem?.id === item.id;
+          const isHeld = activeItemId ? activeItemId === item.id : holdingItem?.id === item.id;
           const isUsed = item.isUsed;
           const isNext = item.isNext;
           const descriptionText = item.tooltip || item.desc || item.description || '';
@@ -172,5 +180,6 @@ export const InventoryTray = ({
         })}
       </div>
     </div>
+  </SidebarPortal>
   );
 };

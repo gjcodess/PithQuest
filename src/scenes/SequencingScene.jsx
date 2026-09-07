@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { SequencingActivity } from '../components/SequencingActivity';
+import { SequencingSidebar } from '../components/SequencingSidebar';
 
 export const SequencingScene = () => {
   const { studentName, setScene, speak, hideDialogue, missionsCompleted, completeMission, maxUnlockedStage } = useGame();
@@ -12,23 +13,23 @@ export const SequencingScene = () => {
     if (isAlreadyCompleted) {
       completeMission('sequencing');
       speak(
-        `Validation Exam Completed, ${studentName || 'Master Food Technologist'}! All 8 processing stages are verified in sequence. You are officially cleared for graduation!`,
+        `Post-Test Sequence Completed, ${studentName || 'Food Technologist'}! Your sequential ordering has been recorded. Review your complete laboratory performance and diagnostic audit report!`,
         'happy',
         {
-          badge: 'Mastery Validated',
-          note: 'Congratulations! You have demonstrated mastery over ingredients, tools, PPE, and the full processing sequence of Coconut Pith Crackers.',
-          btnText: 'View Sensory Audit, Achievements & Certificate ➔',
-          onNext: () => setScene('evaluation'),
+          badge: 'Post-Test Assessment Complete',
+          note: 'Your sequence order has been logged alongside your Pre-Test diagnostics for comprehensive evaluation.',
+          btnText: 'View Diagnostic Assessment Results ➔',
+          onNext: () => setScene('results'),
         }
       );
     } else {
       speak(
-        `Bonus Activity, ${studentName || 'Food Technologist'}! Arrange the processing stages in their correct chronological sequence from left to right.`,
+        `Post-Test Assessment, ${studentName || 'Food Technologist'}! Arrange the 8 processing stages in their authentic chronological sequence from left to right.`,
         'thinking',
         {
-          badge: 'Bonus Activity: Sequence Exam',
-          note: 'Recall our laboratory journey: from preparing raw ingredients to finished packaged crackers. Think about which processing stage comes first!',
-          hint: 'Drag and re-order the cards into the correct order, then click "Verify Chronological Order".',
+          badge: 'Post-Test: Stage Sequencing',
+          note: 'Reconstruct the complete food manufacturing pipeline: from raw ingredient preparation to finished packaged crackers.',
+          hint: 'Drag or tap cards to set their positions, then click "Submit Chronological Sequence & View Results".',
           hideButton: true,
         }
       );
@@ -40,13 +41,13 @@ export const SequencingScene = () => {
     completeMission('sequencing');
     soundManager.playFanfare();
     speak(
-      `YOU COMPLETED THE PITHQUEST, ${studentName || 'Master Food Technologist'}! You have verified the complete 8-stage food processing pipeline without a flaw. You are now officially cleared for graduation!`,
+      `Post-Test Submitted, ${studentName || 'Food Technologist'}! Your 8-stage manufacturing sequence is recorded. Let's inspect your diagnostic assessment results and comprehensive audit report!`,
       'happy',
       {
-        badge: 'Mastery Validated',
-        note: 'Congratulations! You have demonstrated mastery over ingredients, tools, PPE, and the full processing sequence of Coconut Pith Crackers.',
-        btnText: 'View Sensory Audit, Achievements & Certificate ➔',
-        onNext: () => setScene('evaluation'),
+        badge: 'Post-Test Submitted',
+        note: 'Comprehensive audit ready: Pre-Test PPE, Handwashing, Tool Safety, Ingredient QC, and Post-Test Sequencing.',
+        btnText: 'View Diagnostic Assessment Results ➔',
+        onNext: () => setScene('results'),
       }
     );
   };
@@ -55,7 +56,7 @@ export const SequencingScene = () => {
     soundManager.playClick();
     hideDialogue();
     completeMission('sequencing');
-    setScene('evaluation');
+    setScene('results');
   };
 
   return (
@@ -64,11 +65,11 @@ export const SequencingScene = () => {
         {/* Header Hero Banner */}
         <div className="sequencing-hero-header">
           <div className="hero-exam-badge">
-            <span>FINAL STEP • PROCESS SEQUENCE VALIDATION EXAM</span>
+            <span>POST-TEST • MANUFACTURING SEQUENCE ASSESSMENT</span>
           </div>
-          <h2 className="hero-exam-title">Coconut Pith Crackers Pipeline Validation</h2>
+          <h2 className="hero-exam-title">Coconut Pith Crackers Pipeline Assessment</h2>
           <p className="hero-exam-desc">
-            Reconstruct the exact sequential lifecycle of <strong>Ubod ng Niyog - Ubod CRUNCH</strong> before accessing your final laboratory achievements, sensory quality audit, and official certification.
+            Reconstruct the exact sequential lifecycle of <strong>Ubod ng Niyog - Ubod CRUNCH</strong> before accessing your comprehensive diagnostic audit report and food science rationale breakdown.
           </p>
         </div>
 
@@ -77,25 +78,12 @@ export const SequencingScene = () => {
           <SequencingActivity onComplete={handleSequenceCompleted} />
         </div>
 
-        {/* Post-Completion Glowing Call To Action */}
-        {isCompleted && (
-          <div className="sequencing-success-cta">
-            <div className="success-badge-card">
-              <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="success-medal-img" />
-              <div className="success-text-info">
-                <h3>Laboratory Validation Completed!</h3>
-                <p>All 8 production stages verified. Your final sensory report and certificate are ready.</p>
-              </div>
-              <button className="btn-gold btn-proceed-mastery" onClick={handleProceedToEvaluation}>
-                <span>View Final Achievements & Certificate ➔</span>
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Bottom clearance spacer */}
         <div style={{ height: '40px', flexShrink: 0 }} />
       </div>
+
+      {/* 20% Right Column Exam Protocol Sidebar */}
+      <SequencingSidebar isCompleted={isCompleted} />
     </div>
   );
 };

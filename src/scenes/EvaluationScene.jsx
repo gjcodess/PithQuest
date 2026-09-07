@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
+import { EvaluationSidebar } from '../components/EvaluationSidebar';
 
 export const EvaluationScene = () => {
   const { studentName, score, stars, badges, resetGame, speak, setScene, completeMission } = useGame();
@@ -161,6 +162,9 @@ export const EvaluationScene = () => {
         {/* Guaranteed bottom scroll clearance spacer */}
         <div className="eval-bottom-spacer" style={{ height: '36px', flexShrink: 0 }} />
       </div>
+
+      {/* 20% Right Column Evaluation & Badges Sidebar */}
+      <EvaluationSidebar />
     </div>
   );
 };

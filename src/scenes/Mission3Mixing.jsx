@@ -110,7 +110,6 @@ export const Mission3Mixing = () => {
     if (stepIndex === 0 && item.id === 'rice_flour') {
       soundManager.playPour();
       setBowlStep(1);
-      addScore(20);
       showToast('Rice Flour Added!', 'Next: Add Sea Salt to distribute evenly in dry mix.', 'success');
       speak(
         'Rice flour added! Now add the Pure Sea Salt from your inventory so it blends thoroughly into the dry flour particles.',
@@ -125,7 +124,6 @@ export const Mission3Mixing = () => {
     } else if (stepIndex === 1 && item.id === 'salt') {
       soundManager.playClick();
       setBowlStep(2);
-      addScore(20);
       showToast('Salt Added!', 'Next: Add Silky Ubod Paste (1:1 Ratio).', 'success');
       speak(
         'Salt blended! Now add the pureed Boiled Ubod Paste into the bowl to achieve our 1:1 starch-to-pith ratio.',
@@ -140,7 +138,6 @@ export const Mission3Mixing = () => {
     } else if (stepIndex === 2 && item.id === 'ubod_paste') {
       soundManager.playPour();
       setBowlStep(3);
-      addScore(25);
       showToast('Ubod Paste Added!', 'Next: Add Hydration Water gradually.', 'success');
       speak(
         'Paste incorporated! Now add the Hydration Water gradually to hydrate the starch granules for gelatinization.',
@@ -155,7 +152,6 @@ export const Mission3Mixing = () => {
     } else if (stepIndex === 3 && (item.id === 'water_hydration' || item.id === 'water')) {
       soundManager.playPour();
       setBowlStep(4);
-      addScore(25);
       showToast('Hydration Complete!', 'All ingredients added! Fold and mix with spatula.', 'success');
       speak(
         'All formulation ingredients are in the bowl! Pick up the Red Silicone Spatula from your inventory and tap the bowl to mix into paste.',
@@ -203,7 +199,6 @@ export const Mission3Mixing = () => {
         setIsKneading(false);
         setBowlStep(6);
         soundManager.playSuccess();
-        addScore(35);
         unlockBadge('dough_master', 'Starch Formulation Chemist', '🥯');
         completeMission('mission3');
         showToast('Paste Formed!', 'Smooth, uniform paste ready for molding', 'success');
@@ -280,7 +275,7 @@ export const Mission3Mixing = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Center: Stainless Mixing Bowl MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -290,8 +285,7 @@ export const Mission3Mixing = () => {
               currentStepIndex={bowlStep}
               steps={bowlSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               activeAnimation={isKneading ? 'mixing' : null}
               statusDotClass={bowlStep >= 6 ? 'dot-success' : bowlStep === 5 ? 'dot-amber' : ''}
               statusText={
@@ -351,7 +345,6 @@ export const Mission3Mixing = () => {
               bowlStep === 4 && (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') ? 'compatible-target' : ''
             }`}
             style={{
-              width: '440px',
               cursor: bowlStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -423,7 +416,7 @@ export const Mission3Mixing = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport qc-viewport" style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}>
+            <div className="workstation-viewport qc-viewport">
               {/* Recipe Calibration Checklist */}
               <div className="qc-recipe-list">
                 <div className="qc-list-title">

@@ -1,0 +1,793 @@
+/* ==========================================================================
+   MISSION 2: BOILING STYLES
+   ========================================================================== */
+.stovetop-layout {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  gap: 36px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.vessel-header-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.stockpot-zone {
+  min-height: 380px;
+  flex: 1 1 55%;
+  max-width: 580px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.stockpot-zone.simmering {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.pot-graphic {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.pot-img {
+  width: 280px;
+  height: 240px;
+  max-width: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
+  margin-bottom: 4px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.pot-img.pot-simmering {
+  animation: pot-rattle 0.35s infinite ease-in-out alternate;
+  filter: drop-shadow(0 10px 22px rgba(255, 87, 34, 0.45));
+}
+
+@keyframes pot-rattle {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-1.5px, -0.5px) rotate(-0.5deg);
+  }
+
+  50% {
+    transform: translate(1px, 0.5px) rotate(0.5deg);
+  }
+
+  75% {
+    transform: translate(-1px, 1px) rotate(-0.5deg);
+  }
+
+  100% {
+    transform: translate(1.5px, -0.5px) rotate(0.5deg);
+  }
+}
+
+/* Realistic Gas Burner Flame Ring Beneath Pot */
+.burner-flame-underglow {
+  position: absolute;
+  top: 105px;
+  width: 140px;
+  height: 38px;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flame-corona {
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(ellipse at center, rgba(255, 120, 0, 0.6) 0%, rgba(56, 189, 248, 0.5) 55%, transparent 75%);
+  filter: blur(6px);
+  animation: flame-flicker 0.18s infinite alternate ease-in-out;
+}
+
+.gas-flame-ring {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.flame-jet {
+  width: 8px;
+  height: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbbf24 30%, #ea580c 60%, #0284c7 95%);
+  border-radius: 50% 50% 30% 30%;
+  filter: drop-shadow(0 0 5px #38bdf8);
+  animation: jet-burn 0.22s infinite alternate ease-in-out;
+}
+
+.flame-jet.fj1 {
+  animation-delay: 0.03s;
+  height: 14px;
+}
+
+.flame-jet.fj2 {
+  animation-delay: 0.12s;
+  height: 18px;
+}
+
+.flame-jet.fj3 {
+  animation-delay: 0.07s;
+  height: 19px;
+}
+
+.flame-jet.fj4 {
+  animation-delay: 0.15s;
+  height: 21px;
+}
+
+.flame-jet.fj5 {
+  animation-delay: 0.05s;
+  height: 19px;
+}
+
+.flame-jet.fj6 {
+  animation-delay: 0.18s;
+  height: 17px;
+}
+
+.flame-jet.fj7 {
+  animation-delay: 0.09s;
+  height: 14px;
+}
+
+@keyframes jet-burn {
+  0% {
+    transform: scaleY(0.85) scaleX(0.92);
+  }
+
+  100% {
+    transform: scaleY(1.15) scaleX(1.08);
+  }
+}
+
+@keyframes flame-flicker {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.pot-status-text {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: block;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.pot-ready-callout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.transfer-hint-pill {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  animation: pulse-border 1.2s infinite alternate;
+}
+
+.steam-particles {
+  position: absolute;
+  top: 6px;
+  display: flex;
+  gap: 20px;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.steam {
+  width: 14px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  filter: blur(4px);
+}
+
+.steam.s1 {
+  animation: steam-rise 1.5s infinite ease-out 0s;
+}
+
+.steam.s2 {
+  animation: steam-rise 1.7s infinite ease-out 0.4s;
+}
+
+.steam.s3 {
+  animation: steam-rise 1.4s infinite ease-out 0.8s;
+}
+
+/* Enhanced Stove Burner Console - Full-Width Range Fascia (3D Tactile Laboratory Theme) */
+.stove-burner-console {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 86px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 20px;
+  border-radius: 0 0 18px 18px;
+  border: none;
+  border-top: 2.5px solid #d5c3ab;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 40%, #f2e7d5 80%, #dfcfb9 100%);
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 4px 10px rgba(78, 52, 28, 0.08);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+  position: relative;
+}
+
+.stove-burner-console:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #fffbf2 40%, #f7ecd9 80%, #e8dac5 100%);
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 6px 14px rgba(78, 52, 28, 0.14);
+}
+
+.stove-burner-console.ready-to-ignite {
+  background: linear-gradient(180deg, #fffdf5 0%, #fef3c7 40%, #fde68a 80%, #fcd34d 100%);
+  border-top-color: #f59e0b;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 0 20px rgba(245, 158, 11, 0.45);
+}
+
+.stove-burner-console.flame-active {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 40%, #fed7aa 80%, #fdba74 100%);
+  border-top-color: #f97316;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 0 24px rgba(249, 115, 22, 0.45);
+}
+
+.stove-burner-console.knob-shake {
+  animation: knob-locked-shake 0.4s ease;
+}
+
+@keyframes console-beacon {
+  from {
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 220, 150, 0.2);
+  }
+
+  to {
+    box-shadow: 0 0 28px rgba(245, 158, 11, 0.7), inset 0 1px 0 rgba(255, 220, 150, 0.4);
+  }
+}
+
+@keyframes knob-locked-shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.knob-assembly {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.knob-base-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(78, 52, 28, 0.4));
+}
+
+.knob-rotor-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 2px 5px rgba(78, 52, 28, 0.35));
+}
+
+.knob-rotor-img.turned-off {
+  transform: rotate(0deg);
+}
+
+.knob-rotor-img.turned-high {
+  transform: rotate(90deg);
+  filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.75)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.knob-beacon-ring {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #f59e0b;
+  border-radius: 50%;
+  animation: beacon-expand 1.6s infinite ease-out;
+  pointer-events: none;
+}
+
+.knob-beacon-ring.r2 {
+  animation-delay: 0.8s;
+}
+
+@keyframes beacon-expand {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.burner-panel-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.burner-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.burner-led {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid #cca87d;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.burner-led.cold {
+  background: #a8947e;
+  border-color: #d5c3ab;
+}
+
+.burner-led.blinking {
+  background: #f59e0b;
+  border-color: #fde68a;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: led-blink 0.8s infinite alternate;
+}
+
+.burner-led.burning {
+  background: #ef4444;
+  border-color: #fca5a5;
+  box-shadow: 0 0 12px #ef4444, 0 0 18px #f97316;
+}
+
+.burner-led.blinking-water {
+  background: #0284c7;
+  border-color: #bae6fd;
+  box-shadow: 0 0 10px #0284c7;
+  animation: led-blink 0.8s infinite alternate;
+}
+
+.burner-led.flowing {
+  background: #0ea5e9;
+  border-color: #e0f2fe;
+  box-shadow: 0 0 12px #0ea5e9, 0 0 18px #38bdf8;
+}
+
+.burner-led.sanitized-led {
+  background: #10b981;
+  border-color: #bbf7d0;
+  box-shadow: 0 0 12px #10b981;
+  animation: led-blink 1.2s infinite alternate;
+}
+
+@keyframes led-blink {
+  from {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.burner-mode-title {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #3d2612;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stove-burner-console.flame-active .burner-mode-title {
+  color: #9a3412;
+  text-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+}
+
+.burner-action-hint {
+  font-size: 0.78rem;
+  color: #735b44;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.stove-burner-console.ready-to-ignite .burner-action-hint {
+  color: #b45309;
+  font-weight: 800;
+}
+
+.burner-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.burner-progress-track {
+  width: 160px;
+  height: 9px;
+  background: #e8dccb;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid #cca87d;
+  box-shadow: inset 0 1px 3px rgba(90, 60, 30, 0.2);
+}
+
+.burner-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  border-radius: 4px;
+  transition: width 0.35s ease;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.85);
+}
+
+.burner-action-hint.flame-text {
+  color: #9a3412;
+  font-weight: 800;
+}
+
+.burner-action-hint.ready-text {
+  color: #b45309;
+  font-weight: 800;
+  animation: pulse-hint 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-hint {
+  from {
+    opacity: 0.8;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+}
+
+.stove-burner-console.has-extra-action {
+  gap: 14px;
+  padding: 12px 18px;
+}
+
+.burner-extra-action {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.burner-extra-action .btn-workstation-action {
+  white-space: nowrap;
+  font-size: 0.82rem;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #78350f, 0 3px 8px rgba(217, 119, 6, 0.35);
+}
+
+.workstation-footer.has-custom-footer,
+.steaming-scene .workstation-footer.has-custom-footer {
+  padding: 0 !important;
+  min-height: 0 !important;
+  border-top: none !important;
+  border: none !important;
+  background: transparent !important;
+  display: flex !important;
+  width: 100% !important;
+  margin-top: auto !important;
+}
+
+/* Faucet Water Tap Knob Console - Full-Width Sink Apron Fascia (3D Tactile Laboratory Theme) */
+.faucet-knob-console {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 86px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 20px;
+  border-radius: 0 0 18px 18px;
+  border: none;
+  border-top: 2.5px solid #d5c3ab;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 40%, #f2e7d5 80%, #dfcfb9 100%);
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 4px 10px rgba(78, 52, 28, 0.08);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+  position: relative;
+}
+
+.faucet-knob-console:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #fffbf2 40%, #f7ecd9 80%, #e8dac5 100%);
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 6px 14px rgba(78, 52, 28, 0.14);
+}
+
+.faucet-knob-console.ready-to-wash {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 80%, #7dd3fc 100%);
+  border-top-color: #0284c7;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 0 20px rgba(2, 132, 199, 0.4);
+}
+
+.faucet-knob-console.flow-active {
+  background: linear-gradient(180deg, #f0fdf4 0%, #e0f2fe 35%, #bae6fd 75%, #38bdf8 100%);
+  border-top-color: #0284c7;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 0 24px rgba(56, 189, 248, 0.45);
+}
+
+.faucet-knob-console.sanitized-active {
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 40%, #bbf7d0 80%, #86efac 100%);
+  border-top-color: #10b981;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 0 18px rgba(16, 185, 129, 0.35);
+}
+
+.faucet-knob-assembly .knob-rotor-img.turned-high {
+  transform: rotate(90deg);
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.8)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes faucet-beacon {
+  from {
+    box-shadow: 0 0 12px rgba(14, 165, 233, 0.35), inset 0 1px 0 rgba(186, 230, 253, 0.2);
+  }
+
+  to {
+    box-shadow: 0 0 26px rgba(14, 165, 233, 0.75), inset 0 1px 0 rgba(186, 230, 253, 0.4);
+  }
+}
+
+.faucet-beacon-ring {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #0284c7;
+  border-radius: 50%;
+  animation: beacon-expand 1.6s infinite ease-out;
+  pointer-events: none;
+}
+
+.faucet-beacon-ring.r2 {
+  animation-delay: 0.8s;
+}
+
+.faucet-title {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #3d2612;
+  letter-spacing: 0.4px;
+}
+
+.faucet-knob-console.flow-active .faucet-title {
+  color: #0369a1;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.faucet-knob-console.sanitized-active .faucet-title {
+  color: #166534;
+}
+
+.faucet-action-hint {
+  font-size: 0.78rem;
+  color: #735b44;
+  font-weight: 700;
+}
+
+.faucet-action-hint.ready-water-text {
+  color: #0369a1;
+  font-weight: 800;
+  animation: pulse-hint 1.2s infinite alternate ease-in-out;
+}
+
+.faucet-action-hint.flowing-text {
+  color: #0284c7;
+  font-weight: 800;
+  text-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+}
+
+.faucet-action-hint.sanitized-text {
+  color: #166534;
+  font-weight: 800;
+}
+
+.faucet-action-hint.complete-water-text {
+  color: #735b44;
+  font-weight: 600;
+}
+
+.tenderness-meter {
+  width: 220px;
+  margin: 10px auto;
+}
+
+.gauge-track {
+  height: 16px;
+  background: #cbd5e1;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #94a3b8;
+}
+
+.gauge-green-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(46, 204, 113, 0.4);
+  border-left: 2px dashed #27ae60;
+  border-right: 2px dashed #27ae60;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f1c40f, #e67e22, #2ecc71);
+  transition: width 0.1s linear;
+}
+
+.gauge-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  color: #334155;
+  font-weight: 700;
+  display: block;
+  margin-top: 4px;
+}
+
+.btn-stop-boil {
+  font-size: 0.85rem;
+  padding: 6px 16px;
+  margin-top: 6px;
+}
+
+.blender-appliance {
+  background: #f8fafc;
+  border: 3px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blender-appliance.pulse-blender {
+  border-color: var(--color-gold-400);
+  background: var(--color-gold-50);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.4);
+  animation: pulse-border 1s infinite alternate;
+}
+
+.blender-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+.blender-appliance:hover .blender-img {
+  transform: translateY(-3px) scale(1.04);
+}
+
+.blender-appliance.pulse-blender .blender-img {
+  animation: blender-vibrate 0.15s infinite linear;
+}
+
+@keyframes blender-vibrate {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-2px, 1px) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translate(2px, -1px) rotate(1.5deg);
+  }
+
+  75% {
+    transform: translate(-1px, -1px) rotate(-1deg);
+  }
+
+  100% {
+    transform: translate(1px, 1px) rotate(1deg);
+  }
+}
+
+.blender-appliance h4 {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: var(--color-text-main);
+}
+
+.blender-appliance p {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 4px;
+}

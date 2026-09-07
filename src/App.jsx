@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { useGame } from './context/GameContext';
 import { HeaderHUD } from './components/HeaderHUD';
 import { DialogueBox } from './components/DialogueBox';
+import { StageNextButton } from './components/StageNextButton';
 import { Toast } from './components/Toast';
 import { RecipeModal } from './components/Modals/RecipeModal';
 import { ObjectivesModal } from './components/Modals/ObjectivesModal';
+import { ScienceConceptsModal } from './components/Modals/ScienceConceptsModal';
+import { AboutUsModal } from './components/Modals/AboutUsModal';
+import { HelpModal } from './components/Modals/HelpModal';
 import { ConfirmModal } from './components/Modals/ConfirmModal';
 import { FloatingItemCursor } from './components/FloatingItemCursor';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -21,7 +25,7 @@ import { Mission6Dehydration } from './scenes/Mission6Dehydration';
 import { Mission7Frying } from './scenes/Mission7Frying';
 import { Mission8Packaging } from './scenes/Mission8Packaging';
 import { SequencingScene } from './scenes/SequencingScene';
-import { EvaluationScene } from './scenes/EvaluationScene';
+import { ResultsScene } from './scenes/ResultsScene';
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +56,8 @@ export const App = () => {
       case 'sequencing':
         return <SequencingScene key={`sequencing-${stageKey}`} />;
       case 'evaluation':
-        return <EvaluationScene />;
+      case 'results':
+        return <ResultsScene key={`results-${stageKey}`} />;
       default:
         return <TitleScene />;
     }
@@ -66,7 +71,7 @@ export const App = () => {
     <div className="game-app">
       <HeaderHUD />
       <main
-        className={`game-viewport ${
+        className={`game-viewport scene-${scene} ${
           isDialogueCollapsed ? 'dialogue-collapsed' : 'dialogue-expanded'
         } ${
           isInventoryCollapsed ? 'inventory-collapsed' : 'inventory-expanded'
@@ -75,14 +80,37 @@ export const App = () => {
           zoom: effectiveZoom,
         }}
       >
-        <div className="scene-container">
-          {renderScene()}
-        </div>
-        {scene !== 'title' && <DialogueBox />}
+        {scene === 'title' ? (
+          <div className="scene-container scene-container-full">
+            {renderScene()}
+          </div>
+        ) : (
+          <div className="viewport-layout-grid">
+            {/* Left 80% Column: Workstation */}
+            <div className="viewport-left-column">
+              <div className="scene-container">
+                {renderScene()}
+              </div>
+              <StageNextButton />
+            </div>
+
+            {/* Right 20% Column: Sidebar (Inventory / Orientation / Exam / Cert) */}
+            <aside
+              className={`viewport-right-column ${
+                isInventoryCollapsed ? 'collapsed' : 'expanded'
+              }`}
+              id="viewport-sidebar-slot"
+            />
+          </div>
+        )}
       </main>
+      <DialogueBox />
       <Toast />
       <RecipeModal />
       <ObjectivesModal />
+      <ScienceConceptsModal />
+      <AboutUsModal />
+      <HelpModal />
       <ConfirmModal />
       <FloatingItemCursor />
     </div>

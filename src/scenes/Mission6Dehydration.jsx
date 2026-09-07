@@ -112,7 +112,6 @@ export const Mission6Dehydration = () => {
     if (stepIndex === 0 && (item.id === 'mesh_tray' || item.id === 'icon_drying_tray' || item.id === 'dehydrator_tray_empty')) {
       soundManager.playClick();
       setDehydrateStep(1);
-      addScore(20);
       setHoldingItem(null);
       showToast('Tray Prepared!', 'Stainless wire mesh placed on counter', 'success');
       speak(
@@ -128,7 +127,6 @@ export const Mission6Dehydration = () => {
     } else if (stepIndex === 1 && (item.id === 'steamed_pieces' || item.id === 'steamed_ubod' || item.id === 'cracker_piece_unmolded')) {
       soundManager.playClick();
       setDehydrateStep(2);
-      addScore(25);
       setHoldingItem(null);
       showToast('Pieces Loaded!', 'Spaced evenly with 1-inch gaps', 'success');
       speak(
@@ -151,7 +149,6 @@ export const Mission6Dehydration = () => {
   const handleSlideIntoCabinet = () => {
     soundManager.playClick();
     setDehydrateStep(3);
-    addScore(20);
     setHoldingItem(null);
     showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator', 'success');
     speak(
@@ -197,7 +194,6 @@ export const Mission6Dehydration = () => {
         setIsDehydrating(false);
         setDehydrateStep(5);
         soundManager.playSuccess();
-        addScore(40);
         showToast('Dehydration Complete!', 'Moisture reduced to 8%! Translucent glassy pellets formed', 'success');
         speak(
           'Step 18: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Airtight Chip Box to store them!',
@@ -217,7 +213,6 @@ export const Mission6Dehydration = () => {
     soundManager.playClick();
     setDehydrateStep(6);
     setHoldingItem(null);
-    addScore(30);
     unlockBadge('vitrification_master', 'Moisture Reduction Expert', '💨');
     completeMission('mission6');
     showToast('Airtight Storage!', 'Protected from ambient humidity', 'success');
@@ -282,7 +277,7 @@ export const Mission6Dehydration = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Left: Convection Cabinet Dehydrator Workstation */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -293,8 +288,7 @@ export const Mission6Dehydration = () => {
               steps={dehydratorSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isDehydrating ? 'convection' : null}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               statusDotClass={dehydrateStep >= 6 ? 'dot-success' : isDehydrating ? 'dot-amber' : ''}
               statusText={
                 dehydrateStep >= 6
@@ -439,7 +433,6 @@ export const Mission6Dehydration = () => {
                 : ''
             }`}
             style={{
-              width: '440px',
               cursor: dehydrateStep === 5 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -506,7 +499,6 @@ export const Mission6Dehydration = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport dehydration-qc-viewport"
-              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Moisture & Thermal Parameters Card */}
               <div className="dehydration-spec-card">

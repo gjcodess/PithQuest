@@ -10,10 +10,14 @@ const AVATARS = {
 };
 
 export const DialogueBox = () => {
-  const { dialogue, scene, isDialogueCollapsed, setIsDialogueCollapsed } = useGame();
+  const { dialogue, scene, isDialogueCollapsed, setIsDialogueCollapsed, effectiveZoom } = useGame();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [hasUnread, setHasUnread] = useState(false);
   const timerRef = useRef(null);
+  const popoverRef = useRef(null);
+  const buttonRef = useRef(null);
+  const lastReadTextRef = useRef('');
 
   const finishTyping = () => {
     if (timerRef.current) {
@@ -24,13 +28,51 @@ export const DialogueBox = () => {
     setIsTyping(false);
   };
 
-  // Auto-expand when a primary mission transition button appears
+  // When new dialogue text arrives, trigger unread indicator only if dialogue is collapsed
   useEffect(() => {
-    if (dialogue.btnText) {
-      setIsDialogueCollapsed(false);
+    if (dialogue.text) {
+      if (dialogue.text !== lastReadTextRef.current) {
+        if (isDialogueCollapsed) {
+          setHasUnread(true);
+        } else {
+          lastReadTextRef.current = dialogue.text;
+          setHasUnread(false);
+        }
+      }
     }
-  }, [dialogue.btnText, setIsDialogueCollapsed]);
+  }, [dialogue.text, isDialogueCollapsed]);
 
+  // Click outside to auto-collapse
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isDialogueCollapsed) return;
+
+      const isInsidePopover = popoverRef.current && popoverRef.current.contains(e.target);
+      const isInsideButton = buttonRef.current && buttonRef.current.contains(e.target);
+
+      if (!isInsidePopover && !isInsideButton) {
+        setIsDialogueCollapsed(true);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !isDialogueCollapsed) {
+        setIsDialogueCollapsed(true);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isDialogueCollapsed, setIsDialogueCollapsed]);
+
+  // Typing effect when dialogue text changes
   useEffect(() => {
     if (!dialogue.visible || !dialogue.text) {
       setDisplayedText('');
@@ -59,7 +101,7 @@ export const DialogueBox = () => {
         }
         setIsTyping(false);
       }
-    }, 14);
+    }, 12);
 
     return () => {
       if (timerRef.current) {
@@ -70,6 +112,19 @@ export const DialogueBox = () => {
   }, [dialogue.text, dialogue.visible]);
 
   if (!dialogue.visible || scene === 'title') return null;
+
+  const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
+
+  const handleToggleOpen = (e) => {
+    e.stopPropagation();
+    soundManager.playClick();
+    const willOpen = isDialogueCollapsed;
+    setIsDialogueCollapsed(!willOpen);
+    if (willOpen) {
+      lastReadTextRef.current = dialogue.text || '';
+      setHasUnread(false);
+    }
+  };
 
   const handleNextClick = (e) => {
     e.stopPropagation();
@@ -88,105 +143,131 @@ export const DialogueBox = () => {
     }
   };
 
-  const avatarSrc = AVATARS[dialogue.avatar] || AVATARS.neutral;
-
-  // Render Collapsed Slim Vertical Tab (Left Edge)
-  if (isDialogueCollapsed) {
-    return (
-      <div
-        className="left-assistant-panel collapsed"
-        onClick={() => {
-          soundManager.playClick();
-          setIsDialogueCollapsed(false);
-        }}
-        title="Click to open Teacher Mia's guidance (▶)"
-        role="button"
-        tabIndex={0}
-      >
-        <div className="assistant-tab-avatar-wrapper">
-          <img src={avatarSrc} alt="Teacher Mia" className="assistant-tab-avatar" />
-          <span className="assistant-tab-beacon" />
-        </div>
-        <div className="assistant-tab-label-stack">
-          <span className="assistant-tab-name">MIA</span>
-          <span className="assistant-tab-sub">GUIDE</span>
-        </div>
-        <div className="assistant-tab-chevron-box">
-          <span className="assistant-tab-chevron">▶</span>
-        </div>
-      </div>
-    );
-  }
-
-  // Render Full Expanded Left Assistant Sidebar
   return (
     <div
-      className={`left-assistant-panel expanded ${isTyping ? 'is-typing' : ''}`}
-      onClick={handleBoxClick}
-      title={isTyping ? 'Click speech bubble to reveal text instantly' : undefined}
+      className="floating-companion-wrapper"
+      style={{
+        zoom: effectiveZoom,
+      }}
     >
-      {/* Header Bar */}
-      <div className="assistant-header">
-        <div className="assistant-avatar-container">
-          <img src={avatarSrc} alt="Teacher Mia" className="assistant-avatar-img" />
-          <span className={`assistant-mood-indicator ${dialogue.avatar || 'neutral'}`} />
+      {/* 1. Floating Circular Avatar Trigger (Bottom Left) */}
+      <button
+        ref={buttonRef}
+        type="button"
+        className={`floating-companion-btn ${!isDialogueCollapsed ? 'active-open' : ''} ${hasUnread ? 'has-unread' : ''}`}
+        onClick={handleToggleOpen}
+        title={
+          hasUnread
+            ? "Teacher Mia has guidance for you! (Click to open)"
+            : isDialogueCollapsed
+            ? "Teacher Mia's Guide (Click to open)"
+            : "Close Guide"
+        }
+        aria-label="Toggle Teacher Mia Guidance"
+      >
+        <div className="companion-avatar-frame">
+          <img src={avatarSrc} alt="Teacher Mia" className="companion-avatar-img" />
+          <span className={`companion-mood-indicator ${dialogue.avatar || 'neutral'}`} />
         </div>
-        <div className="assistant-title-group">
-          <span className="assistant-name">Teacher Mia</span>
-          <span className="assistant-status-badge">{dialogue.badge || 'Laboratory Mentor'}</span>
-        </div>
-        <button
-          className="assistant-collapse-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            soundManager.playClick();
-            setIsDialogueCollapsed(true);
-          }}
-          title="Minimize Teacher Mia guidance (◀)"
-          aria-label="Minimize Dialogue"
-        >
-          <span>◀</span>
-        </button>
-      </div>
-      <div className="assistant-header-divider" />
 
-      {/* Speech Content */}
-      <div className="assistant-speech-body">
-        <p className="assistant-dialogue-text">
-          {displayedText}
-          {isTyping && <span className="dialogue-typing-cursor">▌</span>}
-        </p>
+        {/* Pulse / Tip Indicator Bubble: ONLY visible when there is an unread message */}
+        {hasUnread && isDialogueCollapsed && (
+          <div className="companion-notification-bubble" title="New guidance from Teacher Mia">
+            <span className="bubble-icon">💡</span>
+          </div>
+        )}
 
-        {dialogue.note && (
-          <div className="assistant-note-callout">
-            <div className="note-callout-header">
-              <span className="note-icon">📝</span>
-              <span className="note-title">{dialogue.noteTitle || "Teacher Mia's Note"}</span>
+        {/* Hover / Hint Tooltip */}
+        <span className="companion-tooltip-tag">
+          {hasUnread ? '💡 New Guidance!' : 'Teacher Mia'}
+        </span>
+      </button>
+
+      {/* 2. Expanded Floating Dialogue Popover Card */}
+      <aside
+        ref={popoverRef}
+        className={`companion-popover-card ${isDialogueCollapsed ? 'is-closed' : 'is-open'} ${isTyping ? 'is-typing' : ''}`}
+        onClick={handleBoxClick}
+        title={isTyping ? 'Click to reveal full text instantly' : undefined}
+        role="dialog"
+        aria-hidden={isDialogueCollapsed}
+        aria-label="Teacher Mia Guidance"
+      >
+        {/* Card Top Header */}
+        <div className="companion-card-header">
+          <div className="companion-header-identity">
+            <div className="companion-mini-avatar">
+              <img src={avatarSrc} alt="Teacher Mia" />
             </div>
-            <p className="note-text">{dialogue.note}</p>
+            <div className="companion-name-stack">
+              <span className="companion-mentor-name">Teacher Mia</span>
+              <span className="companion-mentor-role">Food Science Mentor</span>
+            </div>
           </div>
-        )}
 
-        {dialogue.hint && (
-          <div className="assistant-hint-callout">
-            <span className="hint-icon">💡</span>
-            <span className="hint-text">{dialogue.hint}</span>
+          <div className="companion-header-actions">
+            {dialogue.badge && (
+              <span className="companion-stage-badge">{dialogue.badge}</span>
+            )}
+            <button
+              type="button"
+              className="companion-close-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                soundManager.playClick();
+                setIsDialogueCollapsed(true);
+              }}
+              title="Close Guide (Esc)"
+              aria-label="Close Guide"
+            >
+              ✕
+            </button>
           </div>
-        )}
-      </div>
-
-      {/* Footer / Transition Button */}
-      {!dialogue.hideButton && Boolean(dialogue.btnText) && (
-        <div className="assistant-footer">
-          <button
-            className="assistant-action-btn ready"
-            onClick={handleNextClick}
-            title={dialogue.btnText}
-          >
-            <span>{dialogue.btnText}</span>
-          </button>
         </div>
-      )}
+
+        {/* Speech Bubble Content */}
+        <div className="companion-speech-content">
+          <p className="companion-dialogue-text">
+            {displayedText}
+            {isTyping && <span className="dialogue-typing-cursor">▌</span>}
+          </p>
+        </div>
+
+        {/* Notes & Hints Callouts */}
+        {(dialogue.note || dialogue.hint) && (
+          <div className="companion-callouts-box">
+            {dialogue.note && (
+              <div className="companion-note-item">
+                <span className="callout-icon">📝</span>
+                <div className="callout-text">
+                  <strong>{dialogue.noteTitle || 'Standard Note'}:</strong> {dialogue.note}
+                </div>
+              </div>
+            )}
+            {dialogue.hint && (
+              <div className="companion-hint-item">
+                <span className="callout-icon">💡</span>
+                <div className="callout-text">
+                  <strong>Lab Hint:</strong> {dialogue.hint}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Action / Next Stage Button */}
+        {!dialogue.hideButton && Boolean(dialogue.btnText) && (
+          <div className="companion-card-footer">
+            <button
+              type="button"
+              className="btn-primary companion-action-btn"
+              onClick={handleNextClick}
+            >
+              <span>{dialogue.btnText}</span>
+            </button>
+          </div>
+        )}
+      </aside>
     </div>
   );
 };
