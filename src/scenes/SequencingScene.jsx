@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { SequencingActivity } from '../components/SequencingActivity';
+import { SequencingSidebar } from '../components/SequencingSidebar';
 
 export const SequencingScene = () => {
   const { studentName, setScene, speak, hideDialogue, missionsCompleted, completeMission, maxUnlockedStage } = useGame();
@@ -96,6 +97,9 @@ export const SequencingScene = () => {
         {/* Bottom clearance spacer */}
         <div style={{ height: '40px', flexShrink: 0 }} />
       </div>
+
+      {/* 20% Right Column Exam Protocol Sidebar */}
+      <SequencingSidebar isCompleted={isCompleted} />
     </div>
   );
 };

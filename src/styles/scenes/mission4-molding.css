@@ -1,0 +1,483 @@
+/* ==========================================================================
+   MISSION 4: DEHYDRATION STYLES
+   ========================================================================== */
+.dehydrator-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+}
+
+.tray-zone {
+  min-height: 280px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.tray-mesh-label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.discs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.cracker-disc {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.cracker-disc.empty {
+  border: 2px dashed #94a3b8;
+  color: #94a3b8;
+  background: #ffffff;
+}
+
+.cracker-disc.placed {
+  background: #fef9c3;
+  border: 3px solid #facc15;
+  color: #854d0e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cracker-disc.dried-glassy {
+  background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+  border: 3px solid #ca8a04;
+  color: #713f12;
+  box-shadow: 0 0 14px rgba(234, 179, 8, 0.6);
+  transform: scale(0.95);
+}
+
+.dehydrator-instrument-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.instrument-card {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  cursor: pointer;
+}
+
+.instrument-label {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  color: #475569;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.instrument-value {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.instrument-value.optimal {
+  color: var(--color-palm-600);
+}
+
+.action-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-gold-600);
+  display: block;
+  margin-top: 2px;
+}
+
+.moisture-meter-track {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.moisture-fill {
+  height: 100%;
+  transition: width 0.15s linear;
+}
+
+
+/* ==========================================================================
+   PORTIONING & MOLDING WORKSTATION STYLING (Stage 4)
+   ========================================================================== */
+
+.molding-scene .stage-content-row {
+  margin: 0 auto;
+  gap: 36px;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.molding-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.molding-qc-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 10px;
+}
+
+.molding-spec-card {
+  background: #ffffff;
+  border: 2px solid #dfcfb9;
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2.5px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
+}
+
+.molding-spec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #3d2612;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid #dfcfb9;
+}
+
+.molding-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.molding-spec-item {
+  background: #fbf8f1;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.molding-spec-item .spec-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #735b44;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.molding-spec-item .spec-val {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.wafer-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fbf8f1;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.wafer-profile-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.wafer-profile-visual img {
+  width: 52px;
+  height: 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.wafer-tag-badge {
+  font-size: 0.70rem;
+  font-weight: 800;
+  color: #3d2612;
+  background: #ffffff;
+  border: 1.5px solid #dfcfb9;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 1px 0 #cfbc9f;
+  white-space: nowrap;
+}
+
+.wafer-profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.profile-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.profile-detail-item .detail-label {
+  color: #735b44;
+  font-weight: 700;
+}
+
+.profile-detail-item .detail-val {
+  color: #3d2612;
+  font-weight: 800;
+  font-size: 0.90rem;
+}
+
+.molding-science-note {
+  font-size: 0.80rem;
+  color: #1e3a8a;
+  background: #f0f9ff;
+  border: 1.5px solid #bae6fd;
+  border-radius: 8px;
+  padding: 6px 10px;
+  line-height: 1.4;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #7dd3fc;
+}
+
+.molding-science-note strong {
+  color: #0369a1;
+}
+
+.btn-fill-remaining {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 2px solid #075985;
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #082f49, 0 4px 10px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.btn-fill-remaining:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 #082f49, 0 6px 14px rgba(2, 132, 199, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+}
+
+.btn-fill-remaining:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #082f49;
+}
+
+.btn-fill-remaining:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mold-scraping-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.mold-leveling-anim {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+  animation: spatulaMoldScrape 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes spatulaMoldScrape {
+  0% {
+    transform: translate(-80px, -40px) rotate(-35deg) scale(0.9);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(0px, 0px) rotate(10deg) scale(1.05);
+  }
+
+  75% {
+    transform: translate(60px, 30px) rotate(45deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(90px, 50px) rotate(60deg) scale(0.85);
+    opacity: 0;
+  }
+}
+
+
+/* ==========================================================================
+   SILICONE MOLD (STAGE 4)
+   ========================================================================== */
+
+.silicone-mold-container {
+  background: #fdf2f8;
+  border: 4px solid #f472b6;
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  box-shadow: 0 12px 28px rgba(244, 114, 182, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.mold-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mold-header-bar h4 {
+  font-family: var(--font-heading);
+  color: #9d174d;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.mold-badge {
+  background: #fbcfe8;
+  color: #831843;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.silicone-grid-24 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  background: #fce7f3;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  border: 2px dashed #f472b6;
+}
+
+.mold-slot {
+  aspect-ratio: 1.8 / 1;
+  background: #fdf2f8;
+  border: 2px solid #f9a8d4;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.mold-slot:hover:not(.filled) {
+  background: #fbcfe8;
+  transform: scale(1.05);
+}
+
+.mold-slot.slot-target {
+  animation: pulseGuide 1.5s infinite;
+  border-color: #10b981;
+}
+
+.mold-slot.filled {
+  background: #fef08a;
+  border: 2px solid #eab308;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.molded-dough-rect {
+  width: 80%;
+  height: 70%;
+  background: linear-gradient(135deg, #fef9c3 0%, #fde047 100%);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.empty-slot-plus {
+  color: #f472b6;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mold-footer-bar {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #831843;
+  font-weight: 600;
+}
+
+.btn-quick-fill {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.35);
+  margin-top: 6px;
+  transition: transform 0.2s ease;
+}
+
+.btn-quick-fill:hover {
+  transform: translateY(-2px);
+}

@@ -1,0 +1,321 @@
+/* ==========================================================================
+   MINIGAME: TOOL & INGREDIENT INSPECTION (3D TACTILE STYLING)
+   ========================================================================== */
+
+.inspection-minigame-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.inspection-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #ffffff 0%, #faf6ec 100%);
+  border: 2px solid #dfcfb9;
+  border-radius: var(--radius-md, 14px);
+  padding: 8px 14px;
+  box-shadow: 0 2px 0 #cfbc9f;
+}
+
+.inspection-title-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mode-badge {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #15803d;
+  border: 1.5px solid #86efac;
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.item-target-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #15803d;
+  margin: 0;
+}
+
+.inspection-counter {
+  background: #54361e;
+  border: 1.5px solid #996237;
+  color: #fef08a;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.inspection-prompt {
+  font-size: 0.94rem;
+  color: #735b44;
+  font-weight: 600;
+  margin: 2px 0 6px;
+  line-height: 1.4;
+}
+
+.inspection-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.inspection-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf7 60%, #f7f2e9 100%);
+  border: 3px solid #dfcfb9;
+  border-radius: var(--radius-lg, 18px);
+  box-shadow: 0 4px 0 #cfbc9f, 0 3px 8px rgba(90, 60, 30, 0.06);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  text-align: center;
+}
+
+.inspection-card:hover {
+  transform: translateY(-4px);
+  border-color: #22c55e;
+  box-shadow: 0 8px 0 #15803d, 0 8px 18px rgba(22, 101, 52, 0.2);
+  background: #ffffff;
+}
+
+.inspection-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #cfbc9f;
+}
+
+.card-badge-tag {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  background: #fbf7ee;
+  border: 1.5px solid #dfcfb9;
+  color: #15803d;
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.card-img-wrapper {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0 10px;
+  background: radial-gradient(circle at center, #ffffff 40%, #f7ece0 100%);
+  border: 1.5px solid #dfcfb9;
+  border-radius: var(--radius-md, 12px);
+  padding: 6px;
+  box-shadow: inset 0 1px 3px rgba(90, 60, 30, 0.08);
+}
+
+.inspection-card-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+  transition: transform 0.2s ease;
+}
+
+.inspection-card:hover .inspection-card-img {
+  transform: scale(1.08);
+}
+
+.inspection-card .card-fallback-icon .emoji {
+  font-size: 3rem;
+}
+
+.inspection-card .card-title {
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #2b180a;
+  margin: 4px 0 2px;
+}
+
+.inspection-card .card-desc {
+  font-size: 0.8rem;
+  color: #735b44;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.inspection-card .card-verdict-banner {
+  margin-top: 12px;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  width: 100%;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.card-verdict-banner.safe {
+  background: #dcfce7;
+  border: 1.5px solid #86efac;
+  color: #15803d;
+  box-shadow: 0 2px 0 #16a34a;
+}
+
+.card-verdict-banner.hazard {
+  background: #fee2e2;
+  border: 1.5px solid #fca5a5;
+  color: #b91c1c;
+  box-shadow: 0 2px 0 #ef4444;
+}
+
+.inspection-card.card-safe {
+  border-color: #22c55e;
+  background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+  box-shadow: 0 5px 0 #15803d, 0 6px 16px rgba(22, 101, 52, 0.2);
+}
+
+.inspection-card.card-hazard {
+  border-color: #ef4444;
+  background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
+  box-shadow: 0 5px 0 #dc2626, 0 6px 16px rgba(239, 68, 68, 0.2);
+}
+
+.inspection-feedback-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md, 14px);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  box-shadow: 0 2px 0 #cfbc9f;
+}
+
+.inspection-feedback-box.safe {
+  background: #f0fdf4;
+  border: 2px solid #86efac;
+  color: #15803d;
+}
+
+.inspection-feedback-box.hazard {
+  background: #fff5f5;
+  border: 2px solid #fca5a5;
+  color: #991b1b;
+}
+
+.inspection-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  animation: fadeInSlideUp 0.3s ease;
+}
+
+.btn-next-inspection {
+  padding: 10px 24px;
+  font-family: var(--font-heading);
+  font-size: 0.96rem;
+  font-weight: 800;
+  box-shadow: 0 4px 0 #b45309, 0 6px 14px rgba(217, 119, 6, 0.25);
+  animation: pulseGuide 2.2s infinite;
+}
+
+/* ==========================================================================
+   INSPECTION CLEARANCE COMPLETE CARD (3D TACTILE REWARD CARD)
+   ========================================================================== */
+.inspection-complete-card {
+  width: 100%;
+  max-width: 660px;
+  margin: 32px auto 20px;
+  background: #ffffff;
+  border: 2.5px solid #dfcfb9;
+  border-bottom: 5px solid #bda88e;
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow:
+    0 6px 0 #bda88e,
+    0 16px 36px rgba(78, 52, 28, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  animation: fadeInSlideUp 0.35s ease;
+}
+
+.inspection-complete-card .complete-icon {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 3.5px solid #86efac;
+  box-shadow: 0 5px 0 #15803d, 0 10px 24px rgba(22, 101, 52, 0.2);
+  font-size: 3.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.inspection-complete-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #1e3a2b;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.015em;
+}
+
+.inspection-complete-card p {
+  font-size: 1.05rem;
+  color: #54391e;
+  line-height: 1.55;
+  margin: 0 0 18px 0;
+  max-width: 500px;
+}
+
+.inspection-complete-card .inspection-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ecfdf5;
+  border: 2px solid #86efac;
+  color: #047857;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 8px 22px;
+  border-radius: var(--radius-pill, 999px);
+  box-shadow: 0 2px 0 #34d399;
+  margin-bottom: 24px;
+}
+
+.inspection-complete-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.inspection-complete-actions .btn-primary {
+  padding: 12px 28px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  box-shadow: 0 4px 0 #15803d, 0 6px 16px rgba(22, 101, 52, 0.25);
+}
+

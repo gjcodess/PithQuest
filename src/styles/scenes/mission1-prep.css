@@ -1,0 +1,1051 @@
+/* ==========================================================================
+   MISSION 1: PREP & SLICING STYLES
+   ========================================================================== */
+.prep-workspace-layout {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  gap: 36px;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px 4px;
+  overflow: visible;
+}
+
+.cutting-board-zone,
+.cutting-board-zone.highlight-ready,
+.cutting-board-zone.hover-active {
+  min-height: 360px;
+  flex: 1 1 55%;
+  max-width: 560px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible !important;
+}
+
+.board-backdrop-img {
+  width: 100%;
+  max-width: 520px;
+  max-height: 380px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
+  transition: transform 0.25s ease, filter 0.25s ease;
+  pointer-events: none;
+}
+
+.cutting-board-zone.highlight-ready .board-backdrop-img {
+  filter: drop-shadow(0 0 18px rgba(245, 166, 35, 0.8)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+  transform: scale(1.02);
+}
+
+.cutting-board-zone.hover-active .board-backdrop-img {
+  filter: drop-shadow(0 0 22px rgba(46, 204, 113, 0.85)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+  transform: scale(1.03);
+}
+
+.board-overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.board-overlay-content * {
+  pointer-events: auto;
+}
+
+.zone-hint-text {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3e2723;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #d7ccc8;
+}
+
+.on-board-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.board-ingredient-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.board-ingredient-img.sliced {
+  transform: scale(1.1) rotate(4deg);
+}
+
+.board-item-label {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3e2723;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid #d7ccc8;
+}
+
+.action-hint-glow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #b71c1c;
+  background: #ffebee;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #ffcdd2;
+  animation: pulse-border 1s infinite alternate;
+}
+
+.on-board-item:hover .board-ingredient-img {
+  transform: scale(1.15);
+}
+
+.on-board-item.lifted-from-board {
+  opacity: 0.35;
+  filter: grayscale(0.5);
+  transform: scale(0.92);
+  transition: all 0.2s ease;
+}
+
+.on-board-item.lifted-from-board .action-hint-glow {
+  background: #fff8e1;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+
+.prep-bowl-zone {
+  background: rgba(255, 255, 255, 0.6);
+  border: 3px dashed #94a3b8;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.prep-bowl-zone.glow-target {
+  border-color: var(--color-palm-500);
+  background: rgba(220, 252, 231, 0.85);
+  box-shadow: 0 0 24px rgba(46, 204, 113, 0.5);
+  transform: scale(1.02);
+}
+
+.prep-bowl-zone.filled {
+  border-color: var(--color-palm-400);
+  background: rgba(232, 245, 233, 0.45);
+  border-style: solid;
+}
+
+.prep-bowl-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+.prep-bowl-img.bowl-filled-anim {
+  animation: bowl-pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bowl-pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+
+  60% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.zone-hint-text.board-cleared {
+  color: var(--color-palm-700);
+  background: rgba(232, 245, 233, 0.95);
+  border-color: var(--color-palm-300);
+  box-shadow: 0 3px 8px rgba(46, 204, 113, 0.2);
+}
+
+.bowl-graphic {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bowl-subtext {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #cbd5e1;
+}
+
+.bowl-completed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.bowl-filled-badge {
+  background: #166534;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.prep-bowl-zone .btn-next-stage {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+  white-space: nowrap;
+}
+
+
+
+/* ==========================================================================
+   RETRO SANYO FOOD PROCESSOR PUSH BUTTON (Stage 2)
+   ========================================================================== */
+
+/* Primary Active Mechanical Push-Button (Capsule shape like machine's button) */
+.btn-processor-pulse {
+  background: linear-gradient(180deg, #fb923c 0%, #f97316 40%, #ea580c 75%, #c2410c 100%);
+  color: #ffffff;
+  border: 2px solid #7c2d12;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow:
+    0 3.5px 0 #7c2d12,
+    0 6px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.25);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  position: relative;
+  animation: pulse-puree-btn 1.6s infinite alternate ease-in-out;
+}
+
+.btn-processor-pulse:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4.5px 0 #7c2d12,
+    0 8px 16px rgba(234, 88, 12, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.06);
+}
+
+.btn-processor-pulse:active:not(.disabled),
+.btn-processor-pulse.is-active-puree {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #7c2d12,
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1.5px 2px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, #ea580c 0%, #c2410c 60%, #9a3412 100%);
+}
+
+.btn-processor-pulse.is-active-puree {
+  animation: puree-motor-vibrate 0.12s infinite alternate ease-in-out;
+}
+
+.btn-processor-pulse.disabled {
+  opacity: 0.9;
+  cursor: wait;
+}
+
+.btn-processor-pulse .action-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes puree-motor-vibrate {
+  0% {
+    transform: translateY(3px) translateX(-0.5px);
+  }
+
+  100% {
+    transform: translateY(3px) translateX(0.5px);
+  }
+}
+
+@keyframes pulse-puree-btn {
+  0% {
+    box-shadow:
+      0 3.5px 0 #7c2d12,
+      0 6px 12px rgba(0, 0, 0, 0.35),
+      0 0 0 rgba(249, 115, 22, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 3.5px 0 #7c2d12,
+      0 6px 12px rgba(0, 0, 0, 0.35),
+      0 0 12px rgba(249, 115, 22, 0.6);
+  }
+}
+
+/* ==========================================================================
+   SAFETY INTERLOCK TWIST-LOCK BUTTON (Stage 2)
+   ========================================================================== */
+
+.btn-interlock-lock {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 40%, #0369a1 75%, #075985 100%);
+  color: #ffffff;
+  border: 2px solid #075985;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow:
+    0 3.5px 0 #082f49,
+    0 6px 14px rgba(2, 132, 199, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.25);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  user-select: none;
+  position: relative;
+  animation: pulse-interlock-beacon 1.8s infinite alternate ease-in-out;
+}
+
+.btn-interlock-lock:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4.5px 0 #082f49,
+    0 10px 20px rgba(2, 132, 199, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.06);
+}
+
+.btn-interlock-lock:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #082f49,
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 2px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 60%, #075985 100%);
+}
+
+.btn-interlock-lock .interlock-pip-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  border: 1.5px solid #fef08a;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: led-blink 0.9s infinite alternate;
+  flex-shrink: 0;
+}
+
+.btn-interlock-lock .action-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  transition: transform 0.25s ease;
+}
+
+.btn-interlock-lock:hover .action-icon {
+  transform: rotate(-15deg) scale(1.15);
+}
+
+@keyframes pulse-interlock-beacon {
+  0% {
+    box-shadow:
+      0 3.5px 0 #082f49,
+      0 6px 14px rgba(2, 132, 199, 0.35),
+      0 0 0 rgba(14, 165, 233, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 3.5px 0 #082f49,
+      0 8px 18px rgba(2, 132, 199, 0.55),
+      0 0 16px rgba(14, 165, 233, 0.7);
+  }
+}
+
+.lid-interlock-guide {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 3.5px 0 #082f49, 0 6px 14px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.lid-interlock-guide:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 4.5px 0 #082f49, 0 8px 18px rgba(2, 132, 199, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.lid-interlock-guide:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 1px 0 #082f49;
+}
+
+.interlock-status-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #14532d;
+  border: 2px solid #4ade80;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 2.5px 0 #166534, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+.sink-drain-guidance-pill {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: 2px solid #34d399;
+  box-shadow: 0 3.5px 0 #064e3b, 0 6px 18px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.sink-drain-guidance-pill:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
+  box-shadow: 0 4.5px 0 #064e3b, 0 8px 22px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.sink-drain-guidance-pill:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 1px 0 #064e3b;
+}
+
+.sink-cooling-guidance-pill {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  border-color: #38bdf8;
+  box-shadow: 0 3.5px 0 #075985, 0 6px 18px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.sink-cooling-guidance-pill:hover {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 4.5px 0 #075985, 0 8px 22px rgba(2, 132, 199, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.sink-cooling-guidance-pill:active {
+  box-shadow: 0 1px 0 #075985;
+}
+
+/* Red Spatula Scraping Guide & Motion Animation */
+.spatula-scrape-guide {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 2px solid #f87171;
+  box-shadow: 0 3.5px 0 #7f1d1d, 0 6px 14px rgba(239, 68, 68, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.spatula-scrape-guide:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
+  box-shadow: 0 4.5px 0 #7f1d1d, 0 8px 18px rgba(239, 68, 68, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.spatula-scrape-guide:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 1px 0 #7f1d1d;
+}
+
+.spatula-scraping-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.spatula-wiping-anim {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+  animation: spatulaBowlWipe 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes spatulaBowlWipe {
+  0% {
+    transform: translate(65px, -45px) rotate(-40deg) scale(0.85);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(-10px, 15px) rotate(15deg) scale(1.1);
+  }
+
+  80% {
+    transform: translate(-55px, -25px) rotate(50deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-75px, -45px) rotate(65deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   EXTRACTION VESSEL (STAINLESS PREP BOWL) STYLING (Stage 2)
+   ========================================================================== */
+
+.extraction-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  flex: 1 1 45%;
+  max-width: 520px;
+}
+
+.extraction-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  min-height: 380px;
+  width: 100%;
+}
+
+.extraction-viewport .container-visual-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
+.extraction-viewport .sink-status-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  margin-top: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+}
+
+.extraction-workstation.compatible-target {
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.3), 0 20px 40px rgba(16, 185, 129, 0.15);
+  transform: translateY(-4px);
+}
+
+.interactive-vessel {
+  cursor: pointer;
+}
+
+.vessel-transfer-guide {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 3.5px 0 #082f49, 0 6px 14px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  animation: bouncePill 1.6s infinite ease-in-out;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.vessel-transfer-guide:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 4.5px 0 #082f49, 0 8px 18px rgba(2, 132, 199, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.vessel-transfer-guide:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 1px 0 #082f49;
+}
+
+.paste-collected-pop {
+  animation: pasteCollectedPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pasteCollectedPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.bowl-resting {
+  opacity: 0.95;
+  transition: all 0.3s ease;
+}
+
+.extraction-workstation:hover .bowl-resting {
+  transform: scale(1.03);
+}
+
+.spec-badge {
+  background: #ffffff;
+  color: #735b44;
+  border: 1.5px solid #d5c3ab;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  box-shadow: 0 2px 0 #bfa88c;
+}
+
+.spec-badge.spec-blue {
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0369a1;
+  border-color: #7dd3fc;
+  box-shadow: 0 2.5px 0 #0284c7;
+}
+
+.spec-badge.spec-amber {
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  color: #92400e;
+  border-color: #fde68a;
+  box-shadow: 0 2.5px 0 #d97706;
+}
+
+.spec-badge.spec-success {
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #166534;
+  border-color: #86efac;
+  box-shadow: 0 2.5px 0 #22c55e, 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.status-dot.dot-success {
+  background: #10b981;
+  border-color: #86efac;
+  box-shadow: 0 0 10px #10b981;
+}
+
+/* ==========================================================================
+   STAGE 1: WASHING & BOILING — OPEN CANVAS REDESIGN (NO CONTAINER BOXES)
+   ========================================================================== */
+
+/* 1. Permanent Top-Aligned Layout (Balanced Space on Top) */
+.prep-scene .stage-center-zone,
+.game-viewport .prep-scene .stage-center-zone {
+  padding: 28px 32px 140px 32px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: none !important;
+}
+
+.dialogue-collapsed .prep-scene .stage-center-zone,
+.game-viewport.dialogue-collapsed .prep-scene .stage-center-zone,
+.prep-scene.dialogue-collapsed .stage-center-zone,
+.inventory-collapsed .prep-scene .stage-center-zone,
+.game-viewport.inventory-collapsed .prep-scene .stage-center-zone,
+.prep-scene.inventory-collapsed .stage-center-zone,
+.dialogue-collapsed.inventory-collapsed .prep-scene .stage-center-zone,
+.game-viewport.dialogue-collapsed.inventory-collapsed .prep-scene .stage-center-zone {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
+/* 2. Expanded Stage Content Row */
+.prep-scene .stage-content-row {
+  max-width: 1240px !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 36px !important;
+  margin: 0 auto !important;
+  padding: 0 12px !important;
+}
+
+/* 3. Borderless Workstation Islands (No Outer Container Box) */
+.prep-scene .multi-state-workstation {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  flex: 1 1 50% !important;
+  max-width: 580px !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+}
+
+.prep-scene .station-center-card {
+  flex: 1 1 50% !important;
+  max-width: 580px !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  overflow: visible !important;
+}
+
+/* 4. Floating Header Capsule Pills Directly on Countertop */
+.prep-scene .workstation-header {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 2px solid #dfcfb9 !important;
+  border-bottom: 3.5px solid #bda88e !important;
+  border-radius: 999px !important;
+  box-shadow:
+    0 4px 0 #bda88e,
+    0 8px 20px rgba(78, 52, 28, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  padding: 8px 22px !important;
+  margin: 0 0 14px 0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.prep-scene .workstation-name {
+  color: #2b180a !important;
+  font-family: var(--font-heading) !important;
+  font-size: 1.18rem !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  letter-spacing: -0.01em !important;
+}
+
+.prep-scene .workstation-sub {
+  color: #664d36 !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+}
+
+.prep-scene .workstation-step-badge {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  font-family: var(--font-heading) !important;
+  font-size: 0.84rem !important;
+  font-weight: 800 !important;
+  padding: 5px 16px !important;
+  border-radius: 999px !important;
+  box-shadow: 0 2px 0 #0369a1 !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.02em !important;
+}
+
+.prep-scene .workstation-step-badge.badge-success-glow {
+  background: #16a34a !important;
+  box-shadow: 0 2px 0 #15803d, 0 0 12px rgba(22, 163, 74, 0.4) !important;
+}
+
+.prep-scene .workstation-step-badge.badge-flow-glow {
+  background: #0284c7 !important;
+  box-shadow: 0 2px 0 #0369a1, 0 0 12px rgba(2, 132, 199, 0.5) !important;
+}
+
+.prep-scene .workstation-step-badge.badge-amber-glow {
+  background: #d97706 !important;
+  box-shadow: 0 2px 0 #b45309, 0 0 12px rgba(217, 119, 6, 0.4) !important;
+}
+
+/* 5. Open Canvas Equipment Viewports & Scaled-Up Assets */
+.prep-scene .washing-viewport,
+.prep-scene .workstation-viewport {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 340px !important;
+  height: auto !important;
+  position: relative !important;
+  padding: 10px 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.prep-scene .sink-preview-img {
+  width: 100% !important;
+  max-width: 540px !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 18px 32px rgba(78, 52, 28, 0.24)) !important;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.prep-scene .washing-viewport.interactive-sink:hover .sink-preview-img {
+  transform: translateY(-4px) scale(1.04) !important;
+  filter: drop-shadow(0 24px 40px rgba(78, 52, 28, 0.3)) !important;
+}
+
+.prep-scene .container-state-img {
+  width: 100% !important;
+  max-width: 540px !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 18px 32px rgba(78, 52, 28, 0.24)) !important;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.prep-scene .multi-state-workstation:hover .container-state-img {
+  transform: translateY(-4px) scale(1.04) !important;
+  filter: drop-shadow(0 24px 40px rgba(78, 52, 28, 0.3)) !important;
+}
+
+/* Equipment Target Hover Highlighting */
+.prep-scene .multi-state-workstation.compatible-target .sink-preview-img,
+.prep-scene .multi-state-workstation.compatible-target .container-state-img,
+.prep-scene .multi-state-workstation.drag-hover .sink-preview-img,
+.prep-scene .multi-state-workstation.drag-hover .container-state-img {
+  filter: drop-shadow(0 0 24px rgba(34, 197, 94, 0.85)) drop-shadow(0 18px 32px rgba(78, 52, 28, 0.25)) !important;
+  transform: translateY(-4px) scale(1.05) !important;
+}
+
+/* 6. Standalone Tactile Appliance Consoles on Countertop */
+.prep-scene .workstation-footer {
+  background: transparent !important;
+  border: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-top: 14px !important;
+  width: 100% !important;
+}
+
+.prep-scene .faucet-knob-console,
+.prep-scene .stove-burner-console {
+  background: #ffffff !important;
+  border: 2.5px solid #dfcfb9 !important;
+  border-bottom: 4.5px solid #bda88e !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 4px 0 #bda88e,
+    0 10px 24px rgba(78, 52, 28, 0.08) !important;
+  padding: 12px 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Guidance Pills Positioning on Open Assets */
+.prep-scene .sink-drain-guidance-pill,
+.prep-scene .dropzone-guide-pill {
+  z-index: 12 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18), 0 3px 0 #15803d !important;
+}
+
+/* 7. Responsive Breakpoints */
+@media (max-width: 1280px) {
+  .prep-scene .stage-center-zone {
+    padding: 24px 24px 20px 24px !important;
+  }
+
+  .prep-scene .stage-content-row {
+    max-width: 1080px !important;
+    gap: 24px !important;
+  }
+
+  .prep-scene .sink-preview-img,
+  .prep-scene .container-state-img {
+    max-width: 480px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .prep-scene .stage-center-zone {
+    padding: 10px 16px 20px 16px !important;
+  }
+
+  .prep-scene .stage-content-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 28px !important;
+  }
+
+  .prep-scene .multi-state-workstation,
+  .prep-scene .station-center-card {
+    max-width: 520px !important;
+    width: 100% !important;
+  }
+}
+

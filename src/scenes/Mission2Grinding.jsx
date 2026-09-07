@@ -279,7 +279,7 @@ export const Mission2Grinding = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Center: Food Processor MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -290,8 +290,7 @@ export const Mission2Grinding = () => {
               steps={processorSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isBlending ? 'blending' : null}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               interactiveAction={
                 processorStep === 2
                   ? (!isLidLocked
@@ -388,7 +387,6 @@ export const Mission2Grinding = () => {
               processorStep === 4 && holdingItem?.id === 'spatula' ? 'compatible-target' : ''
             }`}
             style={{
-              width: '440px',
               cursor: processorStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -456,7 +454,6 @@ export const Mission2Grinding = () => {
               className={`workstation-viewport extraction-viewport ${
                 processorStep === 4 ? 'interactive-vessel' : ''
               }`}
-              style={{ minHeight: '330px', flex: '1 1 auto' }}
             >
               {/* Floating guidance pill at step 4 */}
               {processorStep === 4 && !isScraping && (

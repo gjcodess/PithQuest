@@ -282,7 +282,7 @@ export const Mission6Dehydration = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Left: Convection Cabinet Dehydrator Workstation */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -293,8 +293,7 @@ export const Mission6Dehydration = () => {
               steps={dehydratorSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isDehydrating ? 'convection' : null}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               statusDotClass={dehydrateStep >= 6 ? 'dot-success' : isDehydrating ? 'dot-amber' : ''}
               statusText={
                 dehydrateStep >= 6
@@ -439,7 +438,6 @@ export const Mission6Dehydration = () => {
                 : ''
             }`}
             style={{
-              width: '440px',
               cursor: dehydrateStep === 5 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -506,7 +504,6 @@ export const Mission6Dehydration = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport dehydration-qc-viewport"
-              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Moisture & Thermal Parameters Card */}
               <div className="dehydration-spec-card">

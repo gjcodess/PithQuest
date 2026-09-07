@@ -280,7 +280,7 @@ export const Mission3Mixing = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Center: Stainless Mixing Bowl MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -290,8 +290,7 @@ export const Mission3Mixing = () => {
               currentStepIndex={bowlStep}
               steps={bowlSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               activeAnimation={isKneading ? 'mixing' : null}
               statusDotClass={bowlStep >= 6 ? 'dot-success' : bowlStep === 5 ? 'dot-amber' : ''}
               statusText={
@@ -351,7 +350,6 @@ export const Mission3Mixing = () => {
               bowlStep === 4 && (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') ? 'compatible-target' : ''
             }`}
             style={{
-              width: '440px',
               cursor: bowlStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -423,7 +421,7 @@ export const Mission3Mixing = () => {
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport qc-viewport" style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}>
+            <div className="workstation-viewport qc-viewport">
               {/* Recipe Calibration Checklist */}
               <div className="qc-recipe-list">
                 <div className="qc-list-title">

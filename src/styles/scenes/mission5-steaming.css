@@ -1,0 +1,245 @@
+/* ==========================================================================
+   STARCH STEAMING & GELATINIZATION WORKSTATION STYLING (Stage 5)
+   ========================================================================== */
+
+.steaming-scene .stage-center-zone,
+.game-viewport .steaming-scene .stage-center-zone {
+  padding: 28px 32px 140px 32px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: none !important;
+}
+
+.dialogue-collapsed .steaming-scene .stage-center-zone,
+.game-viewport.dialogue-collapsed .steaming-scene .stage-center-zone,
+.inventory-collapsed .steaming-scene .stage-center-zone,
+.game-viewport.inventory-collapsed .steaming-scene .stage-center-zone {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
+.steaming-scene .stage-content-row {
+  max-width: 1240px !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 36px !important;
+  margin: 0 auto !important;
+  padding: 0 12px !important;
+  flex-shrink: 0 !important;
+}
+
+.steaming-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.steaming-scene .workstation-footer:not(.has-custom-footer) {
+  background: #ffffff !important;
+  border: 2.5px solid #dfcfb9 !important;
+  border-bottom: 4.5px solid #bda88e !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 4px 0 #bda88e,
+    0 10px 24px rgba(78, 52, 28, 0.08) !important;
+  padding: 12px 20px !important;
+}
+
+.steaming-qc-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 330px;
+  min-height: 330px;
+  max-height: 330px;
+  gap: 8px;
+  background: radial-gradient(circle at 50% 30%, #fffdfa 0%, #f7f1e6 100%);
+  overflow: hidden;
+}
+
+.steaming-scene .container-state-img {
+  max-width: 86%;
+  max-height: 86%;
+  object-fit: contain;
+  transform: none;
+  transform-origin: center center;
+}
+
+.steaming-spec-card {
+  background: #ffffff;
+  border: 2px solid #dfcfb9;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2.5px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
+}
+
+.steaming-spec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #3d2612;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid #dfcfb9;
+}
+
+.steaming-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.steaming-spec-item {
+  background: #fbf8f1;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.steaming-spec-item .spec-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #735b44;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.steaming-spec-item .spec-val {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.steaming-cycle-row {
+  background: #fbf8f1;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  padding: 3px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.steaming-cycle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.steaming-cycle-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #f2e7d5;
+  border: 1px solid #dfcfb9;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1.5px 2px rgba(78, 52, 28, 0.12);
+}
+
+.steaming-cycle-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8 0%, #10b981 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.steaming-thermal-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #15803d;
+  box-shadow: 0 1.5px 0 #86efac;
+}
+
+.steaming-texture-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.texture-compare-box {
+  background: #ffffff;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+  transition: all 0.2s ease;
+}
+
+.texture-compare-box.active-state {
+  border: 2px solid #4ade80;
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+  box-shadow: 0 2px 0 #166534, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.texture-box-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #735b44;
+}
+
+.texture-compare-box.active-state .texture-box-tag {
+  color: #14532d;
+}
+
+.texture-box-desc {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.texture-compare-box.active-state .texture-box-desc {
+  color: #14532d;
+}
+
+.steaming-science-note {
+  font-size: 0.66rem;
+  color: #1e3a8a;
+  background: #f0f9ff;
+  border: 1.5px solid #bae6fd;
+  border-radius: 6px;
+  padding: 6px 8px;
+  line-height: 1.35;
+  text-align: left;
+  box-shadow: 0 1.5px 0 #7dd3fc;
+}
+
+.steaming-science-note strong {
+  color: #0284c7;
+}
+
+

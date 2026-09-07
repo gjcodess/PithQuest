@@ -22,8 +22,8 @@ export const MultiStateContainer = ({
   statusDotClass = '',
   statusText = null,
   className = '',
-  containerWidth = '520px',
-  containerHeight = '330px',
+  containerWidth = '100%',
+  containerHeight = 'auto',
   children = null,
 }) => {
   const { holdingItem, setHoldingItem, showToast, recordMistake } = useGame();
@@ -104,7 +104,7 @@ export const MultiStateContainer = ({
   return (
     <div
       className={`multi-state-workstation ${className} ${shake ? 'error-shake' : ''} ${isDragOver ? 'drag-hover' : ''} ${isCompatibleHolding ? 'compatible-target' : ''} ${justAccepted ? 'item-added-burst' : ''}`}
-      style={{ width: containerWidth }}
+      style={{ width: containerWidth && containerWidth !== '520px' ? containerWidth : '100%' }}
       onClick={handleContainerClick}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -132,7 +132,7 @@ export const MultiStateContainer = ({
       {/* Main Container Viewport */}
       <div
         className="workstation-viewport"
-        style={{ height: containerHeight, minHeight: containerHeight, maxHeight: containerHeight, flex: '0 0 auto' }}
+        style={containerHeight && containerHeight !== 'auto' && containerHeight !== '330px' ? { minHeight: containerHeight } : {}}
       >
         {/* Animated Visual Effects Overlay */}
         {activeAnimation === 'boiling' && (

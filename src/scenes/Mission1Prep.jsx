@@ -500,7 +500,7 @@ export const Mission1Prep = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1080px' }}>
+        <div className="stage-content-row">
           {/* Left: Washing Sink Station (Unified Multi-State Workstation) */}
           <div
             className={`multi-state-workstation washing-workstation ${
@@ -510,7 +510,6 @@ export const Mission1Prep = () => {
                 ? 'compatible-target'
                 : ''
             }`}
-            style={{ width: '480px' }}
           >
             {/* Workstation Header */}
             <div className="workstation-header">
@@ -689,8 +688,7 @@ export const Mission1Prep = () => {
               steps={potSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isBoilingTimerActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               customFooter={
                 <StoveBurnerConsole
                   isReady={potStep === 3}

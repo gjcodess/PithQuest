@@ -66,7 +66,7 @@ export const App = () => {
     <div className="game-app">
       <HeaderHUD />
       <main
-        className={`game-viewport ${
+        className={`game-viewport scene-${scene} ${
           isDialogueCollapsed ? 'dialogue-collapsed' : 'dialogue-expanded'
         } ${
           isInventoryCollapsed ? 'inventory-collapsed' : 'inventory-expanded'
@@ -75,10 +75,29 @@ export const App = () => {
           zoom: effectiveZoom,
         }}
       >
-        <div className="scene-container">
-          {renderScene()}
-        </div>
-        {scene !== 'title' && <DialogueBox />}
+        {scene === 'title' ? (
+          <div className="scene-container scene-container-full">
+            {renderScene()}
+          </div>
+        ) : (
+          <div className="viewport-layout-grid">
+            {/* Left 80% Column: Workstation & Footer Dialogue Dock */}
+            <div className="viewport-left-column">
+              <div className="scene-container">
+                {renderScene()}
+              </div>
+              <DialogueBox />
+            </div>
+
+            {/* Right 20% Column: Sidebar (Inventory / Orientation / Exam / Cert) */}
+            <aside
+              className={`viewport-right-column ${
+                isInventoryCollapsed ? 'collapsed' : 'expanded'
+              }`}
+              id="viewport-sidebar-slot"
+            />
+          </div>
+        )}
       </main>
       <Toast />
       <RecipeModal />

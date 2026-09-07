@@ -79,10 +79,26 @@ export const MinigameInspection = ({
     return (
       <div className="inspection-complete-card">
         <div className="complete-icon">🎖️</div>
-        <h3>Inspection Clearance Complete!</h3>
-        <p>All items have been verified according to Home Economics hygiene & safety standards.</p>
+        <h3>{mode === 'tools' ? 'Tool Safety Inspection Cleared!' : 'Ingredient Quality Clearance Complete!'}</h3>
+        <p>
+          {mode === 'tools'
+            ? 'All tools and equipment have been verified safe, hygienic, and free of defects for lab work.'
+            : 'All raw materials and ingredients have been verified fresh, uncontaminated, and food-grade standard.'}
+        </p>
         <div className="inspection-badge-pill">
           <span>✨ Safety Verified ({items.length}/{items.length} Cleared)</span>
+        </div>
+        <div className="inspection-complete-actions">
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => {
+              soundManager.playClick();
+              if (onComplete) onComplete();
+            }}
+          >
+            {mode === 'tools' ? 'Proceed to Ingredient Inspection ➔' : 'View Clearance Certificate ➔'}
+          </button>
         </div>
       </div>
     );

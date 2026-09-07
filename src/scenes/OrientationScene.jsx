@@ -4,6 +4,7 @@ import { soundManager } from '../audio/soundManager';
 import { LECTURE_CONCEPTS, PPE_ITEMS, HANDWASHING_STEPS } from '../data/orientationData';
 import { TOOL_INSPECTION_ITEMS, INGREDIENT_INSPECTION_ITEMS } from '../data/inspectionData';
 import { MinigameInspection } from '../components/MinigameInspection';
+import { OrientationSidebar } from '../components/OrientationSidebar';
 
 export const OrientationScene = () => {
   const { studentName, setScene, addScore, unlockBadge, speak, completeMission, showToast, missionsCompleted, maxUnlockedStage } = useGame();
@@ -217,6 +218,19 @@ export const OrientationScene = () => {
             <span className="subnav-pill-label">5. Quality Inspection</span>
             {qualityInspectionDone && <span className="subnav-pill-check">✓</span>}
           </button>
+          {(qualityInspectionDone || isAlreadyCompleted || phase === 'ready') && (
+            <button
+              className={`subnav-pill ${phase === 'ready' ? 'active' : ''} ${isAlreadyCompleted ? 'completed' : ''}`}
+              onClick={() => {
+                soundManager.playClick();
+                setPhase('ready');
+              }}
+            >
+              <span className="subnav-pill-icon">📜</span>
+              <span className="subnav-pill-label">6. Clearance Certificate</span>
+              {isAlreadyCompleted && <span className="subnav-pill-check">✓</span>}
+            </button>
+          )}
         </nav>
       </div>
 
@@ -516,6 +530,18 @@ export const OrientationScene = () => {
           </div>
         )}
       </div>
+
+      {/* 20% Right Column Orientation Guide Sidebar */}
+      <OrientationSidebar
+        phase={phase}
+        ppeEquipped={ppeEquipped}
+        completedHandwashSteps={completedHandwashSteps}
+        scienceDone={scienceDone}
+        ppeDone={ppeDone}
+        handwashingDone={handwashingDone}
+        toolSafetyDone={toolSafetyDone}
+        qualityInspectionDone={qualityInspectionDone}
+      />
     </div>
   );
 };

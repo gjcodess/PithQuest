@@ -286,7 +286,7 @@ export const Mission7Frying = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Left: Deep Frying Heavy Wok Workstation */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -297,8 +297,7 @@ export const Mission7Frying = () => {
               steps={wokSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={fryStep >= 2 && fryStep <= 3 ? 'sizzling' : null}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               statusDotClass={fryStep >= 6 ? 'dot-success' : isPuffing ? 'dot-amber' : ''}
               statusText={
                 fryStep >= 6
@@ -370,7 +369,6 @@ export const Mission7Frying = () => {
                 : ''
             }`}
             style={{
-              width: '440px',
               cursor:
                 fryStep === 4 || fryStep === 5
                   ? 'url("/assets/cursor_hover_32.png") 2 2, pointer'
@@ -443,7 +441,6 @@ export const Mission7Frying = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport frying-qc-viewport"
-              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Oil Thermometer & Expansion Ratio Spec Card */}
               <div className="frying-spec-card">

@@ -70,9 +70,9 @@ export const GameProvider = ({ children }) => {
   const [stageKey, setStageKey] = useState(0);
   const [maxUnlockedStage, setMaxUnlockedStage] = useState(0);
 
-  // Zoom level state (default 1.0 = 100%, mapped to 0.8 baseline scale)
+  // Zoom level state (default 1.0 = 100% true physical scale)
   const [zoomLevel, setZoomLevel] = useState(1);
-  const effectiveZoom = Math.round(zoomLevel * 0.8 * 1000) / 1000;
+  const effectiveZoom = zoomLevel;
 
   useEffect(() => {
     try {
