@@ -142,7 +142,7 @@ export const HeaderHUD = () => {
 
   return (
     <header className="game-hud" style={{ zoom: effectiveZoom }}>
-      {/* Left: Website Title & Stage Title Pill */}
+      {/* Left: Website Brand Logo */}
       <div className="hud-left">
         <button
           type="button"
@@ -154,13 +154,6 @@ export const HeaderHUD = () => {
           <span className="brand-pith">PITH</span>
           <span className="brand-quest">QUEST</span>
         </button>
-
-        <div className="hud-brand-divider" aria-hidden="true" />
-
-        <div className="mission-pill">
-          <span className="pill-badge">{currentStage.num}</span>
-          <span className="pill-title">{currentStage.title}</span>
-        </div>
       </div>
 
       {/* Center: Stepper (PREP, 1 to 8, EXAM, CERT) */}
@@ -207,8 +200,13 @@ export const HeaderHUD = () => {
         })}
       </div>
 
-      {/* Right: Menu Button & Dropdown Container */}
+      {/* Right: Mission Pill & Menu Button Container */}
       <div className="hud-right" ref={menuRef}>
+        <div className="mission-pill">
+          <span className="pill-badge">{currentStage.num}</span>
+          <span className="pill-title">{currentStage.title}</span>
+        </div>
+
         <button
           className={`hud-btn hud-btn-menu ${isMenuOpen ? 'menu-active' : ''}`}
           onClick={() => {

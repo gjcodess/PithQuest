@@ -10,7 +10,7 @@ const AVATARS = {
 };
 
 export const DialogueBox = () => {
-  const { dialogue, scene, isDialogueCollapsed, setIsDialogueCollapsed } = useGame();
+  const { dialogue, scene, isDialogueCollapsed, setIsDialogueCollapsed, effectiveZoom } = useGame();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
@@ -144,7 +144,12 @@ export const DialogueBox = () => {
   };
 
   return (
-    <div className="floating-companion-wrapper">
+    <div
+      className="floating-companion-wrapper"
+      style={{
+        zoom: effectiveZoom,
+      }}
+    >
       {/* 1. Floating Circular Avatar Trigger (Bottom Left) */}
       <button
         ref={buttonRef}
