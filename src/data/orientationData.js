@@ -50,6 +50,7 @@ export const PPE_ITEMS = [
     icon: "🧢",
     img: "/assets/ppe_hairnet.png",
     role: "Restrains stray hair strands from falling into food products.",
+    isCorrect: true,
     critical: true
   },
   {
@@ -58,7 +59,18 @@ export const PPE_ITEMS = [
     icon: "🥼",
     img: "/assets/ppe_clean_apron.png",
     role: "Shields clothing fibers and outdoor dust from contaminating sanitized prep surfaces.",
+    isCorrect: true,
     critical: true
+  },
+  {
+    id: "distractor_scarf",
+    name: "Knitted Wool Scarf",
+    icon: "🧣",
+    img: "/assets/distractor_scarf.png",
+    role: "Loose knitted cloth that traps dust, sheds loose fibers into food, and poses a burn risk near stoves.",
+    isCorrect: false,
+    reason: "Loose scarves shed fibers into food mixtures and create a dangerous entanglement or fire hazard near open burners.",
+    critical: false
   },
   {
     id: "mask",
@@ -66,7 +78,18 @@ export const PPE_ITEMS = [
     icon: "😷",
     img: "/assets/ppe_spit_guard.png",
     role: "Prevents oral droplet dispersal while speaking near open food vessels.",
+    isCorrect: true,
     critical: true
+  },
+  {
+    id: "distractor_goggles",
+    name: "Heavy Chemical Goggles",
+    icon: "🥽",
+    img: "/assets/distractor_goggles.png",
+    role: "Enclosed chemical lab goggles that fog up from hot cooking steam and obstruct culinary visibility.",
+    isCorrect: false,
+    reason: "Sealed chemical goggles are meant for corrosive acid labs, not food preparation. They fog up rapidly near boiling steam and obstruct vision.",
+    critical: false
   },
   {
     id: "gloves",
@@ -74,6 +97,7 @@ export const PPE_ITEMS = [
     icon: "🧤",
     img: "/assets/ppe_food_gloves.png",
     role: "Maintains sterile contact with ingredients and ready-to-eat crackers.",
+    isCorrect: true,
     critical: true
   },
   {
@@ -82,6 +106,7 @@ export const PPE_ITEMS = [
     icon: "🧤",
     img: "/assets/ppe_heat_gloves.png",
     role: "Protects hands from burns during high-heat steaming and deep frying operations.",
+    isCorrect: true,
     critical: true
   },
   {
@@ -90,6 +115,7 @@ export const PPE_ITEMS = [
     icon: "👟",
     img: "/assets/ppe_shoes.png",
     role: "Closed-toe non-skid footwear prevents slips and protects from hot liquid spills.",
+    isCorrect: true,
     critical: true
   }
 ];

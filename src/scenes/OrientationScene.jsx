@@ -7,7 +7,7 @@ import { MinigameInspection } from '../components/MinigameInspection';
 import { OrientationSidebar } from '../components/OrientationSidebar';
 
 export const OrientationScene = () => {
-  const { studentName, setScene, addScore, unlockBadge, speak, completeMission, showToast, missionsCompleted, maxUnlockedStage } = useGame();
+  const { studentName, setScene, addScore, unlockBadge, speak, completeMission, showToast, recordMistake, missionsCompleted, maxUnlockedStage } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.orientation);
 
@@ -15,7 +15,7 @@ export const OrientationScene = () => {
   const [phase, setPhase] = useState(() => (isAlreadyCompleted ? 'ready' : 'lecture'));
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
 
-  // PPE states (all 6 equipment items)
+  // PPE states (all 6 required equipment items)
   const [ppeEquipped, setPpeEquipped] = useState(() => ({
     hairnet: isAlreadyCompleted,
     apron: isAlreadyCompleted,
@@ -24,6 +24,14 @@ export const OrientationScene = () => {
     heat_gloves: isAlreadyCompleted,
     shoes: isAlreadyCompleted,
   }));
+
+  // Distractor error animation tracking
+  const [ppeErrors, setPpeErrors] = useState({});
+
+  const correctPpeItems = PPE_ITEMS.filter((i) => i.isCorrect);
+  const requiredPpeCount = correctPpeItems.length;
+  const equippedPpeCount = correctPpeItems.filter((i) => ppeEquipped[i.id]).length;
+  const isAllPpeEquipped = correctPpeItems.every((i) => ppeEquipped[i.id]);
 
   // Handwashing states
   const [completedHandwashSteps, setCompletedHandwashSteps] = useState(() =>
@@ -112,21 +120,54 @@ export const OrientationScene = () => {
     }
   }, [phase, studentName]);
 
-  // PPE handler
-  const handleEquipPpe = (itemId) => {
-    if (ppeEquipped[itemId]) return;
+  // PPE handler with distractor support & error feedback
+  const handleEquipPpe = (item) => {
+    if (!item.isCorrect) {
+      soundManager.playError();
+      recordMistake();
+      setPpeErrors((prev) => ({ ...prev, [item.id]: true }));
+      setTimeout(() => {
+        setPpeErrors((prev) => ({ ...prev, [item.id]: false }));
+      }, 700);
+
+      showToast('Hazardous / Non-Standard Attire', item.reason || 'This item is not approved for food processing laboratory attire!', 'danger');
+      speak(
+        `Safety Alert: ${item.name} is not appropriate for food processing! ${item.reason}`,
+        'warning',
+        {
+          badge: 'Attire Hazard Warning',
+          note: item.reason,
+          hint: 'Equip only the standard sanitary food processing attire.',
+          hideButton: true,
+        }
+      );
+      return;
+    }
+
+    if (ppeEquipped[item.id]) return;
     soundManager.playSuccess();
-    const updated = { ...ppeEquipped, [itemId]: true };
+    const updated = { ...ppeEquipped, [item.id]: true };
     setPpeEquipped(updated);
     addScore(15);
-    showToast('PPE Equipped', `Put on ${itemId}`, 'success');
+    showToast('PPE Equipped', `Put on ${item.name}`, 'success');
 
-    if (Object.values(updated).every(Boolean)) {
+    const allCorrectEquipped = correctPpeItems.every((i) => updated[i.id]);
+    if (allCorrectEquipped) {
       setPpeDone(true);
       unlockBadge('ppe_certified', 'PPE Certified', '🥼');
+      speak(
+        'Excellent work! You equipped all required food laboratory attire and avoided hazardous non-standard items. Now proceed to the Handwashing Protocol!',
+        'happy',
+        {
+          badge: 'PPE Certified',
+          note: 'Proper PPE prevents physical and biological contamination during food preparation.',
+          btnText: 'Proceed to Handwashing ➔',
+          onNext: () => setPhase('sanitation'),
+        }
+      );
       setTimeout(() => {
         setPhase('sanitation');
-      }, 800);
+      }, 900);
     }
   };
 
@@ -175,7 +216,7 @@ export const OrientationScene = () => {
             {scienceDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
-            className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${ppeDone || Object.values(ppeEquipped).every(Boolean) ? 'completed' : ''}`}
+            className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${ppeDone || isAllPpeEquipped ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
               setPhase('ppe');
@@ -183,7 +224,7 @@ export const OrientationScene = () => {
           >
             <span className="subnav-pill-icon">🥼</span>
             <span className="subnav-pill-label">2. PPE Attire</span>
-            {(ppeDone || Object.values(ppeEquipped).every(Boolean)) && <span className="subnav-pill-check">✓</span>}
+            {(ppeDone || isAllPpeEquipped) && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
             className={`subnav-pill ${phase === 'sanitation' ? 'active' : ''} ${handwashingDone || completedHandwashSteps.length === HANDWASHING_STEPS.length ? 'completed' : ''}`}
@@ -346,23 +387,24 @@ export const OrientationScene = () => {
             <div className="vessel-header">
               <span className="vessel-title">Personal Protective Equipment (PPE)</span>
               <span className="vessel-badge">
-                {Object.values(ppeEquipped).filter(Boolean).length}/{PPE_ITEMS.length} Equipped
+                {equippedPpeCount}/{requiredPpeCount} Required Equipped
               </span>
             </div>
             <div className="vessel-header-divider" />
 
             <p className="section-instruction">
-              Click each piece of protective gear to wear it before entering the cooking lab:
+              Select and equip all required food-grade laboratory protective gear. Avoid hazardous or non-approved attire!
             </p>
 
             <div className="ppe-items-grid">
               {PPE_ITEMS.map((item) => {
                 const isWorn = ppeEquipped[item.id];
+                const hasError = ppeErrors[item.id];
                 return (
                   <div
                     key={item.id}
-                    className={`ppe-box ${isWorn ? 'equipped' : ''}`}
-                    onClick={() => handleEquipPpe(item.id)}
+                    className={`ppe-box ${isWorn ? 'equipped' : ''} ${hasError ? 'distractor-error' : ''}`}
+                    onClick={() => handleEquipPpe(item)}
                     role="button"
                     tabIndex={0}
                   >
@@ -371,15 +413,15 @@ export const OrientationScene = () => {
                       <h4 className="ppe-name">{item.name}</h4>
                       <p className="ppe-desc">{item.role}</p>
                     </div>
-                    <div className={`gear-status-badge ${isWorn ? 'worn' : 'pending'}`}>
-                      {isWorn ? '✅ Equipped' : '👆 Click to Wear'}
+                    <div className={`gear-status-badge ${isWorn ? 'worn' : hasError ? 'error' : 'pending'}`}>
+                      {isWorn ? '✅ Equipped' : hasError ? '❌ Not Standard PPE' : '👆 Click to Check'}
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {Object.values(ppeEquipped).every(Boolean) && (
+            {isAllPpeEquipped && (
               <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
                 <button
                   className="btn-primary"
