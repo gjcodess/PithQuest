@@ -19,8 +19,9 @@ export const MinigameInspection = ({
   isLocked = false,
   mode = "tools", // "tools" | "ingredients"
 }) => {
-  const { speak } = useGame();
+  const { speak, setIsDialogueCollapsed } = useGame();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const lockedClicksRef = React.useRef(0);
 
   // Map of answers keyed by item id: { [itemId]: { chosen, isSafe, selectedSide, optionLabel } }
   const [answers, setAnswers] = useState(() => {
@@ -70,6 +71,20 @@ export const MinigameInspection = ({
   const handleCardClick = (card) => {
     if (isLocked) {
       soundManager.playError();
+      lockedClicksRef.current += 1;
+      if (lockedClicksRef.current >= 2) {
+        speak(
+          `You've already completed the Pre-Test! Your diagnostic choices for ${mode === 'tools' ? 'equipment' : 'ingredients'} are saved in your audit record and cannot be modified.`,
+          'thinking',
+          {
+            badge: 'Pre-Test Completed',
+            note: 'Inspection answers are locked to preserve your pre-test benchmark score.',
+            hint: 'Use the buttons at the bottom to navigate between items or proceed to the missions!',
+          }
+        );
+        setIsDialogueCollapsed(false);
+        lockedClicksRef.current = 0;
+      }
       return;
     }
 

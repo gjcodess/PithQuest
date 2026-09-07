@@ -21,9 +21,11 @@ export const OrientationScene = () => {
     recordPreTestHandwash,
     recordPreTestTool,
     recordPreTestIngredient,
+    setIsDialogueCollapsed,
   } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.orientation);
+  const lockedClicksRef = React.useRef(0);
 
   // PRE-TEST Sub-phases: 'ppe' | 'sanitation' | 'tool_inspection' | 'ingredient_inspection'
   const [phase, setPhase] = useState('ppe');
@@ -141,7 +143,24 @@ export const OrientationScene = () => {
 
   // PPE toggle handler (disabled if isAlreadyCompleted)
   const handleTogglePpe = (item) => {
-    if (isAlreadyCompleted) return;
+    if (isAlreadyCompleted) {
+      soundManager.playError();
+      lockedClicksRef.current += 1;
+      if (lockedClicksRef.current >= 2) {
+        speak(
+          "You've already finalized your Pre-Test assessment! Your selected PPE attire is recorded in your performance audit and cannot be modified.",
+          'thinking',
+          {
+            badge: 'Pre-Test Completed',
+            note: 'Diagnostic assessment answers are locked to maintain evaluation integrity.',
+            hint: 'Click "Proceed to Handwashing Sequence" or choose a stage from the top navigation to continue.',
+          }
+        );
+        setIsDialogueCollapsed(false);
+        lockedClicksRef.current = 0;
+      }
+      return;
+    }
     soundManager.playClick();
     const updated = { ...ppeEquipped, [item.id]: !ppeEquipped[item.id] };
     setPpeEquipped(updated);

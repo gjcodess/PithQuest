@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { HANDWASHING_STEPS } from '../data/orientationData';
 
@@ -9,6 +10,27 @@ export const HandwashingSequenceActivity = ({
   onComplete,
   isLocked = false,
 }) => {
+  const { speak, setIsDialogueCollapsed } = useGame();
+  const lockedClicksRef = useRef(0);
+
+  const handleLockedInteraction = () => {
+    soundManager.playError();
+    lockedClicksRef.current += 1;
+    if (lockedClicksRef.current >= 2) {
+      speak(
+        "You've already completed the Pre-Test! Your submitted handwashing sequence is locked in your assessment records and cannot be reorganized.",
+        'thinking',
+        {
+          badge: 'Pre-Test Completed',
+          note: 'Handwashing benchmark results are saved for your final score audit.',
+          hint: 'Click "Proceed to Tool Safety Inspection" below or choose a section from the subnav above.',
+        }
+      );
+      setIsDialogueCollapsed(false);
+      lockedClicksRef.current = 0;
+    }
+  };
+
   // 10 Total Cards (7 correct steps + 3 distractors)
   const [pool, setPool] = useState(() => {
     if (initialPool && Array.isArray(initialPool)) return initialPool;
@@ -61,7 +83,10 @@ export const HandwashingSequenceActivity = ({
 
   // Assign an item from pool to a slot
   const placeItemInSlot = (item, targetSlotIndex) => {
-    if (isLocked) return;
+    if (isLocked) {
+      handleLockedInteraction();
+      return;
+    }
     soundManager.playClick();
     const newSlots = [...slots];
     const newPool = pool.filter((p) => p.id !== item.id);
@@ -81,7 +106,10 @@ export const HandwashingSequenceActivity = ({
 
   // Remove item from slot back to pool
   const removeItemFromSlot = (slotIndex) => {
-    if (isLocked) return;
+    if (isLocked) {
+      handleLockedInteraction();
+      return;
+    }
     soundManager.playClick();
     const item = slots[slotIndex];
     if (!item) return;
@@ -97,7 +125,10 @@ export const HandwashingSequenceActivity = ({
 
   // Handle pool card click
   const handlePoolCardClick = (item) => {
-    if (isLocked) return;
+    if (isLocked) {
+      handleLockedInteraction();
+      return;
+    }
     if (selectedSlotIndex !== null) {
       placeItemInSlot(item, selectedSlotIndex);
       return;
@@ -120,7 +151,10 @@ export const HandwashingSequenceActivity = ({
 
   // Handle slot click (Tap-to-Swap / Tap-to-Place)
   const handleSlotClick = (slotIndex) => {
-    if (isLocked) return;
+    if (isLocked) {
+      handleLockedInteraction();
+      return;
+    }
     if (selectedPoolId) {
       const item = pool.find((p) => p.id === selectedPoolId);
       if (item) {
@@ -300,7 +334,10 @@ export const HandwashingSequenceActivity = ({
   };
 
   const handleReset = () => {
-    if (isLocked) return;
+    if (isLocked) {
+      handleLockedInteraction();
+      return;
+    }
     soundManager.playClick();
     const newPool = [...HANDWASHING_STEPS].sort(() => Math.random() - 0.5);
     const newSlots = Array(7).fill(null);
