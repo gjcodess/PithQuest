@@ -11,7 +11,7 @@ export const RECIPE_DATA = {
     {
       id: "ubod",
       name: "Fresh Coconut Pith (Ubod)",
-      portion: "2 Cups (approx. 300g)",
+      portion: "1 Cup (approx. 150g)",
       purpose: "Core fiber, moisture, and delicate sweet coconut flavor base",
       prepNote: "Harvested from coconut apical meristem, washed, sliced uniformly",
       img: "/assets/icon_sliced_ubod.png",
@@ -20,7 +20,7 @@ export const RECIPE_DATA = {
     {
       id: "rice_flour",
       name: "Erawan Finest Rice Flour",
-      portion: "2 Cups (approx. 250g)",
+      portion: "1 Cup (approx. 125g)",
       portionRatio: "1:1 Ratio with Boiled Ubod Paste",
       purpose: "Primary starch binder that gelatinizes during steaming and puffs into crispy wafers during frying",
       prepNote: "Finely milled white rice flour (Elephant brand / Erawan)",
@@ -30,7 +30,7 @@ export const RECIPE_DATA = {
     {
       id: "salt",
       name: "Pure Sea Salt",
-      portion: "1 Teaspoon per 1 Cup of Ubod (2 tsp total)",
+      portion: "1 Teaspoon per 1 Cup of Ubod (1 tsp total)",
       purpose: "Flavor enhancement, electrolyte balance, and moisture regulator",
       prepNote: "Fine white mineral crystals, measured and leveled",
       img: "/assets/icon_seasonings.png",
@@ -39,7 +39,7 @@ export const RECIPE_DATA = {
     {
       id: "water",
       name: "Clean Potable Water",
-      portion: "4 Cups for boiling + 1/4 Cup gradual hydration",
+      portion: "4 Cups for boiling + 1 Cup gradual hydration",
       purpose: "Medium for thermal boiling and starch/paste hydration",
       prepNote: "Crystal clear drinking-grade water",
       img: "/assets/icon_water_pitcher.png",
