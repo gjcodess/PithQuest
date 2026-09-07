@@ -5,7 +5,7 @@ import { soundManager } from '../audio/soundManager';
 import { RestartIcon, ZoomInIcon, ZoomOutIcon } from './Icons';
 
 const STAGE_CONFIG = {
-  orientation: { num: 'Pre-Test', title: 'Diagnostic Orientation & Safety', step: 0 },
+  orientation: { num: 'PRE-TEST', title: 'Orientation & Safety', step: 0 },
   mission1: { num: 'Stage 1', title: 'Washing & Boiling', step: 1 },
   mission2: { num: 'Stage 2', title: 'Pureeing & Grinding', step: 2 },
   mission3: { num: 'Stage 3', title: 'Paste Formulation', step: 3 },
@@ -14,13 +14,13 @@ const STAGE_CONFIG = {
   mission6: { num: 'Stage 6', title: 'Cabinet Dehydration', step: 6 },
   mission7: { num: 'Stage 7', title: 'Deep Frying', step: 7 },
   mission8: { num: 'Stage 8', title: 'Packaging & Labeling', step: 8 },
-  sequencing: { num: 'Post-Test', title: 'Process Sequence Assessment', step: 9 },
-  evaluation: { num: 'Results', title: 'Diagnostic Assessment Report', step: 10 },
-  results: { num: 'Results', title: 'Diagnostic Assessment Report', step: 10 },
+  sequencing: { num: 'POST-TEST', title: 'Sequence Puzzle', step: 9 },
+  evaluation: { num: 'RESULTS', title: 'Audit Report', step: 10 },
+  results: { num: 'RESULTS', title: 'Audit Report', step: 10 },
 };
 
 const HUD_STEPS = [
-  { id: 'orientation', label: 'PRE-TEST', step: 0, isText: true, title: 'Pre-Test: Orientation & Safety' },
+  { id: 'orientation', label: 'PRE', step: 0, isText: true, title: 'Pre-Test: Orientation & Safety' },
   { id: 'mission1', label: '1', step: 1, isText: false, title: 'Stage 1: Washing & Boiling' },
   { id: 'mission2', label: '2', step: 2, isText: false, title: 'Stage 2: Pureeing & Grinding' },
   { id: 'mission3', label: '3', step: 3, isText: false, title: 'Stage 3: Paste Formulation' },
@@ -29,7 +29,7 @@ const HUD_STEPS = [
   { id: 'mission6', label: '6', step: 6, isText: false, title: 'Stage 6: Cabinet Dehydration' },
   { id: 'mission7', label: '7', step: 7, isText: false, title: 'Stage 7: Deep Frying' },
   { id: 'mission8', label: '8', step: 8, isText: false, title: 'Stage 8: Packaging & Labeling' },
-  { id: 'sequencing', label: 'POST-TEST', step: 9, isText: true, title: 'Post-Test: Process Sequencing' },
+  { id: 'sequencing', label: 'POST', step: 9, isText: true, title: 'Post-Test: Process Sequencing' },
   { id: 'evaluation', label: 'RESULTS', step: 10, isText: true, title: 'Results: Diagnostic Audit & Report' },
 ];
 
@@ -284,8 +284,25 @@ export const HeaderHUD = () => {
                     >
                       <div className="menu-btn-icon-box recipe-icon-box">📖</div>
                       <div className="menu-item-text">
-                        <strong>View Recipe & Formulation</strong>
-                        <small>1:1 Ubod-to-Rice Flour ratios & science standards</small>
+                        <strong>View Recipe & Standards</strong>
+                        <small>1:1 Ubod-to-Rice Flour ratios & portioning</small>
+                      </div>
+                      <span className="menu-item-arrow">➔</span>
+                    </button>
+
+                    {/* Primary Action: Science Concepts */}
+                    <button
+                      className="hud-menu-item-btn recipe-card-btn"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        soundManager.playClick();
+                        openModal('science');
+                      }}
+                    >
+                      <div className="menu-btn-icon-box recipe-icon-box" style={{ background: '#ecfdf5', color: '#047857' }}>🔬</div>
+                      <div className="menu-item-text">
+                        <strong>Food Science Concepts</strong>
+                        <small>Ubod valorization, gelatinization & puffing</small>
                       </div>
                       <span className="menu-item-arrow">➔</span>
                     </button>

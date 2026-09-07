@@ -5,6 +5,7 @@ import { DialogueBox } from './components/DialogueBox';
 import { Toast } from './components/Toast';
 import { RecipeModal } from './components/Modals/RecipeModal';
 import { ObjectivesModal } from './components/Modals/ObjectivesModal';
+import { ScienceConceptsModal } from './components/Modals/ScienceConceptsModal';
 import { ConfirmModal } from './components/Modals/ConfirmModal';
 import { FloatingItemCursor } from './components/FloatingItemCursor';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -103,6 +104,7 @@ export const App = () => {
       <Toast />
       <RecipeModal />
       <ObjectivesModal />
+      <ScienceConceptsModal />
       <ConfirmModal />
       <FloatingItemCursor />
     </div>

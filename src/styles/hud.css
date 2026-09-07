@@ -152,10 +152,12 @@
   background: linear-gradient(180deg, #ffffff 0%, #f7fbf7 100%);
   border: 2.5px solid #a2cca4;
   border-radius: var(--radius-pill);
-  padding: 4px 14px 4px 6px;
-  gap: 10px;
+  padding: 4px 12px 4px 6px;
+  gap: 8px;
   box-shadow: 0 3px 0 #88b78a, 0 3px 8px rgba(18, 54, 22, 0.1);
   transition: transform 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 1;
 }
 
 .mission-pill:hover {
@@ -168,20 +170,25 @@
   font-family: var(--font-heading);
   font-size: 0.72rem;
   font-weight: 800;
-  padding: 3px 10px;
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
   border: 1.5px solid #0d3810;
   box-shadow: 0 2px 0 #0d3810;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .pill-title {
   font-family: var(--font-heading);
-  font-size: 0.95rem;
+  font-size: 0.90rem;
   font-weight: 800;
   color: #123318;
   letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 /* HUD Stepper (PREP, 1 to 8, EXAM, CERT) */

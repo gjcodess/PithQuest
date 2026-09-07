@@ -137,9 +137,6 @@ export const MinigameInspection = ({
 
   return (
     <div className="inspection-minigame-container">
-      <div className="vessel-top-badge">
-        {mode === 'tools' ? 'Pre-Test: Tool Safety & Equipment Inspection' : 'Pre-Test: Raw Material & Quality Control'}
-      </div>
       <div className="vessel-header">
         <span className="vessel-title">{title}</span>
         <span className="vessel-badge">

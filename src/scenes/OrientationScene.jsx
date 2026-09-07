@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
-import { LECTURE_CONCEPTS, PPE_ITEMS } from '../data/orientationData';
+import { PPE_ITEMS } from '../data/orientationData';
 import { TOOL_INSPECTION_ITEMS, INGREDIENT_INSPECTION_ITEMS } from '../data/inspectionData';
 import { MinigameInspection } from '../components/MinigameInspection';
 import { HandwashingSequenceActivity } from '../components/HandwashingSequenceActivity';
@@ -25,9 +25,8 @@ export const OrientationScene = () => {
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.orientation);
 
-  // PRE-TEST Sub-phases: 'lecture' | 'ppe' | 'sanitation' | 'tool_inspection' | 'ingredient_inspection'
-  const [phase, setPhase] = useState('lecture');
-  const [activeConceptIndex, setActiveConceptIndex] = useState(0);
+  // PRE-TEST Sub-phases: 'ppe' | 'sanitation' | 'tool_inspection' | 'ingredient_inspection'
+  const [phase, setPhase] = useState('ppe');
 
   // PPE states (selection tracking for all 8 items in bank)
   const [ppeEquipped, setPpeEquipped] = useState(() => {
@@ -67,32 +66,13 @@ export const OrientationScene = () => {
   });
 
   // Sub-phase completion states for subnav checkmarks
-  const [scienceDone, setScienceDone] = useState(() => isAlreadyCompleted);
   const [ppeDone, setPpeDone] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.ppe));
   const [handwashingDone, setHandwashingDone] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.handwashing));
   const [toolSafetyDone, setToolSafetyDone] = useState(() => isAlreadyCompleted || (assessmentResults?.preTest?.toolSafety?.length || 0) > 0);
   const [qualityInspectionDone, setQualityInspectionDone] = useState(() => isAlreadyCompleted || (assessmentResults?.preTest?.qualityInspection?.length || 0) > 0);
 
   useEffect(() => {
-    if (phase !== 'lecture') {
-      setScienceDone(true);
-    }
-
-    if (phase === 'lecture') {
-      speak(
-        `Welcome to the Pre-Test Assessment, ${studentName || 'Food Technologist'}! Review these essential science concepts before we begin your diagnostic orientation evaluation.`,
-        'neutral',
-        {
-          badge: 'Pre-Test: Science Foundation',
-          note: 'Coconut pith cracker snack utilizes an agricultural by-product (ubod) to create a nutritious, crispy snack while exploring food innovation.',
-          btnText: 'Proceed to PPE Attire ➔',
-          onNext: () => {
-            setScienceDone(true);
-            setPhase('ppe');
-          },
-        }
-      );
-    } else if (phase === 'ppe') {
+    if (phase === 'ppe') {
       speak(
         isAlreadyCompleted
           ? 'Pre-Test Completed: Review your submitted PPE attire choices below (Read-Only).'
@@ -283,17 +263,6 @@ export const OrientationScene = () => {
       <div className="orientation-subnav-container">
         <nav className="orientation-subnav" aria-label="Laboratory Pre-Test Stages">
           <button
-            className={`subnav-pill ${phase === 'lecture' ? 'active' : ''} ${scienceDone ? 'completed' : ''}`}
-            onClick={() => {
-              soundManager.playClick();
-              setPhase('lecture');
-            }}
-          >
-            <span className="subnav-pill-icon">📚</span>
-            <span className="subnav-pill-label">1. Science Concepts</span>
-            {scienceDone && <span className="subnav-pill-check">✓</span>}
-          </button>
-          <button
             className={`subnav-pill ${phase === 'ppe' ? 'active' : ''} ${ppeDone ? 'completed' : ''}`}
             onClick={() => {
               soundManager.playClick();
@@ -301,7 +270,7 @@ export const OrientationScene = () => {
             }}
           >
             <span className="subnav-pill-icon">🥼</span>
-            <span className="subnav-pill-label">2. PPE Attire</span>
+            <span className="subnav-pill-label">1. PPE Attire</span>
             {ppeDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
@@ -312,7 +281,7 @@ export const OrientationScene = () => {
             }}
           >
             <span className="subnav-pill-icon">🧼</span>
-            <span className="subnav-pill-label">3. Handwashing</span>
+            <span className="subnav-pill-label">2. Handwashing</span>
             {handwashingDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
@@ -323,7 +292,7 @@ export const OrientationScene = () => {
             }}
           >
             <span className="subnav-pill-icon">🔍</span>
-            <span className="subnav-pill-label">4. Tool Safety</span>
+            <span className="subnav-pill-label">3. Tool Safety</span>
             {toolSafetyDone && <span className="subnav-pill-check">✓</span>}
           </button>
           <button
@@ -334,118 +303,14 @@ export const OrientationScene = () => {
             }}
           >
             <span className="subnav-pill-icon">🥥</span>
-            <span className="subnav-pill-label">5. Quality Inspection</span>
+            <span className="subnav-pill-label">4. Quality Inspection</span>
             {qualityInspectionDone && <span className="subnav-pill-check">✓</span>}
           </button>
         </nav>
       </div>
 
       <div className="stage-center-zone">
-        {/* PHASE 1: LECTURE & SCIENCE CONCEPTS */}
-        {phase === 'lecture' && (
-          <div className="active-vessel-card orientation-card">
-            <div className="vessel-top-badge">Core Food Technology Foundations</div>
-            <div className="vessel-header">
-              <span className="vessel-title">Laboratory Science & Definitions</span>
-              <span className="vessel-badge">Concept {activeConceptIndex + 1} of {LECTURE_CONCEPTS.length}</span>
-            </div>
-            <div className="vessel-header-divider" />
-
-            <div className="lecture-display-area">
-              <div className="concept-card-expanded">
-                <div className="concept-icon-big">{LECTURE_CONCEPTS[activeConceptIndex].icon}</div>
-                <div className="concept-content">
-                  <span className="concept-tag">{LECTURE_CONCEPTS[activeConceptIndex].tag}</span>
-                  <h3 className="concept-heading">{LECTURE_CONCEPTS[activeConceptIndex].title}</h3>
-                  <p className="concept-summary">{LECTURE_CONCEPTS[activeConceptIndex].summary}</p>
-                  <div className="concept-deepdive">
-                    <strong>Laboratory Significance:</strong> {LECTURE_CONCEPTS[activeConceptIndex].details}
-                  </div>
-                </div>
-              </div>
-
-              {/* Concept Selector Buttons */}
-              <div className="concept-pagination-row">
-                {LECTURE_CONCEPTS.map((concept, idx) => (
-                  <button
-                    key={concept.id}
-                    className={`concept-bullet ${idx === activeConceptIndex ? 'active' : ''}`}
-                    onClick={() => {
-                      soundManager.playClick();
-                      setActiveConceptIndex(idx);
-                    }}
-                  >
-                    <span>{concept.icon} {concept.title}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="orientation-btn-row">
-                <button
-                  className="btn-secondary"
-                  disabled={activeConceptIndex === 0}
-                  onClick={() => {
-                    soundManager.playClick();
-                    setActiveConceptIndex((prev) => Math.max(0, prev - 1));
-                  }}
-                  style={{
-                    opacity: activeConceptIndex === 0 ? 0.35 : 1,
-                    cursor: activeConceptIndex === 0 ? 'not-allowed' : 'pointer',
-                    padding: '8px 16px',
-                    fontSize: '0.88rem',
-                  }}
-                >
-                  ◀ Previous
-                </button>
-
-                <div className="concept-dots-indicator">
-                  {LECTURE_CONCEPTS.map((_, idx) => (
-                    <span
-                      key={idx}
-                      className={`concept-dot ${idx === activeConceptIndex ? 'active' : ''}`}
-                      onClick={() => {
-                        soundManager.playClick();
-                        setActiveConceptIndex(idx);
-                      }}
-                      title={`Jump to Concept ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-
-                {activeConceptIndex < LECTURE_CONCEPTS.length - 1 ? (
-                  <button
-                    className="btn-primary"
-                    onClick={() => {
-                      soundManager.playClick();
-                      const nextIdx = activeConceptIndex + 1;
-                      setActiveConceptIndex(nextIdx);
-                      if (nextIdx === LECTURE_CONCEPTS.length - 1) {
-                        setScienceDone(true);
-                      }
-                    }}
-                    style={{ padding: '8px 20px', fontSize: '0.88rem' }}
-                  >
-                    Next Concept ▶
-                  </button>
-                ) : (
-                  <button
-                    className="btn-primary btn-gold"
-                    onClick={() => {
-                      soundManager.playClick();
-                      setScienceDone(true);
-                      setPhase('ppe');
-                    }}
-                    style={{ padding: '8px 20px', fontSize: '0.88rem' }}
-                  >
-                    Proceed to PPE Attire Pre-Test ➔
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* PHASE 2: PPE ATTIRE SELECTION (Diagnostic Selection) */}
+        {/* TASK 1: PPE ATTIRE SELECTION (Diagnostic Selection) */}
         {phase === 'ppe' && (
           <div className="active-vessel-card orientation-card ppe-card">
             <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Attire & Safety Standards</div>
@@ -457,49 +322,54 @@ export const OrientationScene = () => {
             </div>
             <div className="vessel-header-divider" />
 
-            <p className="section-instruction">
+            <p className="vessel-desc">
               {isAlreadyCompleted
-                ? 'Review your submitted protective attire choices below:'
-                : 'Click to select all protective attire required for food preparation. Avoid unapproved or hazardous gear:'}
+                ? 'Review the personal protective equipment you submitted for the diagnostic orientation pre-test below.'
+                : 'Select the protective items required for clean, sterile food preparation before entering the laboratory. Beware of non-approved or hazardous gear!'}
             </p>
 
             <div className="ppe-items-grid">
               {PPE_ITEMS.map((item) => {
-                const isSelected = ppeEquipped[item.id];
+                const isSelected = ppeEquipped[item.id] || false;
                 return (
                   <div
                     key={item.id}
-                    className={`ppe-box ${isSelected ? 'equipped' : ''} ${isAlreadyCompleted ? 'is-locked-view' : ''}`}
+                    className={`ppe-box ${isSelected ? 'selected' : ''} ${isAlreadyCompleted ? 'locked' : ''}`}
                     onClick={() => handleTogglePpe(item)}
                     role="button"
                     tabIndex={0}
-                    style={{ cursor: isAlreadyCompleted ? 'default' : 'pointer' }}
+                    style={{
+                      cursor: isAlreadyCompleted ? 'default' : 'pointer',
+                      border: isSelected ? '3px solid #10b981' : '2px solid #e2d3c2',
+                      background: isSelected ? '#f0fdf4' : '#ffffff',
+                    }}
                   >
-                    <img src={item.img} alt={item.name} className="ppe-icon-img" />
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="ppe-icon-img"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
                     <div className="gear-details">
-                      <h4 className="ppe-name">{item.name}</h4>
-                      <p className="ppe-desc">{item.role}</p>
+                      <span className="ppe-name">{item.name}</span>
+                      <span className="ppe-desc">{item.role}</span>
                     </div>
+
                     <div className={`gear-status-badge ${isSelected ? 'worn' : 'pending'}`}>
-                      {isSelected
-                        ? isAlreadyCompleted
-                          ? '✓ Equipped'
-                          : '✓ Selected'
-                        : isAlreadyCompleted
-                        ? 'Not Equipped'
-                        : '👆 Click to Select'}
+                      {isSelected ? '✓ Selected' : 'Not Selected'}
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center' }}>
+            <div className="orientation-btn-row">
               <button
-                className="btn-primary btn-gold"
+                className="btn-primary"
                 onClick={handleConfirmPpe}
-                disabled={!isAlreadyCompleted && selectedPpeCount === 0}
-                style={{ opacity: !isAlreadyCompleted && selectedPpeCount === 0 ? 0.5 : 1, padding: '12px 32px', fontSize: '1rem' }}
+                style={{ marginLeft: 'auto', padding: '12px 28px' }}
               >
                 {isAlreadyCompleted
                   ? 'Proceed to Handwashing Sequence ➔'
@@ -509,12 +379,19 @@ export const OrientationScene = () => {
           </div>
         )}
 
-        {/* PHASE 3: HANDWASHING SEQUENCE PUZZLE */}
+        {/* TASK 2: HANDWASHING SEQUENCE PUZZLE (Dynamic Reordering) */}
         {phase === 'sanitation' && (
           <div className="active-vessel-card orientation-card">
+            <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Sanitation Protocol</div>
+            <div className="vessel-header">
+              <span className="vessel-title">7-Step Sanitary Handwashing Sequence</span>
+              <span className="vessel-badge">7 Steps • 3 Distractors</span>
+            </div>
+            <div className="vessel-header-divider" />
+
             <HandwashingSequenceActivity
-              initialSlots={handwashData?.slots}
-              initialPool={handwashData?.pool}
+              initialSlots={handwashData?.slots || null}
+              initialPool={handwashData?.pool || null}
               onSequenceChange={handleHandwashChange}
               onComplete={handleHandwashComplete}
               isLocked={isAlreadyCompleted}
@@ -522,12 +399,13 @@ export const OrientationScene = () => {
           </div>
         )}
 
-        {/* PHASE 4: TOOL SAFETY INSPECTION MINIGAME */}
+        {/* TASK 3: TOOL & EQUIPMENT SAFETY INSPECTION */}
         {phase === 'tool_inspection' && (
           <div className="active-vessel-card orientation-card inspection-card-wrapper">
+            <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Tool & Equipment Safety</div>
             <MinigameInspection
               title="Tool & Equipment Safety Inspection"
-              mode="tools"
+              subtitle="Inspect each equipment pair. Select the clean, food-grade, hazard-free tool for commercial cracker production."
               items={TOOL_INSPECTION_ITEMS}
               initialAnswers={toolAnswers}
               onAnswersChange={handleToolAnswersChange}
@@ -537,12 +415,13 @@ export const OrientationScene = () => {
           </div>
         )}
 
-        {/* PHASE 5: INGREDIENT QUALITY INSPECTION MINIGAME */}
+        {/* TASK 4: RAW INGREDIENT QUALITY INSPECTION */}
         {phase === 'ingredient_inspection' && (
           <div className="active-vessel-card orientation-card inspection-card-wrapper">
+            <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Raw Material Quality</div>
             <MinigameInspection
-              title="Ingredient Quality Inspection"
-              mode="ingredients"
+              title="Raw Ingredient Quality Inspection"
+              subtitle="Audit incoming coconut pith, rice flour, oil, and salt. Select the fresh, sanitary, uncontaminated items."
               items={INGREDIENT_INSPECTION_ITEMS}
               initialAnswers={ingredientAnswers}
               onAnswersChange={handleIngredientAnswersChange}
@@ -553,11 +432,11 @@ export const OrientationScene = () => {
         )}
       </div>
 
-      {/* 20% Right Column Orientation Guide Sidebar */}
+      {/* Right Sidebar Checklist */}
       <OrientationSidebar
         phase={phase}
         ppeEquipped={ppeEquipped}
-        scienceDone={scienceDone}
+        completedHandwashSteps={handwashData?.submittedSteps || []}
         ppeDone={ppeDone}
         handwashingDone={handwashingDone}
         toolSafetyDone={toolSafetyDone}
