@@ -78,22 +78,6 @@ export const SequencingScene = () => {
           <SequencingActivity onComplete={handleSequenceCompleted} />
         </div>
 
-        {/* Post-Completion Glowing Call To Action */}
-        {isCompleted && (
-          <div className="sequencing-success-cta">
-            <div className="success-badge-card">
-              <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="success-medal-img" />
-              <div className="success-text-info">
-                <h3>Post-Test Assessment Submitted!</h3>
-                <p>All 8 production stages recorded. Your comprehensive diagnostic audit and results report are ready.</p>
-              </div>
-              <button className="btn-gold btn-proceed-mastery" onClick={handleProceedToEvaluation}>
-                <span>View Diagnostic Results Report ➔</span>
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Bottom clearance spacer */}
         <div style={{ height: '40px', flexShrink: 0 }} />
       </div>

@@ -62,12 +62,13 @@ const CORRECT_ORDER = [
 ];
 
 export const SequencingActivity = ({ onComplete }) => {
-  const { addScore, unlockBadge, showToast, missionsCompleted, recordPostTestSequence } = useGame();
+  const { addScore, unlockBadge, showToast, missionsCompleted, recordPostTestSequence, assessmentResults } = useGame();
   const isAlreadyDone = Boolean(missionsCompleted?.sequencing);
 
   const [items, setItems] = useState(() => {
-    if (isAlreadyDone) {
-      return [...CORRECT_ORDER];
+    // If previously submitted in this session, restore submitted items
+    if (assessmentResults?.postTest?.sequencing?.submittedItems) {
+      return [...assessmentResults.postTest.sequencing.submittedItems];
     }
     let shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
     while (shuffled.every((item, idx) => item.id === CORRECT_ORDER[idx].id)) {
@@ -80,33 +81,20 @@ export const SequencingActivity = ({ onComplete }) => {
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
   const [isSolved, setIsSolved] = useState(() => isAlreadyDone);
-  const [verificationResult, setVerificationResult] = useState(() => {
-    if (isAlreadyDone) {
-      return {
-        correctCount: 8,
-        isCorrect: true,
-        correctMap: [true, true, true, true, true, true, true, true],
-      };
-    }
-    return null;
-  });
   const touchOriginRef = useRef(null);
 
   // Re-sync if completion state changes
   useEffect(() => {
     if (isAlreadyDone) {
-      setItems([...CORRECT_ORDER]);
+      if (assessmentResults?.postTest?.sequencing?.submittedItems) {
+        setItems([...assessmentResults.postTest.sequencing.submittedItems]);
+      }
       setIsSolved(true);
-      setVerificationResult({
-        correctCount: 8,
-        isCorrect: true,
-        correctMap: [true, true, true, true, true, true, true, true],
-      });
       setSelectedCardIndex(null);
     }
-  }, [isAlreadyDone]);
+  }, [isAlreadyDone, assessmentResults]);
 
-  // Initialize with a randomized order (for retaking or fresh attempt)
+  // Initialize with a randomized order
   const shuffleItems = () => {
     let shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
     while (shuffled.every((item, idx) => item.id === CORRECT_ORDER[idx].id)) {
@@ -114,7 +102,6 @@ export const SequencingActivity = ({ onComplete }) => {
     }
     setItems(shuffled);
     setIsSolved(false);
-    setVerificationResult(null);
     setSelectedCardIndex(null);
   };
 
@@ -136,7 +123,6 @@ export const SequencingActivity = ({ onComplete }) => {
       newItems[index] = temp;
       setItems(newItems);
       setSelectedCardIndex(null);
-      setVerificationResult(null);
     }
   };
 
@@ -241,13 +227,7 @@ export const SequencingActivity = ({ onComplete }) => {
     const correctCount = items.filter((item, idx) => item.id === CORRECT_ORDER[idx].id).length;
     const correctMap = items.map((item, idx) => item.id === CORRECT_ORDER[idx].id);
 
-    setVerificationResult({
-      correctCount,
-      isCorrect,
-      correctMap,
-    });
-
-    // Record in diagnostic assessment state
+    // Record in diagnostic assessment state for the Results report
     recordPostTestSequence({
       submittedOrder: items.map((i) => i.id),
       submittedItems: items,
@@ -262,14 +242,12 @@ export const SequencingActivity = ({ onComplete }) => {
     addScore(correctCount * 12.5);
 
     if (isCorrect) {
-      soundManager.playFanfare();
       unlockBadge('master_sequencer', 'Master Food Technologist');
-      setIsSolved(true);
-      showToast('Mastery Validated!', 'Perfect sequence recorded! Proceeding to Results...', 'success');
-    } else {
-      soundManager.playSuccess();
-      showToast('Assessment Submitted', `Sequence order recorded (${correctCount}/8 correct). Proceeding to Results...`, 'info');
     }
+
+    setIsSolved(true);
+    soundManager.playSuccess();
+    showToast('Post-Test Submitted', 'Sequence recorded. Proceed to view your full diagnostic results report.', 'success');
 
     if (onComplete) {
       onComplete({ isCorrect, correctCount, submittedItems: items });
@@ -304,8 +282,6 @@ export const SequencingActivity = ({ onComplete }) => {
             const isDragging = draggedIndex === index;
             const isDragTarget = dragOverIndex === index && draggedIndex !== index;
             const isSelected = selectedCardIndex === index;
-            const isVerified = verificationResult !== null;
-            const isItemCorrect = isSolved || (isVerified && verificationResult.correctMap[index]);
 
             return (
               <div
@@ -322,15 +298,15 @@ export const SequencingActivity = ({ onComplete }) => {
                 }}
               >
                 {/* Timeline Position Header */}
-                <div className={`seq-timeline-header ${isItemCorrect ? 'header-correct' : isVerified && !isItemCorrect ? 'header-wrong' : ''}`}>
+                <div className="seq-timeline-header">
                   <span className="seq-pos-num">#{index + 1}</span>
                   <span className="seq-pos-label">Stage {index + 1}</span>
                 </div>
 
                 <div
                   className={`sequencing-card ${
-                    isSelected ? 'selected-tap-card' : isItemCorrect ? 'correct-glow' : isVerified ? 'incorrect-border' : ''
-                  } ${isDragging ? 'is-dragging' : ''}`}
+                    isSelected ? 'selected-tap-card' : ''
+                  } ${isDragging ? 'is-dragging' : ''} ${isSolved ? 'card-submitted' : ''}`}
                   draggable={!isSolved}
                   onDragStart={(e) => handleDragStart(e, index)}
                   onDragEnd={handleDragEnd}
@@ -343,18 +319,11 @@ export const SequencingActivity = ({ onComplete }) => {
                     e.stopPropagation();
                     return false;
                   }}
-                  title={!isSolved ? (isSelected ? 'Tap another card to swap' : 'Tap or drag to swap') : 'Step verified'}
+                  title={!isSolved ? (isSelected ? 'Tap another card to swap' : 'Tap or drag to swap') : 'Sequence submitted'}
                 >
                   {/* Status Indicator Badge */}
-                  {isSolved && <div className="seq-status-badge badge-correct">✓ Stage {index + 1}</div>}
                   {!isSolved && isSelected && (
                     <div className="seq-status-badge badge-selected">🔄 Selected • Tap swap</div>
-                  )}
-                  {!isSolved && !isSelected && isVerified && isItemCorrect && (
-                    <div className="seq-status-badge badge-correct">✓ Correct</div>
-                  )}
-                  {!isSolved && !isSelected && isVerified && !isItemCorrect && (
-                    <div className="seq-status-badge badge-wrong">⚠ Misplaced</div>
                   )}
 
                   {/* Grip Handle Indicator */}
@@ -397,22 +366,6 @@ export const SequencingActivity = ({ onComplete }) => {
         </div>
       </div>
 
-      {/* Verification Feedback Bar */}
-      {verificationResult && !isSolved && (
-        <div className="sequencing-hint-bar">
-          <div className="hint-content">
-            <span className="hint-badge">
-              {verificationResult.correctCount} / 8 Steps in Correct Position
-            </span>
-            <span className="hint-text">
-              {verificationResult.correctCount >= 6
-                ? 'Almost there! Drag or tap the remaining misplaced cards to complete the sequence.'
-                : 'Review your laboratory stages and arrange the cards to adjust their positions.'}
-            </span>
-          </div>
-        </div>
-      )}
-
       {/* Action Buttons */}
       <div className="sequencing-actions">
         {!isSolved ? (
@@ -426,29 +379,14 @@ export const SequencingActivity = ({ onComplete }) => {
                 soundManager.playClick();
                 shuffleItems();
               }}
-              title="Reset and reshuffle puzzle"
+              title="Reset order"
             >
-              <span>Reshuffle</span>
+              <span>Reset Order</span>
             </button>
           </div>
         ) : (
-          <div className="solved-banner">
-            <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="solved-medal-img" />
-            <div className="solved-text-stack">
-              <strong>Perfect Food Technology Sequencing! (8/8 Steps Verified)</strong>
-              <span>Master Food Technologist Badge Unlocked • Chronological Pipeline Validated</span>
-            </div>
-            <button
-              className="btn-secondary btn-reshuffle"
-              style={{ marginLeft: 'auto' }}
-              onClick={() => {
-                soundManager.playClick();
-                shuffleItems();
-              }}
-              title="Practice and reshuffle puzzle"
-            >
-              <span>🔄 Practice Again</span>
-            </button>
+          <div className="submitted-sequence-notice">
+            <span>✓ Post-Test response recorded and locked. Click <strong>"View Diagnostic Assessment Results ➔"</strong> to view your full performance report.</span>
           </div>
         )}
       </div>

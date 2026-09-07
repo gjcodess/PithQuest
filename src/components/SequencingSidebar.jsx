@@ -6,15 +6,35 @@ import { SidebarPortal } from './SidebarPortal';
 export const SequencingSidebar = ({ isCompleted = false }) => {
   const { isInventoryCollapsed, setIsInventoryCollapsed } = useGame();
 
-  const stagesList = [
-    { num: 1, name: 'Preparation & Washing', icon: '🥥', desc: 'Wash, trim, and pre-cook fresh ubod' },
-    { num: 2, name: 'Food Processing', icon: '⚡', desc: 'Grind boiled ubod into smooth puree' },
-    { num: 3, name: 'Formulation & Dough', icon: '🥣', desc: 'Mix cassava starch, salt & seasonings' },
-    { num: 4, name: 'Molding & Shaping', icon: '🥖', desc: 'Form cohesive cylindrical logs' },
-    { num: 5, name: 'Steam Gelatinization', icon: '♨️', desc: 'Cook starch until fully translucent' },
-    { num: 6, name: 'Dehydration', icon: '☀️', desc: 'Slice thin & dry to 10% moisture' },
-    { num: 7, name: 'High-Heat Frying', icon: '🍳', desc: 'Flash fry at 180°C–200°C to puff' },
-    { num: 8, name: 'Packaging & Labeling', icon: '📦', desc: 'Seal 50g in airtight kraft pouches' },
+  const protocolGuidelines = [
+    {
+      id: 'pipeline',
+      icon: '🔄',
+      title: 'Full Pipeline Scope',
+      desc: 'Order all 8 production stages from initial raw ubod preparation through to retail packaging.',
+      tag: '8 Stages',
+    },
+    {
+      id: 'interaction',
+      icon: '👆',
+      title: 'Interaction Method',
+      desc: 'Drag cards into target slots or tap one card then another to swap positions.',
+      tag: 'Drag / Tap',
+    },
+    {
+      id: 'scoring',
+      icon: '📊',
+      title: 'Assessment Weight',
+      desc: 'Each correctly placed production stage contributes 12.5% to your Post-Test score.',
+      tag: '100% Total',
+    },
+    {
+      id: 'report',
+      icon: '📋',
+      title: 'Diagnostic Report',
+      desc: 'Detailed itemized audit, food science rationales, and comparison will be generated in the results.',
+      tag: 'Final Audit',
+    },
   ];
 
   if (isInventoryCollapsed) {
@@ -36,7 +56,7 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
           </div>
           <div className="inventory-tab-label-stack">
             <span className="inventory-tab-name">POST-TEST</span>
-            <span className="inventory-tab-sub">STEPS</span>
+            <span className="inventory-tab-sub">RULES</span>
           </div>
           <div className="inventory-tab-chevron-box">
             <span className="inventory-tab-chevron">◀</span>
@@ -56,8 +76,8 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
               <span style={{ fontSize: '1.4rem' }}>📋</span>
             </div>
             <div className="rack-titles">
-              <span className="rack-title-text">Post-Test Sequence</span>
-              <span className="rack-count-pill">{isCompleted ? '✓ Assessed' : '8 Stages'}</span>
+              <span className="rack-title-text">Exam Protocol</span>
+              <span className="rack-count-pill">{isCompleted ? '✓ Submitted' : 'Assessment'}</span>
             </div>
           </div>
           <button
@@ -76,25 +96,25 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
         <div className="rack-header-divider" />
 
         <div className="rack-hint-bar">
-          <span>Arrange all 8 stages chronologically from left to right</span>
+          <span>{isCompleted ? 'Post-Test response recorded' : 'Post-Test Assessment Guidelines'}</span>
         </div>
 
-        {/* Vertical Stage Stack */}
+        {/* Vertical Guidelines Stack */}
         <div className="inventory-vertical-stack">
-          {stagesList.map((st) => (
+          {protocolGuidelines.map((item) => (
             <div
-              key={st.num}
+              key={item.id}
               className={`drag-card horizontal-item-card ${isCompleted ? 'used' : ''}`}
             >
               <div className="card-icon-col">
-                <span style={{ fontSize: '1.5rem' }}>{st.icon}</span>
+                <span style={{ fontSize: '1.5rem' }}>{item.icon}</span>
               </div>
               <div className="card-info-col">
                 <div className="card-title-row">
-                  <span className="card-title">Stage {st.num}: {st.name}</span>
-                  <span className="card-measure">{isCompleted ? 'VERIFIED' : `STEP ${st.num}`}</span>
+                  <span className="card-title">{item.title}</span>
+                  <span className="card-measure">{item.tag}</span>
                 </div>
-                <p className="card-desc-text">{st.desc}</p>
+                <p className="card-desc-text">{item.desc}</p>
               </div>
             </div>
           ))}
