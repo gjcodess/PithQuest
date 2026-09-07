@@ -9,49 +9,57 @@ const STAGE_SCIENCE_FACTS = [
   {
     step: 1,
     name: 'Washing & Boiling Ubod',
-    icon: '🥥',
+    img: '/assets/card_step_boiling.png',
+    fallbackIcon: '🥥',
     foodScience: 'Hydrothermal softening breaks down stubborn cellulosic fibers in coconut pith, solubilizing cellular walls for optimal pureeing while inactivating polyphenol oxidase to prevent discoloration.',
   },
   {
     step: 2,
     name: 'Pureeing & Grinding',
-    icon: '⚡',
+    img: '/assets/card_step_grinding.png',
+    fallbackIcon: '⚡',
     foodScience: 'High-shear mechanical processing homogenizes boiled pith fibers into a uniform microscopic matrix, preventing grittiness and ensuring consistent hydration with starch polymers.',
   },
   {
     step: 3,
     name: 'Paste Formulation (1:1 Ratio)',
-    icon: '🥣',
+    img: '/assets/card_step_mixing.png',
+    fallbackIcon: '🥣',
     foodScience: 'The 1:1 ratio of ubod puree to Erawan rice flour provides balanced amylose/amylopectin starch chains, creating the ideal cohesive dough viscoelasticity needed for structural puffing.',
   },
   {
     step: 4,
     name: 'Rectangular Molding (50mm x 25mm)',
-    icon: '🥖',
+    img: '/assets/card_step_molding.png',
+    fallbackIcon: '🥖',
     foodScience: 'Standardized dimensions ensure uniform thermal conductivity and moisture diffusion during steaming and dehydration, preventing uneven core drying or blistering.',
   },
   {
     step: 5,
     name: 'Starch Steaming (10 min Gelatinization)',
-    icon: '♨️',
+    img: '/assets/card_step_steaming.png',
+    fallbackIcon: '♨️',
     foodScience: 'Moist heat at 100°C ruptures starch granules, causing irreversible gelatinization that locks the wafer shape into an extensible viscoelastic gel matrix capable of holding steam bubbles.',
   },
   {
     step: 6,
     name: 'Cabinet Dehydration (90°C to <10% Moisture)',
-    icon: '☀️',
+    img: '/assets/card_step_dehydration.png',
+    fallbackIcon: '☀️',
     foodScience: 'Controlled convective drying evaporates free water below 10% critical moisture, setting the glassy amorphous starch state essential for rapid steam expansion upon frying.',
   },
   {
     step: 7,
     name: 'Flash Deep Frying (180°C, 10 sec, 3x Puffing)',
-    icon: '🍳',
+    img: '/assets/card_step_frying.png',
+    fallbackIcon: '🍳',
     foodScience: 'Submerged in 180°C oil, residual bound water instantaneously flashes into superheated steam. The rapid vapor pressure inflates the gelatinized matrix 3x before setting into an airy, brittle crunch.',
   },
   {
     step: 8,
     name: 'Hermetic Packaging & Labeling (50g)',
-    icon: '📦',
+    img: '/assets/card_step_packaging.png',
+    fallbackIcon: '📦',
     foodScience: 'High-barrier sealed foil pouches prevent water vapor ingress (preventing starch retrogradation and staleness) and shield against lipid photo-oxidation, securing a 6-month shelf life.',
   },
 ];
@@ -530,7 +538,11 @@ export const ResultsScene = () => {
                   <div key={stage.step} className="stage-science-card">
                     <div className="stage-science-left">
                       <div className="stage-science-num">Stage {stage.step}</div>
-                      <div className="stage-science-icon">{stage.icon}</div>
+                      <img
+                        src={stage.img}
+                        alt={stage.name}
+                        className="stage-science-img"
+                      />
                     </div>
                     <div className="stage-science-body">
                       <div className="stage-science-title-row">

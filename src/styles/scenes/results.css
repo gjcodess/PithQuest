@@ -520,21 +520,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  min-width: 70px;
+  gap: 8px;
+  min-width: 76px;
+  flex-shrink: 0;
 }
 
 .stage-science-num {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 800;
   color: #78350f;
   background: #fde68a;
+  border: 1px solid #f59e0b;
   padding: 2px 8px;
   border-radius: 6px;
+  white-space: nowrap;
 }
 
-.stage-science-icon {
-  font-size: 1.6rem;
+.stage-science-img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(78, 52, 28, 0.22));
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stage-science-card:hover .stage-science-img {
+  transform: scale(1.08);
 }
 
 .stage-science-body {
