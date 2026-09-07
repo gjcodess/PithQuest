@@ -62,29 +62,61 @@ const CORRECT_ORDER = [
 ];
 
 export const SequencingActivity = ({ onComplete }) => {
-  const { addScore, unlockBadge, showToast } = useGame();
-  const [items, setItems] = useState([]);
+  const { addScore, unlockBadge, showToast, missionsCompleted } = useGame();
+  const isAlreadyDone = Boolean(missionsCompleted?.sequencing);
+
+  const [items, setItems] = useState(() => {
+    if (isAlreadyDone) {
+      return [...CORRECT_ORDER];
+    }
+    let shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
+    while (shuffled.every((item, idx) => item.id === CORRECT_ORDER[idx].id)) {
+      shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
+    }
+    return shuffled;
+  });
+
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
-  const [isSolved, setIsSolved] = useState(false);
-  const [verificationResult, setVerificationResult] = useState(null);
+  const [isSolved, setIsSolved] = useState(() => isAlreadyDone);
+  const [verificationResult, setVerificationResult] = useState(() => {
+    if (isAlreadyDone) {
+      return {
+        correctCount: 8,
+        isCorrect: true,
+        correctMap: [true, true, true, true, true, true, true, true],
+      };
+    }
+    return null;
+  });
   const touchOriginRef = useRef(null);
 
-  // Initialize with a randomized order (ensuring it's not already solved)
+  // Re-sync if completion state changes
+  useEffect(() => {
+    if (isAlreadyDone) {
+      setItems([...CORRECT_ORDER]);
+      setIsSolved(true);
+      setVerificationResult({
+        correctCount: 8,
+        isCorrect: true,
+        correctMap: [true, true, true, true, true, true, true, true],
+      });
+      setSelectedCardIndex(null);
+    }
+  }, [isAlreadyDone]);
+
+  // Initialize with a randomized order (for retaking or fresh attempt)
   const shuffleItems = () => {
     let shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
     while (shuffled.every((item, idx) => item.id === CORRECT_ORDER[idx].id)) {
       shuffled = [...CORRECT_ORDER].sort(() => Math.random() - 0.5);
     }
     setItems(shuffled);
+    setIsSolved(false);
     setVerificationResult(null);
     setSelectedCardIndex(null);
   };
-
-  useEffect(() => {
-    shuffleItems();
-  }, []);
 
   // Tap-to-Swap / Tap-to-Move Handler (Tablet Friendly)
   const handleCardClick = (index) => {
@@ -387,8 +419,19 @@ export const SequencingActivity = ({ onComplete }) => {
             <img src="/assets/icon_gold_medal_front.png" alt="Gold Medal" className="solved-medal-img" />
             <div className="solved-text-stack">
               <strong>Perfect Food Technology Sequencing! (8/8 Steps Verified)</strong>
-              <span>Master Food Technologist Badge Unlocked</span>
+              <span>Master Food Technologist Badge Unlocked • Chronological Pipeline Validated</span>
             </div>
+            <button
+              className="btn-secondary btn-reshuffle"
+              style={{ marginLeft: 'auto' }}
+              onClick={() => {
+                soundManager.playClick();
+                shuffleItems();
+              }}
+              title="Practice and reshuffle puzzle"
+            >
+              <span>🔄 Practice Again</span>
+            </button>
           </div>
         )}
       </div>

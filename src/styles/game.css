@@ -1048,8 +1048,45 @@
   transition: background-image 0.4s ease-in-out;
 }
 
-.workstation-scene.stage-1-bg {
+/* Stage-Specific Authentic Laboratory Backgrounds */
+.workstation-scene.orientation-scene {
+  background-image: url('/images/he_lab_workstation.jpg');
+}
+
+.workstation-scene.prep-scene {
+  background-image: url('/images/he_lab_workstation.jpg');
+}
+
+.workstation-scene.grinding-scene {
+  background-image: url('/images/bg_stage2_boiling.jpg');
+}
+
+.workstation-scene.mixing-scene {
+  background-image: url('/images/bg_stage3_formulation.jpg');
+}
+
+.workstation-scene.molding-scene {
+  background-image: url('/images/bg_stage3_formulation.jpg');
+}
+
+.workstation-scene.steaming-scene {
+  background-image: url('/images/bg_stage2_boiling.jpg');
+}
+
+.workstation-scene.dehydration-scene {
+  background-image: url('/images/bg_stage4_dehydration.jpg');
+}
+
+.workstation-scene.frying-scene {
+  background-image: url('/images/bg_stage5_frying.jpg');
+}
+
+.workstation-scene.packaging-scene {
   background-image: url('/images/bg_stage1_prep.jpg');
+}
+
+.workstation-scene.stage-1-bg {
+  background-image: url('/images/he_lab_workstation.jpg');
 }
 
 .workstation-scene.stage-2-bg {

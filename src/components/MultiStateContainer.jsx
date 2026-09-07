@@ -188,6 +188,10 @@ export const MultiStateContainer = ({
               src={currentStep.img}
               alt={currentStep.label || title}
               className={`container-state-img ${activeAnimation ? `anim-${activeAnimation}` : ''}`}
+              style={{
+                opacity: currentStep.imgOpacity !== undefined ? currentStep.imgOpacity : 1,
+                ...(currentStep.imgStyle || {}),
+              }}
               onError={(e) => {
                 // Graceful fallback to CSS icon if image asset is not yet created
                 e.target.style.display = 'none';
