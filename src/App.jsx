@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGame } from './context/GameContext';
 import { HeaderHUD } from './components/HeaderHUD';
 import { DialogueBox } from './components/DialogueBox';
@@ -7,6 +7,7 @@ import { RecipeModal } from './components/Modals/RecipeModal';
 import { ObjectivesModal } from './components/Modals/ObjectivesModal';
 import { ConfirmModal } from './components/Modals/ConfirmModal';
 import { FloatingItemCursor } from './components/FloatingItemCursor';
+import { LoadingScreen } from './components/LoadingScreen';
 
 // Scenes
 import { TitleScene } from './scenes/TitleScene';
@@ -23,6 +24,7 @@ import { SequencingScene } from './scenes/SequencingScene';
 import { EvaluationScene } from './scenes/EvaluationScene';
 
 export const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { scene, stageKey, isDialogueCollapsed, isInventoryCollapsed, effectiveZoom } = useGame();
 
   const renderScene = () => {
@@ -55,6 +57,10 @@ export const App = () => {
         return <TitleScene />;
     }
   };
+
+  if (isLoading) {
+    return <LoadingScreen onLoaded={() => setIsLoading(false)} />;
+  }
 
   return (
     <div className="game-app">
