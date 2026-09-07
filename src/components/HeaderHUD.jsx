@@ -428,6 +428,39 @@ export const HeaderHUD = () => {
                         </button>
                       </div>
                     </div>
+
+                    {/* Information & Guide Cards (Full Width) */}
+                    <button
+                      className="hud-menu-item-btn about-card-btn"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        soundManager.playClick();
+                        openModal('about');
+                      }}
+                    >
+                      <div className="menu-btn-icon-box" style={{ background: '#ecfdf5', color: '#047857' }}>👥</div>
+                      <div className="menu-item-text">
+                        <strong>About Us & Research Team</strong>
+                        <small>BSIE-HE-4A • TUP Manila Capstone</small>
+                      </div>
+                      <span className="menu-item-arrow">➔</span>
+                    </button>
+
+                    <button
+                      className="hud-menu-item-btn help-card-btn"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        soundManager.playClick();
+                        openModal('help');
+                      }}
+                    >
+                      <div className="menu-btn-icon-box" style={{ background: '#fef3c7', color: '#b45309' }}>❓</div>
+                      <div className="menu-item-text">
+                        <strong>How to Play & Lab Guide</strong>
+                        <small>SOPs, walkthrough & controls</small>
+                      </div>
+                      <span className="menu-item-arrow">➔</span>
+                    </button>
                   </div>
                 </div>
               </div>

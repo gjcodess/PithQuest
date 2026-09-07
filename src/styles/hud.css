@@ -415,7 +415,7 @@
   position: fixed;
   top: 76px;
   right: 14px;
-  width: 660px;
+  width: 680px;
   max-width: calc(100vw - 28px);
   background: linear-gradient(180deg, #fbf7ee 0%, #f7f0e2 40%, #ecdec9 100%);
   border: 3.5px solid #d5c3ab;
