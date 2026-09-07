@@ -17,7 +17,9 @@
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  background: radial-gradient(circle at 50% 18%, #ffffff 0%, #fdf8ee 55%, #f5ebd7 100%);
+  background: 
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.86) 0%, rgba(253, 248, 238, 0.88) 55%, rgba(245, 235, 215, 0.94) 100%),
+    url('/assets/bg_evaluation_hall.jpg') center / cover no-repeat;
 }
 
 .results-container {
