@@ -581,7 +581,7 @@ export const Mission1Prep = () => {
                   ? 'interactive-sink'
                   : ''
               }`}
-              style={{ minHeight: '330px', flex: '1 1 auto' }}
+              style={{ flex: '1 1 auto' }}
               onClick={handleSinkClick}
               onDragOver={handleSinkDragOver}
               onDrop={handleSinkDrop}

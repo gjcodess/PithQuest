@@ -22,15 +22,16 @@
 
 .packaging-qc-viewport {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px 12px;
-  box-sizing: border-box;
-  width: 100%;
-  height: 330px;
-  min-height: 330px;
-  max-height: 330px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 14px 18px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 380px !important;
+  min-height: 380px !important;
+  max-height: 380px !important;
   gap: 6px;
   background: radial-gradient(circle at 50% 30%, #fffdfa 0%, #f7f1e6 100%);
   overflow: hidden;
@@ -52,7 +53,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.80rem;
+  font-size: 0.94rem;
   font-weight: 800;
   color: #3d2612;
   text-transform: uppercase;
@@ -79,7 +80,7 @@
 }
 
 .packaging-spec-item .spec-title {
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #735b44;
   text-transform: uppercase;
@@ -87,7 +88,7 @@
 }
 
 .packaging-spec-item .spec-val {
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -108,7 +109,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.66rem;
+  font-size: 0.80rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -145,7 +146,7 @@
 
 .packaging-brand-title {
   font-family: var(--font-heading);
-  font-size: 0.74rem;
+  font-size: 0.88rem;
   font-weight: 800;
   color: #78350f;
   letter-spacing: 0.4px;
@@ -159,11 +160,11 @@
 }
 
 .packaging-tag {
-  font-size: 0.62rem;
+  font-size: 0.76rem;
   font-weight: 800;
   color: #0369a1;
   background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
   border: 1.5px solid #7dd3fc;
   box-shadow: 0 1px 0 #0284c7;
@@ -172,7 +173,7 @@
 
 /* Science Note */
 .packaging-science-note {
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   color: #1e3a8a;
   background: #f0f9ff;
   border: 1.5px solid #bae6fd;

@@ -206,15 +206,16 @@
 
 .frying-qc-viewport {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 12px 14px;
-  box-sizing: border-box;
-  width: 100%;
-  height: 330px;
-  min-height: 330px;
-  max-height: 330px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 14px 18px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 380px !important;
+  min-height: 380px !important;
+  max-height: 380px !important;
   gap: 8px;
   background: radial-gradient(circle at 50% 30%, #fffdfa 0%, #f7f1e6 100%);
   overflow: hidden;
@@ -236,7 +237,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.84rem;
+  font-size: 0.94rem;
   font-weight: 800;
   color: #3d2612;
   text-transform: uppercase;
@@ -263,7 +264,7 @@
 }
 
 .frying-spec-item .spec-title {
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #735b44;
   text-transform: uppercase;
@@ -271,7 +272,7 @@
 }
 
 .frying-spec-item .spec-val {
-  font-size: 0.96rem;
+  font-size: 1.08rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -292,7 +293,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.66rem;
+  font-size: 0.80rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -323,13 +324,13 @@
 
 /* Science Note */
 .frying-science-note {
-  font-size: 0.66rem;
+  font-size: 0.80rem;
   color: #1e3a8a;
   background: #f0f9ff;
   border: 1.5px solid #bae6fd;
   border-radius: 6px;
-  padding: 5px 8px;
-  line-height: 1.3;
+  padding: 6px 8px;
+  line-height: 1.35;
   text-align: left;
   box-shadow: 0 1.5px 0 #7dd3fc;
 }

@@ -5,13 +5,15 @@
 .dehydration-scene .stage-center-zone {
   display: flex;
   align-items: center;
-  justify-content: flex-start !important;
+  justify-content: center !important;
+  padding: 20px 32px 36px 32px !important;
 }
 
 .dehydration-scene .stage-content-row {
   margin: 0 auto;
-  gap: 36px;
-  align-items: flex-start;
+  gap: 40px;
+  max-width: 1440px !important;
+  align-items: center;
   flex-shrink: 0;
 }
 
@@ -19,11 +21,11 @@
   background: #ffffff !important;
   border: 2.5px solid #dfcfb9 !important;
   border-bottom: 4.5px solid #bda88e !important;
-  border-radius: 20px !important;
+  border-radius: 22px !important;
   box-shadow:
     0 4px 0 #bda88e,
-    0 10px 24px rgba(78, 52, 28, 0.08) !important;
-  padding: 12px 20px !important;
+    0 10px 26px rgba(78, 52, 28, 0.1) !important;
+  padding: 14px 24px !important;
 }
 
 /* Authentic Dehydrator Appliance Control Console (Matching StoveBurnerConsole) */
@@ -309,15 +311,16 @@
 
 .dehydration-qc-viewport {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 12px 14px;
-  box-sizing: border-box;
-  width: 100%;
-  height: 330px;
-  min-height: 330px;
-  max-height: 330px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 14px 18px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 380px !important;
+  min-height: 380px !important;
+  max-height: 380px !important;
   gap: 8px;
   background: radial-gradient(circle at 50% 30%, #fffdfa 0%, #f7f1e6 100%);
   overflow: hidden;
@@ -339,7 +342,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.84rem;
+  font-size: 0.94rem;
   font-weight: 800;
   color: #3d2612;
   text-transform: uppercase;
@@ -366,7 +369,7 @@
 }
 
 .dehydration-spec-item .spec-title {
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #735b44;
   text-transform: uppercase;
@@ -374,7 +377,7 @@
 }
 
 .dehydration-spec-item .spec-val {
-  font-size: 0.96rem;
+  font-size: 1.08rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -395,7 +398,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.66rem;
+  font-size: 0.80rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -441,14 +444,14 @@
 }
 
 .texture-lbl {
-  font-size: 0.62rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #735b44;
   text-transform: uppercase;
 }
 
 .texture-val {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -459,13 +462,13 @@
 
 /* Science Note */
 .dehydration-science-note {
-  font-size: 0.66rem;
+  font-size: 0.80rem;
   color: #1e3a8a;
   background: #f0f9ff;
   border: 1.5px solid #bae6fd;
   border-radius: 6px;
-  padding: 5px 8px;
-  line-height: 1.3;
+  padding: 6px 8px;
+  line-height: 1.35;
   text-align: left;
   box-shadow: 0 1.5px 0 #7dd3fc;
 }

@@ -206,12 +206,16 @@
 
 .qc-viewport {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px 20px;
-  box-sizing: border-box;
-  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 14px 18px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 380px !important;
+  min-height: 380px !important;
+  max-height: 380px !important;
   gap: 8px;
 }
 
@@ -226,12 +230,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.72rem;
+  font-size: 0.90rem;
   font-weight: 800;
   color: #735b44;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding-bottom: 3px;
+  padding-bottom: 4px;
   border-bottom: 2px solid #dfcfb9;
 }
 
@@ -240,20 +244,23 @@
   color: #0369a1;
   border: 1.5px solid #7dd3fc;
   box-shadow: 0 1.5px 0 #0284c7;
-  padding: 1px 7px;
+  padding: 2px 9px;
   border-radius: var(--radius-pill);
   font-weight: 800;
-  font-size: 0.7rem;
+  font-size: 0.82rem;
 }
 
 .qc-item-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: #ffffff;
   border: 2px solid #dfcfb9;
-  border-radius: 9px;
-  padding: 5px 8px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  min-height: 42px;
+  box-sizing: border-box;
+  width: 100%;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 2px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
 }
@@ -278,9 +285,9 @@
 }
 
 .qc-item-icon-box {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
   background: #fbf8f1;
   display: flex;
   align-items: center;
@@ -291,8 +298,8 @@
 }
 
 .qc-item-icon-box img {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
@@ -305,7 +312,7 @@
 }
 
 .qc-item-meta strong {
-  font-size: 0.78rem;
+  font-size: 0.96rem;
   color: #3d2612;
   font-weight: 800;
   line-height: 1.2;
@@ -315,7 +322,7 @@
 }
 
 .qc-item-meta span {
-  font-size: 0.67rem;
+  font-size: 0.84rem;
   color: #735b44;
   font-weight: 700;
   line-height: 1.2;
@@ -325,9 +332,9 @@
 }
 
 .qc-status-chip {
-  font-size: 0.66rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
   white-space: nowrap;
   flex-shrink: 0;
@@ -367,13 +374,15 @@
 }
 
 .qc-rheology-card {
+  width: 100% !important;
+  box-sizing: border-box !important;
   background: #ffffff;
   border: 2px solid #dfcfb9;
-  border-radius: 10px;
-  padding: 6px 10px;
+  border-radius: 12px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   box-shadow: 0 2.5px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
   margin-top: 2px;
 }
@@ -382,7 +391,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   font-weight: 800;
   color: #3d2612;
 }
@@ -391,7 +400,7 @@
   font-family: var(--font-heading);
   font-weight: 800;
   color: #0369a1;
-  font-size: 0.75rem;
+  font-size: 0.96rem;
 }
 
 .qc-progress-track {
@@ -415,12 +424,14 @@
 
 .qc-texture-badge {
   text-align: center;
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   font-weight: 800;
   color: #0369a1;
   background: #f0f9ff;
-  border-radius: 7px;
-  padding: 3px 6px;
+  border-radius: 8px;
+  padding: 5px 12px;
+  width: 100%;
+  box-sizing: border-box;
   border: 1.5px dashed #bae6fd;
   transition: all 0.3s ease;
 }
