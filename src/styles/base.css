@@ -49,9 +49,9 @@
 }
 
 .game-viewport.inventory-collapsed .viewport-left-column {
-  flex: 1 1 auto;
-  width: calc(100% - 46px);
-  max-width: calc(100% - 46px);
+  flex: 1 1 100%;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Right 20% Column: Hosts Dedicated Full-Height Sidebars (Inventory, Prep, Exam, Cert) */
@@ -74,11 +74,14 @@
 
 .viewport-right-column.collapsed,
 .game-viewport.inventory-collapsed .viewport-right-column {
-  flex: 0 0 46px;
-  width: 46px;
-  max-width: 46px;
-  border-left: 2px solid #5a3a22;
-  background: #180d06;
+  flex: 0 0 0px;
+  width: 0;
+  max-width: 0;
+  border-left: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  z-index: 45;
 }
 
 .scene-container {
