@@ -24,10 +24,14 @@ export const Mission1Prep = () => {
   const [isBoilingTimerActive, setIsBoilingTimerActive] = useState(false);
   const [boilProgress, setBoilProgress] = useState(0);
 
+  // Post-Boil Step 6: Cooling Rinse & Residue Wash
+  const [isCoolingRinseActive, setIsCoolingRinseActive] = useState(false);
+  const [isCoolingRinseComplete, setIsCoolingRinseComplete] = useState(() => isAlreadyCompleted);
+
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 1 Completed! You have prepared, boiled, and drained the tender coconut pith. You can review your work or proceed to Stage 2.',
+        'Stage 1 Completed! You have prepared, boiled, and washed the tender coconut pith clean. You can review your work or proceed to Stage 2.',
         'happy',
         {
           badge: 'Stage 1 Complete',
@@ -86,7 +90,7 @@ export const Mission1Prep = () => {
     },
     {
       stepIndex: 4,
-      acceptedItems: ['colander'],
+      acceptedItems: ['colander', 'stainless_colander'],
       prompt: 'Boiled tender! Select Stainless Colander from bottom shelf to drain in sink',
       img: '/assets/pot_with_ubod_water_salt.png',
       fallbackIcon: '🍲',
@@ -95,7 +99,9 @@ export const Mission1Prep = () => {
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'Boiled ubod drained into colander & steam-cooling in sink',
+      prompt: isCoolingRinseComplete
+        ? 'Boiled ubod rinsed clean & properly drained for Stage 2'
+        : 'Boiled ubod transferred to sink colander for cooling rinse & residue wash',
       img: '/assets/pot_empty.png',
       fallbackIcon: '✨',
       label: 'Emptied Stockpot (Contents Drained)',
@@ -231,23 +237,48 @@ export const Mission1Prep = () => {
     soundManager.playPour();
     setPotStep(5);
     setHoldingItem(null);
-    addScore(30);
-    unlockBadge('boil_master', 'Thermal Softening Specialist', '🫕');
-    completeMission('mission1');
-    showToast('Drained in Sink!', 'Hot water drained; tender ubod cooling in colander', 'success');
+    addScore(25);
+    showToast('Drained in Sink!', 'Boiled ubod drained into colander. Now turn on faucet to rinse & cool!', 'info');
     speak(
-      'Steps 6 & 7: While the ubod is in the colander, wash it again to remove unwanted residue and cool it down. Drain the ubod properly before proceeding!',
-      'happy',
+      'Step 6: While the ubod is in the colander, wash it again to remove any unwanted residue and to cool it down.',
+      'neutral',
       {
-        badge: 'Stage 1 Complete',
-        note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
-        btnText: 'Proceed to Stage 2: Food Processing ➔',
-        onNext: () => setScene('mission2'),
+        badge: 'Step 6: Residue & Cooling Rinse',
+        note: 'Washing the boiled ubod removes excess surface starch residue and rapidly cools it down to stop carryover cooking.',
+        hint: 'Click the chrome cross valve handle on the washing console to turn on the faucet.',
+        hideButton: true,
       }
     );
   };
 
+  const handleCoolingRinse = () => {
+    if (isCoolingRinseActive || isCoolingRinseComplete || potStep < 5) return;
+    setIsCoolingRinseActive(true);
+    soundManager.playPour();
+
+    setTimeout(() => {
+      setIsCoolingRinseActive(false);
+      setIsCoolingRinseComplete(true);
+      soundManager.playSuccess();
+      addScore(30);
+      unlockBadge('boil_master', 'Thermal Softening Specialist', '🫕');
+      completeMission('mission1');
+      showToast('Cooled & Drained!', 'Ubod residue washed away and properly cooled!', 'success');
+      speak(
+        'Step 7: Perfect! The boiled ubod is washed clean and cooled down. Drain the ubod properly so excess moisture does not affect grinding consistency in Stage 2!',
+        'happy',
+        {
+          badge: 'Stage 1 Complete',
+          note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
+          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          onNext: () => setScene('mission2'),
+        }
+      );
+    }, 1400);
+  };
+
   const handleSinkClick = () => {
+    // 1. Loading raw ubod
     if (!isUbodInColander) {
       if (holdingItem?.id === 'raw_ubod' || holdingItem?.id === 'washed_ubod') {
         handlePlaceRawUbodInColander();
@@ -267,13 +298,15 @@ export const Mission1Prep = () => {
       return;
     }
 
+    // 2. Initial raw wash
     if (!isWashed && !isWashingActive) {
       handleWashUbod();
       return;
     }
 
+    // 3. Draining boiled ubod into colander
     if (potStep === 4) {
-      if (holdingItem?.id === 'colander') {
+      if (holdingItem?.id === 'colander' || holdingItem?.id === 'stainless_colander') {
         handleDrainUbod();
       } else {
         soundManager.playClick();
@@ -288,6 +321,13 @@ export const Mission1Prep = () => {
           }
         );
       }
+      return;
+    }
+
+    // 4. Post-boil cooling rinse
+    if (potStep >= 5 && !isCoolingRinseComplete && !isCoolingRinseActive) {
+      handleCoolingRinse();
+      return;
     }
   };
 
@@ -306,7 +346,7 @@ export const Mission1Prep = () => {
       const item = JSON.parse(data);
       if (!isUbodInColander && (item.id === 'raw_ubod' || item.id === 'washed_ubod')) {
         handlePlaceRawUbodInColander();
-      } else if (potStep === 4 && item.id === 'colander') {
+      } else if (potStep === 4 && (item.id === 'colander' || item.id === 'stainless_colander')) {
         handleDrainUbod();
       }
     } catch (err) {
@@ -323,7 +363,7 @@ export const Mission1Prep = () => {
         : !isUbodInColander
         ? '1 Cup (Fresh Cut)'
         : 'In Sink (Washing)',
-      img: isWashed ? '/assets/portion_ubod_raw_1cup.png' : '/assets/ing_ubod_fresh.png',
+      img: isWashed ? '/assets/colander_ubod_raw.png' : '/assets/ing_ubod_fresh.png',
       fallbackIcon: '🥥',
       isUsed: isUbodInColander && !isWashed ? true : potStep >= 1,
       isNext: !isUbodInColander ? true : isWashed && potStep === 0,
@@ -374,12 +414,16 @@ export const Mission1Prep = () => {
       fallbackIcon: '🥣',
       isUsed: potStep >= 5,
       isNext: potStep === 4,
-      tooltip: 'Perforated stainless colander to drain boiling water and allow steam-cooling in sink.',
+      tooltip: 'Perforated stainless colander to drain boiling water and allow cooling rinse in sink.',
     },
   ];
 
   const sinkImgSrc = isWashingActive
     ? '/assets/sink_colander_washing.png'
+    : isCoolingRinseActive
+    ? '/assets/colander_boiled_ubod_cooling_rinse.png'
+    : isCoolingRinseComplete
+    ? '/assets/colander_boiled_ubod_ready.png'
     : potStep >= 5
     ? '/assets/colander_boiled_ubod_draining.png'
     : potStep >= 1
@@ -389,9 +433,13 @@ export const Mission1Prep = () => {
     : '/assets/sink_colander_empty.png';
 
   const sinkStatusText = isWashingActive
-    ? '🌊 Rinsing under Running Water...'
+    ? '🌊 Rinsing Raw Ubod under Running Water...'
+    : isCoolingRinseActive
+    ? '🌊 Cooling Rinse: Washing residue & cooling ubod...'
+    : isCoolingRinseComplete
+    ? '✨ Cooled & Drained (Ready for Stage 2)'
     : potStep >= 5
-    ? '♨️ Boiled Ubod Draining & Steam-Cooling'
+    ? '♨️ Boiled Ubod in Colander • Turn On Faucet to Wash & Cool'
     : potStep >= 1
     ? '🥣 Empty Colander (Ready to Drain)'
     : isWashed
@@ -400,10 +448,12 @@ export const Mission1Prep = () => {
     ? '🌿 Fresh Cut Raw Ubod (Ready to Wash)'
     : '🥣 Empty Colander • Place Raw Ubod Here';
 
-  const sinkStatusClass = isWashingActive
+  const sinkStatusClass = isWashingActive || isCoolingRinseActive
     ? 'washing'
-    : potStep >= 5
+    : isCoolingRinseComplete
     ? 'washed'
+    : potStep >= 5
+    ? 'unwashed'
     : potStep >= 1
     ? 'empty'
     : isWashed
@@ -423,7 +473,8 @@ export const Mission1Prep = () => {
           <div
             className={`multi-state-workstation washing-workstation ${
               (!isUbodInColander && (holdingItem?.id === 'raw_ubod' || holdingItem?.id === 'washed_ubod')) ||
-              (potStep === 4 && holdingItem?.id === 'colander')
+              (potStep === 4 && (holdingItem?.id === 'colander' || holdingItem?.id === 'stainless_colander')) ||
+              (potStep >= 5 && !isCoolingRinseComplete)
                 ? 'compatible-target'
                 : ''
             }`}
@@ -437,8 +488,12 @@ export const Mission1Prep = () => {
               </div>
               <div
                 className={`workstation-step-badge ${
-                  potStep >= 5
+                  isCoolingRinseComplete
                     ? 'badge-success-glow'
+                    : isCoolingRinseActive
+                    ? 'badge-flow-glow'
+                    : potStep >= 5
+                    ? 'badge-amber-glow'
                     : isWashed
                     ? 'badge-success-glow'
                     : isWashingActive
@@ -448,10 +503,20 @@ export const Mission1Prep = () => {
                     : ''
                 }`}
               >
-                {potStep >= 5 ? (
+                {isCoolingRinseActive ? (
+                  <>
+                    <span className="badge-icon">💧</span>
+                    <span>Cooling Rinse...</span>
+                  </>
+                ) : isCoolingRinseComplete ? (
+                  <>
+                    <span className="badge-icon-check">✓</span>
+                    <span>Cooled & Ready</span>
+                  </>
+                ) : potStep >= 5 ? (
                   <>
                     <span className="badge-icon">♨️</span>
-                    <span>Ubod Draining</span>
+                    <span>Turn Faucet to Cool</span>
                   </>
                 ) : isWashed ? (
                   <>
@@ -477,7 +542,10 @@ export const Mission1Prep = () => {
             {/* Workstation Viewport (330px height, matching Boiling Pot workstation) */}
             <div
               className={`workstation-viewport washing-viewport ${
-                !isUbodInColander || (!isWashed && !isWashingActive) || potStep === 4
+                !isUbodInColander ||
+                (!isWashed && !isWashingActive) ||
+                potStep === 4 ||
+                (potStep >= 5 && !isCoolingRinseComplete && !isCoolingRinseActive)
                   ? 'interactive-sink'
                   : ''
               }`}
@@ -491,16 +559,18 @@ export const Mission1Prep = () => {
                   : !isWashed
                   ? 'Click to wash under running faucet'
                   : potStep === 4
-                  ? holdingItem?.id === 'colander'
+                  ? holdingItem?.id === 'colander' || holdingItem?.id === 'stainless_colander'
                     ? 'Tap sink to drain boiled ubod into colander'
                     : 'Select Stainless Colander first, then tap sink'
-                  : potStep >= 5
-                  ? 'Drained & cooling boiled ubod'
+                  : potStep >= 5 && !isCoolingRinseComplete
+                  ? 'Click to turn on faucet and cool down boiled ubod'
+                  : isCoolingRinseComplete
+                  ? 'Clean, cooled & drained boiled ubod'
                   : 'Sanitized colander'
               }
             >
               {/* Active Water Spray Splash Animation Overlay */}
-              {isWashingActive && (
+              {(isWashingActive || isCoolingRinseActive) && (
                 <div className="water-spray-overlay">
                   <span className="water-drop d1">💧</span>
                   <span className="water-drop d2">💧</span>
@@ -516,8 +586,19 @@ export const Mission1Prep = () => {
                   title="Click to drain boiled ubod"
                 >
                   <span>
-                    🥣 {holdingItem?.id === 'colander' ? 'Tap Sink to Drain' : 'Pick Up Colander Below'}
+                    🥣 {holdingItem?.id === 'colander' || holdingItem?.id === 'stainless_colander' ? 'Tap Sink to Drain' : 'Pick Up Colander Below'}
                   </span>
+                </div>
+              )}
+
+              {/* Step 6 Cooling Rinse Guidance Pill */}
+              {potStep >= 5 && !isCoolingRinseComplete && !isCoolingRinseActive && (
+                <div
+                  className="sink-drain-guidance-pill sink-cooling-guidance-pill"
+                  onClick={handleSinkClick}
+                  title="Click to wash residue & cool boiled ubod"
+                >
+                  <span>💧 Click Sink or Turn Cross Handle to Rinse</span>
                 </div>
               )}
 
@@ -543,6 +624,11 @@ export const Mission1Prep = () => {
                 isComplete={isWashed}
                 potStep={potStep}
                 onTurnOn={handleWashUbod}
+                isCoolingRinsePhase={potStep >= 5}
+                isCoolingRinseReady={potStep >= 5 && !isCoolingRinseComplete}
+                isCoolingRinseFlowing={isCoolingRinseActive}
+                isCoolingRinseComplete={isCoolingRinseComplete}
+                onTurnOnCoolingRinse={handleCoolingRinse}
               />
             </div>
           </div>
@@ -574,8 +660,10 @@ export const Mission1Prep = () => {
               specBadge={
                 <span
                   className={`spec-badge ${
-                    potStep >= 5
+                    isCoolingRinseComplete
                       ? 'spec-success'
+                      : potStep >= 5
+                      ? 'spec-amber'
                       : potStep >= 4
                       ? 'spec-amber'
                       : potStep >= 1
@@ -583,8 +671,10 @@ export const Mission1Prep = () => {
                       : ''
                   }`}
                 >
-                  {potStep >= 5
-                    ? 'DRAINED & COOL'
+                  {isCoolingRinseComplete
+                    ? 'COOLED & READY'
+                    : potStep >= 5
+                    ? 'COOLING RINSE'
                     : potStep >= 4
                     ? 'BOILED TENDER'
                     : potStep === 3

@@ -13,13 +13,42 @@ export const FaucetKnobConsole = ({
   potStep = 0,
   onTurnOn,
   disabled = false,
+  isCoolingRinsePhase = false,
+  isCoolingRinseReady = false,
+  isCoolingRinseFlowing = false,
+  isCoolingRinseComplete = false,
+  onTurnOnCoolingRinse,
 }) => {
   const [isWiggling, setIsWiggling] = useState(false);
+
+  const isPostBoil = potStep >= 5 || isCoolingRinsePhase;
 
   const handleClick = (e) => {
     e.stopPropagation();
 
-    if (disabled || isFlowing) return;
+    if (disabled) return;
+
+    // Post-Boil Cooling Rinse Handling
+    if (isPostBoil) {
+      if (isCoolingRinseFlowing) return;
+      if (isCoolingRinseComplete) {
+        soundManager.playClick();
+        return;
+      }
+      if (isCoolingRinseReady) {
+        if (onTurnOnCoolingRinse) {
+          onTurnOnCoolingRinse();
+        }
+        return;
+      }
+      soundManager.playError();
+      setIsWiggling(true);
+      setTimeout(() => setIsWiggling(false), 450);
+      return;
+    }
+
+    // Initial Pre-Boil Raw Ubod Wash Handling
+    if (isFlowing) return;
 
     if (isComplete) {
       soundManager.playClick();
@@ -46,21 +75,31 @@ export const FaucetKnobConsole = ({
     }
   };
 
-  const isSanitizedWaitingPick = isComplete && potStep === 0;
+  const isSanitizedWaitingPick = !isPostBoil && isComplete && potStep === 0;
+  const isAnyFlowing = isFlowing || isCoolingRinseFlowing;
+  const isKnobReady =
+    (!isPostBoil && isReady && isUbodLoaded && !isFlowing && !isComplete) ||
+    (isPostBoil && isCoolingRinseReady && !isCoolingRinseFlowing && !isCoolingRinseComplete);
 
   return (
     <div
       className={`faucet-knob-console ${
-        isReady && isUbodLoaded && !isFlowing && !isComplete ? 'ready-to-wash' : ''
-      } ${isFlowing ? 'flow-active' : ''} ${
-        isSanitizedWaitingPick ? 'sanitized-active' : ''
-      } ${isWiggling ? 'knob-shake' : ''} ${disabled || !isUbodLoaded ? 'disabled' : ''}`}
+        isKnobReady ? 'ready-to-wash' : ''
+      } ${isAnyFlowing ? 'flow-active' : ''} ${
+        isSanitizedWaitingPick || (isPostBoil && isCoolingRinseComplete) ? 'sanitized-active' : ''
+      } ${isWiggling ? 'knob-shake' : ''} ${
+        disabled || (!isPostBoil && !isUbodLoaded) ? 'disabled' : ''
+      }`}
       onClick={handleClick}
       role="button"
       tabIndex={0}
       title={
-        isFlowing
+        isAnyFlowing
           ? 'Faucet Running (Potable Tap Water)'
+          : isPostBoil
+          ? !isCoolingRinseComplete
+            ? 'Click cross handle to rinse residue & cool boiled ubod'
+            : 'Boiled ubod washed clean & cooled down'
           : !isUbodLoaded
           ? 'Place fresh cut raw ubod in colander first'
           : !isComplete
@@ -82,11 +121,11 @@ export const FaucetKnobConsole = ({
           src="/assets/faucet_knob_rotor.png"
           alt="Chrome Cross Valve Handle"
           className={`knob-rotor-img ${
-            isFlowing ? 'turned-high' : 'turned-off'
+            isAnyFlowing ? 'turned-high' : 'turned-off'
           }`}
         />
         {/* Glowing water beacon rings when ready to turn */}
-        {isReady && isUbodLoaded && !isFlowing && !isComplete && (
+        {isKnobReady && (
           <>
             <span className="faucet-beacon-ring r1" />
             <span className="faucet-beacon-ring r2" />
@@ -98,18 +137,24 @@ export const FaucetKnobConsole = ({
         <div className="burner-badge-row">
           <span
             className={`burner-led ${
-              isFlowing
+              isAnyFlowing
                 ? 'flowing'
-                : isSanitizedWaitingPick
+                : isSanitizedWaitingPick || (isPostBoil && isCoolingRinseComplete)
                 ? 'sanitized-led'
-                : isUbodLoaded && !isComplete
+                : isKnobReady
                 ? 'blinking-water'
                 : 'cold'
             }`}
           />
           <span className="burner-mode-title faucet-title">
-            {isFlowing
-              ? '💧 FAUCET: RUNNING'
+            {isAnyFlowing
+              ? isPostBoil
+                ? '💧 FAUCET: COOLING RINSE'
+                : '💧 FAUCET: RUNNING'
+              : isPostBoil
+              ? isCoolingRinseComplete
+                ? '✅ COOLED & DRAINED READY'
+                : '💧 6. TURN FAUCET TO COOL'
               : isSanitizedWaitingPick
               ? '✅ SANITIZED & CLEAN'
               : !isUbodLoaded
@@ -121,10 +166,22 @@ export const FaucetKnobConsole = ({
         </div>
 
         <div className="burner-sub-row">
-          {isFlowing ? (
+          {isAnyFlowing ? (
             <span className="faucet-action-hint flowing-text">
-              🌊 Rinsing ubod under running faucet...
+              {isPostBoil
+                ? '🌊 Washing residue & cooling boiled ubod...'
+                : '🌊 Rinsing raw ubod under running faucet...'}
             </span>
+          ) : isPostBoil ? (
+            isCoolingRinseComplete ? (
+              <span className="faucet-action-hint sanitized-text">
+                ✓ Residue removed & drained for Stage 2
+              </span>
+            ) : (
+              <span className="faucet-action-hint ready-water-text">
+                👉 Click cross handle to wash & cool boiled ubod
+              </span>
+            )
           ) : isSanitizedWaitingPick ? (
             <span className="faucet-action-hint sanitized-text">
               👉 Pick up Washed Ubod from bottom shelf
@@ -136,10 +193,6 @@ export const FaucetKnobConsole = ({
           ) : !isComplete ? (
             <span className="faucet-action-hint ready-water-text">
               👉 Turn cross handle 90° to -FLOW
-            </span>
-          ) : potStep >= 5 ? (
-            <span className="faucet-action-hint complete-water-text">
-              ✓ Boiled ubod drained & steam-cooling
             </span>
           ) : (
             <span className="faucet-action-hint complete-water-text">
