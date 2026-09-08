@@ -66,6 +66,9 @@ export const TitleScene = () => {
 
           {/* Secondary Quick Links */}
           <div className="title-quick-links">
+            <button className="btn-secondary link-btn" onClick={() => openModal('system')}>
+              🌐 System & Learning Overview
+            </button>
             <button className="btn-secondary link-btn" onClick={() => openModal('objectives')}>
               🎯 Learning Objectives
             </button>
