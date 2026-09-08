@@ -30,6 +30,7 @@ const ASSETS_TO_PRELOAD = [
   '/assets/bg_dehydration.jpg',
   '/assets/bg_frying.jpg',
   '/assets/bg_evaluation_hall.jpg',
+  '/assets/processor_lid.png',
 ];
 
 export const LoadingScreen = ({ onLoaded }) => {

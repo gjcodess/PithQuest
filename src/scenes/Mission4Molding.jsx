@@ -157,7 +157,7 @@ export const Mission4Molding = () => {
       id: 'dough_bowl',
       name: 'Ubod Paste',
       measure: '3 tsp Standard Portion',
-      img: '/assets/mixing_bowl_dough_uniform.png',
+      img: '/assets/mixing_bowl_ubod_only.png',
       fallbackIcon: '🥣',
       isUsed: moldStep >= 2,
       isNext: moldStep < 2,
