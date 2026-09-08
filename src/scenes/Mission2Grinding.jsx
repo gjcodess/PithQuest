@@ -67,13 +67,13 @@ export const Mission2Grinding = () => {
     },
     {
       stepIndex: 2,
-      acceptedItems: [],
+      acceptedItems: !isLidLocked ? ['processor_lid', 'lid'] : [],
       prompt: isLidLocked
         ? 'Safety interlock locked! Press Pulse/Blend to puree'
-        : 'Align & lock safety lid onto bowl to engage interlock',
+        : 'Select Processor Safety Lid from inventory & attach to bowl',
       img: isLidLocked ? '/assets/processor_close_lid.png' : '/assets/processor_with_ubod_salt.png',
-      fallbackIcon: '🌀',
-      label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Lid Open)',
+      fallbackIcon: '🔒',
+      label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Awaiting Safety Lid)',
     },
     {
       stepIndex: 3,
@@ -119,17 +119,19 @@ export const Mission2Grinding = () => {
     } else if (stepIndex === 1 && (item.id === 'salt_portion' || item.id === 'salt')) {
       soundManager.playClick();
       setProcessorStep(2);
-      showToast('Salt Added!', 'Ingredients loaded. Now lock the safety lid to engage the interlock.', 'success');
+      showToast('Salt Added!', 'Ingredients loaded. Now select and attach the Safety Lid from your inventory.', 'success');
       speak(
-        'Ingredients loaded! Now align and lock the transparent safety lid onto the bowl to engage the motor safety interlock.',
+        'Ingredients loaded! Now select the transparent Processor Safety Lid from your inventory and place it onto the bowl to engage the motor safety interlock.',
         'thinking',
         {
           badge: 'Safety Interlock Required',
           note: 'Safety Note: Never operate electrical kitchen appliances with exposed blades or without securely locking safety lids.',
-          hint: 'Click "Lock Safety Lid" to engage the interlock switch.',
+          hint: 'Select "Processor Safety Lid" from your inventory and drop it onto the food processor bowl.',
           hideButton: true,
         }
       );
+    } else if (stepIndex === 2 && (item.id === 'processor_lid' || item.id === 'lid')) {
+      handleLockLid();
     } else if (stepIndex === 4 && (item.id === 'spatula' || item.id === 'red_spatula')) {
       handleScrapePaste();
     }
@@ -138,6 +140,7 @@ export const Mission2Grinding = () => {
   const handleLockLid = () => {
     soundManager.playClick();
     soundManager.playSuccess();
+    setHoldingItem(null);
     setIsLidLocked(true);
     showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready!', 'success');
     speak(
@@ -230,7 +233,7 @@ export const Mission2Grinding = () => {
       id: 'boiled_ubod',
       name: 'Boiled Ubod',
       measure: '1 Cup (Tender)',
-      img: '/assets/colander_boiled_ubod_ready.png',
+      img: '/assets/colander_ubod_only.png',
       fallbackIcon: '🥥',
       isUsed: processorStep >= 1,
       isNext: processorStep === 0,
@@ -245,6 +248,16 @@ export const Mission2Grinding = () => {
       isUsed: processorStep >= 2,
       isNext: processorStep === 1,
       tooltip: '1 tsp pure sea salt to enhance natural sweetness and homogenize cell pureeing.',
+    },
+    {
+      id: 'processor_lid',
+      name: 'Processor Safety Lid',
+      measure: 'Interlock Cover',
+      img: '/assets/processor_lid.png',
+      fallbackIcon: '🔒',
+      isUsed: isLidLocked || processorStep >= 3,
+      isNext: processorStep === 2 && !isLidLocked,
+      tooltip: 'Heavy-duty polycarbonate safety cover with mechanical safety interlock tab.',
     },
     {
       id: 'spatula',
@@ -287,28 +300,21 @@ export const Mission2Grinding = () => {
               activeAnimation={isBlending ? 'blending' : null}
               containerWidth="100%"
               interactiveAction={
-                processorStep === 2
-                  ? (!isLidLocked
-                      ? {
-                          label: 'Twist & Lock Safety Lid',
-                          onClick: handleLockLid,
-                          icon: '🔒',
-                          variant: 'interlock-lock',
+                processorStep === 2 && isLidLocked
+                  ? {
+                      label: 'High-Speed Puree',
+                      onClick: handleStartBlending,
+                      icon: '⚡',
+                      variant: 'processor-pulse',
+                      onKeyClick: (key) => {
+                        soundManager.playClick();
+                        if (key === 'stop') {
+                          showToast('Safety Switch', 'Appliance is in standby. Press the Orange High-Speed button to puree!', 'info');
+                        } else if (key === 'low') {
+                          showToast('Speed Control', 'Recipe standard requires High-Speed Puree for fine cracker paste.', 'warning');
                         }
-                      : {
-                          label: 'High-Speed Puree',
-                          onClick: handleStartBlending,
-                          icon: '⚡',
-                          variant: 'processor-pulse',
-                          onKeyClick: (key) => {
-                            soundManager.playClick();
-                            if (key === 'stop') {
-                              showToast('Safety Switch', 'Appliance is in standby. Press the Orange High-Speed button to puree!', 'info');
-                            } else if (key === 'low') {
-                              showToast('Speed Control', 'Recipe standard requires High-Speed Puree for fine cracker paste.', 'warning');
-                            }
-                          },
-                        })
+                      },
+                    }
                   : processorStep === 3
                   ? {
                       label: `Pureeing... ${blendProgress}%`,
@@ -362,10 +368,27 @@ export const Mission2Grinding = () => {
               {processorStep === 2 && !isLidLocked && (
                 <div
                   className="lid-interlock-guide"
-                  onClick={handleLockLid}
-                  title="Click to lock transparent safety lid"
+                  onClick={() => {
+                    if (holdingItem?.id === 'processor_lid' || holdingItem?.id === 'lid') {
+                      handleLockLid();
+                    } else {
+                      soundManager.playClick();
+                      showToast('Select Safety Lid First', 'Click the Processor Safety Lid in your inventory, then place it on the bowl!', 'info');
+                      speak(
+                        'Pick up the transparent processor safety lid from your inventory, then place it onto the bowl to engage the safety interlock!',
+                        'thinking',
+                        {
+                          badge: 'Select Safety Lid',
+                          hint: 'Select "Processor Safety Lid" in your inventory, then tap the bowl.',
+                        }
+                      );
+                    }
+                  }}
+                  title="Place Processor Safety Lid onto bowl"
                 >
-                  <span>🔒 Click to Lock Safety Lid</span>
+                  <span>
+                    🔒 {holdingItem?.id === 'processor_lid' || holdingItem?.id === 'lid' ? 'Tap Bowl to Lock Safety Lid' : 'Select Safety Lid from Inventory'}
+                  </span>
                 </div>
               )}
               {processorStep === 2 && isLidLocked && (
