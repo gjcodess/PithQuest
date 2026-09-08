@@ -40,6 +40,72 @@ export const GameProvider = ({ children }) => {
   const [badges, setBadges] = useState([]);
   const [isMuted, setIsMuted] = useState(() => soundManager.isMuted);
 
+  // Diagnostic & Formative Assessment Tracking (Pre-Test & Post-Test)
+  const [assessmentResults, setAssessmentResults] = useState({
+    preTest: {
+      ppe: null, // { selectedIds: [], correctCount: 0, totalCorrect: 6, distractorsPicked: [] }
+      handwashing: null, // { submittedSteps: [], correctSequence: [], score: 0, distractorsPicked: [] }
+      toolSafety: [], // Array<{ id, toolName, selectedOption, isSafe, reason, safeOption, damagedOption }>
+      qualityInspection: [], // Array<{ id, ingredientName, selectedOption, isSafe, reason, safeOption, damagedOption }>
+    },
+    postTest: {
+      sequencing: null, // { submittedOrder: [], correctOrder: [], score: 0, totalStages: 8 }
+    },
+  });
+
+  const recordPreTestPpe = (ppeData) => {
+    setAssessmentResults(prev => ({
+      ...prev,
+      preTest: { ...prev.preTest, ppe: ppeData },
+    }));
+  };
+
+  const recordPreTestHandwash = (handwashData) => {
+    setAssessmentResults(prev => ({
+      ...prev,
+      preTest: { ...prev.preTest, handwashing: handwashData },
+    }));
+  };
+
+  const recordPreTestTool = (toolChoiceOrList) => {
+    setAssessmentResults((prev) => {
+      if (Array.isArray(toolChoiceOrList)) {
+        return {
+          ...prev,
+          preTest: { ...prev.preTest, toolSafety: toolChoiceOrList },
+        };
+      }
+      const existing = (prev.preTest.toolSafety || []).filter((t) => t.id !== toolChoiceOrList.id);
+      return {
+        ...prev,
+        preTest: { ...prev.preTest, toolSafety: [...existing, toolChoiceOrList] },
+      };
+    });
+  };
+
+  const recordPreTestIngredient = (ingredientChoiceOrList) => {
+    setAssessmentResults((prev) => {
+      if (Array.isArray(ingredientChoiceOrList)) {
+        return {
+          ...prev,
+          preTest: { ...prev.preTest, qualityInspection: ingredientChoiceOrList },
+        };
+      }
+      const existing = (prev.preTest.qualityInspection || []).filter((i) => i.id !== ingredientChoiceOrList.id);
+      return {
+        ...prev,
+        preTest: { ...prev.preTest, qualityInspection: [...existing, ingredientChoiceOrList] },
+      };
+    });
+  };
+
+  const recordPostTestSequence = (sequenceData) => {
+    setAssessmentResults(prev => ({
+      ...prev,
+      postTest: { ...prev.postTest, sequencing: sequenceData },
+    }));
+  };
+
   const [dialogue, setDialogue] = useState({
     visible: false,
     text: '',
@@ -64,15 +130,15 @@ export const GameProvider = ({ children }) => {
   const [holdingItem, setHoldingItem] = useState(null); // { id, name, img, ... }
 
   // Sidebar collapse states for 3-zone panoramic layout
-  const [isDialogueCollapsed, setIsDialogueCollapsed] = useState(false);
+  const [isDialogueCollapsed, setIsDialogueCollapsed] = useState(true);
   const [isInventoryCollapsed, setIsInventoryCollapsed] = useState(false);
 
   const [stageKey, setStageKey] = useState(0);
   const [maxUnlockedStage, setMaxUnlockedStage] = useState(0);
 
-  // Zoom level state (default 1.0 = 100%, mapped to 0.8 baseline scale)
+  // Zoom level state (default 1.0 = 100% true physical scale)
   const [zoomLevel, setZoomLevel] = useState(1);
-  const effectiveZoom = Math.round(zoomLevel * 0.8 * 1000) / 1000;
+  const effectiveZoom = zoomLevel;
 
   useEffect(() => {
     try {
@@ -296,6 +362,17 @@ export const GameProvider = ({ children }) => {
       sequencing: 0,
     });
     setBadges([]);
+    setAssessmentResults({
+      preTest: {
+        ppe: null,
+        handwashing: null,
+        toolSafety: [],
+        qualityInspection: [],
+      },
+      postTest: {
+        sequencing: null,
+      },
+    });
     setMaxUnlockedStage(0);
     setMissionsCompleted({
       orientation: false,
@@ -365,6 +442,13 @@ export const GameProvider = ({ children }) => {
         zoomIn,
         zoomOut,
         resetZoom,
+        // Diagnostic & Formative Assessment State & Helpers
+        assessmentResults,
+        recordPreTestPpe,
+        recordPreTestHandwash,
+        recordPreTestTool,
+        recordPreTestIngredient,
+        recordPostTestSequence,
       }}
     >
       {children}

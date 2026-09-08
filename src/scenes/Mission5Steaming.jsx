@@ -56,6 +56,7 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_base_empty.png',
       fallbackIcon: '🫕',
       label: 'Empty Steamer Base on Stove',
+      imgStyle: { transform: 'scale(1.22)', transformOrigin: '50% 55%' },
     },
     {
       stepIndex: 1,
@@ -64,6 +65,7 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_base_water.png',
       fallbackIcon: '💧',
       label: 'Steamer Base Filled with Water',
+      imgStyle: { transform: 'scale(1.22)', transformOrigin: '50% 55%' },
     },
     {
       stepIndex: 2,
@@ -72,6 +74,7 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_tier_empty.png',
       fallbackIcon: '♨️',
       label: 'Perforated Tier on Base Pot',
+      imgStyle: { transform: 'scale(1.28)', transformOrigin: '50% 56%' },
     },
     {
       stepIndex: 3,
@@ -80,6 +83,7 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_tier_with_tray.png',
       fallbackIcon: '🧈',
       label: 'Assembled Steamer with Ubod Tray',
+      imgStyle: { transform: 'scale(1.25)', transformOrigin: '50% 56%' },
     },
     {
       stepIndex: 4,
@@ -104,6 +108,7 @@ export const Mission5Steaming = () => {
       img: '/assets/steamed_mold_on_cooling_rack.png',
       fallbackIcon: '❄️',
       label: 'Cooled Gelatinized Pieces on Rack',
+      imgStyle: { transform: 'scale(0.88)', transformOrigin: '50% 50%' },
     },
   ];
 
@@ -111,7 +116,6 @@ export const Mission5Steaming = () => {
     if (stepIndex === 0 && (item.id === 'steamer_water' || item.id === 'water_pitcher' || item.id === 'water' || item.id === 'portion_water_1cup')) {
       soundManager.playPour();
       setSteamerStep(1);
-      addScore(15);
       setHoldingItem(null);
       showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier', 'success');
       speak(
@@ -127,7 +131,6 @@ export const Mission5Steaming = () => {
     } else if (stepIndex === 1 && (item.id === 'perforated_tier' || item.id === 'steam_tier' || item.id === 'tier_perforated')) {
       soundManager.playClick();
       setSteamerStep(2);
-      addScore(15);
       setHoldingItem(null);
       showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray', 'success');
       speak(
@@ -143,7 +146,6 @@ export const Mission5Steaming = () => {
     } else if (stepIndex === 2 && (item.id === 'molded_tray' || item.id === 'molded_ubod' || item.id === 'molder_completely_filled')) {
       soundManager.playClick();
       setSteamerStep(3);
-      addScore(20);
       setHoldingItem(null);
       showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam', 'success');
       speak(
@@ -186,7 +188,6 @@ export const Mission5Steaming = () => {
         setIsSteaming(false);
         setSteamerStep(5);
         soundManager.playSuccess();
-        addScore(30);
         showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set', 'success');
         speak(
           'Step 15: Allow the molded ubod pieces to cool before transferring them to the dehydrator trays. Don your silicone heat mitts and transfer the hot mold to the cooling rack!',
@@ -206,7 +207,6 @@ export const Mission5Steaming = () => {
     soundManager.playClick();
     setSteamerStep(6);
     setHoldingItem(null);
-    addScore(20);
     unlockBadge('steam_artisan', 'Gelatinization Specialist', '♨️');
     completeMission('mission5');
     showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts', 'success');
@@ -271,7 +271,7 @@ export const Mission5Steaming = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Left: 3-Tier Aluminum Steamer MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -282,8 +282,7 @@ export const Mission5Steaming = () => {
               steps={steamerSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isSteaming ? 'steaming' : null}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               customFooter={
                 <StoveBurnerConsole
                   isReady={steamerStep === 3 && !isSteaming}
@@ -340,10 +339,10 @@ export const Mission5Steaming = () => {
                     steamerStep === 0
                       ? 'Add water to base pot first'
                       : steamerStep === 1
-                      ? 'Place perforated steam tier'
-                      : steamerStep === 2
-                      ? 'Place molded tray inside tier'
-                      : 'Turn dial to HIGH to ignite'
+                        ? 'Place perforated steam tier'
+                        : steamerStep === 2
+                          ? 'Place molded tray inside tier'
+                          : 'Turn dial to HIGH to ignite'
                   }
                   readyHint="👉 Click dial to turn to HIGH"
                   activeHint={(p) => `♨️ Rolling steam... ${p}%`}
@@ -356,13 +355,11 @@ export const Mission5Steaming = () => {
 
           {/* Right Side: Steaming QC & Gelatinization Monitor */}
           <div
-            className={`multi-state-workstation qc-workstation ${
-              steamerStep === 5 && (holdingItem?.id === 'heat_mitts' || holdingItem?.id === 'ppe_heat_gloves')
+            className={`multi-state-workstation qc-workstation ${steamerStep === 5 && (holdingItem?.id === 'heat_mitts' || holdingItem?.id === 'ppe_heat_gloves')
                 ? 'compatible-target'
                 : ''
-            }`}
+              }`}
             style={{
-              width: '440px',
               cursor: steamerStep === 5 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
             }}
             onClick={() => {
@@ -400,26 +397,25 @@ export const Mission5Steaming = () => {
                 <span className="workstation-sub">Step 14: 10-Min Starch Crosslinking</span>
               </div>
               <div
-                className={`workstation-step-badge ${
-                  steamerStep >= 6
+                className={`workstation-step-badge ${steamerStep >= 6
                     ? 'badge-success-glow'
                     : steamerStep >= 4
-                    ? 'badge-flow-glow'
-                    : ''
-                }`}
+                      ? 'badge-flow-glow'
+                      : ''
+                  }`}
               >
                 {steamerStep >= 6
                   ? '✓ Cooled & Set'
                   : steamerStep === 5
-                  ? '🧤 Safe Transfer'
-                  : steamerStep === 4
-                  ? '♨️ 100°C Steaming'
-                  : 'Standby'}
+                    ? '🧤 Safe Transfer'
+                    : steamerStep === 4
+                      ? '♨️ 100°C Steaming'
+                      : 'Standby'}
               </div>
             </div>
 
             {/* Workstation Viewport */}
-            <div className="workstation-viewport steaming-qc-viewport" style={{ height: '340px', minHeight: '340px', maxHeight: '340px', flex: '0 0 auto' }}>
+            <div className="workstation-viewport steaming-qc-viewport">
               {/* Steamer Parameters Card */}
               <div className="steaming-spec-card">
                 <div className="steaming-spec-header">
@@ -484,30 +480,29 @@ export const Mission5Steaming = () => {
             <div className="workstation-footer">
               <div className="workstation-status">
                 <div
-                  className={`status-dot ${
-                    steamerStep >= 6
+                  className={`status-dot ${steamerStep >= 6
                       ? 'dot-success'
                       : steamerStep >= 4
-                      ? 'dot-amber'
-                      : ''
-                  }`}
+                        ? 'dot-amber'
+                        : ''
+                    }`}
                 />
                 <span className="status-text">
                   {steamerStep >= 6
                     ? 'Crackers cooled on rack; ready for dehydrator trays.'
                     : steamerStep === 5
-                    ? 'Hot mold ready! Don thermal heat mitts to transfer.'
-                    : steamerStep === 4
-                    ? '10-minute steam cycle actively gelatinizing starches.'
-                    : '100°C steam parameters calibrated and awaiting ignition.'}
+                      ? 'Hot mold ready! Don thermal heat mitts to transfer.'
+                      : steamerStep === 4
+                        ? '10-minute steam cycle actively gelatinizing starches.'
+                        : '100°C steam parameters calibrated and awaiting ignition.'}
                 </span>
               </div>
               <span className="spec-badge">
                 {steamerStep >= 6
                   ? 'QC: SET MATRIX'
                   : steamerStep >= 4
-                  ? 'TEMP: 100°C'
-                  : 'TARGET: 10 MIN'}
+                    ? 'TEMP: 100°C'
+                    : 'TARGET: 10 MIN'}
               </span>
             </div>
           </div>

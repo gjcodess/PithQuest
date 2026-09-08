@@ -83,7 +83,6 @@ export const Mission8Packaging = () => {
     if (stepIndex === 0 && (item.id === 'crispy_crackers' || item.id === 'crackers' || item.id === 'platter_crackers_cooled')) {
       soundManager.playPour();
       setPackStep(1);
-      addScore(25);
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
@@ -120,7 +119,6 @@ export const Mission8Packaging = () => {
         setIsSealing(false);
         setPackStep(2);
         soundManager.playSuccess();
-        addScore(40);
         showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
           'Airtight thermal weld complete with authentic product seal! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
@@ -140,7 +138,6 @@ export const Mission8Packaging = () => {
     soundManager.playSuccess();
     setPackStep(3);
     setHoldingItem(null);
-    addScore(35);
     unlockBadge('packaging_specialist', 'Packaging & Quality Assurance Specialist', '🏷️');
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
@@ -195,7 +192,7 @@ export const Mission8Packaging = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row" style={{ maxWidth: '1060px' }}>
+        <div className="stage-content-row">
           {/* Left: Multi-State Pouch Container Workstation */}
           <div className="station-center-card">
             <MultiStateContainer
@@ -205,8 +202,7 @@ export const Mission8Packaging = () => {
               currentStepIndex={packStep}
               steps={pouchSteps}
               onItemAccepted={handleItemAccepted}
-              containerWidth="520px"
-              containerHeight="330px"
+              containerWidth="100%"
               interactiveAction={
                 packStep === 1
                   ? {
@@ -255,7 +251,6 @@ export const Mission8Packaging = () => {
                 : ''
             }`}
             style={{
-              width: '440px',
               cursor:
                 packStep === 1 || packStep === 2
                   ? 'url("/assets/cursor_hover_32.png") 2 2, pointer'
@@ -319,7 +314,6 @@ export const Mission8Packaging = () => {
             {/* Workstation Viewport */}
             <div
               className="workstation-viewport packaging-qc-viewport"
-              style={{ height: '330px', minHeight: '330px', maxHeight: '330px', flex: '0 0 auto' }}
             >
               {/* Packaging Standards & Barrier Spec Card */}
               <div className="packaging-spec-card">

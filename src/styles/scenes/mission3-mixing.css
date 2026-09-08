@@ -1,0 +1,469 @@
+/* ==========================================================================
+   MISSION 3: MIXING STYLES
+   ========================================================================== */
+.mixing-bowl-zone {
+  min-height: 380px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.mixing-bowl-zone.dough-ready-zone {
+  background: transparent !important;
+  border: none !important;
+}
+
+.bowl-stage-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.mixing-bowl-img {
+  width: 280px;
+  height: 260px;
+  max-width: 90%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mixing-bowl-zone:hover .mixing-bowl-img {
+  transform: scale(1.05);
+}
+
+.bowl-contents-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  max-width: 320px;
+}
+
+.ingredient-tag-pill {
+  background: #ffffff;
+  border: 1.5px solid var(--color-palm-400);
+  color: var(--color-palm-800);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.mix-prompt-overlay {
+  margin-top: 16px;
+}
+
+.btn-stir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 10px 24px;
+  animation: star-bounce 1.5s infinite ease-in-out;
+}
+
+.stir-icon-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.dough-finished-badge {
+  margin-top: 14px;
+  background: #ffffff;
+  border: 2.5px solid var(--color-palm-500);
+  border-radius: var(--radius-lg);
+  padding: 14px 22px;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  max-width: 380px;
+}
+
+.dough-img {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  margin-bottom: 2px;
+  filter: drop-shadow(0 6px 14px rgba(180, 83, 9, 0.25));
+}
+
+.dough-finished-badge h4 {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-palm-800);
+  margin: 0;
+}
+
+.dough-finished-badge p {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0 0 8px 0;
+}
+
+.btn-next-stage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 24px;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-next-stage:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.pulse {
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+@keyframes pulse-ring {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  }
+
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 6px 22px rgba(217, 119, 6, 0.6);
+  }
+}
+
+.dehydrate-complete-banner,
+.frying-complete-banner {
+  background: #ffffff;
+  border: 2.5px solid var(--color-palm-500);
+  border-radius: var(--radius-lg);
+  padding: 12px 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.dehydrate-complete-banner h4,
+.frying-complete-banner h4 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--color-palm-800);
+  margin: 0;
+}
+
+.dehydrate-complete-banner p,
+.frying-complete-banner p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0 0 6px 0;
+}
+
+
+/* ==========================================================================
+   FORMULATION & QC WORKSTATION STYLING (Stage 3)
+   ========================================================================== */
+
+.qc-workstation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.qc-viewport {
+  position: relative;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 14px 18px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 380px !important;
+  min-height: 380px !important;
+  max-height: 380px !important;
+  gap: 8px;
+}
+
+.qc-recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.qc-list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.90rem;
+  font-weight: 800;
+  color: #735b44;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #dfcfb9;
+}
+
+.qc-step-counter {
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0369a1;
+  border: 1.5px solid #7dd3fc;
+  box-shadow: 0 1.5px 0 #0284c7;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+.qc-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 2px solid #dfcfb9;
+  border-radius: 10px;
+  padding: 5px 10px;
+  min-height: 42px;
+  box-sizing: border-box;
+  width: 100%;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
+}
+
+.qc-item-row:hover {
+  border-color: #c9b397;
+  background: #fdfaf5;
+  transform: translateY(-1px);
+}
+
+.qc-item-row.completed {
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #86efac;
+  box-shadow: 0 2px 0 #22c55e, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.qc-item-row.current-target {
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  border-color: #f59e0b;
+  box-shadow: 0 2.5px 0 #d97706, 0 0 12px rgba(245, 158, 11, 0.25);
+  animation: pulseGuide 1.8s infinite ease-in-out;
+}
+
+.qc-item-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  background: #fbf8f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid #dfcfb9;
+  overflow: hidden;
+}
+
+.qc-item-icon-box img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.qc-item-meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.qc-item-meta strong {
+  font-size: 0.96rem;
+  color: #3d2612;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qc-item-meta span {
+  font-size: 0.84rem;
+  color: #735b44;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qc-status-chip {
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #f7f1e6;
+  color: #735b44;
+  border: 1.5px solid #dfcfb9;
+  box-shadow: 0 1.5px 0 #cfbc9f;
+}
+
+.qc-status-chip.chip-done {
+  background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #14532d;
+  border-color: #4ade80;
+  box-shadow: 0 2px 0 #166534, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  font-weight: 800;
+}
+
+.qc-status-chip.chip-next {
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  color: #78350f;
+  border-color: #f59e0b;
+  box-shadow: 0 2px 0 #d97706;
+  font-weight: 800;
+  animation: chipPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes chipPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.qc-rheology-card {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #ffffff;
+  border: 2px solid #dfcfb9;
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2.5px 0 #cfbc9f, 0 3px 6px rgba(78, 52, 28, 0.04);
+  margin-top: 2px;
+}
+
+.qc-rheology-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #3d2612;
+}
+
+.qc-rheology-pct {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: #0369a1;
+  font-size: 0.96rem;
+}
+
+.qc-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #f2e7d5;
+  border: 1.5px solid #dfcfb9;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1.5px 2px rgba(78, 52, 28, 0.12);
+}
+
+.qc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #10b981 100%);
+  border-radius: 6px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.qc-texture-badge {
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0369a1;
+  background: #f0f9ff;
+  border-radius: 8px;
+  padding: 5px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px dashed #bae6fd;
+  transition: all 0.3s ease;
+}
+
+.qc-texture-badge.texture-ready {
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  color: #78350f;
+  border-color: #f59e0b;
+  border-style: solid;
+  font-weight: 800;
+  box-shadow: 0 2px 0 #d97706;
+  animation: pulseGuide 2s infinite ease-in-out;
+}
+
+.qc-texture-badge.texture-perfect {
+  background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #14532d;
+  border-color: #4ade80;
+  border-style: solid;
+  font-weight: 800;
+  box-shadow: 0 2.5px 0 #166534, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.dot-amber {
+  background: #f59e0b;
+  border-color: #fef3c7;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.spec-amber {
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  color: #92400e;
+  border-color: #fde68a;
+  box-shadow: 0 2.5px 0 #d97706;
+}
