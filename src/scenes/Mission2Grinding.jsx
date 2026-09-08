@@ -233,7 +233,7 @@ export const Mission2Grinding = () => {
       id: 'boiled_ubod',
       name: 'Boiled Ubod',
       measure: '1 Cup (Tender)',
-      img: '/assets/colander_boiled_ubod_ready.png',
+      img: '/assets/colander_ubod_only.png',
       fallbackIcon: '🥥',
       isUsed: processorStep >= 1,
       isNext: processorStep === 0,
