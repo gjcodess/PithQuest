@@ -131,14 +131,14 @@
 .molding-scene .stage-content-row {
   margin: 0 auto;
   gap: 36px;
-  align-items: flex-start;
+  align-items: flex-start !important;
   flex-shrink: 0;
 }
 
 .molding-workstation {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-start !important;
 }
 
 .molding-qc-viewport {

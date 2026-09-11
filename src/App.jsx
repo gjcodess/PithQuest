@@ -9,9 +9,11 @@ import { ObjectivesModal } from './components/Modals/ObjectivesModal';
 import { ScienceConceptsModal } from './components/Modals/ScienceConceptsModal';
 import { AboutUsModal } from './components/Modals/AboutUsModal';
 import { HelpModal } from './components/Modals/HelpModal';
+import { SystemOverviewModal } from './components/Modals/SystemOverviewModal';
 import { ConfirmModal } from './components/Modals/ConfirmModal';
 import { FloatingItemCursor } from './components/FloatingItemCursor';
 import { LoadingScreen } from './components/LoadingScreen';
+import { ScreenRestrictionOverlay } from './components/ScreenRestrictionOverlay';
 
 // Scenes
 import { TitleScene } from './scenes/TitleScene';
@@ -64,11 +66,17 @@ export const App = () => {
   };
 
   if (isLoading) {
-    return <LoadingScreen onLoaded={() => setIsLoading(false)} />;
+    return (
+      <>
+        <ScreenRestrictionOverlay />
+        <LoadingScreen onLoaded={() => setIsLoading(false)} />
+      </>
+    );
   }
 
   return (
     <div className="game-app">
+      <ScreenRestrictionOverlay />
       <HeaderHUD />
       <main
         className={`game-viewport scene-${scene} ${
@@ -111,6 +119,7 @@ export const App = () => {
       <ScienceConceptsModal />
       <AboutUsModal />
       <HelpModal />
+      <SystemOverviewModal />
       <ConfirmModal />
       <FloatingItemCursor />
     </div>

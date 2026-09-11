@@ -70,7 +70,7 @@ export const ResultsSidebar = () => {
 
   return (
     <SidebarPortal>
-      <div className="right-inventory-rack expanded">
+      <div className="right-inventory-rack expanded results-inventory-rack">
         {/* Header Bar */}
         <div className="rack-header">
           <div className="rack-title-group">

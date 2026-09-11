@@ -189,7 +189,7 @@
 .frying-scene .stage-content-row {
   margin: 0 auto;
   gap: 36px;
-  align-items: flex-start;
+  align-items: flex-start !important;
   flex-shrink: 0;
 }
 

@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 24px 32px 80px 32px;
+  padding: 24px 32px 140px 32px;
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
@@ -327,7 +327,7 @@
    ========================================================================== */
 .ppe-audit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -424,7 +424,7 @@
 
 .submitted-sequence-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
 }
 
@@ -1238,10 +1238,199 @@
   }
 }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   RESPONSIVE SCALING FOR RESULTS AUDIT (15.6" & 14" LAPTOPS & TABLETS)
+   ========================================================================== */
+@media (max-width: 1400px) {
+  .results-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .results-container {
+    max-width: 100%;
+  }
+}
+
+/* 15.6-Inch Laptops & Medium Displays (max-height: 880px) */
+@media (max-height: 880px) {
+  .results-scene {
+    padding: 16px 22px 140px 22px;
+  }
+
+  .results-container {
+    gap: 18px;
+  }
+
+  .results-header-card {
+    padding: 22px 20px;
+    border-radius: 20px;
+  }
+
+  .results-main-title {
+    font-size: 1.75rem;
+    margin-bottom: 6px;
+  }
+
+  .results-sub-title {
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+  }
+
+  .results-ribbon {
+    padding: 5px 16px;
+    font-size: 0.78rem;
+    margin-bottom: 14px;
+  }
+
+  .results-hero-showcase {
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .results-showcase-img {
+    width: 78px;
+    height: 60px;
+  }
+
+  .res-metric-box {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  .res-metric-icon-box {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+
+  .res-score-highlight {
+    font-size: 1.25rem;
+  }
+
+  .results-section-card {
+    padding: 18px 20px;
+    border-radius: 18px;
+    gap: 14px;
+  }
+
+  .section-card-header {
+    padding-bottom: 10px;
+  }
+
+  .section-title-wrap h3 {
+    font-size: 1.15rem;
+  }
+
+  .ppe-audit-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .submitted-sequence-row {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+}
+
+/* 14-Inch Laptops & Compact Viewports (max-height: 740px) */
+@media (max-height: 740px) {
+  .results-scene {
+    padding: 12px 16px 120px 16px;
+  }
+
+  .results-container {
+    gap: 14px;
+  }
+
+  .results-header-card {
+    padding: 16px 16px;
+    border-radius: 16px;
+  }
+
+  .results-main-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+
+  .results-sub-title {
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+
+  .results-ribbon {
+    padding: 4px 14px;
+    font-size: 0.74rem;
+    margin-bottom: 10px;
+  }
+
+  .results-hero-showcase {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .results-showcase-img {
+    width: 64px;
+    height: 50px;
+  }
+
+  .res-metric-box {
+    padding: 10px 8px;
+    border-radius: 14px;
+  }
+
+  .res-metric-icon-box {
+    width: 38px;
+    height: 38px;
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  .res-metric-box h4 {
+    font-size: 0.84rem;
+  }
+
+  .res-score-highlight {
+    font-size: 1.15rem;
+  }
+
+  .results-section-card {
+    padding: 14px 16px;
+    border-radius: 16px;
+    gap: 10px;
+  }
+
+  .section-title-wrap h3 {
+    font-size: 1.05rem;
+  }
+
+  .ppe-audit-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .submitted-sequence-row {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Tablet Screens (<= 1024px) */
 @media (max-width: 1024px) {
   .results-metrics-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ppe-audit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 840px) {
+  .submitted-sequence-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1251,7 +1440,7 @@
   }
 
   .results-scene {
-    padding: 12px 12px 40px 12px;
+    padding: 12px 12px 100px 12px;
   }
 
   .results-main-title {
@@ -1263,3 +1452,83 @@
     height: 56px;
   }
 }
+
+/* ==========================================================================
+   RESULTS SIDEBAR COMPACT OVERRIDES (Ensures all 6 diagnostic cards fit cleanly)
+   ========================================================================== */
+.results-inventory-rack .inventory-vertical-stack {
+  gap: 7px;
+  padding: 8px 6px 12px 6px;
+}
+
+.results-inventory-rack .drag-card.horizontal-item-card {
+  min-height: 60px;
+  padding: 8px 10px;
+  margin: 1px 0;
+  gap: 10px;
+  border-radius: 12px;
+}
+
+.results-inventory-rack .card-icon-col {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.results-inventory-rack .card-icon-col span {
+  font-size: 1.35rem !important;
+}
+
+.results-inventory-rack .card-title {
+  font-size: 0.82rem !important;
+  line-height: 1.15;
+}
+
+.results-inventory-rack .card-measure {
+  font-size: 0.62rem !important;
+  padding: 1px 6px !important;
+}
+
+.results-inventory-rack .card-desc-text {
+  font-size: 0.70rem !important;
+  line-height: 1.25;
+  -webkit-line-clamp: 1;
+}
+
+@media (max-height: 760px) {
+  .results-inventory-rack .inventory-vertical-stack {
+    gap: 5px;
+    padding: 6px 4px 8px 4px;
+  }
+
+  .results-inventory-rack .drag-card.horizontal-item-card {
+    min-height: 52px;
+    padding: 6px 8px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+
+  .results-inventory-rack .card-icon-col {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+  }
+
+  .results-inventory-rack .card-icon-col span {
+    font-size: 1.15rem !important;
+  }
+
+  .results-inventory-rack .card-title {
+    font-size: 0.76rem !important;
+  }
+
+  .results-inventory-rack .card-measure {
+    font-size: 0.58rem !important;
+  }
+
+  .results-inventory-rack .card-desc-text {
+    font-size: 0.65rem !important;
+  }
+}
+
