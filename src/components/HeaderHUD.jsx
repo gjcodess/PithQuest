@@ -202,7 +202,10 @@ export const HeaderHUD = () => {
 
       {/* Right: Mission Pill & Menu Button Container */}
       <div className="hud-right" ref={menuRef}>
-        <div className="mission-pill">
+        <div
+          className="mission-pill"
+          title={`Current Stage: ${currentStage.num} — ${currentStage.title}`}
+        >
           <span className="pill-badge">{currentStage.num}</span>
           <span className="pill-title">{currentStage.title}</span>
         </div>

@@ -371,6 +371,57 @@
 }
 
 
+/* ==========================================================================
+   HUD MISSION PILL COLLAPSED (Prevents Collision with Results / Stepper)
+   On laptops & tablets (<= 1440px), collapse mission pill to only show stage badge
+   (e.g., "PRE-TEST", "STAGE 1", "STAGE 2", "RESULTS") and hide the stage title text.
+   ========================================================================== */
+@media (max-width: 1440px) {
+  .mission-pill .pill-title {
+    display: none !important;
+  }
+
+  .mission-pill {
+    padding: 3px 6px !important;
+    gap: 0 !important;
+    border-width: 2px !important;
+    box-shadow: 0 2px 0 #88b78a !important;
+  }
+
+  .mission-pill .pill-badge {
+    font-size: 0.70rem !important;
+    padding: 2.5px 8px !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  .hud-right {
+    gap: 8px !important;
+  }
+}
+
+/* Medium Laptops & Tablets Stepper Spacing (max-width: 1200px) */
+@media (max-width: 1200px) {
+  .hud-stepper {
+    gap: 3px !important;
+  }
+
+  .step-node {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.80rem !important;
+  }
+
+  .step-node.node-text {
+    min-width: 38px !important;
+    padding: 0 6px !important;
+    font-size: 0.60rem !important;
+  }
+
+  .step-line {
+    width: 8px !important;
+  }
+}
+
 /* Laptop Screens & Compact Displays (max-width: 1366px) */
 @media (max-width: 1366px) {
   .stage-center-zone {
