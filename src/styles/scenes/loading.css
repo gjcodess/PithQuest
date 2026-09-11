@@ -373,3 +373,91 @@
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
   }
 }
+
+/* ==========================================================================
+   RESPONSIVE SCALING FOR LOADING SCREEN (15.6" & 14" LAPTOPS)
+   ========================================================================== */
+
+/* 15.6-Inch Laptops & Medium Displays (max-height: 880px) */
+@media (max-height: 880px) {
+  .loading-card-minimal {
+    padding: 20px 20px;
+  }
+
+  .loading-title-group {
+    margin-bottom: 24px;
+  }
+
+  .loading-game-logo {
+    font-size: clamp(3.6rem, 5.2vw, 4.6rem) !important;
+    margin-bottom: 10px !important;
+  }
+
+  .loading-game-subtitle {
+    font-size: 1.15rem !important;
+    margin-bottom: 20px !important;
+  }
+
+  .loading-progress-wrapper {
+    margin-bottom: 26px;
+    max-width: 540px;
+    gap: 10px;
+  }
+
+  .loading-progress-track {
+    height: 22px;
+  }
+
+  .btn-enter-lab-pulsing {
+    padding: 13px 36px !important;
+    font-size: 1.1rem;
+    min-width: 280px;
+  }
+
+  .loading-hint-text {
+    padding: 7px 20px;
+    font-size: 0.88rem;
+  }
+}
+
+/* 14-Inch Laptops & Compact Viewports (max-height: 740px) */
+@media (max-height: 740px) {
+  .loading-card-minimal {
+    padding: 14px 16px;
+  }
+
+  .loading-title-group {
+    margin-bottom: 16px;
+  }
+
+  .loading-game-logo {
+    font-size: clamp(3rem, 4.6vw, 3.8rem) !important;
+    margin-bottom: 6px !important;
+  }
+
+  .loading-game-subtitle {
+    font-size: 1.05rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .loading-progress-wrapper {
+    margin-bottom: 20px;
+    max-width: 480px;
+    gap: 8px;
+  }
+
+  .loading-progress-track {
+    height: 20px;
+  }
+
+  .btn-enter-lab-pulsing {
+    padding: 11px 28px !important;
+    font-size: 1.02rem;
+    min-width: 250px;
+  }
+
+  .loading-hint-text {
+    padding: 6px 16px;
+    font-size: 0.82rem;
+  }
+}

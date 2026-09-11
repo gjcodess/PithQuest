@@ -14,6 +14,7 @@ import { SystemOverviewModal } from './components/Modals/SystemOverviewModal';
 import { ConfirmModal } from './components/Modals/ConfirmModal';
 import { FloatingItemCursor } from './components/FloatingItemCursor';
 import { LoadingScreen } from './components/LoadingScreen';
+import { ScreenRestrictionOverlay } from './components/ScreenRestrictionOverlay';
 
 // Scenes
 import { TitleScene } from './scenes/TitleScene';
@@ -66,11 +67,17 @@ export const App = () => {
   };
 
   if (isLoading) {
-    return <LoadingScreen onLoaded={() => setIsLoading(false)} />;
+    return (
+      <>
+        <ScreenRestrictionOverlay />
+        <LoadingScreen onLoaded={() => setIsLoading(false)} />
+      </>
+    );
   }
 
   return (
     <div className="game-app">
+      <ScreenRestrictionOverlay />
       <HeaderHUD />
       <main
         className={`game-viewport scene-${scene} ${

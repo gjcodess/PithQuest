@@ -2,18 +2,10 @@
    STAGE 6: COOLING & CABINET DEHYDRATION WORKSTATION STYLING
    ========================================================================== */
 
-.dehydration-scene .stage-center-zone {
-  display: flex;
-  align-items: center;
-  justify-content: center !important;
-  padding: 20px 32px 36px 32px !important;
-}
-
 .dehydration-scene .stage-content-row {
   margin: 0 auto;
-  gap: 40px;
-  max-width: 1440px !important;
-  align-items: center;
+  gap: 36px;
+  align-items: flex-start !important;
   flex-shrink: 0;
 }
 

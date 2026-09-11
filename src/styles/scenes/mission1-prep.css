@@ -828,14 +828,15 @@
   width: 100% !important;
   display: flex !important;
   justify-content: center !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   gap: 40px !important;
   margin: 0 auto !important;
   padding: 0 16px !important;
 }
 
 /* 3. Borderless Workstation Islands (No Outer Container Box) */
-.prep-scene .multi-state-workstation {
+.prep-scene .stage-content-row > .multi-state-workstation,
+.prep-scene .stage-content-row > .station-center-card {
   background: transparent !important;
   border: none !important;
   border-bottom: none !important;
@@ -848,17 +849,22 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
 }
 
-.prep-scene .station-center-card {
-  flex: 1 1 50% !important;
-  max-width: 680px !important;
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: stretch !important;
+.prep-scene .station-center-card .multi-state-workstation {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
   overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
 }
 
 /* 4. Floating Header Capsule Pills Directly on Countertop */
@@ -871,29 +877,53 @@
     0 4px 0 #bda88e,
     0 10px 24px rgba(78, 52, 28, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
-  padding: 10px 26px !important;
+  padding: 12px 26px !important;
   margin: 0 0 16px 0 !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
   width: 100% !important;
+  max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
+.prep-scene .workstation-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
 .prep-scene .workstation-name {
-  color: #2b180a !important;
   font-family: var(--font-heading) !important;
   font-size: 1.35rem !important;
   font-weight: 900 !important;
-  text-shadow: none !important;
+  color: #2b180a !important;
+  margin: 0;
+  line-height: 1.25 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   letter-spacing: -0.01em !important;
+  text-shadow: none !important;
 }
 
 .prep-scene .workstation-sub {
-  color: #634a34 !important;
   font-size: 0.92rem !important;
+  color: #634a34 !important;
   font-weight: 600 !important;
-  margin-top: 2px;
+  line-height: 1.2 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prep-scene .workstation-step-badge {
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  padding: 6px 16px !important;
+  border-radius: 999px !important;
 }
 
 .prep-scene .workstation-step-badge {
@@ -1017,53 +1047,203 @@
 }
 
 /* 7. Responsive Breakpoints */
-@media (max-width: 1400px) {
-  .prep-scene .stage-content-row {
-    max-width: 1260px !important;
-    gap: 28px !important;
+@media (max-width: 1440px) {
+  .prep-scene .stage-center-zone {
+    padding: 18px 28px 48px 28px !important;
   }
 
-  .prep-scene .multi-state-workstation,
-  .prep-scene .station-center-card {
-    max-width: 600px !important;
+  .prep-scene .stage-content-row {
+    max-width: 1360px !important;
+    gap: 24px !important;
+    padding: 0 !important;
+  }
+
+  .prep-scene .stage-content-row > *:not(:only-child) {
+    max-width: calc(50% - 12px) !important;
+    flex: 1 1 calc(50% - 12px) !important;
+    min-width: 0 !important;
+  }
+
+  .prep-scene .station-center-card .multi-state-workstation {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 auto !important;
+  }
+
+  .prep-scene .washing-viewport,
+  .prep-scene .workstation-viewport {
+    height: 340px !important;
+    min-height: 330px !important;
+    max-height: 350px !important;
+    padding: 6px 14px !important;
   }
 
   .prep-scene .sink-preview-img,
   .prep-scene .container-state-img {
-    max-width: 520px !important;
+    height: 300px !important;
+    max-height: 310px !important;
+    max-width: 100% !important;
+  }
+
+  .prep-scene .workstation-header {
+    padding: 11px 24px !important;
+    margin: 0 0 14px 0 !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .workstation-titles {
+    gap: 2px !important;
+  }
+
+  .prep-scene .workstation-name {
+    font-size: 1.20rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .prep-scene .workstation-sub {
+    font-size: 0.84rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .prep-scene .workstation-step-badge {
+    font-size: 0.78rem !important;
+    padding: 5px 14px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .faucet-knob-console,
+  .prep-scene .stove-burner-console {
+    padding: 10px 18px !important;
+    min-height: 76px !important;
+    border-radius: 18px !important;
+  }
+
+  .prep-scene .workstation-footer {
+    margin-top: 10px !important;
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-height: 880px) {
   .prep-scene .stage-center-zone {
-    padding: 14px 20px 24px 20px !important;
+    padding: 14px 28px 48px 28px !important;
   }
 
-  .prep-scene .stage-content-row {
-    max-width: 1040px !important;
-    gap: 20px !important;
+  .prep-scene .washing-viewport,
+  .prep-scene .workstation-viewport {
+    height: 335px !important;
+    min-height: 325px !important;
+    max-height: 345px !important;
   }
 
   .prep-scene .sink-preview-img,
   .prep-scene .container-state-img {
-    max-width: 440px !important;
+    height: 295px !important;
+    max-height: 305px !important;
+  }
+
+  .prep-scene .workstation-header {
+    padding: 11px 24px !important;
+    margin-bottom: 14px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .workstation-titles {
+    gap: 2px !important;
+  }
+
+  .prep-scene .workstation-name {
+    font-size: 1.18rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .prep-scene .workstation-sub {
+    font-size: 0.82rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .prep-scene .workstation-step-badge {
+    font-size: 0.78rem !important;
+    padding: 5px 14px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .faucet-knob-console,
+  .prep-scene .stove-burner-console {
+    min-height: 72px !important;
+    padding: 8px 16px !important;
+  }
+}
+
+@media (max-height: 740px) {
+  .prep-scene .stage-center-zone {
+    padding: 10px 22px 42px 22px !important;
+  }
+
+  .prep-scene .washing-viewport,
+  .prep-scene .workstation-viewport {
+    height: 300px !important;
+    min-height: 290px !important;
+    max-height: 310px !important;
+  }
+
+  .prep-scene .sink-preview-img,
+  .prep-scene .container-state-img {
+    height: 265px !important;
+    max-height: 275px !important;
+  }
+
+  .prep-scene .workstation-header {
+    padding: 9px 20px !important;
+    margin-bottom: 12px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .workstation-titles {
+    gap: 1px !important;
+  }
+
+  .prep-scene .workstation-name {
+    font-size: 1.08rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .prep-scene .workstation-sub {
+    font-size: 0.76rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .prep-scene .workstation-step-badge {
+    font-size: 0.74rem !important;
+    padding: 4px 12px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .faucet-knob-console,
+  .prep-scene .stove-burner-console {
+    min-height: 64px !important;
+    padding: 6px 12px !important;
   }
 }
 
 @media (max-width: 1024px) {
   .prep-scene .stage-center-zone {
-    padding: 10px 16px 20px 16px !important;
+    padding: 10px 14px 20px 14px !important;
   }
 
   .prep-scene .stage-content-row {
     flex-direction: column !important;
     align-items: center !important;
-    gap: 28px !important;
+    gap: 20px !important;
   }
 
-  .prep-scene .multi-state-workstation,
-  .prep-scene .station-center-card {
-    max-width: 560px !important;
+  .prep-scene .stage-content-row > *:not(:only-child),
+  .prep-scene .stage-content-row > *:only-child {
+    max-width: 520px !important;
+    width: 100% !important;
+  }
+
+  .prep-scene .station-center-card .multi-state-workstation {
+    max-width: 100% !important;
     width: 100% !important;
   }
 }

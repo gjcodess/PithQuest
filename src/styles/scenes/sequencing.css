@@ -214,19 +214,21 @@
 
 .sequencing-slots-grid {
   display: grid;
-  grid-template-columns: repeat(8, minmax(130px, 1fr));
+  grid-template-columns: repeat(8, minmax(120px, 1fr));
   gap: 12px;
 }
 
-@media (max-width: 1240px) {
+@media (max-width: 1440px) {
   .sequencing-slots-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 840px) {
   .sequencing-slots-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 }
 
@@ -645,4 +647,146 @@
   font-size: 0.94rem;
   font-weight: 700;
   text-align: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE SCALING FOR SEQUENCING (15.6" & 14" LAPTOPS)
+   ========================================================================== */
+
+/* 15.6-Inch Laptops & Medium Displays (max-height: 880px) */
+@media (max-height: 880px) {
+  .sequencing-scene {
+    padding: 16px 20px 40px;
+  }
+
+  .sequencing-page-container {
+    gap: 16px;
+  }
+
+  .sequencing-hero-header {
+    padding: 16px 24px;
+    border-radius: 16px;
+  }
+
+  .hero-exam-badge {
+    font-size: 0.74rem;
+    padding: 4px 16px;
+    margin-bottom: 8px;
+  }
+
+  .hero-exam-title {
+    font-size: 1.55rem;
+    margin: 0 0 6px;
+  }
+
+  .hero-exam-desc {
+    font-size: 0.90rem;
+    line-height: 1.45;
+  }
+
+  .sequencing-activity-card {
+    padding: 18px 20px;
+    border-radius: 16px;
+  }
+
+  .sequencing-header h3 {
+    font-size: 1.3rem;
+    margin: 0 0 6px;
+  }
+
+  .sec-subtitle {
+    font-size: 0.86rem;
+    margin: 0 0 14px;
+  }
+
+  .sequencing-card {
+    padding: 10px 8px;
+  }
+
+  .seq-card-img-wrapper .seq-card-img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .seq-card-title {
+    font-size: 0.82rem;
+    min-height: 2.2em;
+  }
+
+  .btn-proceed-mastery {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+
+  .btn-check-sequence {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+}
+
+/* 14-Inch Laptops & Compact Viewports (max-height: 740px) */
+@media (max-height: 740px) {
+  .sequencing-scene {
+    padding: 10px 14px 30px;
+  }
+
+  .sequencing-page-container {
+    gap: 12px;
+  }
+
+  .sequencing-hero-header {
+    padding: 12px 18px;
+    border-radius: 14px;
+  }
+
+  .hero-exam-title {
+    font-size: 1.35rem;
+    margin-bottom: 4px;
+  }
+
+  .hero-exam-desc {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .sequencing-activity-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .sequencing-header h3 {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+
+  .sec-subtitle {
+    font-size: 0.80rem;
+    margin-bottom: 10px;
+  }
+
+  .sequencing-card {
+    padding: 8px 6px;
+    border-radius: 12px;
+  }
+
+  .seq-card-img-wrapper .seq-card-img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .seq-card-title {
+    font-size: 0.76rem;
+    min-height: 2em;
+    line-height: 1.2;
+  }
+
+  .btn-proceed-mastery {
+    padding: 10px 22px;
+    font-size: 0.94rem;
+  }
+
+  .btn-check-sequence {
+    padding: 10px 22px;
+    font-size: 0.94rem;
+  }
 }

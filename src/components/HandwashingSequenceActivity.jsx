@@ -442,7 +442,6 @@ export const HandwashingSequenceActivity = ({
                 <div className={`slot-card-content ${isDragging ? 'is-dragging' : ''}`}>
                   <div className="slot-card-text">
                     <h5 className="slot-card-action">{item.action}</h5>
-                    <p className="slot-card-desc">{item.desc}</p>
                   </div>
                   {!isLocked && (
                     <div className="slot-drag-handle-hint">
