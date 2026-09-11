@@ -272,6 +272,175 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ==========================================================================
+   RESPONSIVE SCALING (15.6-INCH LAPTOPS, 14-INCH LAPTOPS & MOBILE)
+   ========================================================================== */
+
+/* 15.6-Inch Laptops & Medium Displays (max-height: 880px) */
+@media (max-height: 880px) {
+  .title-card {
+    padding: 16px 20px;
+  }
+
+  .title-badge {
+    font-size: 0.84rem;
+    padding: 4px 16px;
+    margin-bottom: 14px;
+  }
+
+  .game-logo {
+    font-size: clamp(3.6rem, 5.2vw, 4.6rem);
+    margin-bottom: 10px;
+  }
+
+  .game-subtitle {
+    font-size: 1.15rem;
+    margin-bottom: 18px;
+  }
+
+  .title-divider {
+    margin: 0 auto 20px;
+    height: 3.5px;
+  }
+
+  .title-hero-grid {
+    padding: 18px 24px;
+    margin-bottom: 22px;
+    gap: 18px;
+    border-radius: 20px;
+  }
+
+  .hero-avatar,
+  .hero-snack {
+    width: 72px;
+    height: 72px;
+  }
+
+  .hero-speech-bubble {
+    padding: 12px 18px;
+  }
+
+  .hero-speech-bubble p {
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .start-form {
+    margin-bottom: 20px;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+  }
+
+  .input-group label {
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+  }
+
+  .input-group input {
+    padding: 12px 18px;
+    font-size: 1rem;
+    border-radius: 14px;
+  }
+
+  .btn-start {
+    padding: 13px 26px;
+    font-size: 1.15rem;
+  }
+
+  .title-quick-links {
+    gap: 10px;
+  }
+
+  .link-btn {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+  }
+}
+
+/* 14-Inch Laptops & Compact Viewports (max-height: 740px) */
+@media (max-height: 740px) {
+  .title-card {
+    padding: 12px 16px;
+  }
+
+  .title-badge {
+    font-size: 0.78rem;
+    padding: 3px 14px;
+    margin-bottom: 10px;
+  }
+
+  .game-logo {
+    font-size: clamp(3rem, 4.6vw, 3.8rem);
+    margin-bottom: 6px;
+  }
+
+  .game-subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+  }
+
+  .title-divider {
+    margin: 0 auto 16px;
+    height: 3px;
+  }
+
+  .title-hero-grid {
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    gap: 14px;
+    border-radius: 16px;
+  }
+
+  .hero-avatar,
+  .hero-snack {
+    width: 62px;
+    height: 62px;
+  }
+
+  .hero-speech-bubble {
+    padding: 10px 14px;
+  }
+
+  .hero-speech-bubble p {
+    font-size: 0.86rem;
+    line-height: 1.4;
+  }
+
+  .start-form {
+    margin-bottom: 16px;
+  }
+
+  .input-group {
+    margin-bottom: 12px;
+  }
+
+  .input-group label {
+    font-size: 0.86rem;
+    margin-bottom: 6px;
+  }
+
+  .input-group input {
+    padding: 10px 16px;
+    font-size: 0.94rem;
+  }
+
+  .btn-start {
+    padding: 11px 22px;
+    font-size: 1.05rem;
+  }
+
+  .title-quick-links {
+    gap: 8px;
+  }
+
+  .link-btn {
+    padding: 6px 14px;
+    font-size: 0.80rem;
+  }
+}
+
 @media (max-width: 640px) {
   .title-card {
     padding: 22px 18px;
