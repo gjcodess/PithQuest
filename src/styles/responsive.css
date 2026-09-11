@@ -3,57 +3,24 @@
    Mobile & Tablet Optimizations
    ========================================================================== */
 
-/* Tablet & Landscape Devices (max-width: 1280px) */
-@media (max-width: 1280px) {
-  .left-assistant-panel.expanded {
-    width: 250px;
-    max-width: 260px;
-    padding: 10px 12px;
-  }
-
-  .right-inventory-rack.expanded {
-    width: 180px;
-    padding: 8px;
-  }
-
+/* Laptop Screens & Compact Displays (max-width: 1366px) */
+@media (max-width: 1366px) {
   .stage-center-zone {
-    padding: 12px 260px 32px 260px;
-  }
-
-  .orientation-subnav-container {
-    margin: 12px 0 0;
-  }
-
-  .orientation-subnav {
-    padding: 4px 10px;
-    gap: 5px;
-  }
-
-  .subnav-pill {
-    padding: 5px 12px;
-    font-size: 0.8rem;
+    padding: 10px 16px 24px 16px !important;
   }
 
   .game-viewport.dialogue-collapsed .stage-center-zone,
-  .dialogue-collapsed .stage-center-zone {
-    padding-left: 64px;
-    padding-right: 64px;
-  }
-
+  .dialogue-collapsed .stage-center-zone,
   .game-viewport.inventory-collapsed .stage-center-zone,
   .inventory-collapsed .stage-center-zone {
-    padding-left: 64px;
-    padding-right: 64px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 
   .active-vessel-card.orientation-card {
-    max-width: 960px;
-    width: 96%;
-    padding: 20px 22px;
-  }
-
-  .zoom-slider-wrap {
-    width: 56px;
+    max-width: 100%;
+    width: 100%;
+    padding: 0 !important;
   }
 }
 
@@ -63,51 +30,40 @@
     display: none; /* Keep HUD clean on smaller screens */
   }
 
-  .left-assistant-panel.expanded {
-    width: 230px;
-    max-width: 240px;
-    padding: 8px 10px;
-  }
-
-  .right-inventory-rack.expanded {
-    width: 160px;
-    padding: 6px;
-  }
-
   .stage-center-zone {
-    padding: 12px 240px 32px 240px;
+    padding: 8px 12px 20px 12px !important;
   }
 
   .game-viewport.dialogue-collapsed .stage-center-zone,
   .dialogue-collapsed .stage-center-zone {
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
   }
 
   .active-vessel-card {
-    padding: var(--space-md);
-    width: 96%;
+    padding: var(--space-sm, 8px);
+    width: 98%;
   }
 
   .recipe-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
 
   .concept-card-expanded {
-    gap: 14px;
-    padding: 14px;
+    gap: 12px;
+    padding: 12px;
   }
 
   .concept-icon-big {
-    width: 60px;
-    height: 60px;
-    font-size: 2rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.8rem;
   }
 
   .active-vessel-card.orientation-card {
-    padding: 18px 20px;
-    width: 98%;
+    padding: 0 !important;
+    width: 100%;
   }
 }
 

@@ -1053,3 +1053,70 @@
 .zoom-reset-pill.is-default {
   opacity: 0.65;
 }
+
+/* ==========================================================================
+   RESPONSIVE HUD SCALING FOR LAPTOP HEIGHTS
+   ========================================================================== */
+@media (max-height: 860px) {
+  .game-hud {
+    height: 56px;
+    padding: 0 var(--space-sm, 12px);
+  }
+
+  .hud-brand-title {
+    font-size: 2rem;
+  }
+
+  .hud-btn {
+    height: 38px;
+    padding: 0 12px;
+    font-size: 0.82rem;
+  }
+
+  .mission-pill-stage {
+    padding: 4px 12px;
+    font-size: 0.82rem;
+  }
+
+  .hud-step-pill {
+    width: 28px;
+    height: 28px;
+    font-size: 0.78rem;
+  }
+
+  .hud-stepper-connector {
+    width: 14px;
+  }
+}
+
+@media (max-height: 720px) {
+  .game-hud {
+    height: 48px;
+    padding: 0 10px;
+  }
+
+  .hud-brand-title {
+    font-size: 1.75rem;
+  }
+
+  .hud-btn {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 0.78rem;
+  }
+
+  .mission-pill-stage {
+    padding: 3px 10px;
+    font-size: 0.76rem;
+  }
+
+  .hud-step-pill {
+    width: 24px;
+    height: 24px;
+    font-size: 0.72rem;
+  }
+
+  .hud-stepper-connector {
+    width: 10px;
+  }
+}
