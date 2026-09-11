@@ -56,7 +56,6 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_base_empty.png',
       fallbackIcon: '🫕',
       label: 'Empty Steamer Base on Stove',
-      imgStyle: { transform: 'scale(1.22)', transformOrigin: '50% 55%' },
     },
     {
       stepIndex: 1,
@@ -65,7 +64,6 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_base_water.png',
       fallbackIcon: '💧',
       label: 'Steamer Base Filled with Water',
-      imgStyle: { transform: 'scale(1.22)', transformOrigin: '50% 55%' },
     },
     {
       stepIndex: 2,
@@ -74,7 +72,6 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_tier_empty.png',
       fallbackIcon: '♨️',
       label: 'Perforated Tier on Base Pot',
-      imgStyle: { transform: 'scale(1.28)', transformOrigin: '50% 56%' },
     },
     {
       stepIndex: 3,
@@ -83,7 +80,6 @@ export const Mission5Steaming = () => {
       img: '/assets/steamer_tier_with_tray.png',
       fallbackIcon: '🧈',
       label: 'Assembled Steamer with Ubod Tray',
-      imgStyle: { transform: 'scale(1.25)', transformOrigin: '50% 56%' },
     },
     {
       stepIndex: 4,
@@ -108,7 +104,6 @@ export const Mission5Steaming = () => {
       img: '/assets/steamed_mold_on_cooling_rack.png',
       fallbackIcon: '❄️',
       label: 'Cooled Gelatinized Pieces on Rack',
-      imgStyle: { transform: 'scale(0.88)', transformOrigin: '50% 50%' },
     },
   ];
 
@@ -283,6 +278,7 @@ export const Mission5Steaming = () => {
               onItemAccepted={handleItemAccepted}
               activeAnimation={isSteaming ? 'steaming' : null}
               containerWidth="100%"
+              className={`steamer-step-${steamerStep}`}
               customFooter={
                 <StoveBurnerConsole
                   isReady={steamerStep === 3 && !isSteaming}

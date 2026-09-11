@@ -188,7 +188,7 @@
 .stage-content-row {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start !important;
   gap: 40px;
   width: 100%;
   max-width: 1440px;
@@ -210,7 +210,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: visible;
 }
 
@@ -219,9 +219,16 @@
   max-width: 680px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: stretch;
   overflow: visible;
+}
+
+.station-center-card .multi-state-workstation {
+  max-width: 100% !important;
+  width: 100% !important;
+  flex: 1 1 auto !important;
 }
 
 .card-header-mini {
@@ -646,7 +653,7 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
 }
@@ -846,14 +853,6 @@
   filter: drop-shadow(0 0 26px rgba(34, 197, 94, 0.9)) drop-shadow(0 20px 36px rgba(78, 52, 28, 0.26)) !important;
 }
 
-.steaming-scene .container-state-img {
-  width: auto !important;
-  max-width: 100% !important;
-  height: 350px !important;
-  max-height: 350px !important;
-  object-fit: contain !important;
-  filter: drop-shadow(0 20px 36px rgba(78, 52, 28, 0.26)) !important;
-}
 
 .container-fallback-icon {
   display: flex;
@@ -1357,57 +1356,199 @@
 }
 
 /* Responsive Centering & Sizing */
-@media (max-width: 1400px) {
-  .stage-content-row {
-    max-width: 1260px !important;
-    gap: 28px !important;
+@media (max-width: 1440px) {
+  .stage-center-zone {
+    padding: 18px 28px 48px 28px !important;
   }
 
-  .multi-state-workstation,
-  .station-center-card,
-  .station-side-card,
-  .washing-workstation {
-    max-width: 600px !important;
+  .stage-content-row {
+    max-width: 1360px !important;
+    gap: 24px !important;
+    padding: 0 !important;
+  }
+
+  .stage-content-row > *:not(:only-child) {
+    max-width: calc(50% - 12px) !important;
+    flex: 1 1 calc(50% - 12px) !important;
+    min-width: 0 !important;
+  }
+
+  .stage-content-row > *:only-child {
+    max-width: 640px !important;
+    width: 100% !important;
   }
 
   .container-state-img,
-  .sink-preview-img {
-    max-width: 520px !important;
+  .sink-preview-img,
+  .workstation-img,
+  .equipment-img {
+    height: 300px !important;
+    max-height: 310px !important;
+    width: auto !important;
+    max-width: 95% !important;
+    object-fit: contain !important;
+  }
+
+  .workstation-viewport,
+  .washing-viewport,
+  .molding-qc-viewport,
+  .steaming-qc-viewport,
+  .qc-viewport,
+  .frying-qc-viewport,
+  .packaging-qc-viewport,
+  .dehydration-qc-viewport,
+  .dropzone {
+    height: 340px !important;
+    min-height: 330px !important;
+    max-height: 350px !important;
+    padding: 6px 14px !important;
+  }
+
+  .workstation-header,
+  .vessel-header {
+    padding: 8px 18px !important;
+    margin-bottom: 12px !important;
+    border-radius: 18px !important;
+  }
+
+  .workstation-name,
+  .vessel-title {
+    font-size: 1.15rem !important;
+  }
+
+  .workstation-sub {
+    font-size: 0.78rem !important;
+  }
+
+  .workstation-step-badge,
+  .vessel-badge,
+  .spec-badge {
+    font-size: 0.76rem !important;
+    padding: 4px 12px !important;
+  }
+
+  .faucet-knob-console,
+  .stove-burner-console,
+  .dehydrator-appliance-console {
+    padding: 10px 18px !important;
+    min-height: 76px !important;
+    border-radius: 18px !important;
   }
 }
 
-@media (max-width: 1100px) {
+/* 15.6-Inch Laptops & Medium Displays (max-height: 880px) */
+@media (max-height: 880px) {
   .stage-center-zone {
-    padding: 14px 20px 24px 20px !important;
-  }
-
-  .stage-content-row {
-    max-width: 1040px !important;
-    gap: 20px !important;
+    padding: 14px 28px 48px 28px !important;
   }
 
   .container-state-img,
-  .sink-preview-img {
-    max-width: 440px !important;
+  .sink-preview-img,
+  .workstation-img,
+  .equipment-img {
+    height: 295px !important;
+    max-height: 305px !important;
+    width: auto !important;
+    max-width: 95% !important;
+    object-fit: contain !important;
   }
+
+  .workstation-viewport,
+  .washing-viewport,
+  .molding-qc-viewport,
+  .steaming-qc-viewport,
+  .qc-viewport,
+  .frying-qc-viewport,
+  .packaging-qc-viewport,
+  .dehydration-qc-viewport,
+  .dropzone {
+    height: 335px !important;
+    min-height: 325px !important;
+    max-height: 345px !important;
+  }
+
+  .faucet-knob-console,
+  .stove-burner-console,
+  .dehydrator-appliance-console {
+    min-height: 72px !important;
+    padding: 8px 16px !important;
+  }
+}
+
+/* Compact Laptop Screens & Short Viewports (max-height: 740px) */
+@media (max-height: 740px) {
+  .stage-center-zone {
+    padding: 10px 22px 42px 22px !important;
+  }
+
+  .container-state-img,
+  .sink-preview-img,
+  .workstation-img,
+  .equipment-img {
+    height: 265px !important;
+    max-height: 275px !important;
+    width: auto !important;
+    max-width: 95% !important;
+    object-fit: contain !important;
+  }
+
+  .workstation-viewport,
+  .washing-viewport,
+  .molding-qc-viewport,
+  .steaming-qc-viewport,
+  .qc-viewport,
+  .frying-qc-viewport,
+  .packaging-qc-viewport,
+  .dehydration-qc-viewport,
+  .dropzone {
+    height: 300px !important;
+    min-height: 290px !important;
+    max-height: 310px !important;
+  }
+
+  .workstation-header,
+  .vessel-header {
+    padding: 6px 14px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .workstation-name,
+  .vessel-title {
+    font-size: 1.02rem !important;
+  }
+
+  .faucet-knob-console,
+  .stove-burner-console,
+  .dehydrator-appliance-console {
+    min-height: 64px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+.prep-scene .station-center-card .container-state-img {
+  transform: scale(1.12);
+  transform-origin: 50% 55%;
+}
+
+.mixing-scene .station-center-card .container-state-img {
+  transform: scale(1.08);
+  transform-origin: 50% 50%;
 }
 
 @media (max-width: 1024px) {
   .stage-center-zone {
-    padding: 10px 16px 20px 16px !important;
+    padding: 10px 14px 20px 14px !important;
   }
 
   .stage-content-row {
     flex-direction: column !important;
     align-items: center !important;
-    gap: 28px !important;
+    gap: 20px !important;
   }
 
-  .multi-state-workstation,
-  .station-center-card,
-  .station-side-card,
-  .washing-workstation {
-    max-width: 560px !important;
+  .stage-content-row > *:not(:only-child),
+  .stage-content-row > *:only-child {
+    max-width: 520px !important;
     width: 100% !important;
   }
 }
