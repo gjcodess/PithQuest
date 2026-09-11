@@ -1215,7 +1215,12 @@
   }
 
   .slot-card-desc {
-    display: none; /* Hide multi-line desc on 14" screen so slots fit without vertical overflow */
+    font-size: 0.68rem;
+    line-height: 1.15;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .slot-placeholder .placeholder-icon {
