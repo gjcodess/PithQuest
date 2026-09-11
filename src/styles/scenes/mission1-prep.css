@@ -877,29 +877,53 @@
     0 4px 0 #bda88e,
     0 10px 24px rgba(78, 52, 28, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
-  padding: 10px 26px !important;
+  padding: 12px 26px !important;
   margin: 0 0 16px 0 !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
   width: 100% !important;
+  max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
+.prep-scene .workstation-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
 .prep-scene .workstation-name {
-  color: #2b180a !important;
   font-family: var(--font-heading) !important;
   font-size: 1.35rem !important;
   font-weight: 900 !important;
-  text-shadow: none !important;
+  color: #2b180a !important;
+  margin: 0;
+  line-height: 1.25 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   letter-spacing: -0.01em !important;
+  text-shadow: none !important;
 }
 
 .prep-scene .workstation-sub {
-  color: #634a34 !important;
   font-size: 0.92rem !important;
+  color: #634a34 !important;
   font-weight: 600 !important;
-  margin-top: 2px;
+  line-height: 1.2 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prep-scene .workstation-step-badge {
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  padding: 6px 16px !important;
+  border-radius: 999px !important;
 }
 
 .prep-scene .workstation-step-badge {
@@ -1062,22 +1086,29 @@
   }
 
   .prep-scene .workstation-header {
-    padding: 8px 18px !important;
-    margin: 0 0 12px 0 !important;
-    border-radius: 18px !important;
+    padding: 11px 24px !important;
+    margin: 0 0 14px 0 !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .workstation-titles {
+    gap: 2px !important;
   }
 
   .prep-scene .workstation-name {
-    font-size: 1.15rem !important;
+    font-size: 1.20rem !important;
+    line-height: 1.25 !important;
   }
 
   .prep-scene .workstation-sub {
-    font-size: 0.78rem !important;
+    font-size: 0.84rem !important;
+    line-height: 1.2 !important;
   }
 
   .prep-scene .workstation-step-badge {
-    font-size: 0.76rem !important;
-    padding: 4px 12px !important;
+    font-size: 0.78rem !important;
+    padding: 5px 14px !important;
+    border-radius: 999px !important;
   }
 
   .prep-scene .faucet-knob-console,
@@ -1110,6 +1141,32 @@
     max-height: 305px !important;
   }
 
+  .prep-scene .workstation-header {
+    padding: 11px 24px !important;
+    margin-bottom: 14px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .workstation-titles {
+    gap: 2px !important;
+  }
+
+  .prep-scene .workstation-name {
+    font-size: 1.18rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .prep-scene .workstation-sub {
+    font-size: 0.82rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .prep-scene .workstation-step-badge {
+    font-size: 0.78rem !important;
+    padding: 5px 14px !important;
+    border-radius: 999px !important;
+  }
+
   .prep-scene .faucet-knob-console,
   .prep-scene .stove-burner-console {
     min-height: 72px !important;
@@ -1136,12 +1193,29 @@
   }
 
   .prep-scene .workstation-header {
-    padding: 6px 14px !important;
-    margin-bottom: 8px !important;
+    padding: 9px 20px !important;
+    margin-bottom: 12px !important;
+    border-radius: 999px !important;
+  }
+
+  .prep-scene .workstation-titles {
+    gap: 1px !important;
   }
 
   .prep-scene .workstation-name {
-    font-size: 1.02rem !important;
+    font-size: 1.08rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .prep-scene .workstation-sub {
+    font-size: 0.76rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .prep-scene .workstation-step-badge {
+    font-size: 0.74rem !important;
+    padding: 4px 12px !important;
+    border-radius: 999px !important;
   }
 
   .prep-scene .faucet-knob-console,
