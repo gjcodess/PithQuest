@@ -137,7 +137,7 @@ export const ResultsSidebar = () => {
               <div className="card-title-row">
                 <span className="card-title">Pre-Test PPE & Hygiene</span>
                 <span className="card-measure">
-                  {ppeDistractors === 0 && handwashDistractors === 0 ? 'COMPLIANT' : 'HAZARDS FLAGGED'}
+                  {ppeDistractors === 0 && handwashDistractors === 0 ? 'COMPLIANT' : 'FLAGGED'}
                 </span>
               </div>
               <p className="card-desc-text">
