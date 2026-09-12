@@ -919,7 +919,6 @@
   *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
 
   /* Reset all full-screen viewport layout wrappers to allow standard multi-page flow */
@@ -1494,6 +1493,7 @@
   font-size: 0.70rem !important;
   line-height: 1.25;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
 }
 
 @media (max-height: 760px) {

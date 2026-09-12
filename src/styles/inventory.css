@@ -355,6 +355,7 @@
   flex: 1 1 auto;
   display: -webkit-box !important;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden !important;
   word-break: break-word;
@@ -384,6 +385,7 @@
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
@@ -786,6 +788,7 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
   letter-spacing: -0.15px;
@@ -931,6 +934,7 @@
     line-height: 1.3;
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -990,6 +994,7 @@
     line-height: 1.25;
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
