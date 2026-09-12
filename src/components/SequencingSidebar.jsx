@@ -24,9 +24,9 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
     {
       id: 'scoring',
       icon: '📊',
-      title: 'Assessment Weight',
-      desc: 'Each correctly placed production stage contributes 12.5% to your Post-Test score.',
-      tag: '100% Total',
+      title: 'Competency Check',
+      desc: 'Order each production stage chronologically to validate your comprehensive process mastery.',
+      tag: '8 Stages',
     },
     {
       id: 'report',

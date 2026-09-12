@@ -34,9 +34,9 @@ const SYSTEM_MODULES = [
   {
     icon: '📊',
     badge: 'Module 5',
-    title: 'Competency Analytics & Formal Certification',
-    desc: 'Comprehensive diagnostic vs. post-test performance comparison, PPE safety audit score, stage completion breakdown, and printable / downloadable formal Certificate of Completion with student name and grade.',
-    tags: ['Pre/Post Comparison', 'Performance Metrics', 'Formal Certificate', 'Print / PDF Ready'],
+    title: 'Competency Analytics & Formal Diagnostic Report',
+    desc: 'Comprehensive diagnostic vs. post-test performance comparison, PPE safety audit, stage pre-check questions review, stage completion breakdown, and printable / downloadable formal Report of Completion with student name.',
+    tags: ['Pre/Post Comparison', 'Diagnostic Metrics', 'Formal Report', 'Print / PDF Ready'],
   },
   {
     icon: '⚙️',

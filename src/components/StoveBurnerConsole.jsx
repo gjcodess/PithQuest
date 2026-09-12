@@ -8,6 +8,7 @@ import { soundManager } from '../audio/soundManager';
 export const StoveBurnerConsole = ({
   isReady = false,
   isIgnited = false,
+  isActive = false,
   isComplete = false,
   progress = 0,
   onIgnite,
@@ -20,19 +21,22 @@ export const StoveBurnerConsole = ({
   modeTitleStandby = 'BURNER: STANDBY',
   modeTitleReady = 'CLICK TO IGNITE',
   modeTitleIgnited = 'FLAME ON • 100°C HIGH',
+  modeTitleActive = null,
   modeTitleComplete = 'BURNER: OFF',
   title = null,
   actionButton = null,
 }) => {
   const [isWiggling, setIsWiggling] = useState(false);
+  const burning = isIgnited || isActive;
+  const activeTitle = modeTitleActive || modeTitleIgnited;
 
   const handleClick = (e) => {
     e.stopPropagation();
 
     if (disabled || isComplete) return;
 
-    if (isIgnited) {
-      // Already actively boiling/steaming
+    if (burning) {
+      // Already actively boiling/steaming/heating
       return;
     }
 
@@ -53,8 +57,8 @@ export const StoveBurnerConsole = ({
     }
   };
 
-  const defaultTitle = isIgnited
-    ? 'Burner Active at HIGH (100°C)'
+  const defaultTitle = burning
+    ? 'Burner Active at HIGH'
     : isReady
     ? 'Click knob to turn to HIGH and ignite burner'
     : isComplete
@@ -64,8 +68,8 @@ export const StoveBurnerConsole = ({
   return (
     <div
       className={`stove-burner-console ${
-        isReady && !isIgnited ? 'ready-to-ignite' : ''
-      } ${isIgnited ? 'flame-active' : ''} ${isWiggling ? 'knob-shake' : ''} ${
+        isReady && !burning ? 'ready-to-ignite' : ''
+      } ${burning ? 'flame-active' : ''} ${isWiggling ? 'knob-shake' : ''} ${
         disabled ? 'disabled' : ''
       } ${actionButton ? 'has-extra-action' : ''}`}
       onClick={handleClick}
@@ -85,11 +89,11 @@ export const StoveBurnerConsole = ({
           src="/assets/stove_knob_rotor.png"
           alt="Knob Rotor"
           className={`knob-rotor-img ${
-            isIgnited ? 'turned-high' : 'turned-off'
+            burning ? 'turned-high' : 'turned-off'
           }`}
         />
         {/* Glowing invite beacon rings when ready to turn */}
-        {isReady && !isIgnited && (
+        {isReady && !burning && (
           <>
             <span className="knob-beacon-ring r1" />
             <span className="knob-beacon-ring r2" />
@@ -101,12 +105,12 @@ export const StoveBurnerConsole = ({
         <div className="burner-badge-row">
           <span
             className={`burner-led ${
-              isIgnited ? 'burning' : isReady ? 'blinking' : 'cold'
+              burning ? 'burning' : isReady ? 'blinking' : 'cold'
             }`}
           />
           <span className="burner-mode-title">
-            {isIgnited
-              ? modeTitleIgnited
+            {burning
+              ? activeTitle
               : isReady
               ? modeTitleReady
               : isComplete
@@ -116,7 +120,7 @@ export const StoveBurnerConsole = ({
         </div>
 
         <div className="burner-sub-row">
-          {isIgnited ? (
+          {burning ? (
             <div className="burner-progress-container">
               <span className="burner-action-hint flame-text">
                 {typeof activeHint === 'function'

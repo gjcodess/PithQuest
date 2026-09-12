@@ -980,12 +980,13 @@
   max-height: 350px !important;
   object-fit: contain !important;
   filter: drop-shadow(0 20px 36px rgba(78, 52, 28, 0.26)) !important;
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease !important;
 }
 
-.prep-scene .washing-viewport.interactive-sink:hover .sink-preview-img {
-  transform: translateY(-4px) scale(1.04) !important;
-  filter: drop-shadow(0 26px 44px rgba(78, 52, 28, 0.32)) !important;
+.prep-scene .washing-viewport.interactive-sink:hover .sink-preview-img,
+.prep-scene .multi-state-workstation:hover .sink-preview-img {
+  transform: translateY(-6px) scale(1.05) !important;
+  filter: drop-shadow(0 28px 48px rgba(78, 52, 28, 0.34)) !important;
 }
 
 .prep-scene .container-state-img {
@@ -995,12 +996,12 @@
   max-height: 350px !important;
   object-fit: contain !important;
   filter: drop-shadow(0 20px 36px rgba(78, 52, 28, 0.26)) !important;
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease !important;
 }
 
 .prep-scene .multi-state-workstation:hover .container-state-img {
-  transform: translateY(-4px) scale(1.04) !important;
-  filter: drop-shadow(0 26px 44px rgba(78, 52, 28, 0.32)) !important;
+  transform: translateY(-6px) scale(1.05) !important;
+  filter: drop-shadow(0 28px 48px rgba(78, 52, 28, 0.34)) !important;
 }
 
 /* Equipment Target Hover Highlighting */
@@ -1009,7 +1010,7 @@
 .prep-scene .multi-state-workstation.drag-hover .sink-preview-img,
 .prep-scene .multi-state-workstation.drag-hover .container-state-img {
   filter: drop-shadow(0 0 26px rgba(34, 197, 94, 0.9)) drop-shadow(0 20px 36px rgba(78, 52, 28, 0.26)) !important;
-  transform: translateY(-4px) scale(1.05) !important;
+  transform: translateY(-6px) scale(1.07) !important;
 }
 
 /* 6. Standalone Tactile Appliance Consoles on Countertop */

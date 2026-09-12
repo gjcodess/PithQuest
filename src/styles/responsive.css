@@ -12,7 +12,19 @@
   display: none; /* Hidden by default on desktop, laptop, and tablet (>= 768px) */
 }
 
-@media (max-width: 767px), (max-height: 520px) and (max-width: 950px) {
+@media print {
+  .screen-restriction-overlay {
+    display: none !important;
+    visibility: hidden !important;
+    position: static !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+@media screen and (max-width: 767px), screen and (max-height: 520px) and (max-width: 950px) {
   .screen-restriction-overlay {
     display: flex !important;
     position: fixed;

@@ -62,7 +62,7 @@ const CORRECT_ORDER = [
 ];
 
 export const SequencingActivity = ({ onComplete }) => {
-  const { addScore, unlockBadge, showToast, missionsCompleted, recordPostTestSequence, assessmentResults } = useGame();
+  const { unlockBadge, showToast, missionsCompleted, recordPostTestSequence, assessmentResults } = useGame();
   const isAlreadyDone = Boolean(missionsCompleted?.sequencing);
 
   const [items, setItems] = useState(() => {
@@ -233,13 +233,10 @@ export const SequencingActivity = ({ onComplete }) => {
       submittedItems: items,
       correctOrder: CORRECT_ORDER.map((i) => i.id),
       correctItems: CORRECT_ORDER,
-      score: correctCount * 12.5,
       correctCount,
       isCorrect,
       correctMap,
     });
-
-    addScore(correctCount * 12.5);
 
     if (isCorrect) {
       unlockBadge('master_sequencer', 'Master Food Technologist');

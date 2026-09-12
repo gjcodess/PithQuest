@@ -4,20 +4,42 @@ import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
+import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission5Steaming = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission5);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission5);
 
-  // Steamer states:
-  // 0: Empty aluminum steamer base on stove -> accept potable water pitcher
-  // 1: Base filled with water -> accept perforated middle tier
-  // 2: Perforated middle tier mounted on water base -> accept molded ubod tray
-  // 3: Ubod tray loaded into perforated tier with sealed domed lid -> ready to turn stove knob to HIGH
-  // 4: Active rolling steam at 100°C (10-minute cycle with progress meter)
-  // 5: Steaming complete, cooked translucent pieces -> accept heat mitts / Don Mitts action
-  // 6: Mold cooling on wire rack -> Stage 5 complete!
+  const handleCheckpointComplete = (selectedChoice, questionChoices) => {
+    const choicesList = questionChoices || STAGE_QUESTIONS.mission5.choices;
+    const correctChoice = choicesList.find((c) => c.isCorrect);
+    recordStageAnswer('mission5', {
+      stageNum: 5,
+      stageTitle: STAGE_QUESTIONS.mission5.stageTitle,
+      question: STAGE_QUESTIONS.mission5.question,
+      selectedOptionId: selectedChoice.displayLetter || selectedChoice.selectedOptionId || selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission5.explanation,
+      choices: choicesList,
+      correctOptionId: correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A',
+    });
+    setIsCheckpointOpen(false);
+  };
+
+  // Steamer step states:
+  // 0: Base pot empty -> accept steamer_water (1 cup)
+  // 1: Base pot with water -> accept perforated_tier
+  // 2: Perforated tier seated -> accept molded_tray
+  // 3: Molded tray seated inside tier -> accept lid / click burner dial
+  // 4: Steaming in progress (10-minute countdown)
+  // 5: Steaming complete -> accept silicone heat mitts to transfer to cooling rack
+  // 6: Transferred to cooling rack -> Complete!
   const [steamerStep, setSteamerStep] = useState(() => (isAlreadyCompleted ? 6 : 0));
   const [steamProgress, setSteamProgress] = useState(0);
   const [isSteaming, setIsSteaming] = useState(false);
@@ -25,23 +47,23 @@ export const Mission5Steaming = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 5 Completed! Starch matrix has been gelatinized and cooled on the wire rack.',
+        'Stage 5 Completed! Starch gelatinization is complete, and the molded crackers have been transferred to cool before loading into the dehydrator.',
         'happy',
         {
           badge: 'Stage 5 Complete',
-          note: 'Gelatinization binds amylose and amylopectin starches, creating the structural foundation required for crisp expansion.',
+          note: 'Steaming sets the starch matrix and solidifies the shape of the crackers for safe handling in Stage 6.',
           btnText: 'Proceed to Stage 6: Cabinet Dehydration ➔',
           onNext: () => setScene('mission6'),
         }
       );
     } else {
       speak(
-        'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes. First, pour clean potable water into the empty steamer base.',
+        'Stage 5: Starch Gelatinization & Steaming! Step 1: Add water to the steamer base, assemble tiers, and steam for 10 minutes.',
         'neutral',
         {
-          badge: 'Step 14: Steaming Setup',
-          note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before lighting the burner.',
-          hint: 'First, select the Potable Water Pitcher from your inventory and pour it into the empty steamer base.',
+          badge: 'Step 1: Steamer Base',
+          note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose & Regulator, and Nearby Materials before lighting the burner.',
+          hint: 'Select the Potable Water from your inventory and pour into the base pot.',
           hideButton: true,
         }
       );
@@ -51,27 +73,27 @@ export const Mission5Steaming = () => {
   const steamerSteps = [
     {
       stepIndex: 0,
-      acceptedItems: ['steamer_water', 'water_pitcher', 'water', 'portion_water_1cup'],
-      prompt: 'Pour 1 cup clean potable water into the empty steamer base',
+      acceptedItems: ['steamer_water', 'water', 'water_pitcher'],
+      prompt: 'Pour 1 cup of potable water into the steamer base pot',
       img: '/assets/steamer_base_empty.png',
       fallbackIcon: '🫕',
-      label: 'Empty Steamer Base on Stove',
+      label: 'Empty Steamer Base Pot',
     },
     {
       stepIndex: 1,
-      acceptedItems: ['perforated_tier', 'steam_tier', 'tier_perforated'],
-      prompt: 'Place the perforated middle tier (steamer rack with holes) onto the base pot',
+      acceptedItems: ['perforated_tier', 'steamer_tier', 'tier'],
+      prompt: 'Place the perforated steam tier on top of the water base',
       img: '/assets/steamer_base_water.png',
       fallbackIcon: '💧',
-      label: 'Steamer Base Filled with Water',
+      label: 'Base Pot with Water',
     },
     {
       stepIndex: 2,
-      acceptedItems: ['molded_tray', 'molded_ubod', 'molder_completely_filled'],
-      prompt: 'Arrange the molded rectangular ubod pieces onto the perforated middle tier',
+      acceptedItems: ['molded_tray', 'silicone_mold', 'tray'],
+      prompt: 'Place the 24-cavity molded ubod tray inside the perforated tier',
       img: '/assets/steamer_tier_empty.png',
       fallbackIcon: '♨️',
-      label: 'Perforated Tier on Base Pot',
+      label: 'Perforated Middle Tier',
     },
     {
       stepIndex: 3,
@@ -84,113 +106,104 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 4,
       acceptedItems: [],
-      prompt: 'Rolling steam at 100°C: Gelatinizing rice starches into elastic matrix...',
+      prompt: 'Steaming in progress... 100°C steady steam gelatinizing starches...',
       img: '/assets/steamer_assembled_steaming.png',
-      fallbackIcon: '☁️',
-      label: '100°C Rolling Steam (10-Min Cycle)',
+      fallbackIcon: '♨️',
+      label: 'Active 10-Min Steaming',
     },
     {
       stepIndex: 5,
       acceptedItems: ['heat_mitts', 'ppe_heat_gloves'],
-      prompt: '10 minutes complete! Don Silicone Heat Mitts to safely transfer hot mold to cooling rack',
+      prompt: 'Steaming complete! Don Silicone Heat Mitts to safely transfer to cooling rack',
       img: '/assets/steamer_opened_cooked.png',
       fallbackIcon: '✨',
-      label: 'Cooked Gelatinized Pieces (100°C Hot)',
+      label: 'Gelatinized & Set (Hot)',
     },
     {
       stepIndex: 6,
       acceptedItems: [],
-      prompt: 'Hot mold cooling on wire rack! Starch matrix setting before dehydrator tray arrangement',
+      prompt: 'Molded pieces safely transferred to cooling rack. Ready for Stage 6!',
       img: '/assets/steamed_mold_on_cooling_rack.png',
-      fallbackIcon: '❄️',
-      label: 'Cooled Gelatinized Pieces on Rack',
+      fallbackIcon: '🧊',
+      label: 'Cooled on Wire Rack',
     },
   ];
 
   const handleItemAccepted = (item, stepIndex) => {
-    if (stepIndex === 0 && (item.id === 'steamer_water' || item.id === 'water_pitcher' || item.id === 'water' || item.id === 'portion_water_1cup')) {
+    if (stepIndex === 0 && (item.id === 'steamer_water' || item.id === 'water' || item.id === 'water_pitcher')) {
       soundManager.playPour();
       setSteamerStep(1);
       setHoldingItem(null);
-      showToast('Water Added!', '1 cup potable water loaded in base pot. Next, place the perforated steam tier', 'success');
+      showToast('Water Added!', 'Now seat the perforated steam tier on top of the base.', 'success');
       speak(
-        'Water is loaded in the base! Now select the Perforated Steam Tier from your inventory and place it onto the pot.',
+        'Water added! Step 2: Now select the perforated steam tier from your shelf and attach it onto the pot.',
         'neutral',
         {
-          badge: 'Steam Tier Placement',
-          note: 'Ensure adequate water in the base pot to prevent boiling dry during the 10-minute steaming cycle.',
-          hint: 'Select the Perforated Steam Tier in your inventory, then place it on the pot.',
+          badge: 'Step 2: Steam Tier',
+          note: 'The perforated middle rack holds the food above the boiling water so it cooks purely via hot convection steam.',
+          hint: 'Select "Perforated Tier" from your shelf and place onto the steamer.',
           hideButton: true,
         }
       );
-    } else if (stepIndex === 1 && (item.id === 'perforated_tier' || item.id === 'steam_tier' || item.id === 'tier_perforated')) {
+    } else if (stepIndex === 1 && (item.id === 'perforated_tier' || item.id === 'steamer_tier' || item.id === 'tier')) {
       soundManager.playClick();
       setSteamerStep(2);
       setHoldingItem(null);
-      showToast('Steam Tier Placed!', 'Perforated middle tier mounted on water base. Now load the molded ubod tray', 'success');
+      showToast('Steam Tier Positioned!', 'Now place the molded ubod tray inside the perforated tier.', 'success');
       speak(
-        'The steam vent tier is in place! Now select the Molded Ubod Tray from your inventory and place it inside the perforated tier.',
+        'Steam tier set! Step 3: Now select the Molded Ubod Tray from your shelf and place it inside the tier.',
         'neutral',
         {
-          badge: 'Middle Tier Loading',
-          note: 'The perforated tier allows steam vapors to circulate evenly around all 24 cracker cavities.',
-          hint: 'Select the Molded Ubod Tray in your inventory, then place it inside the tier.',
+          badge: 'Step 3: Load Molded Tray',
+          note: 'Ensure the silicone mold rests evenly flat so that steam penetrates all 24 cavities identically.',
+          hint: 'Select "Molded Ubod Tray" from your shelf and drop into the steamer.',
           hideButton: true,
         }
       );
-    } else if (stepIndex === 2 && (item.id === 'molded_tray' || item.id === 'molded_ubod' || item.id === 'molder_completely_filled')) {
+    } else if (stepIndex === 2 && (item.id === 'molded_tray' || item.id === 'silicone_mold' || item.id === 'tray')) {
       soundManager.playClick();
       setSteamerStep(3);
       setHoldingItem(null);
-      showToast('Tray Loaded!', 'Molded crackers in place. Domed lid sealed! Ready to steam', 'success');
+      showToast('Molded Tray Loaded!', 'Click the Burner Control Dial below to ignite medium heat (10 min).', 'success');
       speak(
-        'Step 14: Steam the molded ubod pieces for approximately 10 minutes. Turn the rotary stove knob to begin steaming!',
-        'thinking',
+        'All assembled! Step 4: Click the Burner Control Dial below to ignite medium heat and start the 10-minute steam cycle.',
+        'happy',
         {
-          badge: 'Step 14: Steaming',
-          note: 'Use medium heat to maintain steady steam without allowing the water to boil too aggressively.',
-          hint: 'Turn the rotary stove knob to HIGH to ignite the burner.',
+          badge: 'Step 4: 10-Min Steaming',
+          note: 'Cook in a steamer for 10 minutes or until the ubod mixture becomes firm and translucent.',
+          hint: 'Click the orange "Ignite 10-Min Steam" button below.',
           hideButton: true,
         }
       );
     } else if (stepIndex === 5 && (item.id === 'heat_mitts' || item.id === 'ppe_heat_gloves')) {
-      handleTransferToCooling();
+      handleTransferToCoolingRack();
     }
   };
 
   const handleStartSteaming = () => {
+    soundManager.playIgnite();
     soundManager.playBoil();
     setIsSteaming(true);
     setSteamerStep(4);
-    showToast('Steaming Active...', 'Gas burner ignited! 100°C steam gelatinizing starches...', 'info');
-    speak(
-      'Rolling steam active at 100°C! Steam transfers heat to gelatinize the rice starches and set the cracker structure.',
-      'happy',
-      {
-        badge: 'Steaming in Progress',
-        note: 'Steaming cooks and gelatinizes the starches, locking the shape of the crackers before dehydration.',
-        hint: 'Wait for the 10-minute steam cycle to complete.',
-        hideButton: true,
-      }
-    );
+    showToast('Steamer Ignited!', '100°C steam gelatinizing starch matrix...', 'info');
 
-    let progress = 0;
+    let current = 0;
     const interval = setInterval(() => {
-      progress += 20;
-      setSteamProgress(progress);
-      if (progress >= 100) {
+      current += 20;
+      setSteamProgress(current);
+      if (current >= 100) {
         clearInterval(interval);
         setIsSteaming(false);
         setSteamerStep(5);
         soundManager.playSuccess();
-        showToast('Steaming Complete!', 'Rice starches are fully gelatinized and set', 'success');
+        showToast('Steaming Complete!', 'Wafers are firm & translucent. Don heat mitts to remove!', 'success');
         speak(
-          'Step 15: Allow the molded ubod pieces to cool before transferring them to the dehydrator trays. Don your silicone heat mitts and transfer the hot mold to the cooling rack!',
+          '10-minute steam cycle finished! The ubod crackers are firm and translucent. Step 5: Select Silicone Heat Mitts from your inventory to safely transfer the hot mold to the cooling rack!',
           'happy',
           {
-            badge: 'Step 15: Cooling Hot Pieces',
-            note: 'Safety Note: Wear heat-resistant gloves or oven mitts when handling hot steaming equipment to prevent steam burns.',
-            hint: 'Select the Silicone Heat Mitts from your inventory and tap the hot mold to transfer.',
+            badge: 'Step 5: Cooling Transfer',
+            note: 'Always wear silicone thermal mitts when removing hot items from the steamer to prevent steam burns.',
+            hint: 'Select "Silicone Heat Mitts" from your inventory, then tap the steamer.',
             hideButton: true,
           }
         );
@@ -198,20 +211,20 @@ export const Mission5Steaming = () => {
     }, 600);
   };
 
-  const handleTransferToCooling = () => {
+  const handleTransferToCoolingRack = () => {
     soundManager.playClick();
     setSteamerStep(6);
     setHoldingItem(null);
-    unlockBadge('steam_artisan', 'Gelatinization Specialist', '♨️');
+    unlockBadge('steam_master', 'Starch Gelatinization Specialist', '♨️');
     completeMission('mission5');
-    showToast('Safely Transferred!', 'Transferred to wire cooling rack with thermal heat mitts', 'success');
+    showToast('Transferred to Cooling Rack!', 'Firm, translucent ubod crackers cooled for Stage 6', 'success');
     speak(
-      'Outstanding steaming! The crackers are cooling on the wire rack. Allowing the pieces to cool prevents them from tearing or sticking during dehydrator tray loading in Stage 6!',
+      'Outstanding steaming! Starches are fully gelatinized and set. The cooled wafers are ready for single-layer arrangement in Stage 6 Dehydration!',
       'happy',
       {
         badge: 'Stage 5 Complete',
-        note: 'Cooling allows starch retrogradation to set the firm texture needed for single-layer arrangement in Stage 6.',
-        btnText: 'Proceed to Stage 6: Cabinet Dehydration ➔',
+        note: 'Gelatinization traps moisture within the starch web; dehydration in Stage 6 will vitrify it into brittle pellets.',
+        btnText: 'Proceed to Stage 6: Dehydration ➔',
         onNext: () => setScene('mission6'),
       }
     );
@@ -260,258 +273,156 @@ export const Mission5Steaming = () => {
     },
   ];
 
+  const handleInventoryClick = (item) => {
+    if (item.isUsed) return;
+    soundManager.playClick();
+
+    if (holdingItem?.id === item.id) {
+      setHoldingItem(null);
+    } else {
+      setHoldingItem({
+        id: item.id,
+        name: item.name,
+        img: item.img,
+        icon: item.fallbackIcon || '♨️',
+      });
+      if (item.id === 'steamer_water') {
+        showToast('Water Selected', 'Tap the base pot to pour water.', 'info');
+      } else if (item.id === 'perforated_tier') {
+        showToast('Steam Tier Selected', 'Tap the base pot to attach the middle tier.', 'info');
+      } else if (item.id === 'molded_tray') {
+        showToast('Molded Tray Selected', 'Tap the steamer to place tray inside.', 'info');
+      } else if (item.id === 'heat_mitts') {
+        showToast('Heat Mitts Selected', 'Tap the hot steamer to safely transfer mold to cooling rack.', 'info');
+      }
+    }
+  };
+
+  const recipeItems = [
+    { name: 'Base Water Level', measure: '1 Cup', icon: '💧', isCompleted: steamerStep >= 1, isCurrent: steamerStep === 0 },
+    { name: 'Molded Pieces', measure: '24 Pieces', icon: '🧈', isCompleted: steamerStep >= 3, isCurrent: steamerStep === 2 },
+    { name: 'Target Steaming Time', measure: '10 Minutes', icon: '⏱️', isCompleted: steamerStep >= 5, isCurrent: steamerStep === 4 },
+  ];
+
+  const safetyChecklist = [
+    {
+      title: 'Stove & Gas Inspection',
+      desc: 'Check the stove, gas smell, gas hose and regulator, and nearby materials before ignition.',
+      icon: '🔥',
+      isWarning: true,
+    },
+    {
+      title: 'Heat-Resistant Gloves Rule',
+      desc: 'Always wear heat-resistant gloves or oven mitts when handling hot steaming equipment (never thin plastic gloves).',
+      icon: '🧤',
+      isWarning: true,
+    },
+    {
+      title: 'Medium Heat Control',
+      desc: 'Use medium heat to maintain steady steam without allowing the water to boil too aggressively.',
+      icon: '♨️',
+      isWarning: false,
+    },
+  ];
+
   return (
     <div className="workstation-scene steaming-scene">
       <div className="workstation-overlay" />
 
+      {/* Stage 5 Pre-Check Question Modal */}
+      <CheckpointQuestionModal
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission5.stageTitle}
+        question={STAGE_QUESTIONS.mission5.question}
+        choices={STAGE_QUESTIONS.mission5.choices}
+        onComplete={handleCheckpointComplete}
+      />
+
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row">
-          {/* Left: 3-Tier Aluminum Steamer MultiStateContainer */}
+        {/* Floating Quick Recipe & Safety Drawer */}
+        <RecipeReferenceDrawer
+          stageTitle="Stage 5: Starch Steaming"
+          recipeItems={recipeItems}
+          safetyNotes={safetyChecklist}
+          culinaryTip="Steaming for 10 minutes gelatinizes the rice flour starches, locking the rectangular shape. Allowing pieces to cool before loading into the dehydrator prevents them from tearing or sticking to wire trays."
+        />
+
+        <div className="stage-content-row stage-single-workstation">
+          {/* Center: Steamer MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
-              containerId="steamer"
-              title="3-Tier Aluminum Steamer"
-              subtitle="100°C Starch Gelatinization (Step 14)"
+              containerId="tier_steamer"
+              title="Stainless Steel Tiered Steamer"
+              subtitle="Stage 5: 10-Minute Starch Gelatinization & Steaming"
               currentStepIndex={steamerStep}
               steps={steamerSteps}
               onItemAccepted={handleItemAccepted}
-              activeAnimation={isSteaming ? 'steaming' : null}
               containerWidth="100%"
-              className={`steamer-step-${steamerStep}`}
+              statusDotClass={steamerStep >= 6 ? 'dot-success' : steamerStep >= 3 ? 'dot-amber' : ''}
+              statusText={
+                isSteaming
+                  ? `♨️ 10-Minute steam gelatinization active... ${steamProgress}%`
+                  : steamerSteps[steamerStep]?.prompt || 'Ready'
+              }
+              specBadge={
+                <span
+                  className={`spec-badge ${
+                    steamerStep >= 6 ? 'spec-success' : steamerStep >= 4 ? 'spec-amber' : ''
+                  }`}
+                >
+                  {steamerStep >= 6
+                    ? 'PIECES: COOLED'
+                    : steamerStep === 5
+                    ? 'STATUS: HOT'
+                    : steamerStep === 4
+                    ? 'STEAMING: 10 MIN'
+                    : steamerStep === 3
+                    ? 'HEAT: MEDIUM'
+                    : steamerStep === 2
+                    ? 'TRAY: LOADED'
+                    : steamerStep === 1
+                    ? 'TIER: POSITIONED'
+                    : 'WATER: 1 CUP'}
+                </span>
+              }
               customFooter={
                 <StoveBurnerConsole
-                  isReady={steamerStep === 3 && !isSteaming}
-                  isIgnited={isSteaming}
+                  isActive={isSteaming}
+                  isReady={steamerStep === 3}
                   isComplete={steamerStep >= 5}
                   progress={steamProgress}
                   onIgnite={handleStartSteaming}
-                  onLockedClick={() => {
-                    if (steamerStep === 0) {
-                      showToast(
-                        'Steamer Not Ready',
-                        'Pour potable water into the steamer base before turning on the burner!',
-                        'warning'
-                      );
-                      speak(
-                        'Safety first! Pour potable water into the steamer base before igniting the gas burner.',
-                        'thinking',
-                        {
-                          badge: 'Steamer Safety',
-                          hint: 'Pour potable water into the bottom base tier first.',
-                        }
-                      );
-                    } else if (steamerStep === 1) {
-                      showToast(
-                        'Steamer Not Ready',
-                        'Place the perforated middle tier onto the base pot before turning on the burner!',
-                        'warning'
-                      );
-                      speak(
-                        'Safety first! Place the perforated middle tier onto the base pot before igniting the gas burner.',
-                        'thinking',
-                        {
-                          badge: 'Steamer Safety',
-                          hint: 'Place the perforated middle tier onto the base pot.',
-                        }
-                      );
-                    } else if (steamerStep === 2) {
-                      showToast(
-                        'Steamer Not Ready',
-                        'Place the molded ubod tray into the perforated tier before turning on the burner!',
-                        'warning'
-                      );
-                      speak(
-                        'Safety first! Place the molded paste tray into the middle tier before turning on the burner.',
-                        'thinking',
-                        {
-                          badge: 'Steamer Safety',
-                          hint: 'Place the molded ubod tray onto the middle tier.',
-                        }
-                      );
-                    }
-                  }}
                   standbyHint={
                     steamerStep === 0
                       ? 'Add water to base pot first'
                       : steamerStep === 1
-                        ? 'Place perforated steam tier'
-                        : steamerStep === 2
-                          ? 'Place molded tray inside tier'
-                          : 'Turn dial to HIGH to ignite'
+                      ? 'Place perforated steam tier'
+                      : steamerStep === 2
+                      ? 'Place molded tray inside tier'
+                      : 'Turn dial to HIGH to ignite'
                   }
                   readyHint="👉 Click dial to turn to HIGH"
                   activeHint={(p) => `♨️ Rolling steam... ${p}%`}
                   completeHint="✓ 10-Min gelatinization complete"
+                  modeTitleActive="STEAMING: MEDIUM HEAT"
+                  modeTitleReady="IGNITE BURNER"
+                  modeTitleStandby="BURNER: OFF"
+                  modeTitleComplete="BURNER: OFF (COOKED)"
                   disabled={isSteaming || steamerStep >= 6}
                 />
               }
             />
-          </div>
-
-          {/* Right Side: Steaming QC & Gelatinization Monitor */}
-          <div
-            className={`multi-state-workstation qc-workstation ${steamerStep === 5 && (holdingItem?.id === 'heat_mitts' || holdingItem?.id === 'ppe_heat_gloves')
-                ? 'compatible-target'
-                : ''
-              }`}
-            style={{
-              cursor: steamerStep === 5 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
-            }}
-            onClick={() => {
-              if (steamerStep === 5) {
-                handleTransferToCooling();
-              }
-            }}
-            onDragOver={(e) => {
-              if (steamerStep === 5) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'copy';
-              }
-            }}
-            onDrop={(e) => {
-              if (steamerStep === 5) {
-                e.preventDefault();
-                try {
-                  const data = e.dataTransfer.getData('text/plain');
-                  if (!data) return;
-                  const item = JSON.parse(data);
-                  if (item.id === 'heat_mitts' || item.id === 'ppe_heat_gloves') {
-                    handleTransferToCooling();
-                  }
-                } catch (err) {
-                  console.error(err);
-                }
-              }
-            }}
-            title="Steaming QC & Gelatinization Monitor"
-          >
-            {/* Workstation Header */}
-            <div className="workstation-header">
-              <div className="workstation-titles">
-                <h4 className="workstation-name">Steaming QC & Heat Monitor</h4>
-                <span className="workstation-sub">Step 14: 10-Min Starch Crosslinking</span>
-              </div>
-              <div
-                className={`workstation-step-badge ${steamerStep >= 6
-                    ? 'badge-success-glow'
-                    : steamerStep >= 4
-                      ? 'badge-flow-glow'
-                      : ''
-                  }`}
-              >
-                {steamerStep >= 6
-                  ? '✓ Cooled & Set'
-                  : steamerStep === 5
-                    ? '🧤 Safe Transfer'
-                    : steamerStep === 4
-                      ? '♨️ 100°C Steaming'
-                      : 'Standby'}
-              </div>
-            </div>
-
-            {/* Workstation Viewport */}
-            <div className="workstation-viewport steaming-qc-viewport">
-              {/* Steamer Parameters Card */}
-              <div className="steaming-spec-card">
-                <div className="steaming-spec-header">
-                  <span>♨️ Thermal Parameters</span>
-                  <span style={{ color: steamerStep >= 4 ? '#0284c7' : '#64748b' }}>
-                    {steamerStep >= 4 ? 'Medium-High Burner' : 'Cold Standby'}
-                  </span>
-                </div>
-
-                <div className="steaming-spec-grid">
-                  <div className="steaming-spec-item">
-                    <span className="spec-title">Steam Temperature</span>
-                    <span
-                      className="spec-val"
-                      style={{ color: steamerStep >= 4 ? '#0284c7' : '#334155' }}
-                    >
-                      {steamerStep >= 4 ? '100°C (Rolling)' : '28°C (Ambient)'}
-                    </span>
-                  </div>
-
-                  <div className="steaming-spec-item">
-                    <span className="spec-title">Target Duration</span>
-                    <span className="spec-val">10 Minutes</span>
-                  </div>
-                </div>
-
-                {/* Live Steaming Countdown Meter */}
-                <div className="steaming-progress-row">
-                  <div className="steaming-progress-header">
-                    <span>Cycle Progress:</span>
-                    <strong>{steamerStep >= 5 ? '100% (Completed)' : `${steamProgress}%`}</strong>
-                  </div>
-                  <div className="steaming-progress-bar-bg">
-                    <div
-                      className="steaming-progress-bar-fill"
-                      style={{ width: steamerStep >= 5 ? '100%' : `${steamProgress}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Before & After Texture Comparison */}
-              <div className="steaming-texture-compare">
-                <div className={`texture-compare-box ${steamerStep < 4 ? 'active-state' : ''}`}>
-                  <span className="texture-box-tag">Raw Paste</span>
-                  <span className="texture-box-desc">Opaque White • Crumbly</span>
-                </div>
-                <div className={`texture-compare-box ${steamerStep >= 5 ? 'active-state' : ''}`}>
-                  <span className="texture-box-tag">Gelatinized</span>
-                  <span className="texture-box-desc">Translucent • Elastic & Firm</span>
-                </div>
-              </div>
-
-              {/* Food Science Note */}
-              <div className="steaming-science-note">
-                <strong>🔬 Science Principle: </strong>
-                Steaming at 100°C permanently gelatinizes rice starches into an elastic polymer matrix, locking the rectangular wafer structure so it does not collapse into powder in the dehydrator!
-              </div>
-            </div>
-
-            {/* Workstation Footer */}
-            <div className="workstation-footer">
-              <div className="workstation-status">
-                <div
-                  className={`status-dot ${steamerStep >= 6
-                      ? 'dot-success'
-                      : steamerStep >= 4
-                        ? 'dot-amber'
-                        : ''
-                    }`}
-                />
-                <span className="status-text">
-                  {steamerStep >= 6
-                    ? 'Crackers cooled on rack; ready for dehydrator trays.'
-                    : steamerStep === 5
-                      ? 'Hot mold ready! Don thermal heat mitts to transfer.'
-                      : steamerStep === 4
-                        ? '10-minute steam cycle actively gelatinizing starches.'
-                        : '100°C steam parameters calibrated and awaiting ignition.'}
-                </span>
-              </div>
-              <span className="spec-badge">
-                {steamerStep >= 6
-                  ? 'QC: SET MATRIX'
-                  : steamerStep >= 4
-                    ? 'TEMP: 100°C'
-                    : 'TARGET: 10 MIN'}
-              </span>
-            </div>
           </div>
         </div>
       </div>
 
       {/* DOCKED BOTTOM INVENTORY SHELF */}
       <InventoryTray
-        title="Station 5 Steaming Tools & Ingredients"
+        title="Station 5 Steaming Equipment & Thermal PPE"
         items={stage5Inventory}
+        onItemClick={handleInventoryClick}
       />
     </div>
   );
 };
-
-
