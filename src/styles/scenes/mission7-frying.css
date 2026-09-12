@@ -338,3 +338,49 @@
 .frying-science-note strong {
   color: #0284c7;
 }
+
+/* ==========================================================================
+   AUTHENTIC STAGE 7 GAS BURNER FLAME & SIZZLE ANIMATIONS
+   ========================================================================== */
+
+/* Sizzling Oil Shimmer & Pan Heat Vibration */
+.container-state-img.anim-sizzling {
+  animation: fryingPanSizzle 0.12s infinite alternate ease-in-out !important;
+  transform-origin: 50% 80% !important;
+}
+
+@keyframes fryingPanSizzle {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(0.6px, -0.6px) rotate(0.2deg);
+  }
+  100% {
+    transform: translate(-0.6px, 0.6px) rotate(-0.2deg);
+  }
+}
+
+.sizzling-fx .oil-shimmer {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.35) 0%, rgba(245, 158, 11, 0.2) 50%, transparent 75%);
+  animation: oilHeatRipples 1s infinite ease-in-out alternate;
+  pointer-events: none;
+}
+
+@keyframes oilHeatRipples {
+  0% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+}

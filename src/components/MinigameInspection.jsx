@@ -78,7 +78,7 @@ export const MinigameInspection = ({
           'thinking',
           {
             badge: 'Pre-Test Completed',
-            note: 'Inspection answers are locked to preserve your pre-test benchmark score.',
+            note: 'Inspection answers are locked to preserve your pre-test diagnostic assessment.',
             hint: 'Use the buttons at the bottom to navigate between items or proceed to the missions!',
           }
         );

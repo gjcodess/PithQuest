@@ -22,7 +22,7 @@ export const HandwashingSequenceActivity = ({
         'thinking',
         {
           badge: 'Pre-Test Completed',
-          note: 'Handwashing benchmark results are saved for your final score audit.',
+          note: 'Handwashing benchmark results are saved for your final diagnostic audit.',
           hint: 'Click "Proceed to Tool Safety Inspection" below or choose a section from the subnav above.',
         }
       );

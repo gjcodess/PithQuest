@@ -496,13 +496,65 @@
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
+  body,
+  #root,
+  .game-app,
+  .game-viewport,
+  .viewport-layout-grid,
+  .viewport-left-column,
+  .scene-container,
+  .evaluation-scene {
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: static !important;
+    display: block !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .screen-restriction-overlay,
+  .game-hud,
+  .viewport-right-column,
+  .dialogue-box,
+  .dialogue-card,
+  .floating-companion-wrapper,
+  .eval-header-card,
+  .eval-metrics-grid,
+  .eval-actions,
+  .modal-overlay,
+  .toast-container {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
   .evaluation-scene .certificate-wrapper {
-    visibility: visible;
-    position: relative;
-    width: 100%;
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    padding: 0;
+    visibility: visible !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
+
