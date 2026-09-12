@@ -2184,15 +2184,7 @@
   }
 }
 
-.prep-scene .station-center-card .container-state-img {
-  transform: scale(1.12);
-  transform-origin: 50% 55%;
-}
 
-.mixing-scene .station-center-card .container-state-img {
-  transform: scale(1.08);
-  transform-origin: 50% 50%;
-}
 
 @media (max-width: 1024px) {
   .stage-center-zone {

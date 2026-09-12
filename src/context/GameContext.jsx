@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { soundManager } from '../audio/soundManager.js';
 
 const GameContext = createContext();
@@ -285,15 +285,30 @@ export const GameProvider = ({ children }) => {
     }
   }, [scene]);
 
-  const showToast = (title, message, type = 'success') => {
+  const toastTimerRef = useRef(null);
+
+  const hideToast = () => {
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+      toastTimerRef.current = null;
+    }
+    setToast(prev => ({ ...prev, visible: false }));
+  };
+
+  const showToast = (title, message, type = 'success', duration = 5500) => {
     if (type === 'success') soundManager.playSuccess();
     else if (type === 'danger') soundManager.playError();
     else soundManager.playClick();
 
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
+
     setToast({ visible: true, title, message, type });
-    setTimeout(() => {
+    toastTimerRef.current = setTimeout(() => {
       setToast(prev => ({ ...prev, visible: false }));
-    }, 2800);
+      toastTimerRef.current = null;
+    }, duration);
   };
 
   const openModal = (modalName) => {
@@ -414,6 +429,7 @@ export const GameProvider = ({ children }) => {
         hideDialogue,
         toast,
         showToast,
+        hideToast,
         activeModal,
         openModal,
         closeModal,

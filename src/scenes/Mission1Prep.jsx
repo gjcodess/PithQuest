@@ -93,7 +93,7 @@ export const Mission1Prep = () => {
       stepIndex: 4,
       acceptedItems: ['colander', 'stainless_colander', 'tool_colander_safe'],
       prompt: 'Boiled tender! Select Stainless Colander from inventory to drain in sink',
-      img: '/assets/pot_with_ubod_water_salt.png',
+      img: '/assets/pot_boiling_done.png',
       fallbackIcon: '🥘',
       label: 'Fork-Tender Boiled Ubod',
     },

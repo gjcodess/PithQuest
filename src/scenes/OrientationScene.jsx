@@ -199,7 +199,7 @@ export const OrientationScene = () => {
         maxPts: 25,
       });
 
-      showToast('Task 1 Recorded!', `PPE Attire: ${ppeScore}/25 pts earned (${selectedIds.length} items selected)`, 'info');
+      showToast('Task 1 Recorded!', 'PPE Attire selection saved. Proceeding to Handwashing Sequence.', 'info');
     }
 
     setPhase('sanitation');
@@ -230,7 +230,7 @@ export const OrientationScene = () => {
       };
 
       recordPreTestHandwash(enhancedData);
-      showToast('Task 2 Recorded!', `Handwashing: ${hwScore}/25 pts earned (${hwCorrectCount}/7 correct)`, 'info');
+      showToast('Task 2 Recorded!', 'Handwashing sequence saved. Proceeding to Tool Safety Inspection.', 'info');
     }
 
     setPhase('tool_inspection');
@@ -252,7 +252,7 @@ export const OrientationScene = () => {
       const toolScore = Math.round((toolSafeCount / (TOOL_INSPECTION_ITEMS.length || 6)) * 25);
 
       recordPreTestTool(answersList);
-      showToast('Task 3 Recorded!', `Tool Safety: ${toolScore}/25 pts earned (${toolSafeCount}/6 safe)`, 'info');
+      showToast('Task 3 Recorded!', 'Tool & Equipment safety inspection saved. Proceeding to Ingredient Inspection.', 'info');
     }
     setPhase('ingredient_inspection');
   };
@@ -346,7 +346,7 @@ export const OrientationScene = () => {
 
       soundManager.playFanfare();
       completeMission('orientation');
-      showToast('Pre-Test Complete!', `Score: ${totalPreTestScore}/100 pts. Entering Stage 1: Washing & Boiling`, 'success');
+      showToast('Pre-Test Complete!', 'Diagnostic baseline recorded. Entering Stage 1: Washing & Boiling', 'success');
 
       speak(
         `Pre-Test Completed, ${studentName || 'Food Technologist'}! All your baseline diagnostic answers have been recorded. You are now entering Stage 1: Washing & Boiling!`,

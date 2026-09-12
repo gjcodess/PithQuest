@@ -190,13 +190,13 @@ export const Mission2Grinding = () => {
 
   const handleScrapePaste = () => {
     if (isScraping || processorStep !== 4) return;
+    setHoldingItem(null);
     setIsScraping(true);
     soundManager.playPour();
 
     setTimeout(() => {
       setIsScraping(false);
       setProcessorStep(5);
-      setHoldingItem(null);
       unlockBadge('grind_expert', 'Milling & Pureeing Specialist', '⚙️');
       completeMission('mission2');
       showToast('Stage 2 Complete!', '1 cup of smooth ubod paste collected in clean bowl', 'success');
@@ -210,7 +210,7 @@ export const Mission2Grinding = () => {
           onNext: () => setScene('mission3'),
         }
       );
-    }, 1200);
+    }, 480);
   };
 
   const stage2Inventory = [
