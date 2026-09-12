@@ -36,10 +36,10 @@ export const Mission6Dehydration = () => {
       );
     } else {
       speak(
-        'Stage 6: Cooling & Cabinet Dehydration! Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+        'Stage 6: Cooling & Cabinet Dehydration! Step 1: Place the dehydrator tray and arrange the pieces with enough space between each piece to prevent them from sticking together.',
         'neutral',
         {
-          badge: 'Step 16: Tray Spacing',
+          badge: 'Step 1: Tray Spacing',
           note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
           hint: 'Select the Dehydrator Tray from your inventory and place it on the workstation counter.',
           hideButton: true,
@@ -61,7 +61,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 1,
       acceptedItems: ['steamed_pieces', 'steamed_ubod', 'cracker_piece_unmolded', 'molded_tray', 'steamed_ubod_tray'],
-      prompt: 'Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together',
+      prompt: 'Step 1: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together',
       img: '/assets/dehydrator_tray_empty.png',
       fallbackIcon: '🔲',
       label: 'Empty Dehydrator Tray',
@@ -69,7 +69,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 2,
       acceptedItems: ['dehydrator_cabinet', 'equip_dehydrator_safe', 'cabinet', 'dehydrator', 'dehydrator_assembled_empty'],
-      prompt: 'Step 17: Slide the arranged tray into the cabinet dehydrator',
+      prompt: 'Step 2: Slide the arranged tray into the cabinet dehydrator',
       img: '/assets/dehydrator_tray_arranged.png',
       fallbackIcon: '🧈',
       label: 'Arranged Tray (Spaced Pieces)',
@@ -77,7 +77,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Step 17: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Click dial to start!',
+      prompt: 'Step 3: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Click dial to start!',
       img: '/assets/dehydrator_assembled_empty.png',
       fallbackIcon: '💨',
       label: 'Dehydrator Cabinet (Ready)',
@@ -93,7 +93,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 5,
       acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips', 'container_empty'],
-      prompt: 'Step 18: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container',
+      prompt: 'Step 4: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container',
       img: '/assets/dehydrator_tray_dried.png',
       fallbackIcon: '✨',
       label: 'Completely Dehydrated Pieces',
@@ -115,10 +115,10 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Tray Prepared!', 'Dehydrator tray placed on counter.', 'success');
       speak(
-        'Step 16: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+        'Step 1: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
         'neutral',
         {
-          badge: 'Step 16: Tray Spacing',
+          badge: 'Step 1: Tray Spacing',
           note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
           hint: 'Select the Steamed Ubod Pieces from inventory and place them on the dehydrator tray.',
           hideButton: true,
@@ -130,10 +130,10 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Pieces Arranged!', 'Pieces arranged with space to prevent sticking.', 'success');
       speak(
-        'Step 17: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Select the Cabinet Dehydrator to insert the tray.',
+        'Step 2: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Select the Cabinet Dehydrator to insert the tray.',
         'neutral',
         {
-          badge: 'Step 17: Dehydration Setup',
+          badge: 'Step 2: Cabinet Setup',
           note: 'Safety Note: Check the wirings, outlets, and the dehydrator itself before turning on the power.',
           hint: 'Select Cabinet Dehydrator from inventory and place it onto the tray.',
           hideButton: true,
@@ -152,10 +152,10 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator.', 'success');
     speak(
-      'Step 17: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Click the power dial on the appliance panel to begin!',
+      'Step 3: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Click the power dial on the appliance panel to begin!',
       'thinking',
       {
-        badge: 'Step 17: 12-Hour 90°C Dehydration',
+        badge: 'Step 3: 12-Hour 90°C Dehydration',
         note: 'Note: Since dehydration requires approximately 12 hours, the dehydrator may be operated under the supervision of the teacher or laboratory personnel. Students may check the product before and after the scheduled laboratory activity.',
         hint: 'Click the power button on the dehydrator console below.',
         hideButton: true,
@@ -173,7 +173,7 @@ export const Mission6Dehydration = () => {
       'Dehydrating molded ubod pieces at 90°C for approximately 12 hours to remove moisture and produce dried cracker pieces suitable for frying.',
       'happy',
       {
-        badge: 'Step 17: In Progress',
+        badge: 'Step 3: In Progress',
         note: 'Dehydration removes moisture from the steamed ubod pieces using a dehydrator for approximately 12 hours to produce dried cracker pieces suitable for frying.',
         hint: 'Wait for the 12-hour dehydration time-lapse to complete.',
         hideButton: true,
@@ -192,10 +192,10 @@ export const Mission6Dehydration = () => {
         soundManager.playSuccess();
         showToast('Dehydration Complete!', 'Pieces are completely dehydrated.', 'success');
         speak(
-          'Step 18: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Clean Dry Container from your inventory!',
+          'Step 4: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Clean Dry Container from your inventory!',
           'happy',
           {
-            badge: 'Step 18: Dry Storage',
+            badge: 'Step 4: Clean Storage',
             note: 'Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container.',
             hint: 'Select the Clean Dry Container in your inventory and tap the tray to collect.',
             hideButton: true,
@@ -217,7 +217,7 @@ export const Mission6Dehydration = () => {
       'happy',
       {
         badge: 'Stage 6 Complete',
-        note: 'Step 18 Completed: Completely dehydrated pieces stored in clean, dry container ready for frying in 5 cups vegetable oil.',
+        note: 'Completely dehydrated pieces stored in clean, dry container ready for frying in 5 cups vegetable oil.',
         btnText: 'Proceed to Stage 7: Frying ➔',
         onNext: () => setScene('mission7'),
       }
@@ -361,7 +361,7 @@ export const Mission6Dehydration = () => {
             <MultiStateContainer
               containerId="dehydrator"
               title="Cabinet Dehydrator"
-              subtitle="Steps 16–18: 12-Hour 90°C Dehydration & Dry Storage"
+              subtitle="Stage 6: 12-Hour 90°C Convection Dehydration & Dry Storage"
               currentStepIndex={dehydrateStep}
               steps={dehydratorSteps}
               onItemAccepted={handleItemAccepted}
@@ -372,15 +372,15 @@ export const Mission6Dehydration = () => {
                 dehydrateStep >= 6
                   ? 'Dried pieces stored in clean, dry container ready for frying'
                   : dehydrateStep === 5
-                  ? 'Step 18: Completely dehydrated. Select Clean Dry Container to store.'
+                  ? 'Step 4: Completely dehydrated. Select Clean Dry Container to store.'
                   : dehydrateStep === 4
                   ? `Dehydrating... ${dehydrateProgress}% (12 Hours at 90°C Time-Lapse)`
                   : dehydrateStep === 3
-                  ? 'Step 17: Tray loaded. Click dial to dehydrate for 12 hours at 90°C.'
+                  ? 'Step 3: Tray loaded. Click dial to dehydrate for 12 hours at 90°C.'
                   : dehydrateStep === 2
-                  ? 'Step 17: Pieces spaced. Slide loaded tray into cabinet.'
+                  ? 'Step 2: Pieces spaced. Slide loaded tray into cabinet.'
                   : dehydrateStep === 1
-                  ? 'Step 16: Arrange pieces on tray with space between them.'
+                  ? 'Step 1: Arrange pieces on tray with space between them.'
                   : 'Place dehydrator tray onto workstation prep counter'
               }
               specBadge={

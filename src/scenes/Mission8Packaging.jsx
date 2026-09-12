@@ -33,10 +33,10 @@ export const Mission8Packaging = () => {
       );
     } else {
       speak(
-        'Stage 8: Packaging Process! Step 23: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers using clean packaging materials.',
+        'Stage 8: Packaging Process! Step 1: Wear the required PPE, including hairnet, spit guard/mask, apron, and clean food-grade gloves. Pack the cooled ubod crackers into clean packaging materials.',
         'neutral',
         {
-          badge: 'Step 23: Packaging',
+          badge: 'Step 1: Pouch Filling',
           note: 'Follow the appropriate packaging procedure based on the type of material used. Ensure crackers are completely cooled before sealing to maintain crispness and quality.',
           hint: 'Select Crispy Ubod Crackers from your inventory and drop into the open pouch.',
           hideButton: true,
@@ -87,10 +87,10 @@ export const Mission8Packaging = () => {
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
-        'Great portioning! Now select the Brand Label or click "Impulse Seal & Apply Label" to hermetically seal the rim.',
+        'Great portioning! Step 2: Now select the Brand Label or click "Impulse Seal & Apply Label" to hermetically seal the rim.',
         'neutral',
         {
-          badge: 'Seal & Brand',
+          badge: 'Step 2: Seal & Brand',
           note: 'Hermetic heat-sealing creates a moisture and oxygen barrier to prolong shelf life and prevent oxidation.',
           hint: 'Drop Official Brand Label or click "Impulse Seal & Apply Label".',
           hideButton: true,
@@ -122,10 +122,10 @@ export const Mission8Packaging = () => {
         soundManager.playSuccess();
         showToast('Airtight & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
-          'Airtight seal complete with authentic product label! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
+          'Airtight seal complete with authentic product label! Step 3: Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
           'happy',
           {
-            badge: 'Retail Packing',
+            badge: 'Step 3: Retail Packing',
             note: 'Proper outer master cartons protect the individual pouches from mechanical crushing during transit.',
             hint: 'Select Retail Display Box from your inventory or click button to pack.',
             hideButton: true,
@@ -257,7 +257,7 @@ export const Mission8Packaging = () => {
             <MultiStateContainer
               containerId="packaging_pouch"
               title="Airtight Stand-Up Kraft Pouch"
-              subtitle="Step 23: 50g Barrier Packaging & Display Carton"
+              subtitle="Stage 8: 50g Barrier Packaging & Display Carton"
               currentStepIndex={packStep}
               steps={pouchSteps}
               onItemAccepted={handleItemAccepted}

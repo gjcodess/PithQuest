@@ -540,7 +540,7 @@ export const Mission1Prep = () => {
             <div className="workstation-header">
               <div className="workstation-titles">
                 <h4 className="workstation-name">Washing & Draining Sink</h4>
-                <span className="workstation-sub">Steps 1 & 5–7: Potable Rinse & Colander Drain</span>
+                <span className="workstation-sub">Stage 1: Potable Rinse & Residue Cooling Drain</span>
               </div>
               <div
                 className={`workstation-step-badge ${
@@ -675,8 +675,14 @@ export const Mission1Prep = () => {
               <div className="container-visual-wrapper">
                 <img
                   src={sinkImgSrc}
-                  alt="Sink Colander"
-                  className="container-state-img sink-preview-img"
+                  alt="Washing Sink & Colander"
+                  className="sink-preview-img container-asset-img container-state-img"
+                  style={{
+                    filter: isWashingActive || isCoolingRinseActive ? 'drop-shadow(0 0 14px rgba(59, 130, 246, 0.45))' : undefined,
+                  }}
+                  onError={(e) => {
+                    e.target.src = '/assets/sink_colander_empty.png';
+                  }}
                 />
               </div>
 
@@ -708,7 +714,7 @@ export const Mission1Prep = () => {
             <MultiStateContainer
               containerId="stockpot"
               title="Stainless Steel Boiling Pot"
-              subtitle="Steps 2–4: Thermal Softening on Gas Stove"
+              subtitle="Stage 1: Thermal Boiling & Softening on Gas Stove"
               currentStepIndex={potStep}
               steps={potSteps}
               onItemAccepted={handleItemAccepted}

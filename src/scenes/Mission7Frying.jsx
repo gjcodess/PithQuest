@@ -40,10 +40,10 @@ export const Mission7Frying = () => {
       );
     } else {
       speak(
-        'Stage 7: Flash Frying & Oil Drainage! Step 19: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
+        'Stage 7: Flash Frying & Oil Drainage! Step 1: Preheat the frying pan with 5 cups of vegetable oil over medium heat.',
         'neutral',
         {
-          badge: 'Step 19: Oil Preheating',
+          badge: 'Step 1: Oil Preheating',
           note: 'Safety Note: Keep a safe distance from hot oil and always use long tongs when handling crackers.',
           hint: 'Select the Vegetable Oil (5 Cups) from your inventory and pour into the frying pan.',
           hideButton: true,
@@ -96,7 +96,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 5,
       acceptedItems: ['platter', 'icon_cracker_platter', 'platter_empty'],
-      prompt: 'Step 22: Oil draining in colander. Tap to transfer to platter and cool completely',
+      prompt: 'Step 4: Oil draining in colander. Tap to transfer to platter and cool completely',
       img: '/assets/colander_fried_crackers_draining.png',
       fallbackIcon: '🥣',
       label: 'Draining Oil in Colander',
@@ -121,7 +121,7 @@ export const Mission7Frying = () => {
         '5 cups of vegetable oil poured! Now turn the rotary burner knob to preheat the oil over medium heat.',
         'neutral',
         {
-          badge: 'Preheat Oil',
+          badge: 'Step 1: Preheat Oil',
           note: 'Preheating oil ensures instant 10-second flash expansion when the dehydrated pieces are submerged.',
           hint: 'Click the stove burner dial below to preheat.',
           hideButton: true,
@@ -153,10 +153,10 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Oil Ready!', 'Optimal frying temperature reached. Drop dehydrated pieces!', 'success');
         speak(
-          'Step 20: Carefully fry the dehydrated ubod pieces for approximately 10 seconds or until they become crispy. Select the Dehydrated Pellets from your shelf!',
+          'Step 2: Carefully fry the dehydrated ubod pieces for approximately 10 seconds or until they become crispy. Select the Dehydrated Pellets from your shelf!',
           'happy',
           {
-            badge: 'Step 20: Flash Frying',
+            badge: 'Step 2: Flash Frying',
             note: 'Safety Note: Keep a safe distance from hot oil. Always use tongs when adding or removing crackers.',
             hint: 'Select "Dehydrated Pellets" from your inventory, then tap the hot frying pan.',
             hideButton: true,
@@ -176,7 +176,7 @@ export const Mission7Frying = () => {
       'Instant puffing! Moisture in the dehydrated starch matrix flashes to steam, creating a crispy puffed cracker in just 10 seconds.',
       'happy',
       {
-        badge: '10-Second Flash Expansion',
+        badge: 'Step 2: 10-Second Expansion',
         note: 'Flash frying takes only 10 seconds. Over-frying will darken the crackers and turn the natural coconut flavor bitter.',
         hint: 'Wait for the 10-second frying cycle to complete.',
         hideButton: true,
@@ -194,10 +194,10 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Frying Complete!', 'Crackers are golden and crispy. Use colander to lift and drain!', 'success');
         speak(
-          'Step 21: Using tongs or colander, remove the fried ubod crackers and transfer them to a colander to drain the excess oil.',
+          'Step 3: Using tongs or colander, remove the fried ubod crackers and transfer them to a colander to drain the excess oil.',
           'happy',
           {
-            badge: 'Step 21: Oil Drainage',
+            badge: 'Step 3: Oil Drainage',
             note: 'Safety Note: Never touch hot crackers or oil with bare hands. Use long stainless tongs and transfer to a colander.',
             hint: 'Select "Draining Colander" from your inventory, then tap the pan to lift and drain.',
             hideButton: true,
@@ -211,12 +211,12 @@ export const Mission7Frying = () => {
     soundManager.playClick();
     setFryStep(5);
     setHoldingItem(null);
-    showToast('Draining in Colander!', 'Excess oil draining. Step 22: Allow crackers to cool completely.', 'info');
+    showToast('Draining in Colander!', 'Excess oil draining. Step 4: Allow crackers to cool completely.', 'info');
     speak(
-      'Step 22: Allow the crackers to cool completely before proceeding to the packaging stage. Select the Presentation Platter to rest and cool!',
+      'Step 4: Allow the crackers to cool completely before proceeding to the packaging stage. Select the Presentation Platter to rest and cool!',
       'neutral',
       {
-        badge: 'Step 22: Complete Cooling',
+        badge: 'Step 4: Complete Cooling',
         note: 'Crackers must be 100% cooled to room temperature before sealing to maintain crispness and prevent condensation.',
         hint: 'Select "Presentation Platter" from your inventory and tap to transfer.',
         hideButton: true,
@@ -385,7 +385,7 @@ export const Mission7Frying = () => {
             <MultiStateContainer
               containerId="frying_pan"
               title="Heavy-Gauge Frying Pan"
-              subtitle="Steps 19–22: 10-Second Flash Frying & Oil Drainage"
+              subtitle="Stage 7: 180°C Flash Frying (10 sec) & Oil Drainage"
               currentStepIndex={fryStep}
               steps={frySteps}
               onItemAccepted={handleItemAccepted}

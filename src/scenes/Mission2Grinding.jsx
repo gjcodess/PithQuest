@@ -37,10 +37,10 @@ export const Mission2Grinding = () => {
       );
     } else {
       speak(
-        'Stage 2: Food Processing & Pureeing! Step 8: Transfer the boiled ubod to a food processor. Add 1 teaspoon of salt for every 1 cup of ubod.',
+        'Stage 2: Food Processing & Pureeing! Step 1: Transfer the boiled ubod to a food processor. Add 1 teaspoon of salt for every 1 cup of ubod.',
         'neutral',
         {
-          badge: 'Step 8: Load Processor',
+          badge: 'Step 1: Load Processor',
           note: 'Safety Check: Check first the wiring, outlet, and the food processor itself before operating.',
           hint: 'Drop the Drained Boiled Ubod from your inventory into the food processor bowl.',
           hideButton: true,
@@ -147,10 +147,10 @@ export const Mission2Grinding = () => {
     setIsLidLocked(true);
     showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready!', 'success');
     speak(
-      'Step 9: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
+      'Step 2: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
       'happy',
       {
-        badge: 'Step 9: Pureeing',
+        badge: 'Step 2: Pureeing',
         note: 'Pureeing ruptures the cellular walls of the ubod, releasing fibers and natural binders.',
         hint: 'Click the orange "High-Speed Puree" button on the processor.',
         hideButton: true,
@@ -175,10 +175,10 @@ export const Mission2Grinding = () => {
         soundManager.playSuccess();
         showToast('Pureeing Complete!', 'Ubod is now a smooth, lump-free paste', 'success');
         speak(
-          'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Select the Red Spatula to scrape all paste!',
+          'Step 3: Once finely processed, transfer the ubod paste to a separate clean bowl. Select the Red Spatula to scrape all paste!',
           'happy',
           {
-            badge: 'Step 10: Collection',
+            badge: 'Step 3: Collection',
             note: 'Use a flexible silicone spatula to scrape all paste cleanly from the sides without scratching the container.',
             hint: 'Select "Red Spatula" from your inventory, then tap the processor bowl to scrape.',
             hideButton: true,
@@ -327,7 +327,7 @@ export const Mission2Grinding = () => {
             <MultiStateContainer
               containerId="food_processor"
               title="Electric Food Processor"
-              subtitle="Steps 8–10: Pureeing Ubod to Fine Paste"
+              subtitle="Stage 2: High-Speed Pureeing to Fine Paste"
               currentStepIndex={processorStep}
               steps={processorSteps}
               onItemAccepted={handleItemAccepted}

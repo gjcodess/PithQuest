@@ -38,10 +38,10 @@ export const Mission3Mixing = () => {
       );
     } else {
       speak(
-        'Stage 3: Paste Formulation & Mixing! Step 12: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
+        'Stage 3: Paste Formulation & Mixing! Step 1: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
         'neutral',
         {
-          badge: 'Step 12: Formulation',
+          badge: 'Step 1: Formulation',
           note: 'Mix the ingredients gradually and gently. Add the water little by little while mixing until a uniform dough is formed.',
           hint: 'Select the Erawan Rice Flour from your inventory and add it into the bowl.',
           hideButton: true,
@@ -119,7 +119,7 @@ export const Mission3Mixing = () => {
         'Rice flour added! Now add the Pure Sea Salt from your inventory so it blends thoroughly into the dry flour particles.',
         'neutral',
         {
-          badge: 'Dry Blending',
+          badge: 'Step 1: Dry Blending',
           note: 'Blending the dry ingredients (flour + salt) first ensures even salt dispersal without concentrated salty spots.',
           hint: 'Select Pure Sea Salt from your inventory and drop it into the bowl.',
           hideButton: true,
@@ -134,7 +134,7 @@ export const Mission3Mixing = () => {
         'Salt blended! Now add the 1 cup of pureed Ubod Paste into the bowl to achieve our balanced 1:1 binder ratio.',
         'happy',
         {
-          badge: '1:1 Ratio Formulation',
+          badge: 'Step 2: 1:1 Ratio Formulation',
           note: 'Rice flour acts as a binder holding the ubod fibers together and providing crispy expansion upon frying.',
           hint: 'Select Ubod Paste in your inventory and drop it into the bowl.',
           hideButton: true,
@@ -149,7 +149,7 @@ export const Mission3Mixing = () => {
         'Paste incorporated! Now gradually pour in 1 cup of water while gently mixing until all ingredients form a uniform dough.',
         'neutral',
         {
-          badge: 'Gradual Hydration',
+          badge: 'Step 3: Gradual Hydration',
           note: 'Pour the water gradually while mixing to achieve the right dough consistency without making it overly sticky or watery.',
           hint: 'Select Hydration Water and drop it into the bowl.',
           hideButton: true,
@@ -164,7 +164,7 @@ export const Mission3Mixing = () => {
         'All formulation ingredients loaded! Select the Red Spatula from your inventory and click the bowl to mix gently until a uniform dough forms.',
         'happy',
         {
-          badge: 'Step 12: Mixing',
+          badge: 'Step 4: Dough Mixing',
           note: 'Mix the ingredients gradually and gently until a uniform dough is formed.',
           hint: 'Select the Red Spatula on your shelf, then tap the bowl.',
           hideButton: true,
@@ -358,7 +358,7 @@ export const Mission3Mixing = () => {
             <MultiStateContainer
               containerId="mixing_bowl"
               title="Large Stainless Mixing Bowl"
-              subtitle="Step 12: Formulation of Rice Flour & Ubod Paste"
+              subtitle="Stage 3: 1:1 Rice Flour & Ubod Paste Formulation"
               currentStepIndex={bowlStep}
               steps={bowlSteps}
               onItemAccepted={handleItemAccepted}

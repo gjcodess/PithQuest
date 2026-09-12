@@ -34,10 +34,10 @@ export const Mission4Molding = () => {
       );
     } else {
       speak(
-        'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the dough, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
+        'Stage 4: Portioning & Rectangular Molding! Step 1: After mixing the dough, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
         'neutral',
         {
-          badge: 'Step 13: Portioning & Molding',
+          badge: 'Step 1: Portioning & Molding',
           note: "Using the same amount of dough for each piece helps produce crackers with uniform size and thickness, which promotes more even cooking and drying. Don't forget to wear gloves!",
           hint: 'Select the Ubod Dough from your inventory, then tap the mold to place a portion.',
           hideButton: true,
@@ -91,7 +91,7 @@ export const Mission4Molding = () => {
         'Excellent portion control! Exactly 3 teaspoons produces our standard uniform thickness. Continue filling or click "Fill Remaining Tray"!',
         'happy',
         {
-          badge: 'Portioning Calibration',
+          badge: 'Step 1: Portioning Calibration',
           note: 'Uniform thickness prevents thin edges from overcooking or burning while thicker centers remain undercooked.',
           hint: 'Place more portions or click "Fill Remaining Tray".',
           hideButton: true,
@@ -110,10 +110,10 @@ export const Mission4Molding = () => {
     setHoldingItem(null);
     showToast('All 24 Cavities Portioned!', 'Now select the Leveling Spatula to level the surfaces flat.', 'info');
     speak(
-      'All 24 cavities are portioned with 3 tsp each! Now select the Leveling Spatula from your inventory to scrape excess dough and level the surface flat.',
+      'All 24 cavities are portioned with 3 tsp each! Step 2: Now select the Leveling Spatula from your inventory to scrape excess dough and level the surface flat.',
       'neutral',
       {
-        badge: 'Leveling Required',
+        badge: 'Step 2: Leveling & Compacting',
         note: 'Leveling creates a flat, even surface across every mold cavity so all crackers cook identically.',
         hint: 'Select the Leveling Spatula from your inventory, then tap the mold.',
         hideButton: true,
@@ -259,7 +259,7 @@ export const Mission4Molding = () => {
             <MultiStateContainer
               containerId="silicone_mold"
               title="Rectangular Silicone Mold"
-              subtitle="Step 13: 24-Cavity Portioning & Thickness Leveling"
+              subtitle="Stage 4: 24-Cavity Portioning (3 tsp) & Thickness Leveling"
               currentStepIndex={moldStep}
               steps={moldSteps}
               onItemAccepted={handleItemAccepted}

@@ -37,10 +37,10 @@ export const Mission5Steaming = () => {
       );
     } else {
       speak(
-        'Stage 5: Starch Gelatinization & Steaming! Step 14: Steam the molded ubod pieces for approximately 10 minutes over medium heat to maintain steady steam.',
+        'Stage 5: Starch Gelatinization & Steaming! Step 1: Add water to the steamer base, assemble tiers, and steam for 10 minutes.',
         'neutral',
         {
-          badge: 'Step 14: Steaming Setup',
+          badge: 'Step 1: Steamer Base',
           note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose & Regulator, and Nearby Materials before lighting the burner.',
           hint: 'Select the Potable Water from your inventory and pour into the base pot.',
           hideButton: true,
@@ -115,10 +115,10 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Water Added!', 'Now seat the perforated steam tier on top of the base.', 'success');
       speak(
-        'Water added! Now select the perforated steam tier from your shelf and attach it onto the pot.',
+        'Water added! Step 2: Now select the perforated steam tier from your shelf and attach it onto the pot.',
         'neutral',
         {
-          badge: 'Attach Steam Tier',
+          badge: 'Step 2: Steam Tier',
           note: 'The perforated middle rack holds the food above the boiling water so it cooks purely via hot convection steam.',
           hint: 'Select "Perforated Tier" from your shelf and place onto the steamer.',
           hideButton: true,
@@ -130,10 +130,10 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Steam Tier Positioned!', 'Now place the molded ubod tray inside the perforated tier.', 'success');
       speak(
-        'Steam tier set! Now select the Molded Ubod Tray from your shelf and place it inside the tier.',
+        'Steam tier set! Step 3: Now select the Molded Ubod Tray from your shelf and place it inside the tier.',
         'neutral',
         {
-          badge: 'Load Molded Tray',
+          badge: 'Step 3: Load Molded Tray',
           note: 'Ensure the silicone mold rests evenly flat so that steam penetrates all 24 cavities identically.',
           hint: 'Select "Molded Ubod Tray" from your shelf and drop into the steamer.',
           hideButton: true,
@@ -145,11 +145,11 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Molded Tray Loaded!', 'Click the Burner Control Dial below to ignite medium heat (10 min).', 'success');
       speak(
-        'All assembled! Click the Burner Control Dial below to ignite medium heat and start the 10-minute steam cycle.',
+        'All assembled! Step 4: Click the Burner Control Dial below to ignite medium heat and start the 10-minute steam cycle.',
         'happy',
         {
-          badge: 'Start 10-Min Steam',
-          note: 'Step 15: Cook in a steamer for 10 minutes or until the ubod mixture becomes firm and translucent.',
+          badge: 'Step 4: 10-Min Steaming',
+          note: 'Cook in a steamer for 10 minutes or until the ubod mixture becomes firm and translucent.',
           hint: 'Click the orange "Ignite 10-Min Steam" button below.',
           hideButton: true,
         }
@@ -177,10 +177,10 @@ export const Mission5Steaming = () => {
         soundManager.playSuccess();
         showToast('Steaming Complete!', 'Wafers are firm & translucent. Don heat mitts to remove!', 'success');
         speak(
-          'Step 15: 10-minute steam cycle finished! The ubod crackers are firm and translucent. Select Silicone Heat Mitts from your inventory to safely transfer the hot mold to the cooling rack!',
+          '10-minute steam cycle finished! The ubod crackers are firm and translucent. Step 5: Select Silicone Heat Mitts from your inventory to safely transfer the hot mold to the cooling rack!',
           'happy',
           {
-            badge: 'Thermal PPE Handling',
+            badge: 'Step 5: Cooling Transfer',
             note: 'Always wear silicone thermal mitts when removing hot items from the steamer to prevent steam burns.',
             hint: 'Select "Silicone Heat Mitts" from your inventory, then tap the steamer.',
             hideButton: true,
@@ -324,7 +324,7 @@ export const Mission5Steaming = () => {
             <MultiStateContainer
               containerId="tier_steamer"
               title="Stainless Steel Tiered Steamer"
-              subtitle="Step 14 & 15: 10-Minute Starch Steaming & Cooling"
+              subtitle="Stage 5: 10-Minute Starch Gelatinization & Steaming"
               currentStepIndex={steamerStep}
               steps={steamerSteps}
               onItemAccepted={handleItemAccepted}
