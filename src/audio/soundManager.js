@@ -262,6 +262,11 @@ class SoundManager {
     noise.start();
   }
 
+  // Motor Whirl (Alias for playBlend)
+  playMotor() {
+    this.playBlend();
+  }
+
   // Crispy Crunch (Tasting)
   playCrunch() {
     if (this.isMuted) return;

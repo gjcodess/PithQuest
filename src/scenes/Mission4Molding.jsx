@@ -3,6 +3,8 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
+import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
+import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
 
 export const Mission4Molding = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
@@ -16,6 +18,7 @@ export const Mission4Molding = () => {
   // 3: 24 Cavities Completely Leveled -> Complete!
   const [moldStep, setMoldStep] = useState(() => (isAlreadyCompleted ? 3 : 0));
   const [isLeveling, setIsLeveling] = useState(false);
+  const [quizSelected, setQuizSelected] = useState(null);
 
   useEffect(() => {
     if (isAlreadyCompleted) {
@@ -31,12 +34,12 @@ export const Mission4Molding = () => {
       );
     } else {
       speak(
-        'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the paste, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
+        'Stage 4: Portioning & Rectangular Molding! Step 13: After mixing the dough, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
         'neutral',
         {
           badge: 'Step 13: Portioning & Molding',
-          note: "Using the same amount of paste for each piece helps produce crackers with uniform size and thickness, promoting more even cooking and drying. Don't forget to wear gloves!",
-          hint: 'Select the Ubod Paste on your shelf, then tap the mold to place a portion.',
+          note: "Using the same amount of dough for each piece helps produce crackers with uniform size and thickness, which promotes more even cooking and drying. Don't forget to wear gloves!",
+          hint: 'Select the Ubod Dough from your inventory, then tap the mold to place a portion.',
           hideButton: true,
         }
       );
@@ -47,7 +50,7 @@ export const Mission4Molding = () => {
     {
       stepIndex: 0,
       acceptedItems: ['dough_bowl', 'dough_portion', 'measuring_spoon'],
-      prompt: 'Portion 3 teaspoons of paste into the silicone mold',
+      prompt: 'Portion 3 teaspoons of dough into the silicone mold',
       img: '/assets/molder_empty.png',
       fallbackIcon: '🌸',
       label: 'Clean 24-Cavity Silicone Mold',
@@ -74,7 +77,7 @@ export const Mission4Molding = () => {
       prompt: 'All 24 rectangular crackers uniformly leveled and ready for steaming!',
       img: '/assets/molder_completely_filled.png',
       fallbackIcon: '✨',
-      label: 'All 24 Wafers Uniform & Leveled',
+      label: 'All 24 Pieces Uniform & Leveled',
     },
   ];
 
@@ -102,49 +105,42 @@ export const Mission4Molding = () => {
   };
 
   const handleFillBatch = () => {
-    soundManager.playFanfare();
+    soundManager.playPour();
     setMoldStep(2);
     setHoldingItem(null);
-    showToast('Batch Portioned!', 'All 24 cavities filled! Now level flat with spatula', 'success');
+    showToast('All 24 Cavities Portioned!', 'Now select the Leveling Spatula to level the surfaces flat.', 'info');
     speak(
-      'All 24 cavities filled! Now take the Red Leveling Spatula from your shelf and scrape across the surface to level them completely flush.',
-      'thinking',
+      'All 24 cavities are portioned with 3 tsp each! Now select the Leveling Spatula from your inventory to scrape excess dough and level the surface flat.',
+      'neutral',
       {
-        badge: 'Leveling Step',
-        note: 'Scraping off excess paste ensures each cracker piece has a flat, consistent surface.',
-        hint: 'Select the Leveling Spatula in your inventory, then tap the mold.',
+        badge: 'Leveling Required',
+        note: 'Leveling creates a flat, even surface across every mold cavity so all crackers cook identically.',
+        hint: 'Select the Leveling Spatula from your inventory, then tap the mold.',
         hideButton: true,
       }
     );
   };
 
   const handleLevelDough = () => {
+    if (isLeveling || moldStep !== 2) return;
     setIsLeveling(true);
-    try {
-      if (typeof soundManager.playScrape === 'function') {
-        soundManager.playScrape();
-      } else {
-        soundManager.playClick();
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-    setHoldingItem(null);
-    showToast('Leveling Surface...', 'Scraping excess paste flush with mold rim...', 'info');
+    soundManager.playPour();
+    showToast('Leveling Surfaces...', 'Scraping excess dough flush with mold edges...', 'info');
 
     setTimeout(() => {
       setIsLeveling(false);
       setMoldStep(3);
+      setHoldingItem(null);
       soundManager.playSuccess();
-      unlockBadge('molding_master', 'Geometric Portioning Master', '🧈');
+      unlockBadge('mold_artisan', 'Uniform Wafer Shaper', '📐');
       completeMission('mission4');
-      showToast('Mold Leveled!', 'All 24 rectangular cavities uniformly flat', 'success');
+      showToast('Stage 4 Complete!', '24 rectangular crackers uniformly molded & leveled', 'success');
       speak(
-        'Superb work! All 24 rectangular crackers are molded to exact uniform thickness. Now let\'s transfer the tray to our steamer in Stage 5!',
+        'Outstanding molding! All 24 rectangular crackers are leveled to uniform thickness and ready for steaming in Stage 5.',
         'happy',
         {
           badge: 'Stage 4 Complete',
-          note: 'Evenly molded pieces are now ready for steaming to set the starch matrix before dehydration.',
+          note: 'Uniform thickness ensures equal heat penetration during steaming and even moisture loss during dehydration.',
           btnText: 'Proceed to Stage 5: Starch Steaming ➔',
           onNext: () => setScene('mission5'),
         }
@@ -155,23 +151,23 @@ export const Mission4Molding = () => {
   const stage4Inventory = [
     {
       id: 'dough_bowl',
-      name: 'Ubod Paste',
+      name: 'Ubod Dough',
       measure: '3 tsp Standard Portion',
       img: '/assets/mixing_bowl_ubod_only.png',
       fallbackIcon: '🥣',
       isUsed: moldStep >= 2,
       isNext: moldStep < 2,
-      tooltip: 'Formulated paste batch. Calibrated 3 tsp portion per 50mm × 25mm cavity.',
+      tooltip: 'Formulated dough batch. Calibrated 3 tsp portion per rectangular cavity.',
     },
     {
       id: 'leveling_spatula',
       name: 'Leveling Spatula',
-      measure: 'Flat Surface Scraper',
+      measure: 'Flat Edge Scraper',
       img: '/assets/tool_spatula_red.png',
       fallbackIcon: '📐',
       isUsed: moldStep >= 3,
       isNext: moldStep === 2,
-      tooltip: 'Flat straight-edge scraper to level paste flush with silicone rims for identical thickness.',
+      tooltip: 'Flat straight-edge scraper to level dough flush with silicone rims for identical thickness.',
     },
   ];
 
@@ -179,7 +175,6 @@ export const Mission4Molding = () => {
     if (item.isUsed) return;
     soundManager.playClick();
 
-    // Toggle holding state
     if (holdingItem?.id === item.id) {
       setHoldingItem(null);
     } else {
@@ -190,26 +185,81 @@ export const Mission4Molding = () => {
         icon: item.fallbackIcon || '🥣',
       });
       if (item.id === 'dough_bowl') {
-        showToast('Ubod Paste Selected', '3 tsp portion ready. Tap the silicone mold to place!', 'info');
+        showToast('Ubod Dough Selected', '3 tsp portion ready. Tap the silicone mold to place!', 'info');
       } else if (item.id === 'leveling_spatula') {
         showToast('Leveling Spatula Selected', 'Tap the silicone mold to scrape and level flat!', 'info');
       }
     }
   };
 
+  const recipeItems = [
+    { name: 'Portion per Piece', measure: '~3 Teaspoons', icon: '🥄', isCompleted: moldStep >= 2, isCurrent: moldStep < 2 },
+    { name: 'Total Batch', measure: '24 Pieces', icon: '🧈', isCompleted: moldStep >= 3, isCurrent: moldStep === 2 },
+  ];
+
+  const safetyChecklist = [
+    {
+      title: 'Food-Grade Gloves Required',
+      desc: "Don't forget to wear clean food-grade gloves when portioning and handling room-temperature dough.",
+      icon: '🧤',
+      isWarning: true,
+    },
+    {
+      title: 'Uniform Thickness Standard',
+      desc: 'Using the same amount of dough per piece promotes more even cooking in the steamer and even drying in the dehydrator.',
+      icon: '📐',
+      isWarning: false,
+    },
+  ];
+
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(() => !isAlreadyCompleted);
+
   return (
     <div className="workstation-scene molding-scene">
       <div className="workstation-overlay" />
 
+      {/* Interactive Checkpoint Modal (Appears before molding if not answered) */}
+      <CheckpointQuestionModal
+        isOpen={isQuizModalOpen}
+        stageTitle="Stage 4 Checkpoint: Portioning & Molding"
+        question="Teacher Mia asks: How should the ubod dough be placed into the molder?"
+        choices={[
+          {
+            id: 'a',
+            text: 'Use a measuring spoon (~3 tsp per mold) to achieve uniform size and thickness.',
+            isCorrect: true,
+            reason: 'Using approximately 3 teaspoons per mold ensures all pieces have identical thickness for uniform cooking and drying.',
+          },
+          {
+            id: 'b',
+            text: 'Fill the mold completely with dough without measuring.',
+            isCorrect: false,
+            reason: 'Filling without measuring creates uneven cracker thickness, leading to undercooked centers or burnt edges.',
+          },
+        ]}
+        onComplete={() => {
+          setIsQuizModalOpen(false);
+          showToast('Molding Unlocked!', 'Portion 3 tsp dough into mold cavities.', 'success');
+        }}
+      />
+
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row">
+        {/* Floating Quick Recipe & Safety Drawer */}
+        <RecipeReferenceDrawer
+          stageTitle="Stage 4: Portioning & Molding"
+          recipeItems={recipeItems}
+          safetyNotes={safetyChecklist}
+          culinaryTip="Using the exact same amount of dough (~3 tsp) per mold ensures every cracker cooks at the same speed in the steamer and dehydrates uniformly without brittle edges."
+        />
+
+        <div className="stage-content-row stage-single-workstation">
           {/* Center: 24-Slot Rectangular Silicone Mold MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
               containerId="silicone_mold"
               title="Rectangular Silicone Mold"
-              subtitle="24-Cavity Grid • 50mm × 25mm Cavities"
+              subtitle="Step 13: 24-Cavity Portioning & Thickness Leveling"
               currentStepIndex={moldStep}
               steps={moldSteps}
               onItemAccepted={handleItemAccepted}
@@ -217,7 +267,7 @@ export const Mission4Molding = () => {
               statusDotClass={moldStep >= 3 ? 'dot-success' : moldStep >= 1 ? 'dot-amber' : ''}
               statusText={
                 isLeveling
-                  ? 'Scraping and leveling paste flush with cavity rims...'
+                  ? 'Scraping and leveling dough flush with cavity rims...'
                   : moldSteps[moldStep]?.prompt || 'Ready'
               }
               specBadge={
@@ -272,14 +322,6 @@ export const Mission4Molding = () => {
                     } else {
                       soundManager.playClick();
                       showToast('Select Spatula First', 'Click the Leveling Spatula in your inventory, then tap the mold!', 'info');
-                      speak(
-                        'Pick up the Leveling Spatula from your inventory first, then tap the mold to scrape across the cavities!',
-                        'thinking',
-                        {
-                          badge: 'Select Spatula',
-                          hint: 'Tap "Leveling Spatula" in your inventory, then tap the mold.',
-                        }
-                      );
                     }
                   }}
                   title="Tap with Leveling Spatula to scrape"
@@ -290,175 +332,6 @@ export const Mission4Molding = () => {
                 </div>
               )}
             </MultiStateContainer>
-          </div>
-
-          {/* Right Side: Molding QC & Wafer Geometry Console */}
-          <div
-            className={`multi-state-workstation qc-workstation ${
-              moldStep === 2 && (holdingItem?.id === 'leveling_spatula' || holdingItem?.id === 'spatula') ? 'compatible-target' : ''
-            }`}
-            style={{
-              cursor: moldStep === 2 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
-            }}
-            onClick={() => {
-              if (moldStep === 2) {
-                if (holdingItem?.id === 'leveling_spatula' || holdingItem?.id === 'spatula') {
-                  handleLevelDough();
-                } else {
-                  soundManager.playClick();
-                  showToast('Select Spatula First', 'Click the Leveling Spatula in your inventory, then tap to level!', 'info');
-                }
-              }
-            }}
-            onDragOver={(e) => {
-              if (moldStep === 2) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'copy';
-              }
-            }}
-            onDrop={(e) => {
-              if (moldStep === 2) {
-                e.preventDefault();
-                try {
-                  const data = e.dataTransfer.getData('text/plain');
-                  if (!data) return;
-                  const item = JSON.parse(data);
-                  if (item.id === 'leveling_spatula' || item.id === 'spatula') {
-                    handleLevelDough();
-                  }
-                } catch (err) {
-                  console.error(err);
-                }
-              }
-            }}
-            title="Molding QC & Wafer Geometry Console"
-          >
-            {/* Workstation Header */}
-            <div className="workstation-header">
-              <div className="workstation-titles">
-                <h4 className="workstation-name">Molding QC & Geometry</h4>
-                <span className="workstation-sub">Step 13: Uniform Thickness Control</span>
-              </div>
-              <div
-                className={`workstation-step-badge ${
-                  moldStep >= 3
-                    ? 'badge-success-glow'
-                    : moldStep >= 1
-                    ? 'badge-flow-glow'
-                    : ''
-                }`}
-              >
-                {moldStep >= 3
-                  ? '✓ 24/24 Leveled'
-                  : moldStep === 2
-                  ? '📐 Ready to Level'
-                  : moldStep === 1
-                  ? '1/24 Calibrated'
-                  : '0/24 Portioned'}
-              </div>
-            </div>
-
-            {/* Workstation Viewport */}
-            <div className="workstation-viewport molding-qc-viewport">
-              {/* Specification Card */}
-              <div className="molding-spec-card">
-                <div className="molding-spec-header">
-                  <span>Standard Wafer Calibration</span>
-                  <span className="qc-step-counter">3 Teaspoons</span>
-                </div>
-
-                {/* Integrated Geometry & Target Profile Row */}
-                <div className="wafer-profile-row">
-                  <div className="wafer-profile-visual">
-                    <img src="/assets/cracker_piece_unmolded.png" alt="Target Wafer" />
-                    <span className="wafer-tag-badge">50 × 25 × 4 mm</span>
-                  </div>
-                  <div className="wafer-profile-details">
-                    <div className="profile-detail-item">
-                      <span className="detail-label">Portion Target:</span>
-                      <strong className="detail-val">3 tsp (Level)</strong>
-                    </div>
-                    <div className="profile-detail-item">
-                      <span className="detail-label">Wafer Thickness:</span>
-                      <strong className="detail-val">Uniform 4 mm</strong>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="molding-science-note">
-                  <strong>Food Science:</strong> Uniform 4mm thickness ensures equal drying in Stage 6, preventing curled or burnt edges during frying.
-                </div>
-              </div>
-
-              {/* Batch Cavity Fill & Leveling Progress Meter */}
-              <div className="qc-rheology-card">
-                <div className="qc-rheology-header">
-                  <span className="qc-rheology-label">Cavity Fill & Leveling:</span>
-                  <span className="qc-rheology-pct">
-                    {moldStep === 0 ? '0%' : moldStep === 1 ? '25%' : moldStep === 2 ? '75%' : '100%'}
-                  </span>
-                </div>
-                <div className="qc-progress-track">
-                  <div
-                    className="qc-progress-fill"
-                    style={{
-                      width: moldStep === 0 ? '0%' : moldStep === 1 ? '25%' : moldStep === 2 ? '75%' : '100%',
-                      background: 'linear-gradient(90deg, #0284c7 0%, #10b981 100%)',
-                    }}
-                  />
-                </div>
-                <div
-                  className={`qc-texture-badge ${
-                    moldStep >= 3
-                      ? 'texture-perfect'
-                      : moldStep === 2
-                      ? 'texture-ready'
-                      : ''
-                  }`}
-                >
-                  {moldStep === 0
-                    ? 'Awaiting 3 tsp Calibration'
-                    : moldStep === 1
-                    ? '1 Cavity Calibrated (3 tsp)'
-                    : moldStep === 2
-                    ? '👉 Level Flat with Spatula'
-                    : '✨ All 24 Leveled & Ready for Steamer'}
-                </div>
-              </div>
-            </div>
-
-            {/* Workstation Footer (86px) */}
-            <div className="workstation-footer">
-              <div className="workstation-status">
-                <span
-                  className={`status-dot ${
-                    moldStep >= 3 ? 'dot-success' : moldStep >= 1 ? 'dot-amber' : ''
-                  }`}
-                />
-                <span className="status-text">
-                  {moldStep === 0
-                    ? 'Portion 3 tsp paste from bowl into mold cavities'
-                    : moldStep === 1
-                    ? 'First cavity calibrated. Fill remaining cavities or click Quick-Fill'
-                    : moldStep === 2
-                    ? 'Select Leveling Spatula from inventory, then tap mold to level flat'
-                    : 'All 24 rectangular crackers leveled for Stage 5 steaming'}
-                </span>
-              </div>
-              <span
-                className={`spec-badge ${
-                  moldStep >= 3 ? 'spec-success' : moldStep >= 1 ? 'spec-amber' : ''
-                }`}
-              >
-                {moldStep >= 3
-                  ? 'TRAY: READY'
-                  : moldStep === 2
-                  ? 'ACTION: LEVEL'
-                  : moldStep === 1
-                  ? 'FILLED: 1/24'
-                  : 'THICKNESS: 4MM'}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -472,5 +345,3 @@ export const Mission4Molding = () => {
     </div>
   );
 };
-
-

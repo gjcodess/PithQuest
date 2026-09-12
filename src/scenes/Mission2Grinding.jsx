@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
+import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
 
 export const Mission2Grinding = () => {
   const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge, missionsCompleted, maxUnlockedStage } = useGame();
@@ -69,7 +70,7 @@ export const Mission2Grinding = () => {
       stepIndex: 2,
       acceptedItems: !isLidLocked ? ['processor_lid', 'lid'] : [],
       prompt: isLidLocked
-        ? 'Safety interlock locked! Press Pulse/Blend to puree'
+        ? 'Safety interlock locked! Press High-Speed Puree to blend'
         : 'Select Processor Safety Lid from inventory & attach to bowl',
       img: isLidLocked ? '/assets/processor_close_lid.png' : '/assets/processor_with_ubod_salt.png',
       fallbackIcon: '🔒',
@@ -94,7 +95,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'All silky ubod paste scraped & collected into prep bowl',
+      prompt: 'All silky ubod paste scraped & collected into clean bowl',
       img: '/assets/processor_empty.png',
       fallbackIcon: '✨',
       label: 'Clean Processor Bowl (Paste Collected)',
@@ -105,7 +106,8 @@ export const Mission2Grinding = () => {
     if (stepIndex === 0 && item.id === 'boiled_ubod') {
       soundManager.playPour();
       setProcessorStep(1);
-      showToast('Boiled Ubod Loaded!', 'Now add salt according to client ratio (1 tsp per cup).', 'success');
+      setHoldingItem(null);
+      showToast('Boiled Ubod Loaded!', 'Now add salt according to recipe ratio (1 tsp per cup).', 'success');
       speak(
         'Great! Now add 1 teaspoon of Pure Sea Salt from your inventory into the processor bowl (1 tsp per 1 cup ubod).',
         'neutral',
@@ -119,9 +121,10 @@ export const Mission2Grinding = () => {
     } else if (stepIndex === 1 && (item.id === 'salt_portion' || item.id === 'salt')) {
       soundManager.playClick();
       setProcessorStep(2);
+      setHoldingItem(null);
       showToast('Salt Added!', 'Ingredients loaded. Now select and attach the Safety Lid from your inventory.', 'success');
       speak(
-        'Ingredients loaded! Now select the transparent Processor Safety Lid from your inventory and place it onto the bowl to engage the motor safety interlock.',
+        'Ingredients loaded! Now select the transparent Processor Safety Lid from your inventory and place it onto the bowl to engage the safety interlock.',
         'thinking',
         {
           badge: 'Safety Interlock Required',
@@ -148,26 +151,18 @@ export const Mission2Grinding = () => {
       'happy',
       {
         badge: 'Step 9: Pureeing',
-        note: 'Process the ubod until it reaches a smooth, uniform, paste-like consistency with no large fibrous chunks.',
-        hint: 'Press the Orange High-Speed Puree button on the control console.',
+        note: 'Pureeing ruptures the cellular walls of the ubod, releasing fibers and natural binders.',
+        hint: 'Click the orange "High-Speed Puree" button on the processor.',
         hideButton: true,
       }
     );
   };
 
   const handleStartBlending = () => {
-    try {
-      if (typeof soundManager.playBlend === 'function') {
-        soundManager.playBlend();
-      } else {
-        soundManager.playClick();
-      }
-    } catch (err) {
-      console.warn('Audio playback error', err);
-    }
+    soundManager.playMotor();
     setIsBlending(true);
     setProcessorStep(3);
-    showToast('Pureeing Ubod...', 'Stainless S-blade spinning at 3,000 RPM...', 'info');
+    showToast('Pureeing Active!', 'High-speed S-blade pureeing ubod fibers...', 'info');
 
     let current = 0;
     const interval = setInterval(() => {
@@ -178,14 +173,14 @@ export const Mission2Grinding = () => {
         setIsBlending(false);
         setProcessorStep(4);
         soundManager.playSuccess();
-        showToast('Puree Ready!', 'Cellulose fibers pulverized into uniform, silky paste', 'success');
+        showToast('Pureeing Complete!', 'Ubod is now a smooth, lump-free paste', 'success');
         speak(
-          'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Pick up the red silicone spatula to scrape!',
+          'Step 10: Once finely processed, transfer the ubod paste to a separate clean bowl. Select the Red Spatula to scrape all paste!',
           'happy',
           {
-            badge: 'Step 10: Transfer Paste',
-            note: 'Use a clean spatula to scrape down the bowl sides to minimize ingredient loss and maintain accurate batch yield.',
-            hint: 'Select Red Spatula on the shelf, then tap the processor bowl to scrape.',
+            badge: 'Step 10: Collection',
+            note: 'Use a flexible silicone spatula to scrape all paste cleanly from the sides without scratching the container.',
+            hint: 'Select "Red Spatula" from your inventory, then tap the processor bowl to scrape.',
             hideButton: true,
           }
         );
@@ -194,60 +189,50 @@ export const Mission2Grinding = () => {
   };
 
   const handleScrapePaste = () => {
-    if (isScraping) return;
+    if (isScraping || processorStep !== 4) return;
     setIsScraping(true);
-    setHoldingItem(null);
-
-    try {
-      if (typeof soundManager.playScrape === 'function') {
-        soundManager.playScrape();
-      } else {
-        soundManager.playPour();
-      }
-    } catch (err) {
-      console.warn(err);
-    }
+    soundManager.playPour();
 
     setTimeout(() => {
       setIsScraping(false);
-      soundManager.playSuccess();
       setProcessorStep(5);
-      unlockBadge('puree_artisan', 'Micro-Fiber Milling Artisan', '⚙️');
+      setHoldingItem(null);
+      unlockBadge('grind_expert', 'Milling & Pureeing Specialist', '⚙️');
       completeMission('mission2');
-      showToast('Paste Collected!', 'Silky ubod puree scraped cleanly into prep bowl', 'success');
+      showToast('Stage 2 Complete!', '1 cup of smooth ubod paste collected in clean bowl', 'success');
       speak(
-        'Superb extraction! We have our pureed coconut pith paste. Now let\'s proceed to Stage 3: Paste Formulation & Mixing!',
+        'Outstanding pureeing! 1 cup of smooth coconut pith paste is ready for mixing with rice flour in Stage 3.',
         'happy',
         {
           badge: 'Stage 2 Complete',
-          note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive paste structure.',
+          note: 'The fine paste texture allows maximum contact with rice starch granules for superior dough elasticity.',
           btnText: 'Proceed to Stage 3: Paste Formulation ➔',
           onNext: () => setScene('mission3'),
         }
       );
-    }, 550);
+    }, 1200);
   };
 
   const stage2Inventory = [
     {
       id: 'boiled_ubod',
-      name: 'Boiled Ubod',
-      measure: '1 Cup (Tender)',
+      name: 'Drained Boiled Ubod',
+      measure: '1 Cup (Cooked)',
       img: '/assets/colander_ubod_only.png',
       fallbackIcon: '🥥',
       isUsed: processorStep >= 1,
       isNext: processorStep === 0,
-      tooltip: 'Fork-tender boiled coconut pith strips ready for mechanical fiber disintegration.',
+      tooltip: 'Tender boiled ubod drained of cooking liquor, ready for cell rupture milling.',
     },
     {
       id: 'salt_portion',
       name: 'Measured Sea Salt',
-      measure: '1 tsp (Per Cup)',
+      measure: '1 tsp (Per 1 Cup Ubod)',
       img: '/assets/portion_salt_1tsp.png',
       fallbackIcon: '🧂',
       isUsed: processorStep >= 2,
       isNext: processorStep === 1,
-      tooltip: '1 tsp pure sea salt to enhance natural sweetness and homogenize cell pureeing.',
+      tooltip: '1 tsp pure sea salt added per cup of boiled ubod for osmotic extraction and seasoning.',
     },
     {
       id: 'processor_lid',
@@ -257,27 +242,68 @@ export const Mission2Grinding = () => {
       fallbackIcon: '🔒',
       isUsed: isLidLocked || processorStep >= 3,
       isNext: processorStep === 2 && !isLidLocked,
-      tooltip: 'Heavy-duty polycarbonate safety cover with mechanical safety interlock tab.',
+      tooltip: 'Safety cover with mechanical interlock tab. Must be locked before motor activates.',
     },
     {
       id: 'spatula',
       name: 'Red Spatula',
-      measure: 'Scrape & Clean',
+      measure: 'Scrape & Transfer',
       img: '/assets/tool_spatula_red.png',
       fallbackIcon: '🥄',
       isUsed: processorStep >= 5,
       isNext: processorStep === 4,
-      tooltip: 'Flexible silicone spatula to thoroughly scrape pureed paste from processor walls.',
+      tooltip: 'Flexible silicone spatula to thoroughly scrape pureed paste into the prep bowl.',
+    },
+  ];
+
+  const handleInventoryClick = (item) => {
+    if (item.isUsed) return;
+    soundManager.playClick();
+
+    if (holdingItem?.id === item.id) {
+      setHoldingItem(null);
+    } else {
+      setHoldingItem({
+        id: item.id,
+        name: item.name,
+        img: item.img,
+        icon: item.fallbackIcon || '⚙️',
+      });
+      if (item.id === 'boiled_ubod') {
+        showToast('Boiled Ubod Selected', 'Tap the food processor bowl to load.', 'info');
+      } else if (item.id === 'salt_portion') {
+        showToast('Sea Salt Selected', 'Tap the food processor to add 1 tsp salt.', 'info');
+      } else if (item.id === 'processor_lid') {
+        showToast('Safety Lid Selected', 'Tap the food processor to attach and lock lid.', 'info');
+      } else if (item.id === 'spatula') {
+        showToast('Spatula Selected', 'Tap the bowl to scrape pureed paste into prep bowl.', 'info');
+      }
+    }
+  };
+
+  const recipeItems = [
+    { name: 'Boiled Ubod Pith', measure: '1 Cup', icon: '🥥', isCompleted: processorStep >= 1, isCurrent: processorStep === 0 },
+    { name: 'Pure Sea Salt', measure: '1 tsp (Per Cup)', icon: '🧂', isCompleted: processorStep >= 2, isCurrent: processorStep === 1 },
+  ];
+
+  const safetyChecklist = [
+    {
+      title: 'Electrical & Appliance Check',
+      desc: 'Check electrical wiring, wall outlet, and processor housing before plugging in.',
+      icon: '🔌',
+      isWarning: true,
     },
     {
-      id: 'prep_bowl',
-      name: 'Stainless Prep Bowl',
-      measure: 'Collection Vessel',
-      img: '/assets/tool_mixing_bowl_large.png',
-      fallbackIcon: '🥣',
-      isUsed: processorStep >= 5,
-      isNext: false,
-      tooltip: 'Sanitized stainless mixing bowl to collect and weigh 1 cup of smooth pureed paste.',
+      title: 'Safety Interlock Rule',
+      desc: 'Always lock safety lid securely before starting motor; never operate exposed blades.',
+      icon: '🔒',
+      isWarning: true,
+    },
+    {
+      title: 'Clean Towel Drying',
+      desc: 'Ensure all parts are dried thoroughly with a clean towel after cleaning.',
+      icon: '🧼',
+      isWarning: false,
     },
   ];
 
@@ -287,18 +313,57 @@ export const Mission2Grinding = () => {
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
+        {/* Floating Quick Recipe & Safety Drawer */}
+        <RecipeReferenceDrawer
+          stageTitle="Stage 2: Food Processing"
+          recipeItems={recipeItems}
+          safetyNotes={safetyChecklist}
+          culinaryTip="Processing the boiled coconut pith until it becomes fine and paste-like ensures smooth starch incorporation in Stage 3, producing uniform crackers without hard fibrous pockets."
+        />
+
         <div className="stage-content-row">
-          {/* Center: Food Processor MultiStateContainer */}
-          <div className="station-center-card">
+          {/* Left: Electric Food Processor */}
+          <div className="station-center-card" style={{ flex: '1 1 50%', maxWidth: '520px' }}>
             <MultiStateContainer
               containerId="food_processor"
               title="Electric Food Processor"
-              subtitle="Retro Sanyo with Stainless S-Blade"
+              subtitle="Steps 8–10: Pureeing Ubod to Fine Paste"
               currentStepIndex={processorStep}
               steps={processorSteps}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isBlending ? 'blending' : null}
               containerWidth="100%"
+              statusDotClass={processorStep >= 5 ? 'dot-success' : processorStep >= 1 ? 'dot-amber' : ''}
+              statusText={
+                isBlending
+                  ? `⚡ Pureeing boiled fibers at high speed... ${blendProgress}%`
+                  : processorSteps[processorStep]?.prompt || 'Ready'
+              }
+              specBadge={
+                <span
+                  className={`spec-badge ${
+                    processorStep >= 5
+                      ? 'spec-success'
+                      : processorStep >= 1
+                      ? 'spec-amber'
+                      : ''
+                  }`}
+                >
+                  {processorStep >= 5
+                    ? 'PASTE: COLLECTED'
+                    : processorStep === 4
+                    ? 'ACTION: SCRAPE'
+                    : processorStep === 3
+                    ? 'MOTOR: HIGH (12,000 RPM)'
+                    : processorStep === 2 && isLidLocked
+                    ? 'LID: LOCKED & SAFE'
+                    : processorStep === 2
+                    ? 'LID: UNLOCKED (INTERLOCK)'
+                    : processorStep === 1
+                    ? 'SALT: 1 TSP / CUP'
+                    : 'UBOD: 1 CUP'}
+                </span>
+              }
               interactiveAction={
                 processorStep === 2 && isLidLocked
                   ? {
@@ -306,14 +371,13 @@ export const Mission2Grinding = () => {
                       onClick: handleStartBlending,
                       icon: '⚡',
                       variant: 'processor-pulse',
-                      onKeyClick: (key) => {
-                        soundManager.playClick();
-                        if (key === 'stop') {
-                          showToast('Safety Switch', 'Appliance is in standby. Press the Orange High-Speed button to puree!', 'info');
-                        } else if (key === 'low') {
-                          showToast('Speed Control', 'Recipe standard requires High-Speed Puree for fine cracker paste.', 'warning');
-                        }
-                      },
+                    }
+                  : processorStep === 4
+                  ? {
+                      label: 'Scrape with Spatula',
+                      onClick: handleScrapePaste,
+                      icon: '🥄',
+                      variant: 'btn-action-scrape',
                     }
                   : processorStep === 3
                   ? {
@@ -342,25 +406,17 @@ export const Mission2Grinding = () => {
                 <div
                   className="spatula-scrape-guide"
                   onClick={() => {
-                    if (holdingItem?.id === 'spatula') {
+                    if (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') {
                       handleScrapePaste();
                     } else {
                       soundManager.playClick();
-                      showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap the bowl!', 'info');
-                      speak(
-                        'Pick up the red silicone spatula from your inventory first, then tap the bowl to scrape the paste!',
-                        'thinking',
-                        {
-                          badge: 'Select Spatula',
-                          hint: 'Tap "Red Spatula" in your inventory, then tap the bowl.',
-                        }
-                      );
+                      showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap here to scrape!', 'info');
                     }
                   }}
                   title="Tap with Red Spatula to scrape"
                 >
                   <span>
-                    🥄 {holdingItem?.id === 'spatula' ? 'Tap Bowl to Scrape Paste' : 'Select Red Spatula from Inventory'}
+                    🥄 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap Bowl to Scrape Paste' : 'Select Red Spatula from Inventory'}
                   </span>
                 </div>
               )}
@@ -373,15 +429,7 @@ export const Mission2Grinding = () => {
                       handleLockLid();
                     } else {
                       soundManager.playClick();
-                      showToast('Select Safety Lid First', 'Click the Processor Safety Lid in your inventory, then place it on the bowl!', 'info');
-                      speak(
-                        'Pick up the transparent processor safety lid from your inventory, then place it onto the bowl to engage the safety interlock!',
-                        'thinking',
-                        {
-                          badge: 'Select Safety Lid',
-                          hint: 'Select "Processor Safety Lid" in your inventory, then tap the bowl.',
-                        }
-                      );
+                      showToast('Select Safety Lid First', 'Click the Processor Safety Lid in your inventory, then place on bowl!', 'info');
                     }
                   }}
                   title="Place Processor Safety Lid onto bowl"
@@ -391,35 +439,33 @@ export const Mission2Grinding = () => {
                   </span>
                 </div>
               )}
-              {processorStep === 2 && isLidLocked && (
-                <div className="interlock-status-badge">
-                  <span>✅ Safety Interlock: LOCKED</span>
-                </div>
-              )}
             </MultiStateContainer>
           </div>
 
-          {/* Right Side: Extraction Vessel Workstation */}
+          {/* Right: Stainless Prep / Mixing Bowl Workstation */}
           <div
             className={`multi-state-workstation extraction-workstation ${
-              processorStep === 4 && holdingItem?.id === 'spatula' ? 'compatible-target' : ''
+              processorStep === 4 && (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') ? 'compatible-target' : ''
             }`}
             style={{
-              cursor: processorStep === 4 ? 'url("/assets/cursor_hover_32.png") 2 2, pointer' : 'inherit',
+              cursor: processorStep === 4 ? 'pointer' : 'inherit',
+              flex: '1 1 50%',
+              maxWidth: '520px',
             }}
             onClick={() => {
               if (processorStep === 4) {
-                if (holdingItem?.id === 'spatula') {
+                if (holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula') {
                   handleScrapePaste();
                 } else {
                   soundManager.playClick();
-                  showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap here to scrape!', 'info');
+                  showToast('Select Spatula First', 'Click the Red Spatula in your inventory, then tap here to transfer paste!', 'info');
                   speak(
-                    'Pick up the red silicone spatula from your inventory first, then tap to transfer the paste into the prep bowl!',
+                    'Step 10: Pick up the Red Spatula from your inventory, then tap the mixing bowl to collect the pureed paste!',
                     'thinking',
                     {
                       badge: 'Select Spatula',
                       hint: 'Tap "Red Spatula" in your inventory first.',
+                      hideButton: true,
                     }
                   );
                 }
@@ -438,7 +484,7 @@ export const Mission2Grinding = () => {
                   const data = e.dataTransfer.getData('text/plain');
                   if (!data) return;
                   const item = JSON.parse(data);
-                  if (item.id === 'spatula') {
+                  if (item.id === 'spatula' || item.id === 'red_spatula') {
                     handleScrapePaste();
                   }
                 } catch (err) {
@@ -446,13 +492,13 @@ export const Mission2Grinding = () => {
                 }
               }
             }}
-            title="Extraction & Puree Holding Workstation"
+            title="Stainless Prep / Mixing Bowl"
           >
             {/* Workstation Header */}
             <div className="workstation-header">
               <div className="workstation-titles">
-                <h4 className="workstation-name">Stainless Prep Bowl</h4>
-                <span className="workstation-sub">Puree collection & holding vessel</span>
+                <h4 className="workstation-name">Stainless Mixing Bowl</h4>
+                <span className="workstation-sub">Step 10: Puree Collection & Holding Vessel</span>
               </div>
               <div
                 className={`workstation-step-badge ${
@@ -463,7 +509,7 @@ export const Mission2Grinding = () => {
                     : ''
                 }`}
               >
-                {processorStep >= 5 ? '✓ Collected' : processorStep === 4 ? '🥣 Ready to Scrape' : 'Standby'}
+                {processorStep >= 5 ? '✓ 1 Cup Collected' : processorStep === 4 ? '🥣 Ready to Scrape' : 'Standby'}
               </div>
             </div>
 
@@ -476,7 +522,7 @@ export const Mission2Grinding = () => {
               {/* Floating guidance pill at step 4 */}
               {processorStep === 4 && !isScraping && (
                 <div className="vessel-transfer-guide">
-                  <span>🥣 {holdingItem?.id === 'spatula' ? 'Tap to Transfer Paste' : 'Select Spatula from Inventory'}</span>
+                  <span>🥣 {holdingItem?.id === 'spatula' || holdingItem?.id === 'red_spatula' ? 'Tap to Transfer Paste' : 'Select Spatula from Inventory'}</span>
                 </div>
               )}
 
@@ -487,7 +533,7 @@ export const Mission2Grinding = () => {
                       ? '/assets/bowl_ubod_paste_fresh.png'
                       : '/assets/tool_mixing_bowl_large.png'
                   }
-                  alt={processorStep >= 5 ? 'Fresh Silky Ubod Paste' : 'Sanitized Prep Bowl'}
+                  alt={processorStep >= 5 ? 'Fresh Silky Ubod Paste' : 'Sanitized Mixing Bowl'}
                   className={`container-state-img ${processorStep >= 5 ? 'paste-collected-pop' : 'bowl-resting'}`}
                   style={{
                     maxHeight: '75%',
@@ -510,20 +556,20 @@ export const Mission2Grinding = () => {
                     ? 'Silky Ubod Paste (1 Cup Collected)'
                     : processorStep === 4
                     ? '👉 Awaiting Paste Transfer'
-                    : '🥣 Clean & Sanitized Stainless Bowl'}
+                    : '🥣 Clean & Sanitized Stainless Mixing Bowl'}
                 </span>
               </div>
             </div>
 
-            {/* Workstation Footer (86px) */}
+            {/* Workstation Footer */}
             <div className="workstation-footer">
               <div className="workstation-status">
-                <span className={`status-dot ${processorStep >= 5 ? 'dot-success' : ''}`} />
+                <span className={`status-dot ${processorStep >= 5 ? 'dot-success' : processorStep === 4 ? 'dot-amber' : ''}`} />
                 <span className="status-text">
                   {processorStep >= 5
                     ? '1 Cup pureed ubod paste ready for Stage 3'
                     : processorStep === 4
-                    ? 'Tap with Spatula to collect puree'
+                    ? 'Tap with Red Spatula to collect puree'
                     : 'Awaiting pureed ubod from processor'}
                 </span>
               </div>
@@ -537,10 +583,10 @@ export const Mission2Grinding = () => {
 
       {/* DOCKED BOTTOM INVENTORY SHELF */}
       <InventoryTray
-        title="Station 2 Inventory & Pureeing Tools"
+        title="Station 2 Processing Ingredients & Tools"
         items={stage2Inventory}
+        onItemClick={handleInventoryClick}
       />
     </div>
   );
 };
-

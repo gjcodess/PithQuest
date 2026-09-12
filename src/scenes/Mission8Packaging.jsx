@@ -3,6 +3,7 @@ import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
+import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
 
 export const Mission8Packaging = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
@@ -11,7 +12,7 @@ export const Mission8Packaging = () => {
 
   // Streamlined 3-step packaging flow:
   // 0: Empty stand-up kraft pouch -> accept crispy_crackers (50g)
-  // 1: Pouch filled with crackers -> accept brand_label OR click "Seal & Apply Label" (combined 150°C weld + label)
+  // 1: Pouch filled with crackers -> accept brand_label OR click "Seal & Apply Label"
   // 2: Branded commercial pouch -> accept retail_box OR click "Pack into Retail Carton" (8 pouches)
   // 3: Retail countertop display box packed (8 pouches) -> complete
   const [packStep, setPackStep] = useState(() => (isAlreadyCompleted ? 3 : 0));
@@ -56,7 +57,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 1,
       acceptedItems: ['brand_label', 'label', 'pouch_sealed_labeled'],
-      prompt: 'Crackers portioned! Apply official brand label & impulse heat seal rim (150°C)',
+      prompt: 'Crackers portioned! Apply official brand label & impulse heat seal the rim',
       img: '/assets/pouch_with_crackers.png',
       fallbackIcon: '🏷️',
       label: 'Portioned Pouch (Ready to Seal & Label)',
@@ -86,7 +87,7 @@ export const Mission8Packaging = () => {
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
-        'Great portioning! Now select the Brand Label or click "Impulse Seal & Apply Label" to hermetically weld the rim at 150°C.',
+        'Great portioning! Now select the Brand Label or click "Impulse Seal & Apply Label" to hermetically seal the rim.',
         'neutral',
         {
           badge: 'Seal & Brand',
@@ -108,7 +109,7 @@ export const Mission8Packaging = () => {
     setIsSealing(true);
     setSealProgress(0);
     setHoldingItem(null);
-    showToast('Sealing & Labeling...', 'Applying 150°C thermal impulse clamp & product label...', 'info');
+    showToast('Sealing & Labeling...', 'Applying thermal impulse clamp & product label...', 'info');
 
     let current = 0;
     const interval = setInterval(() => {
@@ -119,9 +120,9 @@ export const Mission8Packaging = () => {
         setIsSealing(false);
         setPackStep(2);
         soundManager.playSuccess();
-        showToast('Hermetically Sealed & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
+        showToast('Airtight & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
-          'Airtight thermal weld complete with authentic product seal! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
+          'Airtight seal complete with authentic product label! Now select the Retail Display Box or click "Pack into Retail Carton" to pack 8 pouches for distribution.',
           'happy',
           {
             badge: 'Retail Packing',
@@ -186,253 +187,120 @@ export const Mission8Packaging = () => {
     },
   ];
 
+  const handleInventoryClick = (item) => {
+    if (item.isUsed) return;
+    soundManager.playClick();
+
+    if (holdingItem?.id === item.id) {
+      setHoldingItem(null);
+    } else {
+      setHoldingItem({
+        id: item.id,
+        name: item.name,
+        img: item.img,
+        icon: item.fallbackIcon || '📦',
+      });
+      if (item.id === 'crispy_crackers') {
+        showToast('Crackers Selected', 'Tap the open kraft pouch to fill 50g.', 'info');
+      } else if (item.id === 'brand_label') {
+        showToast('Label Selected', 'Tap the pouch to heat seal & apply label.', 'info');
+      } else if (item.id === 'retail_box') {
+        showToast('Display Box Selected', 'Tap the pouch to pack 8 units into carton.', 'info');
+      }
+    }
+  };
+
+  const recipeItems = [
+    { name: 'Pouch Net Weight', measure: '50g Portion', icon: '⚖️', isCompleted: packStep >= 1, isCurrent: packStep === 0 },
+    { name: 'Airtight Seal', measure: 'Impulse Sealer', icon: '🏷️', isCompleted: packStep >= 2, isCurrent: packStep === 1 },
+    { name: 'Master Retail Carton', measure: '8 Pouches', icon: '📦', isCompleted: packStep >= 3, isCurrent: packStep === 2 },
+  ];
+
+  const safetyChecklist = [
+    {
+      title: 'Mandatory Final PPE',
+      desc: 'Wear hairnet, spit guard/face mask, clean apron, and clean food-grade gloves.',
+      icon: '🥼',
+      isWarning: true,
+    },
+    {
+      title: 'Complete Cooling Before Sealing',
+      desc: 'Ensure crackers are completely cooled before sealing to prevent condensation and loss of crispness.',
+      icon: '❄️',
+      isWarning: false,
+    },
+    {
+      title: 'Clean Packaging Materials',
+      desc: 'Pack using clean and appropriate food-grade barrier pouches.',
+      icon: '🧼',
+      isWarning: false,
+    },
+  ];
+
   return (
     <div className="workstation-scene packaging-scene">
       <div className="workstation-overlay" />
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">
-        <div className="stage-content-row">
-          {/* Left: Multi-State Pouch Container Workstation */}
+        {/* Floating Quick Recipe & Safety Drawer */}
+        <RecipeReferenceDrawer
+          stageTitle="Stage 8: Packaging Process"
+          recipeItems={recipeItems}
+          safetyNotes={safetyChecklist}
+          culinaryTip="Hermetically sealing the kraft pouch prevents moisture absorption and preserves the crisp texture. Always make sure the crackers are completely cooled down before sealing to prevent steam condensation inside the bag."
+        />
+
+        <div className="stage-content-row stage-single-workstation">
+          {/* Center: Packaging MultiStateContainer */}
           <div className="station-center-card">
             <MultiStateContainer
-              containerId="pouch"
-              title="Stand-Up Barrier Pouch"
-              subtitle="50g Portioning • 150°C Impulse Heat Sealing"
+              containerId="packaging_pouch"
+              title="Airtight Stand-Up Kraft Pouch"
+              subtitle="Step 23: 50g Barrier Packaging & Display Carton"
               currentStepIndex={packStep}
               steps={pouchSteps}
               onItemAccepted={handleItemAccepted}
               containerWidth="100%"
-              interactiveAction={
-                packStep === 1
-                  ? {
-                      label: isSealing ? `Sealing & Labeling ${sealProgress}%...` : '♨️ Seal & Apply Brand Label (150°C)',
-                      onClick: handleCombinedSealAndLabel,
-                      disabled: isSealing,
-                    }
-                  : packStep === 2
-                  ? {
-                      label: '📦 Pack into Retail Carton (8 Pouches)',
-                      onClick: handlePackIntoBox,
-                      icon: '📦',
-                    }
-                  : null
+              statusDotClass={packStep >= 3 ? 'dot-success' : packStep >= 1 ? 'dot-amber' : ''}
+              statusText={
+                isSealing
+                  ? `🏷️ Thermal impulse sealing in progress... ${sealProgress}%`
+                  : pouchSteps[packStep]?.prompt || 'Ready'
               }
               specBadge={
                 <span
                   className={`spec-badge ${
-                    packStep >= 3
-                      ? 'spec-success'
-                      : packStep >= 2
-                      ? 'spec-success'
-                      : packStep >= 1
-                      ? 'spec-amber'
-                      : ''
+                    packStep >= 3 ? 'spec-success' : packStep >= 1 ? 'spec-amber' : ''
                   }`}
                 >
                   {packStep >= 3
                     ? 'CARTON: 8 PACK'
-                    : packStep >= 2
-                    ? 'BRAND: SEALED'
-                    : packStep >= 1
-                    ? 'PORTION: 50G'
-                    : 'TARGET: 50G'}
+                    : packStep === 2
+                    ? 'BRAND: LABELED'
+                    : packStep === 1
+                    ? 'SEAL: READY'
+                    : 'WEIGHT: 50G'}
                 </span>
+              }
+              interactiveAction={
+                packStep === 1
+                  ? {
+                      label: 'Seal & Apply Label',
+                      onClick: handleCombinedSealAndLabel,
+                      icon: '🏷️',
+                      variant: 'pouch-seal',
+                    }
+                  : packStep === 2
+                  ? {
+                      label: 'Pack into Retail Carton',
+                      onClick: handlePackIntoBox,
+                      icon: '📦',
+                      variant: 'box-pack',
+                    }
+                  : null
               }
             />
-          </div>
-
-          {/* Right: Commercial Packaging & Seal Integrity QC Station */}
-          <div
-            className={`multi-state-workstation qc-workstation ${
-              (packStep === 1 && (holdingItem?.id === 'brand_label' || holdingItem?.id === 'label' || holdingItem?.id === 'pouch_sealed_labeled')) ||
-              (packStep === 2 && (holdingItem?.id === 'retail_box' || holdingItem?.id === 'carton_box' || holdingItem?.id === 'box_of_packaged_crackers'))
-                ? 'compatible-target'
-                : ''
-            }`}
-            style={{
-              cursor:
-                packStep === 1 || packStep === 2
-                  ? 'url("/assets/cursor_hover_32.png") 2 2, pointer'
-                  : 'inherit',
-            }}
-            onClick={() => {
-              if (packStep === 1 && (holdingItem?.id === 'brand_label' || holdingItem?.id === 'label' || holdingItem?.id === 'pouch_sealed_labeled')) {
-                handleCombinedSealAndLabel();
-              } else if (packStep === 2 && (holdingItem?.id === 'retail_box' || holdingItem?.id === 'carton_box' || holdingItem?.id === 'box_of_packaged_crackers')) {
-                handlePackIntoBox();
-              }
-            }}
-            onDragOver={(e) => {
-              if (packStep === 1 || packStep === 2) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'copy';
-              }
-            }}
-            onDrop={(e) => {
-              if (packStep === 1 || packStep === 2) {
-                e.preventDefault();
-                try {
-                  const data = e.dataTransfer.getData('text/plain');
-                  if (!data) return;
-                  const item = JSON.parse(data);
-                  handleItemAccepted(item, packStep);
-                } catch (err) {
-                  console.error(err);
-                }
-              }
-            }}
-            title="Commercial Packaging & Seal Integrity QC"
-          >
-            {/* Workstation Header */}
-            <div className="workstation-header">
-              <div className="workstation-titles">
-                <h4 className="workstation-name">Packaging & Seal QC</h4>
-                <span className="workstation-sub">Step 17–18: Barrier Seal & Retail Packing</span>
-              </div>
-              <div
-                className={`workstation-step-badge ${
-                  packStep >= 3
-                    ? 'badge-success-glow'
-                    : packStep >= 2
-                    ? 'badge-success-glow'
-                    : packStep >= 1
-                    ? 'badge-amber-glow'
-                    : ''
-                }`}
-              >
-                {packStep >= 3
-                  ? '✓ Master Box Complete'
-                  : packStep === 2
-                  ? '✓ Branded & Sealed'
-                  : packStep === 1
-                  ? '⚖️ 50g Portioned'
-                  : 'Standby'}
-              </div>
-            </div>
-
-            {/* Workstation Viewport */}
-            <div
-              className="workstation-viewport packaging-qc-viewport"
-            >
-              {/* Packaging Standards & Barrier Spec Card */}
-              <div className="packaging-spec-card">
-                <div className="packaging-spec-header">
-                  <span>📦 Barrier & Portion Standards</span>
-                  <span
-                    className={`station-badge-mini ${
-                      packStep >= 2 ? 'badge-success' : 'badge-pending'
-                    }`}
-                  >
-                    {packStep >= 2 ? '✨ Hermetic Seal' : '50g Target'}
-                  </span>
-                </div>
-
-                <div className="packaging-spec-grid">
-                  <div className="packaging-spec-item">
-                    <span className="spec-title">Net Weight</span>
-                    <span
-                      className="spec-val"
-                      style={{ color: packStep >= 1 ? '#10b981' : '#f59e0b' }}
-                    >
-                      50g (±1g)
-                    </span>
-                  </div>
-                  <div className="packaging-spec-item">
-                    <span className="spec-title">Barrier Film</span>
-                    <span className="spec-val" style={{ color: '#0284c7' }}>
-                      Kraft + PE
-                    </span>
-                  </div>
-                  <div className="packaging-spec-item">
-                    <span className="spec-title">Seal Temperature</span>
-                    <span
-                      className="spec-val"
-                      style={{ color: packStep >= 2 ? '#10b981' : '#f59e0b' }}
-                    >
-                      150°C Weld
-                    </span>
-                  </div>
-                  <div className="packaging-spec-item">
-                    <span className="spec-title">Vapor Infiltration</span>
-                    <span
-                      className="spec-val"
-                      style={{ color: packStep >= 2 ? '#10b981' : '#64748b' }}
-                    >
-                      &lt;0.1% Barrier
-                    </span>
-                  </div>
-                </div>
-
-                {/* Impulse Sealing Progress Row */}
-                <div className="packaging-cycle-row">
-                  <div className="packaging-cycle-header">
-                    <span>Impulse Thermal Weld:</span>
-                    <strong>{packStep >= 2 ? '100% (Airtight)' : isSealing ? `${sealProgress}%` : '0%'}</strong>
-                  </div>
-                  <div className="packaging-cycle-bar-bg">
-                    <div
-                      className="packaging-cycle-bar-fill"
-                      style={{
-                        width: packStep >= 2 ? '100%' : isSealing ? `${sealProgress}%` : '0%',
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Brand & Compliance Box */}
-              <div className="packaging-brand-box">
-                <span className="packaging-brand-title">NUDAZAR HONORE • Ubod CRUNCH</span>
-                <div className="packaging-meta-tags">
-                  <span className="packaging-tag">🌾 Rice Starch Matrix</span>
-                  <span className="packaging-tag">🥥 Pure Ubod Pith</span>
-                  <span className="packaging-tag">🛡️ Tamper-Evident</span>
-                  <span className="packaging-tag">⚖️ 50g Pack</span>
-                </div>
-              </div>
-
-              {/* Food Science Note */}
-              <div className="packaging-science-note">
-                <strong>🔬 Packaging Science: </strong>
-                Multi-layer Kraft-PE film prevents moisture infiltration and retrogradation, guaranteeing crisp texture.
-              </div>
-            </div>
-
-            {/* Workstation Footer */}
-            <div className="workstation-footer">
-              <div className="workstation-status">
-                <div
-                  className={`status-dot ${
-                    packStep >= 3
-                      ? 'dot-success'
-                      : packStep >= 2
-                      ? 'dot-success'
-                      : packStep >= 1
-                      ? 'dot-amber'
-                      : ''
-                  }`}
-                />
-                <span className="status-text">
-                  {packStep >= 3
-                    ? '8 pouches packed in retail display carton. Complete!'
-                    : packStep === 2
-                    ? 'Hermetic seal & brand label verified. Pack into retail box.'
-                    : packStep === 1
-                    ? '50g portioned. Apply brand label & impulse seal rim.'
-                    : 'Portion 50g crispy crackers into kraft pouch.'}
-                </span>
-              </div>
-              <span className="spec-badge">
-                {packStep >= 3
-                  ? 'CARTON: 8 PACK'
-                  : packStep >= 2
-                  ? 'BRAND: PASS'
-                  : packStep >= 1
-                  ? 'SEAL: 150°C'
-                  : 'QC: GRADE A'}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -441,6 +309,7 @@ export const Mission8Packaging = () => {
       <InventoryTray
         title="Station 8 Packaging Materials & Display Carton"
         items={stage8Inventory}
+        onItemClick={handleInventoryClick}
       />
     </div>
   );
