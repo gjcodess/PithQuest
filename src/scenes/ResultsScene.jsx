@@ -259,8 +259,11 @@ export const ResultsScene = () => {
 
           <h2 className="results-main-title">Coconut Pith Crackers Laboratory Performance Audit</h2>
           <p className="results-sub-title">
-            Instructional Assessment & Science Competency Report • Candidate:{' '}
-            <strong>{studentName || 'Food Technology Student'}</strong> • Date: {currentDate}
+            <span>Instructional Assessment & Science Competency Report</span>
+            <br />
+            <span>
+              Candidate: <strong>{studentName || 'Food Technology Student'}</strong> • Date: {currentDate}
+            </span>
           </p>
 
           <div className="results-competency-pill">
@@ -811,11 +814,8 @@ export const ResultsScene = () => {
 
         {/* Action Controls */}
         <div className="results-actions-bar">
-          <button className="btn-gold btn-print-report" onClick={handlePrint}>
+          <button className="btn-primary" onClick={handlePrint}>
             <span>Print / Save Comprehensive Audit Report (PDF)</span>
-          </button>
-          <button className="btn-primary" onClick={() => setScene('sequencing')}>
-            <span>Retake Post-Test Sequence</span>
           </button>
           <button className="btn-secondary" onClick={resetGame}>
             <span>Process New Laboratory Batch</span>
@@ -823,7 +823,7 @@ export const ResultsScene = () => {
         </div>
 
         {/* Scroll bottom clearance spacer */}
-        <div style={{ height: '40px', flexShrink: 0 }} />
+        <div className="results-scroll-spacer" style={{ height: '40px', flexShrink: 0 }} />
       </div>
 
       {/* 20% Right Column Results & Credentials Sidebar */}
