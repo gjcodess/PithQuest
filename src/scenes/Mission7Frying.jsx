@@ -6,11 +6,28 @@ import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission7Frying = () => {
-  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission7);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission7);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission7', {
+      stageNum: 7,
+      stageTitle: STAGE_QUESTIONS.mission7.stageTitle,
+      question: STAGE_QUESTIONS.mission7.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission7.explanation,
+      choices: STAGE_QUESTIONS.mission7.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Frying states:
   // 0: Empty pan on stove -> accept cooking_oil (5 cups)
@@ -338,35 +355,17 @@ export const Mission7Frying = () => {
     },
   ];
 
-  const [isQuizModalOpen, setIsQuizModalOpen] = useState(() => !isAlreadyCompleted);
-
   return (
     <div className="workstation-scene frying-scene">
       <div className="workstation-overlay" />
 
-      {/* Interactive Checkpoint Modal (Appears before frying if not answered) */}
+      {/* Stage 7 Pre-Check Question Modal */}
       <CheckpointQuestionModal
-        isOpen={isQuizModalOpen}
-        stageTitle="Stage 7 Checkpoint: Safe Frying Practice"
-        question="Teacher Mia asks: Which is the safest practice when frying crackers in hot oil?"
-        choices={[
-          {
-            id: 'a',
-            text: 'Keep a safe distance from the hot oil and use tongs when handling the crackers.',
-            isCorrect: true,
-            reason: 'Using long stainless tongs and keeping a safe distance prevents hot oil splatters and severe burns.',
-          },
-          {
-            id: 'b',
-            text: 'Touch the crackers directly with your hands while they are in the hot oil.',
-            isCorrect: false,
-            reason: 'Severe Burn Hazard! Never place bare hands or thin plastic gloves into preheated oil.',
-          },
-        ]}
-        onComplete={() => {
-          setIsQuizModalOpen(false);
-          showToast('Frying Unlocked!', 'Pour 5 cups vegetable oil into the frying pan.', 'success');
-        }}
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission7.stageTitle}
+        question={STAGE_QUESTIONS.mission7.question}
+        choices={STAGE_QUESTIONS.mission7.choices}
+        onComplete={handleCheckpointComplete}
       />
 
       {/* Main Center Cooking Countertop */}

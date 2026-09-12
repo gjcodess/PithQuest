@@ -6,11 +6,29 @@ import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { FaucetKnobConsole } from '../components/FaucetKnobConsole';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission1Prep = () => {
-  const { setScene, addScore, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge, missionsCompleted, maxUnlockedStage } = useGame();
+  const { setScene, speak, showToast, completeMission, holdingItem, setHoldingItem, unlockBadge, missionsCompleted, maxUnlockedStage, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission1);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission1);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission1', {
+      stageNum: 1,
+      stageTitle: STAGE_QUESTIONS.mission1.stageTitle,
+      question: STAGE_QUESTIONS.mission1.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission1.explanation,
+      choices: STAGE_QUESTIONS.mission1.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Wash step states:
   // 1. isUbodInColander (false -> place raw_ubod into sink colander -> becomes sink_colander_ubod)
@@ -514,6 +532,15 @@ export const Mission1Prep = () => {
   return (
     <div className="workstation-scene prep-scene">
       <div className="workstation-overlay" />
+
+      {/* Stage 1 Pre-Check Question Modal */}
+      <CheckpointQuestionModal
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission1.stageTitle}
+        question={STAGE_QUESTIONS.mission1.question}
+        choices={STAGE_QUESTIONS.mission1.choices}
+        onComplete={handleCheckpointComplete}
+      />
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">

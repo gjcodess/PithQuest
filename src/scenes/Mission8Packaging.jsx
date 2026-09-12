@@ -4,11 +4,29 @@ import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission8Packaging = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission8);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission8);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission8', {
+      stageNum: 8,
+      stageTitle: STAGE_QUESTIONS.mission8.stageTitle,
+      question: STAGE_QUESTIONS.mission8.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission8.explanation,
+      choices: STAGE_QUESTIONS.mission8.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Streamlined 3-step packaging flow:
   // 0: Empty stand-up kraft pouch -> accept crispy_crackers (50g)
@@ -240,6 +258,15 @@ export const Mission8Packaging = () => {
   return (
     <div className="workstation-scene packaging-scene">
       <div className="workstation-overlay" />
+
+      {/* Stage 8 Pre-Check Question Modal */}
+      <CheckpointQuestionModal
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission8.stageTitle}
+        question={STAGE_QUESTIONS.mission8.question}
+        choices={STAGE_QUESTIONS.mission8.choices}
+        onComplete={handleCheckpointComplete}
+      />
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">

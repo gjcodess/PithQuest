@@ -5,19 +5,17 @@ import { SidebarPortal } from './SidebarPortal';
 
 export const ResultsSidebar = () => {
   const {
-    score,
-    stars,
     badges,
     studentName,
     isInventoryCollapsed,
     setIsInventoryCollapsed,
     assessmentResults,
+    stageAnswers,
   } = useGame();
 
   const ppeAudit = assessmentResults?.preTest?.ppe;
   const ppeCorrectCount = Array.isArray(ppeAudit?.correctSelected) ? ppeAudit.correctSelected.length : 6;
   const ppeDistractors = Array.isArray(ppeAudit?.distractorsPicked) ? ppeAudit.distractorsPicked.length : 0;
-  const ppeScore = ppeAudit?.score !== undefined ? ppeAudit.score : Math.max(0, Math.round((ppeCorrectCount / 6) * 25 - (ppeDistractors * 5)));
 
   const handwashAudit = assessmentResults?.preTest?.handwashing;
   const handwashSubmitted = Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : [];
@@ -25,19 +23,18 @@ export const ResultsSidebar = () => {
   const handwashCorrect = handwashSubmitted.filter(
     (s, idx) => s && s.isCorrect && s.step === idx + 1
   ).length;
-  const handwashScore = handwashAudit?.score !== undefined ? handwashAudit.score : Math.max(0, Math.round((handwashCorrect / 7) * 25 - (handwashDistractors * 5)));
 
   const toolAudit = Array.isArray(assessmentResults?.preTest?.toolSafety) ? assessmentResults.preTest.toolSafety : [];
   const toolSafeCount = toolAudit.filter((t) => t?.isSafe).length;
-  const toolScore = Math.round((toolSafeCount / 6) * 25);
 
   const ingredientAudit = Array.isArray(assessmentResults?.preTest?.qualityInspection) ? assessmentResults.preTest.qualityInspection : [];
   const ingredientSafeCount = ingredientAudit.filter((i) => i?.isSafe).length;
-  const ingredientScore = Math.round((ingredientSafeCount / 4) * 25);
 
   const sequenceAudit = assessmentResults?.postTest?.sequencing;
   const sequenceCorrectCount = sequenceAudit?.correctCount ?? (sequenceAudit?.isCorrect ? 8 : 8);
-  const sequenceScore = Math.round(sequenceCorrectCount * 12.5);
+
+  const stageAnswersList = Object.values(stageAnswers || {}).filter(Boolean);
+  const stageCorrectCount = stageAnswersList.filter((a) => a?.isCorrect).length;
 
   if (isInventoryCollapsed) {
     return (
@@ -103,7 +100,7 @@ export const ResultsSidebar = () => {
 
         {/* Vertical Audit Stack */}
         <div className="inventory-vertical-stack">
-          {/* Card 1: Candidate Rank & Score */}
+          {/* Card 1: Candidate Profile */}
           <div
             className="drag-card horizontal-item-card"
             style={{
@@ -122,47 +119,29 @@ export const ResultsSidebar = () => {
                   {studentName || 'Candidate'}
                 </span>
                 <span className="card-measure" style={{ color: '#92400e', fontWeight: 800 }}>
-                  {stars === 3 ? '⭐⭐⭐' : stars === 2 ? '⭐⭐' : '⭐'}
+                  AUDIT COMPLETE
                 </span>
               </div>
               <p className="card-desc-text" style={{ color: '#854d0e', fontWeight: 600 }}>
-                Total Score: <strong style={{ color: '#78350f' }}>{score} / 200 pts</strong> • Pre & Post-Tests
+                Food Technologist • Comprehensive Diagnostic Review
               </p>
             </div>
           </div>
 
-          {/* Card 2: Pre-Test PPE Attire */}
+          {/* Card 2: Pre-Test PPE & Hygiene */}
           <div className="drag-card horizontal-item-card">
             <div className="card-icon-col">
               <span style={{ fontSize: '1.6rem' }}>🥼</span>
             </div>
             <div className="card-info-col">
               <div className="card-title-row">
-                <span className="card-title">Pre-Test PPE Attire</span>
+                <span className="card-title">Pre-Test PPE & Hygiene</span>
                 <span className="card-measure">
-                  {ppeScore}/25 PTS
+                  {ppeDistractors === 0 && handwashDistractors === 0 ? 'COMPLIANT' : 'HAZARDS FLAGGED'}
                 </span>
               </div>
               <p className="card-desc-text">
-                {ppeDistractors === 0
-                  ? `${ppeCorrectCount}/6 required gear selected • 0 hazards`
-                  : `${ppeDistractors} hazard(s) flagged during pre-test`}
-              </p>
-            </div>
-          </div>
-
-          {/* Card 3: Pre-Test Handwashing */}
-          <div className="drag-card horizontal-item-card">
-            <div className="card-icon-col">
-              <span style={{ fontSize: '1.6rem' }}>🧼</span>
-            </div>
-            <div className="card-info-col">
-              <div className="card-title-row">
-                <span className="card-title">Handwashing Sequence</span>
-                <span className="card-measure">{handwashScore}/25 PTS</span>
-              </div>
-              <p className="card-desc-text">
-                {handwashCorrect}/7 hygiene steps ordered • {handwashScore} pts
+                {ppeCorrectCount}/6 PPE Gear • {handwashCorrect}/7 Steps Ordered
               </p>
             </div>
           </div>
@@ -176,16 +155,32 @@ export const ResultsSidebar = () => {
               <div className="card-title-row">
                 <span className="card-title">Tool & Raw Material QC</span>
                 <span className="card-measure">
-                  {toolScore + ingredientScore}/50 PTS
+                  INSPECTED
                 </span>
               </div>
               <p className="card-desc-text">
-                Tools: {toolScore}/25 pts • Ingredients: {ingredientScore}/25 pts
+                Tools: {toolSafeCount}/6 Safe • Ingredients: {ingredientSafeCount}/4 Fresh
               </p>
             </div>
           </div>
 
-          {/* Card 5: Post-Test Pipeline Sequencing */}
+          {/* Card 5: Stage Pre-Check Questions */}
+          <div className="drag-card horizontal-item-card">
+            <div className="card-icon-col">
+              <span style={{ fontSize: '1.6rem' }}>📝</span>
+            </div>
+            <div className="card-info-col">
+              <div className="card-title-row">
+                <span className="card-title">Stage Pre-Checks</span>
+                <span className="card-measure">{stageCorrectCount}/8 MASTERED</span>
+              </div>
+              <p className="card-desc-text">
+                {stageCorrectCount}/8 food technology checkpoints answered correctly
+              </p>
+            </div>
+          </div>
+
+          {/* Card 6: Post-Test Pipeline Sequencing */}
           <div className="drag-card horizontal-item-card">
             <div className="card-icon-col">
               <span style={{ fontSize: '1.6rem' }}>🔄</span>
@@ -193,15 +188,15 @@ export const ResultsSidebar = () => {
             <div className="card-info-col">
               <div className="card-title-row">
                 <span className="card-title">Post-Test Pipeline</span>
-                <span className="card-measure">{sequenceScore}/100 PTS</span>
+                <span className="card-measure">{sequenceCorrectCount}/8 STAGES</span>
               </div>
               <p className="card-desc-text">
-                {sequenceCorrectCount}/8 stages correctly positioned • {sequenceScore} pts
+                {sequenceCorrectCount}/8 stages correctly positioned in sequence
               </p>
             </div>
           </div>
 
-          {/* Card 6: Badges & Competencies */}
+          {/* Card 7: Badges & Competencies */}
           <div className="drag-card horizontal-item-card">
             <div className="card-icon-col">
               <span style={{ fontSize: '1.6rem' }}>🏅</span>
@@ -223,3 +218,4 @@ export const ResultsSidebar = () => {
     </SidebarPortal>
   );
 };
+

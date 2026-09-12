@@ -4,11 +4,29 @@ import { soundManager } from '../audio/soundManager';
 import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission6Dehydration = () => {
-  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission6);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission6);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission6', {
+      stageNum: 6,
+      stageTitle: STAGE_QUESTIONS.mission6.stageTitle,
+      question: STAGE_QUESTIONS.mission6.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission6.explanation,
+      choices: STAGE_QUESTIONS.mission6.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Dehydration states based on client game.docx (Steps 15–18):
   // 0: Empty counter -> accept mesh_tray
@@ -344,6 +362,15 @@ export const Mission6Dehydration = () => {
   return (
     <div className="workstation-scene dehydration-scene">
       <div className="workstation-overlay" />
+
+      {/* Stage 6 Pre-Check Question Modal */}
+      <CheckpointQuestionModal
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission6.stageTitle}
+        question={STAGE_QUESTIONS.mission6.question}
+        choices={STAGE_QUESTIONS.mission6.choices}
+        onComplete={handleCheckpointComplete}
+      />
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">

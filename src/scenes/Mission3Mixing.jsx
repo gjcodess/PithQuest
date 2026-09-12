@@ -5,11 +5,28 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission3Mixing = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission3);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission3);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission3', {
+      stageNum: 3,
+      stageTitle: STAGE_QUESTIONS.mission3.stageTitle,
+      question: STAGE_QUESTIONS.mission3.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission3.explanation,
+      choices: STAGE_QUESTIONS.mission3.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Mixing bowl states:
   // 0: Empty stainless bowl -> accept rice_flour
@@ -311,35 +328,17 @@ export const Mission3Mixing = () => {
     },
   ];
 
-  const [isQuizModalOpen, setIsQuizModalOpen] = useState(() => !isAlreadyCompleted);
-
   return (
     <div className="workstation-scene mixing-scene">
       <div className="workstation-overlay" />
 
-      {/* Interactive Checkpoint Modal (Appears before mixing if not answered) */}
+      {/* Stage 3 Pre-Check Question Modal */}
       <CheckpointQuestionModal
-        isOpen={isQuizModalOpen}
-        stageTitle="Stage 3 Checkpoint: Dry vs Wet Ingredients"
-        question="Teacher Mia asks: When combining our ingredients in the bowl, what should we blend together first?"
-        choices={[
-          {
-            id: 'a',
-            text: 'Dry Ingredients (1 cup rice flour + 1 tsp pure sea salt)',
-            isCorrect: true,
-            reason: 'Combining the dry ingredients first ensures salt and flour are uniformly distributed before adding wet ingredients and water.',
-          },
-          {
-            id: 'b',
-            text: 'Wet Ingredients (water + pureed ubod paste directly)',
-            isCorrect: false,
-            reason: 'Adding wet ingredients before blending dry flour and salt can cause uneven salty clumps.',
-          },
-        ]}
-        onComplete={() => {
-          setIsQuizModalOpen(false);
-          showToast('Formulation Unlocked!', 'Add 1 cup Rice Flour into the bowl.', 'success');
-        }}
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission3.stageTitle}
+        question={STAGE_QUESTIONS.mission3.question}
+        choices={STAGE_QUESTIONS.mission3.choices}
+        onComplete={handleCheckpointComplete}
       />
 
       {/* Main Center Cooking Countertop */}

@@ -5,11 +5,28 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission4Molding = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission4);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission4);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission4', {
+      stageNum: 4,
+      stageTitle: STAGE_QUESTIONS.mission4.stageTitle,
+      question: STAGE_QUESTIONS.mission4.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission4.explanation,
+      choices: STAGE_QUESTIONS.mission4.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Mold Step States:
   // 0: Empty Mold -> accept measuring spoon / paste portion
@@ -212,35 +229,17 @@ export const Mission4Molding = () => {
     },
   ];
 
-  const [isQuizModalOpen, setIsQuizModalOpen] = useState(() => !isAlreadyCompleted);
-
   return (
     <div className="workstation-scene molding-scene">
       <div className="workstation-overlay" />
 
-      {/* Interactive Checkpoint Modal (Appears before molding if not answered) */}
+      {/* Stage 4 Pre-Check Question Modal */}
       <CheckpointQuestionModal
-        isOpen={isQuizModalOpen}
-        stageTitle="Stage 4 Checkpoint: Portioning & Molding"
-        question="Teacher Mia asks: How should the ubod dough be placed into the molder?"
-        choices={[
-          {
-            id: 'a',
-            text: 'Use a measuring spoon (~3 tsp per mold) to achieve uniform size and thickness.',
-            isCorrect: true,
-            reason: 'Using approximately 3 teaspoons per mold ensures all pieces have identical thickness for uniform cooking and drying.',
-          },
-          {
-            id: 'b',
-            text: 'Fill the mold completely with dough without measuring.',
-            isCorrect: false,
-            reason: 'Filling without measuring creates uneven cracker thickness, leading to undercooked centers or burnt edges.',
-          },
-        ]}
-        onComplete={() => {
-          setIsQuizModalOpen(false);
-          showToast('Molding Unlocked!', 'Portion 3 tsp dough into mold cavities.', 'success');
-        }}
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission4.stageTitle}
+        question={STAGE_QUESTIONS.mission4.question}
+        choices={STAGE_QUESTIONS.mission4.choices}
+        onComplete={handleCheckpointComplete}
       />
 
       {/* Main Center Cooking Countertop */}

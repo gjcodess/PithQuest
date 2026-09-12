@@ -5,11 +5,29 @@ import { MultiStateContainer } from '../components/MultiStateContainer';
 import { InventoryTray } from '../components/InventoryTray';
 import { StoveBurnerConsole } from '../components/StoveBurnerConsole';
 import { RecipeReferenceDrawer } from '../components/RecipeReferenceDrawer';
+import { CheckpointQuestionModal } from '../components/CheckpointQuestionModal';
+import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 
 export const Mission5Steaming = () => {
-  const { setScene, addScore, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage } = useGame();
+  const { setScene, unlockBadge, speak, showToast, completeMission, holdingItem, setHoldingItem, missionsCompleted, maxUnlockedStage, stageAnswers, recordStageAnswer } = useGame();
 
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission5);
+  const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission5);
+
+  const handleCheckpointComplete = (selectedChoice) => {
+    recordStageAnswer('mission5', {
+      stageNum: 5,
+      stageTitle: STAGE_QUESTIONS.mission5.stageTitle,
+      question: STAGE_QUESTIONS.mission5.question,
+      selectedOptionId: selectedChoice.id,
+      selectedText: selectedChoice.text,
+      isCorrect: selectedChoice.isCorrect,
+      reason: selectedChoice.reason,
+      explanation: STAGE_QUESTIONS.mission5.explanation,
+      choices: STAGE_QUESTIONS.mission5.choices,
+    });
+    setIsCheckpointOpen(false);
+  };
 
   // Steamer step states:
   // 0: Base pot empty -> accept steamer_water (1 cup)
@@ -307,6 +325,15 @@ export const Mission5Steaming = () => {
   return (
     <div className="workstation-scene steaming-scene">
       <div className="workstation-overlay" />
+
+      {/* Stage 5 Pre-Check Question Modal */}
+      <CheckpointQuestionModal
+        isOpen={isCheckpointOpen}
+        stageTitle={STAGE_QUESTIONS.mission5.stageTitle}
+        question={STAGE_QUESTIONS.mission5.question}
+        choices={STAGE_QUESTIONS.mission5.choices}
+        onComplete={handleCheckpointComplete}
+      />
 
       {/* Main Center Cooking Countertop */}
       <div className="stage-center-zone">

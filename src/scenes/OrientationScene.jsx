@@ -11,7 +11,6 @@ export const OrientationScene = () => {
   const {
     studentName,
     setScene,
-    addScore,
     speak,
     completeMission,
     showToast,
@@ -187,16 +186,12 @@ export const OrientationScene = () => {
         reason: i.reason,
       }));
 
-      const ppeScore = Math.max(0, Math.round((correctSelected.length / (correctItems.length || 6)) * 25 - (distractorsPicked.length * 5)));
-
       recordPreTestPpe({
         selectedIds,
         correctIds: correctItems.map((i) => i.id),
         correctSelected,
         distractorsPicked,
         totalCorrect: correctItems.length,
-        score: ppeScore,
-        maxPts: 25,
       });
 
       showToast('Task 1 Recorded!', 'PPE Attire selection saved. Proceeding to Handwashing Sequence.', 'info');
@@ -218,18 +213,7 @@ export const OrientationScene = () => {
     setHandwashData(data);
 
     if (!isAlreadyCompleted) {
-      const hwSlots = Array.isArray(data?.slots) ? data.slots : [];
-      const hwCorrectCount = hwSlots.filter((s, idx) => s && s.isCorrect && s.step === idx + 1).length;
-      const hwDistractorsCount = hwSlots.filter((s) => s && !s.isCorrect).length;
-      const hwScore = Math.max(0, Math.round((hwCorrectCount / 7) * 25 - (hwDistractorsCount * 5)));
-
-      const enhancedData = {
-        ...data,
-        score: hwScore,
-        maxPts: 25,
-      };
-
-      recordPreTestHandwash(enhancedData);
+      recordPreTestHandwash(data);
       showToast('Task 2 Recorded!', 'Handwashing sequence saved. Proceeding to Tool Safety Inspection.', 'info');
     }
 
@@ -248,9 +232,6 @@ export const OrientationScene = () => {
     setToolSafetyDone(true);
     setToolAnswers(answersList);
     if (!isAlreadyCompleted) {
-      const toolSafeCount = answersList.filter((t) => t && t.isSafe).length;
-      const toolScore = Math.round((toolSafeCount / (TOOL_INSPECTION_ITEMS.length || 6)) * 25);
-
       recordPreTestTool(answersList);
       showToast('Task 3 Recorded!', 'Tool & Equipment safety inspection saved. Proceeding to Ingredient Inspection.', 'info');
     }
@@ -323,26 +304,6 @@ export const OrientationScene = () => {
 
       // All 4 tasks successfully completed
       recordPreTestIngredient(answersList);
-
-      // Calculate Pre-Test Score (100 pts total / 25 pts per task)
-      const ppeSelectedIds = Object.entries(ppeEquipped).filter(([, v]) => Boolean(v)).map(([k]) => k);
-      const ppeCorrectCount = ppeSelectedIds.filter((id) => PPE_ITEMS.find((item) => item.id === id)?.isCorrect).length;
-      const ppeDistractorsCount = ppeSelectedIds.filter((id) => !PPE_ITEMS.find((item) => item.id === id)?.isCorrect).length;
-      const ppeScore = Math.max(0, Math.round((ppeCorrectCount / 6) * 25 - (ppeDistractorsCount * 5)));
-
-      const hwSlots = Array.isArray(handwashData?.slots) ? handwashData.slots : [];
-      const hwCorrectCount = hwSlots.filter((s, idx) => s && s.isCorrect && s.step === idx + 1).length;
-      const hwDistractorsCount = hwSlots.filter((s) => s && !s.isCorrect).length;
-      const hwScore = Math.max(0, Math.round((hwCorrectCount / 7) * 25 - (hwDistractorsCount * 5)));
-
-      const toolSafeCount = toolAnswers.filter((t) => t && t.isSafe).length;
-      const toolScore = Math.round((toolSafeCount / (TOOL_INSPECTION_ITEMS.length || 6)) * 25);
-
-      const ingredientSafeCount = answersList.filter((i) => i && i.isSafe).length;
-      const ingredientScore = Math.round((ingredientSafeCount / (INGREDIENT_INSPECTION_ITEMS.length || 4)) * 25);
-
-      const totalPreTestScore = ppeScore + hwScore + toolScore + ingredientScore;
-      addScore(totalPreTestScore);
 
       soundManager.playFanfare();
       completeMission('orientation');

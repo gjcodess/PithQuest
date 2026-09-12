@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { soundManager } from '../audio/soundManager';
 
 /**
  * CheckpointQuestionModal:
- * Displays curriculum checkpoint questions (Stage 3, 4, 7) directly to students
- * before beginning specific cooking procedures, exactly matching the client requirements.
+ * Displays curriculum checkpoint pre-check questions for Stages 1 to 8.
+ * Students select an answer neutrally without immediate right/wrong disclosure,
+ * then proceed to the interactive workstation. Diagnostic results & explanations
+ * are comprehensively revealed in the final Results Scene.
  */
 export const CheckpointQuestionModal = ({
   isOpen,
@@ -14,21 +16,26 @@ export const CheckpointQuestionModal = ({
   stageTitle = 'Food Technology Checkpoint',
 }) => {
   const [selectedId, setSelectedId] = useState(null);
-  const [isAnsweredCorrect, setIsAnsweredCorrect] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedId(null);
+    }
+  }, [isOpen, question]);
 
   if (!isOpen) return null;
 
   const currentChoice = choices.find((c) => c.id === selectedId);
 
   const handleSelect = (choice) => {
+    soundManager.playClick();
     setSelectedId(choice.id);
-    if (choice.isCorrect) {
-      soundManager.playSuccess();
-      setIsAnsweredCorrect(true);
-    } else {
-      soundManager.playError();
-      setIsAnsweredCorrect(false);
-    }
+  };
+
+  const handleProceed = () => {
+    if (!currentChoice) return;
+    soundManager.playClick();
+    onComplete(currentChoice);
   };
 
   return (
@@ -38,7 +45,7 @@ export const CheckpointQuestionModal = ({
         <div className="checkpoint-header">
           <div className="checkpoint-teacher-badge">
             <span className="teacher-avatar-mini">👩‍🍳</span>
-            <span className="teacher-badge-text">Teacher Mia's Kitchen Checkpoint</span>
+            <span className="teacher-badge-text">Teacher Mia's Stage Pre-Check</span>
           </div>
           <span className="checkpoint-stage-tag">{stageTitle}</span>
         </div>
@@ -46,62 +53,43 @@ export const CheckpointQuestionModal = ({
         {/* Question Title */}
         <div className="checkpoint-body">
           <h3 className="checkpoint-question-title">{question}</h3>
+          <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
+            Select the best answer before beginning your workstation tasks:
+          </p>
 
           {/* Interactive Choices Grid */}
           <div className="checkpoint-choices-stack">
             {choices.map((choice) => {
               const isSelected = selectedId === choice.id;
-              let choiceClass = 'checkpoint-choice-btn';
-              if (isSelected) {
-                choiceClass += choice.isCorrect ? ' choice-correct' : ' choice-wrong';
-              }
+              const choiceClass = `checkpoint-choice-btn ${isSelected ? 'choice-selected' : ''}`;
 
               return (
                 <button
                   key={choice.id}
+                  type="button"
                   className={choiceClass}
                   onClick={() => handleSelect(choice)}
-                  disabled={isAnsweredCorrect && choice.isCorrect}
                 >
                   <span className="choice-letter-badge">{choice.id.toUpperCase()}</span>
                   <span className="choice-text">{choice.text}</span>
-                  {isSelected && choice.isCorrect && (
-                    <span className="choice-check-icon">✓</span>
+                  {isSelected && (
+                    <span className="choice-select-indicator">●</span>
                   )}
                 </button>
               );
             })}
           </div>
-
-          {/* Feedback Explanation Banner */}
-          {currentChoice && (
-            <div
-              className={`checkpoint-feedback-box ${
-                currentChoice.isCorrect ? 'feedback-correct' : 'feedback-alert'
-              }`}
-            >
-              <div className="feedback-icon-col">
-                {currentChoice.isCorrect ? '✨' : '⚠️'}
-              </div>
-              <div className="feedback-text-col">
-                <strong>{currentChoice.isCorrect ? 'Correct Procedure!' : 'Important Sanitation / Quality Rule:'}</strong>
-                <p>{currentChoice.reason}</p>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Footer Action Button */}
-        {isAnsweredCorrect && (
+        {selectedId && (
           <div className="checkpoint-footer">
             <button
+              type="button"
               className="btn-checkpoint-proceed"
-              onClick={() => {
-                soundManager.playClick();
-                onComplete();
-              }}
+              onClick={handleProceed}
             >
-              <span>Continue to Workstation</span>
+              <span>Proceed to Workstation</span>
               <span className="proceed-arrow">➔</span>
             </button>
           </div>
@@ -110,3 +98,4 @@ export const CheckpointQuestionModal = ({
     </div>
   );
 };
+

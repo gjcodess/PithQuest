@@ -6,36 +6,23 @@ const GameContext = createContext();
 export const GameProvider = ({ children }) => {
   const [scene, setScene] = useState('title');
   const [studentName, setStudentName] = useState(() => localStorage.getItem('pithquest_name') || '');
-  const [stageScores, setStageScores] = useState({
-    orientation: 0,
-    mission1: 0,
-    mission2: 0,
-    mission3: 0,
-    mission4: 0,
-    mission5: 0,
-    mission6: 0,
-    mission7: 0,
-    mission8: 0,
-    sequencing: 0,
+  const [stageAnswers, setStageAnswers] = useState({
+    mission1: null,
+    mission2: null,
+    mission3: null,
+    mission4: null,
+    mission5: null,
+    mission6: null,
+    mission7: null,
+    mission8: null,
   });
 
-  const [stageMistakes, setStageMistakes] = useState({
-    orientation: 0,
-    mission1: 0,
-    mission2: 0,
-    mission3: 0,
-    mission4: 0,
-    mission5: 0,
-    mission6: 0,
-    mission7: 0,
-    mission8: 0,
-    sequencing: 0,
-  });
-
-  // Dynamically computed total score & stars based on non-duplicated stage scores
-  const score = Object.values(stageScores).reduce((sum, val) => sum + (val || 0), 0);
-  const mistakes = Object.values(stageMistakes).reduce((sum, val) => sum + (val || 0), 0);
-  const stars = mistakes <= 3 ? 3 : mistakes <= 7 ? 2 : 1;
+  const recordStageAnswer = (stageKey, answerData) => {
+    setStageAnswers(prev => ({
+      ...prev,
+      [stageKey]: answerData,
+    }));
+  };
 
   const [badges, setBadges] = useState([]);
   const [isMuted, setIsMuted] = useState(() => soundManager.isMuted);
@@ -171,8 +158,6 @@ export const GameProvider = ({ children }) => {
 
   const resetStageScore = (targetScene = scene) => {
     setMissionsCompleted(prev => ({ ...prev, [targetScene]: false }));
-    setStageScores(prev => ({ ...prev, [targetScene]: 0 }));
-    setStageMistakes(prev => ({ ...prev, [targetScene]: 0 }));
   };
 
   const restartStage = (targetScene = scene) => {
@@ -180,7 +165,7 @@ export const GameProvider = ({ children }) => {
     setHoldingItem(null);
     resetStageScore(targetScene);
     setStageKey(prev => prev + 1);
-    showToast('Stage Reset', 'Points and progress for this workstation have been reset. Replay to earn points!', 'info');
+    showToast('Stage Reset', 'Workstation progress has been reset. You can restart the activity.', 'info');
   };
 
   const [confirmDialog, setConfirmDialog] = useState({
@@ -214,19 +199,9 @@ export const GameProvider = ({ children }) => {
     if (!muted) soundManager.playClick();
   };
 
-  const addScore = (points) => {
-    setStageScores(prev => ({
-      ...prev,
-      [scene]: (prev[scene] || 0) + points,
-    }));
-  };
-
-  const recordMistake = () => {
-    setStageMistakes(prev => ({
-      ...prev,
-      [scene]: (prev[scene] || 0) + 1,
-    }));
-  };
+  // Safe no-op stubs for backward compatibility
+  const addScore = () => {};
+  const recordMistake = () => {};
 
   const unlockBadge = (badgeId, badgeTitle, icon = '🎖️') => {
     setBadges(prev => {
@@ -352,29 +327,15 @@ export const GameProvider = ({ children }) => {
   };
 
   const resetGame = () => {
-    setStageScores({
-      orientation: 0,
-      mission1: 0,
-      mission2: 0,
-      mission3: 0,
-      mission4: 0,
-      mission5: 0,
-      mission6: 0,
-      mission7: 0,
-      mission8: 0,
-      sequencing: 0,
-    });
-    setStageMistakes({
-      orientation: 0,
-      mission1: 0,
-      mission2: 0,
-      mission3: 0,
-      mission4: 0,
-      mission5: 0,
-      mission6: 0,
-      mission7: 0,
-      mission8: 0,
-      sequencing: 0,
+    setStageAnswers({
+      mission1: null,
+      mission2: null,
+      mission3: null,
+      mission4: null,
+      mission5: null,
+      mission6: null,
+      mission7: null,
+      mission8: null,
     });
     setBadges([]);
     setAssessmentResults({
@@ -415,11 +376,11 @@ export const GameProvider = ({ children }) => {
         setScene,
         studentName,
         saveStudentName,
-        score,
+        score: 0,
         addScore,
-        mistakes,
+        mistakes: 0,
         recordMistake,
-        stars,
+        stars: 0,
         badges,
         unlockBadge,
         missionsCompleted,
@@ -448,8 +409,6 @@ export const GameProvider = ({ children }) => {
         stageKey,
         restartStage,
         resetStageScore,
-        stageScores,
-        stageMistakes,
         maxUnlockedStage,
         setMaxUnlockedStage,
         zoomLevel,
@@ -458,6 +417,9 @@ export const GameProvider = ({ children }) => {
         zoomIn,
         zoomOut,
         resetZoom,
+        // Stage Pre-Check Questions Tracking
+        stageAnswers,
+        recordStageAnswer,
         // Diagnostic & Formative Assessment State & Helpers
         assessmentResults,
         recordPreTestPpe,
