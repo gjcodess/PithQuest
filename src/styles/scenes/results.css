@@ -953,7 +953,8 @@
     box-shadow: none !important;
   }
 
-  /* Explicitly hide all diagnostic audit sections, Teacher Mia avatars, dialogue cards, and game HUD */
+  /* Explicitly hide all diagnostic audit sections, Teacher Mia avatars, dialogue cards, overlays, and game HUD */
+  .screen-restriction-overlay,
   .results-diagnostic-audit-card,
   .floating-companion-wrapper,
   .floating-companion-btn,
