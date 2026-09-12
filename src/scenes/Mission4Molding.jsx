@@ -13,17 +13,20 @@ export const Mission4Molding = () => {
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission4);
   const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission4);
 
-  const handleCheckpointComplete = (selectedChoice) => {
+  const handleCheckpointComplete = (selectedChoice, questionChoices) => {
+    const choicesList = questionChoices || STAGE_QUESTIONS.mission4.choices;
+    const correctChoice = choicesList.find((c) => c.isCorrect);
     recordStageAnswer('mission4', {
       stageNum: 4,
       stageTitle: STAGE_QUESTIONS.mission4.stageTitle,
       question: STAGE_QUESTIONS.mission4.question,
-      selectedOptionId: selectedChoice.id,
+      selectedOptionId: selectedChoice.displayLetter || selectedChoice.selectedOptionId || selectedChoice.id,
       selectedText: selectedChoice.text,
       isCorrect: selectedChoice.isCorrect,
       reason: selectedChoice.reason,
       explanation: STAGE_QUESTIONS.mission4.explanation,
-      choices: STAGE_QUESTIONS.mission4.choices,
+      choices: choicesList,
+      correctOptionId: correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A',
     });
     setIsCheckpointOpen(false);
   };

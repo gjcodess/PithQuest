@@ -15,17 +15,20 @@ export const Mission1Prep = () => {
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission1);
   const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission1);
 
-  const handleCheckpointComplete = (selectedChoice) => {
+  const handleCheckpointComplete = (selectedChoice, questionChoices) => {
+    const choicesList = questionChoices || STAGE_QUESTIONS.mission1.choices;
+    const correctChoice = choicesList.find((c) => c.isCorrect);
     recordStageAnswer('mission1', {
       stageNum: 1,
       stageTitle: STAGE_QUESTIONS.mission1.stageTitle,
       question: STAGE_QUESTIONS.mission1.question,
-      selectedOptionId: selectedChoice.id,
+      selectedOptionId: selectedChoice.displayLetter || selectedChoice.selectedOptionId || selectedChoice.id,
       selectedText: selectedChoice.text,
       isCorrect: selectedChoice.isCorrect,
       reason: selectedChoice.reason,
       explanation: STAGE_QUESTIONS.mission1.explanation,
-      choices: STAGE_QUESTIONS.mission1.choices,
+      choices: choicesList,
+      correctOptionId: correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A',
     });
     setIsCheckpointOpen(false);
   };

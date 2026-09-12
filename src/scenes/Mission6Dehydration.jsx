@@ -13,17 +13,20 @@ export const Mission6Dehydration = () => {
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission6);
   const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission6);
 
-  const handleCheckpointComplete = (selectedChoice) => {
+  const handleCheckpointComplete = (selectedChoice, questionChoices) => {
+    const choicesList = questionChoices || STAGE_QUESTIONS.mission6.choices;
+    const correctChoice = choicesList.find((c) => c.isCorrect);
     recordStageAnswer('mission6', {
       stageNum: 6,
       stageTitle: STAGE_QUESTIONS.mission6.stageTitle,
       question: STAGE_QUESTIONS.mission6.question,
-      selectedOptionId: selectedChoice.id,
+      selectedOptionId: selectedChoice.displayLetter || selectedChoice.selectedOptionId || selectedChoice.id,
       selectedText: selectedChoice.text,
       isCorrect: selectedChoice.isCorrect,
       reason: selectedChoice.reason,
       explanation: STAGE_QUESTIONS.mission6.explanation,
-      choices: STAGE_QUESTIONS.mission6.choices,
+      choices: choicesList,
+      correctOptionId: correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A',
     });
     setIsCheckpointOpen(false);
   };

@@ -162,17 +162,17 @@ export const ResultsScene = () => {
       task: 'Pre-Test Task 3: Tool & Equipment Safety Inspection',
       icon: '🔍',
       criteria: 'Sanitary blades, intact cords, food-grade materials & undamaged appliances',
-      status: toolSafeCount >= 5 ? 'PASSED SAFE' : 'HAZARDS FLAGGED',
-      isPass: toolSafeCount >= 5,
-      detail: `${toolSafeCount}/${TOOL_INSPECTION_ITEMS.length || 6} safe equipment verified`,
+      status: toolSafeCount >= TOOL_INSPECTION_ITEMS.length ? 'PASSED SAFE' : 'HAZARDS FLAGGED',
+      isPass: toolSafeCount >= TOOL_INSPECTION_ITEMS.length,
+      detail: `${toolSafeCount}/${TOOL_INSPECTION_ITEMS.length} safe equipment verified`,
     },
     {
       task: 'Pre-Test Task 4: Raw Material Quality Inspection',
       icon: '🥥',
       criteria: 'Fresh coconut pith, unexpired rice flour, pure sea salt & fresh oil',
-      status: ingredientSafeCount >= 3 ? 'GRADE A FRESH' : 'SPOILED FLAGGED',
-      isPass: ingredientSafeCount >= 3,
-      detail: `${ingredientSafeCount}/${INGREDIENT_INSPECTION_ITEMS.length || 4} fresh ingredients verified`,
+      status: ingredientSafeCount >= INGREDIENT_INSPECTION_ITEMS.length ? 'GRADE A FRESH' : 'SPOILED FLAGGED',
+      isPass: ingredientSafeCount >= INGREDIENT_INSPECTION_ITEMS.length,
+      detail: `${ingredientSafeCount}/${INGREDIENT_INSPECTION_ITEMS.length} fresh ingredients verified`,
     },
     {
       task: 'Stage Pre-Check Questions (Stages 1–8)',
@@ -544,7 +544,7 @@ export const ResultsScene = () => {
               <h3>Laboratory Tool & Equipment Safety Inspection Audit</h3>
             </div>
             <span className="section-status-tag">
-              {toolSafeCount}/{TOOL_INSPECTION_ITEMS.length || 6} Safe Choices
+              {toolSafeCount}/{TOOL_INSPECTION_ITEMS.length} Safe Choices
             </span>
           </div>
 
@@ -605,7 +605,7 @@ export const ResultsScene = () => {
               <h3>Raw Ingredient Quality & Spoilage Inspection Audit</h3>
             </div>
             <span className="section-status-tag">
-              {ingredientSafeCount}/{INGREDIENT_INSPECTION_ITEMS.length || 4} Fresh Choices
+              {ingredientSafeCount}/{INGREDIENT_INSPECTION_ITEMS.length} Fresh Choices
             </span>
           </div>
 
@@ -682,7 +682,9 @@ export const ResultsScene = () => {
                 const studentAnswer = stageAnswers?.[stageKey];
                 const isAnswered = Boolean(studentAnswer);
                 const isCorrect = Boolean(studentAnswer?.isCorrect);
-                const correctChoice = qData.choices.find((c) => c.isCorrect);
+                const activeChoices = studentAnswer?.choices || qData.choices;
+                const correctChoice = activeChoices.find((c) => c.isCorrect);
+                const correctLetter = studentAnswer?.correctOptionId || correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A';
 
                 return (
                   <div key={stageKey} className="stage-question-review-card">
@@ -722,7 +724,7 @@ export const ResultsScene = () => {
                         <div className="stage-answer-content">
                           {studentAnswer
                             ? `${studentAnswer.selectedOptionId?.toUpperCase()}. ${studentAnswer.selectedText}`
-                            : `${correctChoice?.id?.toUpperCase()}. ${correctChoice?.text}`}
+                            : `${correctLetter}. ${correctChoice?.text}`}
                         </div>
                       </div>
 
@@ -731,7 +733,7 @@ export const ResultsScene = () => {
                         <div className="stage-correct-reference">
                           <div className="stage-correct-badge">✓ Recommended Standard Procedure:</div>
                           <div className="stage-correct-content">
-                            {correctChoice.id.toUpperCase()}. {correctChoice.text}
+                            {correctLetter}. {correctChoice.text}
                           </div>
                         </div>
                       )}

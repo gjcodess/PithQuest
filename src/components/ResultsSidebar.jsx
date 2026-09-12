@@ -2,10 +2,10 @@ import React from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { SidebarPortal } from './SidebarPortal';
+import { TOOL_INSPECTION_ITEMS, INGREDIENT_INSPECTION_ITEMS } from '../data/inspectionData';
 
 export const ResultsSidebar = () => {
   const {
-    badges,
     studentName,
     isInventoryCollapsed,
     setIsInventoryCollapsed,
@@ -51,7 +51,7 @@ export const ResultsSidebar = () => {
         >
           <div className="inventory-tab-icon-wrapper">
             <span style={{ fontSize: '1.4rem' }}>📊</span>
-            <span className="inventory-tab-count-pill">{badges.length}</span>
+            <span className="inventory-tab-count-pill">✓</span>
           </div>
           <div className="inventory-tab-label-stack">
             <span className="inventory-tab-name">RESULTS</span>
@@ -159,7 +159,7 @@ export const ResultsSidebar = () => {
                 </span>
               </div>
               <p className="card-desc-text">
-                Tools: {toolSafeCount}/6 Safe • Ingredients: {ingredientSafeCount}/4 Fresh
+                Tools: {toolSafeCount}/{TOOL_INSPECTION_ITEMS.length} Safe • Ingredients: {ingredientSafeCount}/{INGREDIENT_INSPECTION_ITEMS.length} Fresh
               </p>
             </div>
           </div>
@@ -192,24 +192,6 @@ export const ResultsSidebar = () => {
               </div>
               <p className="card-desc-text">
                 {sequenceCorrectCount}/8 stages correctly positioned in sequence
-              </p>
-            </div>
-          </div>
-
-          {/* Card 7: Badges & Competencies */}
-          <div className="drag-card horizontal-item-card">
-            <div className="card-icon-col">
-              <span style={{ fontSize: '1.6rem' }}>🏅</span>
-            </div>
-            <div className="card-info-col">
-              <div className="card-title-row">
-                <span className="card-title">Earned Accreditations</span>
-                <span className="card-measure">{badges.length} BADGES</span>
-              </div>
-              <p className="card-desc-text">
-                {badges.length > 0
-                  ? badges.map((b) => b.title).join(' • ')
-                  : 'Master Food Technologist, PPE Certified, Thermal Gelatinization'}
               </p>
             </div>
           </div>

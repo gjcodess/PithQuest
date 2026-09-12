@@ -13,15 +13,15 @@ export const STAGE_QUESTIONS = {
     choices: [
       {
         id: 'a',
-        text: 'To soften tough cellulosic fibers for smooth pureeing and inactivate polyphenol oxidase (browning enzymes).',
-        isCorrect: true,
-        reason: 'Thermal blanching hydrothermally solubilizes cell walls for fine milling and denatures polyphenol oxidase enzymes, preventing enzymatic browning.',
-      },
-      {
-        id: 'b',
         text: 'To evaporate 100% of the water from the fresh pith before milling.',
         isCorrect: false,
         reason: 'Boiling in water hydrates and softens the plant material rather than dehydrating it.',
+      },
+      {
+        id: 'b',
+        text: 'To soften tough cellulosic fibers for smooth pureeing and inactivate polyphenol oxidase (browning enzymes).',
+        isCorrect: true,
+        reason: 'Thermal blanching hydrothermally solubilizes cell walls for fine milling and denatures polyphenol oxidase enzymes, preventing enzymatic browning.',
       },
       {
         id: 'c',
@@ -47,21 +47,21 @@ export const STAGE_QUESTIONS = {
     choices: [
       {
         id: 'a',
-        text: 'To rupture cell walls and create a homogenous, lump-free micro-matrix for uniform hydration with rice flour.',
-        isCorrect: true,
-        reason: 'High-shear mechanical pureeing homogenizes fibers into a smooth paste that easily hydrates and blends with rice starch polymers without coarse grittiness.',
-      },
-      {
-        id: 'b',
         text: 'To separate the liquid juice from the pulp and discard all the solid fibers.',
         isCorrect: false,
         reason: 'All coconut pith fibers and natural pulp are retained to form the cracker matrix.',
       },
       {
-        id: 'c',
+        id: 'b',
         text: 'To freeze the pureed mixture into solid ice blocks.',
         isCorrect: false,
         reason: 'Pureeing is a mechanical homogenization process, not a freezing preservation step.',
+      },
+      {
+        id: 'c',
+        text: 'To rupture cell walls and create a homogenous, lump-free micro-matrix for uniform hydration with rice flour.',
+        isCorrect: true,
+        reason: 'High-shear mechanical pureeing homogenizes fibers into a smooth paste that easily hydrates and blends with rice starch polymers without coarse grittiness.',
       },
       {
         id: 'd',
@@ -115,27 +115,27 @@ export const STAGE_QUESTIONS = {
     choices: [
       {
         id: 'a',
-        text: 'Uniform thickness and dimensions ensure consistent heat penetration during steaming and even moisture diffusion during dehydration.',
-        isCorrect: true,
-        reason: 'Calibrated dimensions ensure uniform thermal conductivity and mass transfer, preventing uneven cooking, blistering, or raw cores.',
-      },
-      {
-        id: 'b',
         text: 'To make the crackers take longer to dry inside the convection dehydrator.',
         isCorrect: false,
         reason: 'Level, uniform thickness optimizes and shortens the drying process rather than delaying it.',
       },
       {
-        id: 'c',
+        id: 'b',
         text: 'To create random, uneven cracker thicknesses for varied crunchiness.',
         isCorrect: false,
         reason: 'Commercial food manufacturing requires strict dimensional standardization for quality control.',
       },
       {
-        id: 'd',
+        id: 'c',
         text: 'To trap large air pockets and voids inside the molded dough.',
         isCorrect: false,
         reason: 'Leveling presses out excess air voids to ensure a dense, solid wafer structure.',
+      },
+      {
+        id: 'd',
+        text: 'Uniform thickness and dimensions ensure consistent heat penetration during steaming and even moisture diffusion during dehydration.',
+        isCorrect: true,
+        reason: 'Calibrated dimensions ensure uniform thermal conductivity and mass transfer, preventing uneven cooking, blistering, or raw cores.',
       },
     ],
     explanation: 'Standardized dimensions ensure uniform thermal conductivity and moisture diffusion during steaming and dehydration, preventing uneven core drying or blistering.',
@@ -149,15 +149,15 @@ export const STAGE_QUESTIONS = {
     choices: [
       {
         id: 'a',
-        text: 'Moist heat ruptures starch granules, causing irreversible gelatinization into a cohesive, extensible gel matrix.',
-        isCorrect: true,
-        reason: 'Thermal steaming gelatinizes the amylose and amylopectin starches, locking the molded shape into a continuous gel matrix capable of holding steam.',
-      },
-      {
-        id: 'b',
         text: 'The starches burn and turn into dry carbon ash.',
         isCorrect: false,
         reason: 'Steaming at 100°C cooks with moist vapor without burning.',
+      },
+      {
+        id: 'b',
+        text: 'Moist heat ruptures starch granules, causing irreversible gelatinization into a cohesive, extensible gel matrix.',
+        isCorrect: true,
+        reason: 'Thermal steaming gelatinizes the amylose and amylopectin starches, locking the molded shape into a continuous gel matrix capable of holding steam.',
       },
       {
         id: 'c',
@@ -183,21 +183,21 @@ export const STAGE_QUESTIONS = {
     choices: [
       {
         id: 'a',
-        text: 'Removing free water transitions the gelatinized starch into a glassy, brittle state essential for rapid steam expansion upon frying.',
-        isCorrect: true,
-        reason: 'Reducing moisture below 10% creates a glassy amorphous matrix that traps residual bound water, creating internal pressure for puffing during frying.',
-      },
-      {
-        id: 'b',
         text: 'To fry the crackers in vegetable oil inside the dehydrator cabinet.',
         isCorrect: false,
         reason: 'A dehydrator circulates warm convective air to remove moisture, not cooking oil.',
       },
       {
-        id: 'c',
+        id: 'b',
         text: 'To rehydrate the crackers with added moisture from ambient air.',
         isCorrect: false,
         reason: 'Dehydration removes moisture rather than adding it.',
+      },
+      {
+        id: 'c',
+        text: 'Removing free water transitions the gelatinized starch into a glassy, brittle state essential for rapid steam expansion upon frying.',
+        isCorrect: true,
+        reason: 'Reducing moisture below 10% creates a glassy amorphous matrix that traps residual bound water, creating internal pressure for puffing during frying.',
       },
       {
         id: 'd',
@@ -251,27 +251,27 @@ export const STAGE_QUESTIONS = {
     choices: [
       {
         id: 'a',
-        text: 'Hermetic barrier packaging prevents moisture vapor ingress (preventing loss of crispness) and shields against lipid photo-oxidation.',
-        isCorrect: true,
-        reason: 'Moisture ingress causes starch retrogradation and loss of crunch, while oxygen/light exposure causes oil rancidity. Barrier packaging ensures a 6-month shelf life.',
-      },
-      {
-        id: 'b',
         text: 'To allow ambient humidity and air to circulate freely into the crackers.',
         isCorrect: false,
         reason: 'Air and humidity circulation causes crackers to become stale and soggy.',
       },
       {
-        id: 'c',
+        id: 'b',
         text: 'To soften the fried crackers into a chewy snack over time.',
         isCorrect: false,
         reason: 'The objective of barrier packaging is to preserve crispness and shelf life.',
       },
       {
-        id: 'd',
+        id: 'c',
         text: 'To expose the crackers to direct sunlight and high temperatures.',
         isCorrect: false,
         reason: 'Sunlight and heat accelerate lipid oxidation and must be shielded.',
+      },
+      {
+        id: 'd',
+        text: 'Hermetic barrier packaging prevents moisture vapor ingress (preventing loss of crispness) and shields against lipid photo-oxidation.',
+        isCorrect: true,
+        reason: 'Moisture ingress causes starch retrogradation and loss of crunch, while oxygen/light exposure causes oil rancidity. Barrier packaging ensures a 6-month shelf life.',
       },
     ],
     explanation: 'High-barrier sealed foil pouches prevent water vapor ingress (preventing starch retrogradation and staleness) and shield against lipid photo-oxidation, securing a 6-month shelf life.',

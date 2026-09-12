@@ -14,17 +14,20 @@ export const Mission7Frying = () => {
   const isAlreadyCompleted = Boolean(missionsCompleted?.mission7);
   const [isCheckpointOpen, setIsCheckpointOpen] = useState(() => !isAlreadyCompleted && !stageAnswers?.mission7);
 
-  const handleCheckpointComplete = (selectedChoice) => {
+  const handleCheckpointComplete = (selectedChoice, questionChoices) => {
+    const choicesList = questionChoices || STAGE_QUESTIONS.mission7.choices;
+    const correctChoice = choicesList.find((c) => c.isCorrect);
     recordStageAnswer('mission7', {
       stageNum: 7,
       stageTitle: STAGE_QUESTIONS.mission7.stageTitle,
       question: STAGE_QUESTIONS.mission7.question,
-      selectedOptionId: selectedChoice.id,
+      selectedOptionId: selectedChoice.displayLetter || selectedChoice.selectedOptionId || selectedChoice.id,
       selectedText: selectedChoice.text,
       isCorrect: selectedChoice.isCorrect,
       reason: selectedChoice.reason,
       explanation: STAGE_QUESTIONS.mission7.explanation,
-      choices: STAGE_QUESTIONS.mission7.choices,
+      choices: choicesList,
+      correctOptionId: correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A',
     });
     setIsCheckpointOpen(false);
   };
@@ -42,6 +45,7 @@ export const Mission7Frying = () => {
   const [isHeatingOil, setIsHeatingOil] = useState(false);
   const [puffProgress, setPuffProgress] = useState(0);
   const [isPuffing, setIsPuffing] = useState(false);
+  const isBurnerOn = isHeatingOil || fryStep === 2 || fryStep === 3;
 
   useEffect(() => {
     if (isAlreadyCompleted) {
@@ -388,6 +392,7 @@ export const Mission7Frying = () => {
               currentStepIndex={fryStep}
               steps={frySteps}
               onItemAccepted={handleItemAccepted}
+              activeAnimation={isHeatingOil || isPuffing ? 'sizzling' : fryStep === 2 || fryStep === 3 ? 'sizzling' : null}
               containerWidth="100%"
               statusDotClass={fryStep >= 6 ? 'dot-success' : fryStep >= 2 ? 'dot-amber' : ''}
               statusText={
@@ -419,24 +424,48 @@ export const Mission7Frying = () => {
                 </span>
               }
               customFooter={
-                fryStep <= 2 ? (
-                  <StoveBurnerConsole
-                    isActive={isHeatingOil}
-                    isReady={fryStep === 1}
-                    isComplete={fryStep >= 2}
-                    progress={Math.round((oilTemp / 180) * 100)}
-                    onIgnite={handlePreheatOil}
-                    standbyHint={fryStep === 0 ? 'Pour 5 cups vegetable oil first' : 'Turn dial to ignite'}
-                    readyHint="👉 Click dial to preheat oil"
-                    activeHint={() => `🔥 Preheating oil... ${oilTemp}°C`}
-                    completeHint="✓ Oil preheated over medium heat"
-                    modeTitleActive="MEDIUM HEAT: PREHEATING"
-                    modeTitleReady="IGNITE BURNER"
-                    modeTitleStandby="BURNER: OFF"
-                    modeTitleComplete="OIL PREHEATED"
-                    disabled={isHeatingOil || fryStep >= 2}
-                  />
-                ) : null
+                <StoveBurnerConsole
+                  isIgnited={isBurnerOn}
+                  isActive={isBurnerOn}
+                  isReady={fryStep === 1}
+                  isComplete={fryStep >= 4}
+                  progress={
+                    isHeatingOil
+                      ? Math.round((oilTemp / 180) * 100)
+                      : isPuffing
+                      ? puffProgress
+                      : 100
+                  }
+                  onIgnite={handlePreheatOil}
+                  standbyHint={fryStep === 0 ? 'Pour 5 cups vegetable oil first' : 'Turn dial to ignite'}
+                  readyHint="👉 Click dial to preheat oil"
+                  activeHint={
+                    isHeatingOil
+                      ? () => `🔥 Preheating oil... ${oilTemp}°C`
+                      : isPuffing
+                      ? () => `💥 Flash frying... ${puffProgress}%`
+                      : '🔥 Oil at 180°C — Add dehydrated pellets!'
+                  }
+                  completeHint="✓ Frying complete • Burner extinguished"
+                  modeTitleIgnited={
+                    isHeatingOil
+                      ? 'MEDIUM HEAT: PREHEATING'
+                      : isPuffing
+                      ? 'FLASH EXPANSION (10s)'
+                      : 'MEDIUM HEAT: 180°C READY'
+                  }
+                  modeTitleActive={
+                    isHeatingOil
+                      ? 'MEDIUM HEAT: PREHEATING'
+                      : isPuffing
+                      ? 'FLASH EXPANSION (10s)'
+                      : 'MEDIUM HEAT: 180°C READY'
+                  }
+                  modeTitleReady="IGNITE BURNER"
+                  modeTitleStandby="BURNER: OFF"
+                  modeTitleComplete="BURNER: OFF (COOKED)"
+                  disabled={isBurnerOn || fryStep >= 4}
+                />
               }
             />
           </div>

@@ -2,6 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { soundManager } from '../audio/soundManager';
 
 /**
+ * Fisher-Yates shuffle algorithm for fair, unbiased choice randomization
+ */
+const shuffleChoices = (items) => {
+  if (!Array.isArray(items)) return [];
+  const copy = items.map((item) => ({ ...item }));
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  const LETTERS = ['A', 'B', 'C', 'D', 'E'];
+  return copy.map((item, idx) => ({
+    ...item,
+    displayLetter: LETTERS[idx] || String.fromCharCode(65 + idx),
+  }));
+};
+
+/**
  * CheckpointQuestionModal:
  * Displays curriculum checkpoint pre-check questions for Stages 1 to 8.
  * Students select an answer neutrally without immediate right/wrong disclosure,
@@ -16,16 +33,20 @@ export const CheckpointQuestionModal = ({
   stageTitle = 'Food Technology Checkpoint',
 }) => {
   const [selectedId, setSelectedId] = useState(null);
+  const [randomizedChoices, setRandomizedChoices] = useState(() =>
+    isOpen && Array.isArray(choices) && choices.length > 0 ? shuffleChoices(choices) : []
+  );
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && Array.isArray(choices) && choices.length > 0) {
       setSelectedId(null);
+      setRandomizedChoices(shuffleChoices(choices));
     }
   }, [isOpen, question]);
 
   if (!isOpen) return null;
 
-  const currentChoice = choices.find((c) => c.id === selectedId);
+  const currentChoice = randomizedChoices.find((c) => c.id === selectedId);
 
   const handleSelect = (choice) => {
     soundManager.playClick();
@@ -35,7 +56,15 @@ export const CheckpointQuestionModal = ({
   const handleProceed = () => {
     if (!currentChoice) return;
     soundManager.playClick();
-    onComplete(currentChoice);
+    if (onComplete) {
+      onComplete(
+        {
+          ...currentChoice,
+          selectedOptionId: currentChoice.displayLetter,
+        },
+        randomizedChoices
+      );
+    }
   };
 
   return (
@@ -59,7 +88,7 @@ export const CheckpointQuestionModal = ({
 
           {/* Interactive Choices Grid */}
           <div className="checkpoint-choices-stack">
-            {choices.map((choice) => {
+            {randomizedChoices.map((choice) => {
               const isSelected = selectedId === choice.id;
               const choiceClass = `checkpoint-choice-btn ${isSelected ? 'choice-selected' : ''}`;
 
@@ -70,7 +99,7 @@ export const CheckpointQuestionModal = ({
                   className={choiceClass}
                   onClick={() => handleSelect(choice)}
                 >
-                  <span className="choice-letter-badge">{choice.id.toUpperCase()}</span>
+                  <span className="choice-letter-badge">{choice.displayLetter}</span>
                   <span className="choice-text">{choice.text}</span>
                   {isSelected && (
                     <span className="choice-select-indicator">●</span>
