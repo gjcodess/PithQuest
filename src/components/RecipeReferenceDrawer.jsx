@@ -19,6 +19,7 @@ export const RecipeReferenceDrawer = ({
     <>
       {/* Floating Toggle Button */}
       <button
+        type="button"
         className="btn-recipe-guide-trigger"
         onClick={() => {
           soundManager.playClick();
@@ -26,8 +27,9 @@ export const RecipeReferenceDrawer = ({
         }}
         title="View Recipe Standards & Safety Guidelines"
       >
-        <span className="trigger-icon">📋</span>
+        <span className="trigger-icon-box">📋</span>
         <span className="trigger-label">Recipe & Safety Reference</span>
+        <span className="trigger-action-badge">VIEW</span>
       </button>
 
       {/* Modal / Drawer Overlay Rendered on Top of Everything via Portal */}
