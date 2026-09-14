@@ -78,7 +78,7 @@
   z-index: 5;
   width: 100%;
   box-sizing: border-box;
-  padding: 20px 32px 36px 32px !important;
+  padding: 64px 32px 36px 32px !important;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -1361,18 +1361,20 @@
 /* ==========================================================================
    SINGLE CENTERED WORKSTATION & HERO STAGE LAYOUT
    ========================================================================== */
-.stage-single-workstation {
+.stage-single-workstation,
+.stage-content-row.stage-single-workstation {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  max-width: 760px !important;
+  max-width: 680px !important;
   margin: 0 auto !important;
 }
 
-.stage-single-workstation .station-center-card {
+.stage-single-workstation .station-center-card,
+.stage-content-row.stage-single-workstation > .station-center-card {
   width: 100% !important;
-  max-width: 720px !important;
+  max-width: 660px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -2018,7 +2020,12 @@
 /* Responsive Centering & Sizing */
 @media (max-width: 1440px) {
   .stage-center-zone {
-    padding: 18px 28px 48px 28px !important;
+    padding: 60px 28px 40px 28px !important;
+  }
+
+  .btn-recipe-guide-trigger {
+    top: 14px !important;
+    right: 22px !important;
   }
 
   .stage-content-row {
@@ -2036,6 +2043,13 @@
   .stage-content-row > *:only-child {
     max-width: 640px !important;
     width: 100% !important;
+  }
+
+  .stage-single-workstation,
+  .stage-content-row.stage-single-workstation,
+  .stage-single-workstation .station-center-card,
+  .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 620px !important;
   }
 
   .container-state-img,
@@ -2106,7 +2120,20 @@
 /* 15.6-Inch Laptops & Medium Displays (max-height: 880px) */
 @media (max-height: 880px) {
   .stage-center-zone {
-    padding: 14px 28px 48px 28px !important;
+    padding: 58px 28px 36px 28px !important;
+  }
+
+  .btn-recipe-guide-trigger {
+    top: 12px !important;
+    right: 20px !important;
+    padding: 6px 12px 6px 8px !important;
+  }
+
+  .stage-single-workstation,
+  .stage-content-row.stage-single-workstation,
+  .stage-single-workstation .station-center-card,
+  .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 620px !important;
   }
 
   .container-state-img,
@@ -2175,7 +2202,20 @@
 /* Compact Laptop Screens & Short Viewports (max-height: 740px) */
 @media (max-height: 740px) {
   .stage-center-zone {
-    padding: 10px 22px 42px 22px !important;
+    padding: 52px 22px 30px 22px !important;
+  }
+
+  .btn-recipe-guide-trigger {
+    top: 10px !important;
+    right: 16px !important;
+    padding: 5px 10px 5px 7px !important;
+  }
+
+  .stage-single-workstation,
+  .stage-content-row.stage-single-workstation,
+  .stage-single-workstation .station-center-card,
+  .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 560px !important;
   }
 
   .container-state-img,
@@ -2245,7 +2285,7 @@
 
 @media (max-width: 1024px) {
   .stage-center-zone {
-    padding: 10px 14px 20px 14px !important;
+    padding: 52px 14px 20px 14px !important;
   }
 
   .stage-content-row {
@@ -2254,8 +2294,20 @@
     gap: 20px !important;
   }
 
+  .stage-single-workstation,
+  .stage-content-row.stage-single-workstation {
+    max-width: 520px !important;
+  }
+
+  .stage-single-workstation .station-center-card,
+  .stage-content-row.stage-single-workstation > .station-center-card,
   .stage-content-row > *:not(:only-child),
   .stage-content-row > *:only-child {
+    max-width: 520px !important;
+    width: 100% !important;
+  }
+
+  .workstation-header {
     max-width: 520px !important;
     width: 100% !important;
   }

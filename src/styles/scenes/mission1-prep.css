@@ -802,7 +802,7 @@
 /* 1. Centered Countertop Immersion Layout */
 .prep-scene .stage-center-zone,
 .game-viewport .prep-scene .stage-center-zone {
-  padding: 20px 32px 36px 32px !important;
+  padding: 64px 32px 36px 32px !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
@@ -1149,7 +1149,7 @@
 /* 7. Responsive Breakpoints */
 @media (max-width: 1440px) {
   .prep-scene .stage-center-zone {
-    padding: 18px 28px 48px 28px !important;
+    padding: 60px 28px 40px 28px !important;
   }
 
   .prep-scene .stage-content-row {
@@ -1162,6 +1162,18 @@
     max-width: calc(50% - 12px) !important;
     flex: 1 1 calc(50% - 12px) !important;
     min-width: 0 !important;
+  }
+
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation {
+    max-width: 620px !important;
+  }
+
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card,
+  .prep-scene .stage-content-row > *:only-child {
+    max-width: 620px !important;
+    width: 100% !important;
   }
 
   .prep-scene .station-center-card .multi-state-workstation {
@@ -1225,7 +1237,14 @@
 
 @media (max-height: 880px) {
   .prep-scene .stage-center-zone {
-    padding: 14px 28px 48px 28px !important;
+    padding: 58px 28px 36px 28px !important;
+  }
+
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation,
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 620px !important;
   }
 
   .prep-scene .washing-viewport,
@@ -1276,7 +1295,14 @@
 
 @media (max-height: 740px) {
   .prep-scene .stage-center-zone {
-    padding: 10px 22px 42px 22px !important;
+    padding: 52px 22px 30px 22px !important;
+  }
+
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation,
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 560px !important;
   }
 
   .prep-scene .washing-viewport,
@@ -1327,7 +1353,7 @@
 
 @media (max-width: 1024px) {
   .prep-scene .stage-center-zone {
-    padding: 10px 14px 20px 14px !important;
+    padding: 52px 14px 20px 14px !important;
   }
 
   .prep-scene .stage-content-row {
@@ -1336,14 +1362,23 @@
     gap: 20px !important;
   }
 
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation {
+    max-width: 520px !important;
+  }
+
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card,
   .prep-scene .stage-content-row > *:not(:only-child),
   .prep-scene .stage-content-row > *:only-child {
     max-width: 520px !important;
     width: 100% !important;
   }
 
-  .prep-scene .station-center-card .multi-state-workstation {
-    max-width: 100% !important;
+  .prep-scene .station-center-card .multi-state-workstation,
+  .prep-scene .washing-workstation,
+  .prep-scene .workstation-header {
+    max-width: 520px !important;
     width: 100% !important;
   }
 }

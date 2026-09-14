@@ -635,59 +635,6 @@ export const Mission1Prep = () => {
 
         <div className="stage-content-row stage-single-workstation">
           <div className="station-center-card">
-            {/* Stage 1 Protocol Order Stepper */}
-            <div className="stage-phase-stepper" role="tablist" aria-label="Stage 1 Protocol Sequence">
-              <button
-                type="button"
-                className={`phase-step-pill ${currentPhase === 'wash' ? 'active' : ''} ${isWashed ? 'completed' : ''}`}
-                onClick={() => {
-                  soundManager.playClick();
-                  setCurrentPhase('wash');
-                }}
-              >
-                <span className="phase-pill-icon">{isWashed ? '✓' : '💧'}</span>
-                <span className="phase-pill-label">1. Wash & Rinse</span>
-              </button>
-
-              <span className="phase-step-arrow">➔</span>
-
-              <button
-                type="button"
-                className={`phase-step-pill ${currentPhase === 'boil' ? 'active' : ''} ${potStep >= 4 ? 'completed' : ''} ${!isWashed ? 'locked' : ''}`}
-                onClick={() => {
-                  if (isWashed) {
-                    soundManager.playClick();
-                    setCurrentPhase('boil');
-                  } else {
-                    triggerSinkError('Complete Step 1: Wash raw ubod before cooking on stove!');
-                  }
-                }}
-              >
-                <span className="phase-pill-icon">{potStep >= 4 ? '✓' : '♨️'}</span>
-                <span className="phase-pill-label">2. Stove Boil</span>
-              </button>
-
-              <span className="phase-step-arrow">➔</span>
-
-              <button
-                type="button"
-                className={`phase-step-pill ${currentPhase === 'drain_rinse' ? 'active' : ''} ${isCoolingRinseComplete ? 'completed' : ''} ${potStep < 5 ? 'locked' : ''}`}
-                onClick={() => {
-                  if (potStep >= 5) {
-                    soundManager.playClick();
-                    setCurrentPhase('drain_rinse');
-                  } else if (potStep === 4) {
-                    triggerSinkError('Select Stainless Colander and tap the pot to drain the water first!');
-                  } else {
-                    triggerSinkError('Boil the ubod tender before draining and cooling!');
-                  }
-                }}
-              >
-                <span className="phase-pill-icon">{isCoolingRinseComplete ? '✓' : '🧼'}</span>
-                <span className="phase-pill-label">3. Drain & Cool</span>
-              </button>
-            </div>
-
             {/* Dynamic Single Workstation Apparatus */}
             {currentPhase === 'wash' ? (
               <div
