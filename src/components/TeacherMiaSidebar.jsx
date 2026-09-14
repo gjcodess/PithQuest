@@ -86,7 +86,7 @@ export const TeacherMiaSidebar = () => {
         }
         setIsTyping(false);
       }
-    }, 12);
+    }, 9);
 
     return () => {
       if (timerRef.current) {
@@ -234,12 +234,12 @@ export const TeacherMiaSidebar = () => {
               onClick={() => {
                 if (isTyping) finishTyping();
               }}
-              title={isTyping ? 'Click to reveal full text instantly' : undefined}
+              title={isTyping ? 'Click to reveal full lesson instantly' : undefined}
             >
               <div className="speech-quote-header">
                 <span className="quote-icon">💬</span>
                 <span className="speech-status-tag">
-                  {isTyping ? 'Speaking...' : 'Current Direction'}
+                  {isTyping ? 'Teacher Mia Speaking...' : 'Mentor Lesson'}
                 </span>
                 <button
                   type="button"
@@ -255,10 +255,25 @@ export const TeacherMiaSidebar = () => {
                 </button>
               </div>
 
-              <p className="mentor-speech-text">
-                {displayedText || dialogue.text}
-                {isTyping && <span className="mentor-typing-cursor">▌</span>}
-              </p>
+              <div className="mentor-speech-body">
+                {((displayedText || dialogue.text || '').split('\n\n')).map((para, idx, arr) => (
+                  <p key={idx} className="mentor-speech-paragraph">
+                    {para}
+                    {isTyping && idx === arr.length - 1 && (
+                      <span className="mentor-typing-cursor">▌</span>
+                    )}
+                  </p>
+                ))}
+              </div>
+
+              {stageKnowledge?.subtitle && (
+                <div className="speech-focus-strip">
+                  <span className="speech-focus-icon">🎯</span>
+                  <span className="speech-focus-text">
+                    <strong>Objective:</strong> {stageKnowledge.subtitle}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Note & Hint Callouts */}

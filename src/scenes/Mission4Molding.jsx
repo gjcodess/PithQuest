@@ -43,7 +43,7 @@ export const Mission4Molding = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 4 Completed! All 24 rectangular crackers are molded and leveled to uniform thickness.',
+        'Stage 4 Completed! All 24 rectangular crackers are molded and leveled to uniform thickness. Maintaining strict volumetric consistency across every piece ensures equal thermal diffusion during Stage 5 steaming and uniform moisture evaporation during dehydration.',
         'happy',
         {
           badge: 'Stage 4 Complete',
@@ -54,7 +54,7 @@ export const Mission4Molding = () => {
       );
     } else {
       speak(
-        'Stage 4: Portioning & Rectangular Molding! Step 1: After mixing the dough, portion it into the molder. Use approximately 3 teaspoons per piece to achieve a uniform size and thickness.',
+        'Welcome to Stage 4: Portioning & Rectangular Molding! In food manufacturing, piece uniformity is critical for quality control. If cracker pieces vary in thickness, thinner wafers will burn during frying while thicker ones remain dense and chewy. Using our calibrated measuring spoon, portion exactly 3 teaspoons of dough into each cavity of our 24-cavity food-grade silicone mold. Pick up the Ubod Dough from your inventory and place your first portion into the mold!',
         'neutral',
         {
           badge: 'Step 1: Portioning & Molding',
@@ -108,7 +108,7 @@ export const Mission4Molding = () => {
       setHoldingItem(null);
       showToast('Cavity Calibrated!', 'First cavity filled with 3 tsp portion', 'success');
       speak(
-        'Excellent portion control! Exactly 3 teaspoons produces our standard uniform thickness. Continue filling or click "Fill Remaining Tray"!',
+        'Excellent portion calibration! Exactly 3 teaspoons produces our standard uniform thickness. Uniform depth ensures consistent steam heat penetration. Continue filling cavities or click "Fill Remaining Tray" to portion the full batch!',
         'happy',
         {
           badge: 'Step 1: Portioning Calibration',
@@ -130,7 +130,7 @@ export const Mission4Molding = () => {
     setHoldingItem(null);
     showToast('All 24 Cavities Portioned!', 'Now select the Leveling Spatula to level the surfaces flat.', 'info');
     speak(
-      'All 24 cavities are portioned with 3 tsp each! Step 2: Now select the Leveling Spatula from your inventory to scrape excess dough and level the surface flat.',
+      'All 24 cavities are portioned with 3 teaspoons each! Step 2: Now select the stainless Leveling Spatula from your inventory to scrape away excess dough and compress each wafer surface flush with the mold rim.',
       'neutral',
       {
         badge: 'Step 2: Leveling & Compacting',
@@ -156,7 +156,7 @@ export const Mission4Molding = () => {
       completeMission('mission4');
       showToast('Stage 4 Complete!', '24 rectangular crackers uniformly molded & leveled', 'success');
       speak(
-        'Outstanding molding! All 24 rectangular crackers are leveled to uniform thickness and ready for steaming in Stage 5.',
+        'Outstanding artisan molding! All 24 rectangular crackers are leveled to uniform thickness with clean geometric edges. The molded pieces are now stable and ready for starch gelatinization in Stage 5: Starch Steaming!',
         'happy',
         {
           badge: 'Stage 4 Complete',

@@ -85,12 +85,12 @@ export const ResultsScene = () => {
       completeMission('evaluation');
       soundManager.playFanfare();
       speak(
-        `Assessment Complete, ${studentName || 'Food Technologist'}! Here is your comprehensive diagnostic performance report. Review your Pre-Test choices, Handwashing sequence, Equipment safety audits, Stage Pre-Check Questions, and Post-Test manufacturing pipeline validation.`,
+        `Comprehensive Diagnostic Audit Ready, ${studentName || 'Food Technologist'}!\n\nCongratulations on completing your full laboratory and assessment journey in PithQuest! You have systematically developed, tested, and validated the industrial manufacturing pipeline for Ubod CRUNCH crackers.\n\nThis diagnostic report compiles your complete learning evidence: your Pre-Test PPE donning decisions, 7-step sanitary Handwashing protocol, Food Contact Tool safety audits, Raw Ingredient inspections, Stage Pre-Check Questions, and your Post-Test Chronological Sequencing assessment.\n\nScroll through each section below to review itemized diagnostic feedback, examine the underlying food chemistry and thermodynamic principles, and print your official Laboratory Completion Audit Report!`,
         'happy',
         {
-          badge: 'Diagnostic Report Ready',
-          note: 'Inspect itemized feedback, food science principles, and print your complete diagnostic audit report.',
-          hint: 'Scroll down to review each section of your assessment and save/print your report.',
+          badge: 'Diagnostic Performance Audit',
+          note: 'HACCP Competency Certified: Your diagnostic profile validates your mastery of sanitary regulations, formulation precision, moisture control, and quality assurance.',
+          hint: 'Scroll down to review each section of your assessment and click "Print / Save Comprehensive Audit Report" below.',
           hideButton: true,
         }
       );

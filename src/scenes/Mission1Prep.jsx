@@ -88,7 +88,7 @@ export const Mission1Prep = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 1 Completed! You have prepared, boiled, and washed the tender coconut pith clean. You can review your work or proceed to Stage 2.',
+        'Stage 1 Completed! You have masterfully prepared, boiled, and washed the tender coconut pith clean. Thermal degradation of hemicellulose and pectin fibrils has converted the tough apical meristem into a tender texture, perfectly primed for mechanical grinding. You can review your work or proceed to Stage 2: Food Processing.',
         'happy',
         {
           badge: 'Stage 1 Complete',
@@ -99,7 +99,7 @@ export const Mission1Prep = () => {
       );
     } else {
       speak(
-        'Stage 1: Washing & Pre-Cooking! Step 1: Wash the ubod thoroughly. Pick up the fresh cut raw coconut pith from your inventory and place it into the sink colander.',
+        'Welcome to Stage 1: Washing & Thermal Pre-Cooking! Freshly harvested coconut pith (ubod) is the tender apical meristem of the coconut palm. Before thermal processing, we must perform an initial wash to remove loose soil particulates, botanical sap, and surface debris. Pick up the Raw Ubod Strips from your inventory shelf on the right and place them into the stainless steel colander in the washing sink.',
         'neutral',
         {
           badge: 'Step 1: Raw Preparation',
@@ -175,7 +175,7 @@ export const Mission1Prep = () => {
     setHoldingItem(null);
     showToast('Loaded into Colander!', 'Raw ubod placed in colander. Now turn on faucet to rinse!', 'success');
     speak(
-      'Great! Raw coconut pith is loaded into the colander. Now click or turn the cross handle on the faucet knob on the washing console to rinse under running water!',
+      'Great placement! The raw coconut pith is loaded securely in the colander. Now, let\'s initiate the preliminary wash. Turn the chrome cross valve handle on the faucet knob on the washing console to rinse the ubod under running potable water. This mechanical washing removes surface impurities and loose botanical exudates.',
       'happy',
       {
         badge: 'Step 1: Rinse Ubod',
@@ -199,7 +199,7 @@ export const Mission1Prep = () => {
       setTimeout(() => {
         setCurrentPhase('boil');
         speak(
-          'Step 2: Transfer the washed ubod to the cooking pot. Pick up the Washed Ubod from your inventory and place it in the pot!',
+          'Step 2: Excellent! The raw ubod has been washed thoroughly. Now we begin thermal tenderization. The tough cell wall matrix must be softened so that it can later be pureed into a fine, smooth slurry. Pick up the Washed Ubod from your inventory and place it into the stainless steel boiling pot on the stove.',
           'happy',
           {
             badge: 'Step 2: Transfer to Pot',
@@ -218,7 +218,7 @@ export const Mission1Prep = () => {
       setPotStep(1);
       showToast('Ubod Added!', 'Now pour clean potable water to submerge the ubod.', 'success');
       speak(
-        'Step 3: Add water to the pot with the ubod. Pick up the Potable Water from your inventory and pour 1 cup to submerge.',
+        'Step 3: Great job loading the pot! Now we need an efficient thermal conduction medium. Clean potable water conducts heat uniformly across all plant tissues and hydrates the cellulose matrix. Pick up the Potable Water from your inventory and pour 1 cup into the pot to completely submerge the ubod.',
         'neutral',
         {
           badge: 'Step 3: Add Water',
@@ -232,7 +232,7 @@ export const Mission1Prep = () => {
       setPotStep(2);
       showToast('Water Added!', 'Now add a pinch of Sea Salt to season and tenderize.', 'success');
       speak(
-        'Step 3 (cont): Add a pinch of salt to the pan with the ubod.',
+        'Step 3 (cont): Water is added! Now we introduce sodium chloride (pure sea salt). Dissolved sodium and chloride ions loosen ionic bonds between plant pectin and cellulose chains, accelerating thermal softening while evenly pre-seasoning the pith down to its cellular core. Pick up the Pure Sea Salt from the shelf and add a measured pinch to the pot.',
         'neutral',
         {
           badge: 'Step 3: Add Salt',
@@ -246,7 +246,7 @@ export const Mission1Prep = () => {
       setPotStep(3);
       showToast('Salt Added!', 'Pot is ready! Turn the burner dial to ignite.', 'success');
       speak(
-        'Step 4: Boil the ubod over medium heat for approximately 10–15 minutes, or until it becomes tender. Click the burner dial to begin!',
+        'Step 4: Everything is in the pot! Before lighting the burner, always observe our lab safety check: ensure the burner ports are unobstructed, check for gas smell, and clear away nearby flammables. Now turn the stove burner dial to ignite medium-high heat and boil the ubod for 10–15 minutes until fork-tender.',
         'thinking',
         {
           badge: 'Step 4: Boiling',
@@ -276,7 +276,7 @@ export const Mission1Prep = () => {
         soundManager.playSuccess();
         showToast('Boiling Complete!', 'Ubod is fork-tender! Click Stainless Colander to drain.', 'success');
         speak(
-          'Step 5: Boiling complete! The coconut pith is now fork-tender. Click the Stainless Colander in your inventory or tap the pot to drain the water and transition to the cooling sink!',
+          'Step 5: Thermal boiling complete! The coconut pith is now fork-tender and translucent. To prevent carryover heat from overcooking the ubod into a mushy consistency, we must drain the boiling water immediately. Click the Stainless Colander in your inventory or tap the pot to drain the water and transition to the cooling sink!',
           'happy',
           {
             badge: 'Step 5: Drain Boiled Ubod',
@@ -304,7 +304,7 @@ export const Mission1Prep = () => {
       setCurrentPhase('drain_rinse');
       showToast('Transferred to Sink!', 'Boiled ubod in colander ready for cooling rinse.', 'info');
       speak(
-        'Step 6: While the ubod is in the colander, wash it again to remove any unwanted residue and to cool it down.',
+        'Step 6: The boiled ubod is now in the sink colander! While it rests in the colander, we must perform a cooling rinse. Cold running water immediately arrests carryover thermal cooking, washes away excess surface starch leachates, and cools the pith down to safe handling temperature. Turn the chrome cross valve handle to activate the faucet.',
         'neutral',
         {
           badge: 'Step 6: Residue & Cooling Rinse',
@@ -329,7 +329,7 @@ export const Mission1Prep = () => {
       completeMission('mission1');
       showToast('Cooled & Drained!', 'Ubod residue washed away and properly cooled!', 'success');
       speak(
-        'Step 7: Perfect! The boiled ubod is washed clean, drained, and cooled down. Ready for Stage 2 food processing!',
+        'Step 7: Outstanding execution! The boiled ubod is sanitized, fork-tender, thoroughly drained, and cooled down. You have achieved the ideal moisture and texture balance required for smooth pureeing without excess water dilution. You are officially ready for Stage 2: Food Processing!',
         'happy',
         {
           badge: 'Stage 1 Complete',

@@ -47,7 +47,7 @@ export const Mission2Grinding = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 2 Completed! Smooth pureed coconut pith paste has been milled and collected into the prep bowl.',
+        'Stage 2 Completed! Smooth pureed coconut pith paste has been milled and collected into the prep bowl. The physical cell rupture achieved here ensures uniform gelatinization when blended with rice flour in Stage 3.',
         'happy',
         {
           badge: 'Stage 2 Complete',
@@ -58,11 +58,11 @@ export const Mission2Grinding = () => {
       );
     } else {
       speak(
-        'Stage 2: Food Processing & Pureeing! Step 1: Transfer the boiled ubod to a food processor. Add 1 teaspoon of salt for every 1 cup of ubod.',
+        'Welcome to Stage 2: Food Processing & Mechanical Pureeing! In order for the coconut pith to form a cohesive, elastic dough with rice flour later on, its fibrous tissue must be mechanically pulverized into an ultra-smooth paste. Pick up the Drained Boiled Ubod from your inventory shelf and transfer it into the food processor bowl equipped with the sharp stainless steel S-blade.',
         'neutral',
         {
           badge: 'Step 1: Load Processor',
-          note: 'Safety Check: Check first the wiring, outlet, and the food processor itself before operating.',
+          note: 'Safety Check: Always inspect the electrical cord, outlet, and blade assembly before operating high-speed motor equipment.',
           hint: 'Drop the Drained Boiled Ubod from your inventory into the food processor bowl.',
           hideButton: true,
         }
@@ -130,7 +130,7 @@ export const Mission2Grinding = () => {
       setHoldingItem(null);
       showToast('Boiled Ubod Loaded!', 'Now add salt according to recipe ratio (1 tsp per cup).', 'success');
       speak(
-        'Great! Now add 1 teaspoon of Pure Sea Salt from your inventory into the processor bowl (1 tsp per 1 cup ubod).',
+        'Excellent! The tender boiled ubod is loaded into the processor bowl. Now we add our formulation seasoning: exactly 1 teaspoon of Pure Sea Salt per cup of ubod. Salt enhances cell wall shearing during high-speed blending and balances the natural coconut sweetness. Pick up the Measured Pure Sea Salt from the shelf and add it to the bowl.',
         'neutral',
         {
           badge: 'Calibrated Salting',
@@ -145,7 +145,7 @@ export const Mission2Grinding = () => {
       setHoldingItem(null);
       showToast('Salt Added!', 'Ingredients loaded. Now select and attach the Safety Lid from your inventory.', 'success');
       speak(
-        'Ingredients loaded! Now select the transparent Processor Safety Lid from your inventory and place it onto the bowl to engage the safety interlock.',
+        'Ingredients are loaded! For laboratory safety, high-speed appliances must never be operated with open containers. Pick up the transparent Processor Safety Lid from your inventory shelf and fit it securely onto the bowl to engage the motor safety interlock mechanism.',
         'thinking',
         {
           badge: 'Safety Interlock Required',
@@ -168,7 +168,7 @@ export const Mission2Grinding = () => {
     setIsLidLocked(true);
     showToast('Interlock Engaged!', 'Safety lid locked onto bowl. Motor armed and ready!', 'success');
     speak(
-      'Step 2: Process the ubod until it becomes fine and paste-like in consistency. Press the High-Speed Puree button to start!',
+      'Step 2: Safety interlock engaged and motor armed! We need to process the ubod until all fibrous strands are fully sheared into a velvety, homogeneous paste. Click the orange "High-Speed Puree" button on the motor base to initiate blending.',
       'happy',
       {
         badge: 'Step 2: Pureeing',
@@ -196,7 +196,7 @@ export const Mission2Grinding = () => {
         soundManager.playSuccess();
         showToast('Pureeing Complete!', 'Ubod is now a smooth, lump-free paste', 'success');
         speak(
-          'Step 3: Once finely processed, transfer the ubod paste to a separate clean bowl. Select the Red Spatula to scrape all paste!',
+          'Step 3: Pureeing complete! The coconut pith has reached a smooth, lump-free paste consistency. Now we must harvest every bit of the puree from the processor bowl. Select the flexible Red Silicone Spatula from your inventory to cleanly scrape the paste into our prep bowl without scratching the container walls.',
           'happy',
           {
             badge: 'Step 3: Collection',
@@ -222,7 +222,7 @@ export const Mission2Grinding = () => {
       completeMission('mission2');
       showToast('Stage 2 Complete!', '1 cup of smooth ubod paste collected in clean bowl', 'success');
       speak(
-        'Outstanding pureeing! 1 cup of smooth coconut pith paste is ready for mixing with rice flour in Stage 3.',
+        'Outstanding pureeing! Exactly 1 cup of smooth coconut pith paste has been milled and transferred cleanly into the prep bowl. The fine particle size guarantees optimal contact area with rice starch granules, establishing superior dough elasticity in Stage 3: Paste Formulation!',
         'happy',
         {
           badge: 'Stage 2 Complete',
