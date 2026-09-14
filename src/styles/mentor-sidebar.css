@@ -1,0 +1,943 @@
+/* ==========================================================================
+   TEACHER MIA MENTOR GUIDE LEFT SIDEBAR
+   Light pedagogical theme (Warm Ivory, Soft Mint & Emerald Accents)
+   Completely distinct from the dark walnut inventory rack.
+   ========================================================================== */
+
+/* Host column styling within .viewport-layout-grid */
+.viewport-mentor-column {
+  flex: 0 0 clamp(320px, 23vw, 380px);
+  width: clamp(320px, 23vw, 380px);
+  max-width: 380px;
+  min-width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  background: #fbf9f4;
+  border-right: 2px solid #e5dcce;
+  box-shadow: 4px 0 18px rgba(60, 45, 30, 0.07), 1px 0 3px rgba(0, 0, 0, 0.03);
+  z-index: 35;
+}
+
+@media (max-width: 1366px) {
+  .viewport-mentor-column {
+    flex: 0 0 300px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 270px;
+  }
+}
+
+.viewport-mentor-column.collapsed,
+.game-viewport.dialogue-collapsed .viewport-mentor-column {
+  flex: 0 0 0px;
+  width: 0;
+  max-width: 0;
+  min-width: 0;
+  border-right: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  z-index: 45;
+}
+
+/* ==========================================================================
+   LEFT MENTOR SIDEBAR COMPONENT
+   ========================================================================== */
+.left-mentor-sidebar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  z-index: 40;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  max-height: calc(100% - 28px);
+}
+
+.viewport-mentor-column .left-mentor-sidebar.expanded {
+  position: static !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  left: auto !important;
+  top: auto !important;
+  box-sizing: border-box;
+  padding: 16px 14px 16px 14px !important;
+  background: linear-gradient(180deg, #fdfbf7 0%, #f7f3ea 50%, #f1ebde 100%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  gap: 8px !important;
+  animation: expandedMentorSlideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+}
+
+@keyframes expandedMentorSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   1. TACTILE 3D COLLAPSED DRAWER TAB (LEFT SCREEN EDGE)
+   Mirrors the premium 3D craftsmanship of the right-side inventory rack,
+   rendered in Teacher Mia's signature emerald & gold laboratory mentor palette.
+   ========================================================================== */
+.left-mentor-sidebar.collapsed,
+.viewport-mentor-column .left-mentor-sidebar.collapsed {
+  position: fixed !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 58px !important;
+  height: 154px !important;
+  background: linear-gradient(180deg, #0d5a42 0%, #084331 50%, #042d21 100%) !important;
+  border: 2.5px solid #10b981 !important;
+  border-left: none !important;
+  border-radius: 0 20px 20px 0 !important;
+  box-shadow:
+    5px 0 0 #047857,
+    8px 12px 28px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 2px 0 4px rgba(0, 0, 0, 0.4) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 6px 10px 4px !important;
+  cursor: pointer !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+  transition: width 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+  animation: tabSpringSlideInLeft 0.35s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+  user-select: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+}
+
+@keyframes tabSpringSlideInLeft {
+  0% {
+    transform: translateY(-50%) translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+  }
+}
+
+.left-mentor-sidebar.collapsed:hover,
+.viewport-mentor-column .left-mentor-sidebar.collapsed:hover {
+  width: 66px !important;
+  transform: translateY(-50%) !important;
+  background: linear-gradient(180deg, #126e51 0%, #0b543e 50%, #06392a 100%) !important;
+  border-color: #34d399 !important;
+  box-shadow:
+    7px 0 0 #059669,
+    12px 18px 36px rgba(0, 0, 0, 0.65),
+    0 0 18px rgba(16, 185, 129, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+}
+
+.left-mentor-sidebar.collapsed:active,
+.viewport-mentor-column .left-mentor-sidebar.collapsed:active {
+  width: 62px !important;
+  transform: translateY(-50%) !important;
+  box-shadow:
+    3px 0 0 #047857,
+    5px 8px 16px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* 1. Icon / Avatar Wrapper with Badge */
+.mentor-tab-avatar-wrapper {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 12px !important;
+  background: radial-gradient(circle at 40% 30%, #16654c 0%, #073b2b 100%) !important;
+  border: 2px solid #10b981 !important;
+  border-bottom: 3.5px solid #059669 !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+.left-mentor-sidebar.collapsed:hover .mentor-tab-avatar-wrapper {
+  transform: scale(1.06) !important;
+  border-color: #34d399 !important;
+}
+
+.mentor-tab-avatar-img {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) !important;
+}
+
+.mentor-tab-badge-pill {
+  position: absolute !important;
+  top: -5px !important;
+  right: -5px !important;
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%) !important;
+  color: #ffffff !important;
+  font-family: var(--font-heading, system-ui) !important;
+  font-size: 0.65rem !important;
+  font-weight: 900 !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 4px !important;
+  border-radius: 999px !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+
+.mentor-tab-badge-pill.unread {
+  animation: unreadPulse 2s infinite ease-in-out !important;
+}
+
+@keyframes unreadPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+  }
+}
+
+.mentor-mood-indicator {
+  position: absolute !important;
+  bottom: -2px !important;
+  left: -2px !important;
+  width: 11px !important;
+  height: 11px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #063d2e !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.mentor-mood-indicator.happy { background: #10b981 !important; }
+.mentor-mood-indicator.neutral { background: #38bdf8 !important; }
+.mentor-mood-indicator.thinking { background: #f59e0b !important; }
+.mentor-mood-indicator.sad { background: #ef4444 !important; }
+
+/* 2. Embossed Label Stack */
+.mentor-tab-label-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 1px !important;
+  background: linear-gradient(180deg, #11533e 0%, #093729 100%) !important;
+  border: 1.5px solid #10b981 !important;
+  padding: 3px 4px !important;
+  border-radius: 8px !important;
+  width: 44px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35) !important;
+  box-sizing: border-box !important;
+}
+
+.mentor-tab-name {
+  font-family: var(--font-heading, system-ui) !important;
+  font-size: 0.58rem !important;
+  font-weight: 900 !important;
+  color: #fdfaf5 !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1 !important;
+}
+
+.mentor-tab-sub {
+  font-family: var(--font-heading, system-ui) !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  color: #a7f3d0 !important;
+  letter-spacing: 0.4px !important;
+  line-height: 1 !important;
+}
+
+/* 3. Chevron Expansion Arrow */
+.mentor-tab-chevron-box {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 22px !important;
+  border-radius: 8px !important;
+  background: rgba(16, 185, 129, 0.18) !important;
+  border: 1.5px solid rgba(52, 211, 153, 0.4) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.left-mentor-sidebar.collapsed:hover .mentor-tab-chevron-box {
+  background: #059669 !important;
+  border-color: #a7f3d0 !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
+}
+
+.mentor-tab-chevron {
+  font-size: 0.74rem !important;
+  font-weight: 900 !important;
+  color: #a7f3d0 !important;
+  display: inline-block !important;
+  animation: chevron-pulse-right 1.5s infinite ease-in-out !important;
+  line-height: 1 !important;
+}
+
+.left-mentor-sidebar.collapsed:hover .mentor-tab-chevron {
+  color: #ffffff !important;
+}
+
+@keyframes chevron-pulse-right {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   2. EXPANDED SIDEBAR HEADER & IDENTITY
+   ========================================================================== */
+.mentor-sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.mentor-identity-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.mentor-avatar-box {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #ecfdf5 0%, #d1fae5 100%);
+  border: 2.5px solid #10b981;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mentor-header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mentor-avatar-mood-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+}
+
+.mentor-avatar-mood-dot.happy {
+  background: #10b981;
+}
+
+.mentor-avatar-mood-dot.neutral {
+  background: #38bdf8;
+}
+
+.mentor-avatar-mood-dot.thinking {
+  background: #f59e0b;
+}
+
+.mentor-avatar-mood-dot.sad {
+  background: #ef4444;
+}
+
+.mentor-titles-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.mentor-title-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mentor-name-text {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #1a2e22;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.mentor-badge-pill {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #34d399;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
+}
+
+.mentor-role-text {
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mentor-collapse-btn {
+  background: #ffffff;
+  border: 2px solid #e2d8cc;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #4b5563;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #d5cbbe;
+  transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  flex-shrink: 0;
+}
+
+.mentor-collapse-btn:hover {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+  transform: scale(1.08);
+  box-shadow: 0 2px 0 #059669;
+}
+
+.mentor-collapse-btn:active {
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+/* Stage & Protocol Step Badge Strip */
+.mentor-stage-badge-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid #d1fae5;
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.badge-pin-icon {
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.badge-stage-text {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #065f46;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+
+/* Tab Bar */
+.mentor-tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #e9e3d7;
+  padding: 3px;
+  border-radius: 12px;
+  border: 1px solid #ddd5c7;
+}
+
+.mentor-nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 5px 2px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.mentor-nav-tab .nav-tab-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.mentor-nav-tab .nav-tab-label {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.60rem;
+  font-weight: 700;
+  color: #665a4e;
+  letter-spacing: 0.2px;
+}
+
+.mentor-nav-tab:hover {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.mentor-nav-tab:hover .nav-tab-label {
+  color: #1f2937;
+}
+
+.mentor-nav-tab.active {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  border: 1px solid #34d399;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.mentor-nav-tab.active .nav-tab-label {
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.mentor-header-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981 0%, #f59e0b 60%, #e5dcce 100%);
+  border-radius: 2px;
+  margin: 2px 0;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   3. TAB CONTENT VIEWPORT & CARDS
+   ========================================================================== */
+.mentor-content-viewport {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 4px 6px 4px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  border: 1px solid #e7ded0;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.03);
+  scrollbar-width: thin;
+  scrollbar-color: #c4b9a8 #f2ede4;
+}
+
+.mentor-content-viewport::-webkit-scrollbar {
+  width: 5px;
+}
+
+.mentor-content-viewport::-webkit-scrollbar-track {
+  background: #f2ede4;
+  border-radius: 999px;
+}
+
+.mentor-content-viewport::-webkit-scrollbar-thumb {
+  background: #c4b9a8;
+  border-radius: 999px;
+}
+
+.mentor-content-viewport::-webkit-scrollbar-thumb:hover {
+  background: #a39580;
+}
+
+.mentor-tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px;
+  animation: tabFadeIn 0.25s ease-out;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 3A. Guide Tab: Speech Card */
+.mentor-speech-card {
+  background: #ffffff;
+  border: 2px solid #e0d8cc;
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 0 #d8cebf, 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mentor-speech-card:hover {
+  border-color: #10b981;
+  box-shadow: 0 2px 0 #059669, 0 6px 16px rgba(16, 185, 129, 0.15);
+}
+
+.speech-quote-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.quote-icon {
+  font-size: 1rem;
+}
+
+.speech-status-tag {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.speech-replay-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0.7;
+  transition: all 0.15s ease;
+}
+
+.speech-replay-btn:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.mentor-speech-text {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #27211d;
+  font-weight: 600;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.mentor-typing-cursor {
+  display: inline-block;
+  color: #10b981;
+  font-weight: 900;
+  animation: cursorBlink 0.75s infinite;
+  margin-left: 2px;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Callouts Box in Guide Tab */
+.mentor-callouts-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mentor-callout-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 11px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.mentor-callout-item.note-item {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+}
+
+.mentor-callout-item.hint-item {
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+}
+
+.callout-icon {
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.callout-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.callout-title {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #92400e;
+  letter-spacing: 0.2px;
+}
+
+.mentor-callout-item.hint-item .callout-title {
+  color: #065f46;
+}
+
+.callout-desc {
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: #78350f;
+  margin: 0;
+  font-weight: 500;
+}
+
+.mentor-callout-item.hint-item .callout-desc {
+  color: #047857;
+}
+
+/* Stage Action Button in Guide Tab */
+.mentor-stage-action-row {
+  margin-top: 4px;
+}
+
+.mentor-stage-btn {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  border-radius: 12px;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 0 4px 0 #064e3b, 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+
+/* 3B. Science, Tips, Safety Generic Cards */
+.panel-intro-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #e2d9cb;
+  border-radius: 10px;
+  padding: 7px 10px;
+  font-size: 0.72rem;
+  color: #4b5563;
+  line-height: 1.35;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.panel-intro-bar.safety-alert-bar {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.science-cards-stack,
+.tips-cards-stack,
+.safety-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mentor-info-card {
+  background: #ffffff;
+  border: 1.5px solid #e5ded3;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 0 #ded6ca, 0 3px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mentor-info-card:hover {
+  transform: translateY(-1px);
+  border-color: #cbd5e1;
+  box-shadow: 0 3px 0 #ded6ca, 0 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-card-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.info-card-title {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.80rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.info-card-summary,
+.info-card-text {
+  font-size: 0.74rem;
+  line-height: 1.38;
+  color: #4b5563;
+  margin: 0;
+  font-weight: 500;
+}
+
+.info-card-deepdive {
+  margin-top: 3px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deepdive-label {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #166534;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.deepdive-text {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #15803d;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Specific styling for Science Card */
+.mentor-info-card.science-card {
+  border-left: 4px solid #10b981;
+}
+
+/* Specific styling for Safety Card */
+.mentor-info-card.safety-card {
+  border-left: 4px solid #ef4444;
+}
+
+/* Specific styling for Tip Card */
+.mentor-info-card.tip-card {
+  border-left: 4px solid #f59e0b;
+}
+
+/* 3C. Recipe Tab */
+.recipe-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mentor-recipe-pill {
+  background: #ffffff;
+  border: 1.5px solid #e5ded3;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.recipe-pill-emoji {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.recipe-pill-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 6px;
+}
+
+.recipe-pill-name {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.recipe-pill-measure {
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.70rem;
+  font-weight: 800;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}

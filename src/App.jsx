@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from './context/GameContext';
 import { HeaderHUD } from './components/HeaderHUD';
-import { DialogueBox } from './components/DialogueBox';
+import { TeacherMiaSidebar } from './components/TeacherMiaSidebar';
 import { StageNextButton } from './components/StageNextButton';
 import { Toast } from './components/Toast';
 import { RecipeModal } from './components/Modals/RecipeModal';
@@ -94,15 +94,25 @@ export const App = () => {
           </div>
         ) : (
           <div className="viewport-layout-grid">
-            {/* Left 80% Column: Workstation */}
-            <div className="viewport-left-column">
+            {/* Left Column: Teacher Mia Mentor Guide Sidebar (Collapsible) */}
+            <aside
+              className={`viewport-mentor-column ${
+                isDialogueCollapsed ? 'collapsed' : 'expanded'
+              }`}
+              id="viewport-mentor-slot"
+            >
+              <TeacherMiaSidebar />
+            </aside>
+
+            {/* Center Column: Workstation Scene Canvas */}
+            <div className="viewport-center-column viewport-left-column">
               <div className="scene-container">
                 {renderScene()}
               </div>
               <StageNextButton />
             </div>
 
-            {/* Right 20% Column: Sidebar (Inventory / Orientation / Exam / Cert) */}
+            {/* Right Column: Sidebar (Inventory / Orientation / Exam / Cert) */}
             <aside
               className={`viewport-right-column ${
                 isInventoryCollapsed ? 'collapsed' : 'expanded'
@@ -112,7 +122,6 @@ export const App = () => {
           </div>
         )}
       </main>
-      <DialogueBox />
       <Toast />
       <RecipeModal />
       <ObjectivesModal />

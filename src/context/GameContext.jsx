@@ -117,7 +117,10 @@ export const GameProvider = ({ children }) => {
   const [holdingItem, setHoldingItem] = useState(null); // { id, name, img, ... }
 
   // Sidebar collapse states for 3-zone panoramic layout
-  const [isDialogueCollapsed, setIsDialogueCollapsed] = useState(true);
+  const [isDialogueCollapsed, setIsDialogueCollapsed] = useState(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1200) return true;
+    return false;
+  });
   const [isInventoryCollapsed, setIsInventoryCollapsed] = useState(false);
 
   const [stageKey, setStageKey] = useState(0);
