@@ -473,16 +473,8 @@ export const OrientationScene = () => {
 
         {/* TASK 2: HANDWASHING SEQUENCE PUZZLE (Dynamic Reordering) */}
         {phase === 'sanitation' && (
-          <div className="active-vessel-card orientation-card">
+          <div className="active-vessel-card orientation-card handwash-card-wrapper">
             <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Sanitation Protocol</div>
-            <div className="vessel-header">
-              <span className="vessel-title">7-Step Sanitary Handwashing Sequence</span>
-              <span className="vessel-badge">
-                {isAlreadyCompleted ? '🔒 Submitted' : 'Task 2 of 4'}
-              </span>
-            </div>
-            <div className="vessel-header-divider" />
-
             <HandwashingSequenceActivity
               initialSlots={handwashData?.slots || null}
               initialPool={handwashData?.pool || null}
