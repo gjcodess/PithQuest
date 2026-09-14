@@ -12,12 +12,12 @@ export const EvaluationScene = () => {
     completeMission('evaluation');
     soundManager.playFanfare();
     speak(
-      `Congratulations, ${studentName || 'Food Technologist'}! You have successfully mastered all 8 stages of Coconut Pith Cracker (Ubod CRUNCH) processing and passed the chronological sequencing examination! Review your sensory audit, inspect all earned laboratory badges, and print your official Certificate of Laboratory Completion!`,
+      `Laboratory Graduation & Sensory Audit, ${studentName || 'Food Technologist'}!\n\nYou have officially completed the comprehensive Coconut Pith Cracker (Ubod CRUNCH) manufacturing course and demonstrated full mastery of food processing unit operations!\n\nThroughout the 8 stages, you applied rigorous food hygiene, calibrated 1:1 ingredient ratios, mastered hydrothermal softening, high-speed pureeing, uniform geometric molding, steam gelatinization, convective moisture vitrification, flash deep-frying, and hermetic barrier packaging.\n\nInspect your sensory audit score breakdown, review your earned competency badges, and click "Print Official Certificate" below to claim your credential!`,
       'happy',
       {
-        badge: 'Graduation & Mastery',
-        note: 'You have applied all food processing principles, safe thermal handling, and quality control from raw ubod to finished packaged crackers!',
-        hint: 'Scroll through your sensory audit report, review your earned badges, and print your official certificate below.',
+        badge: 'Graduation & Mastery Certification',
+        note: 'Professional Validation: You have mastered all HACCP guidelines, safe thermal parameters, and commercial quality assurance standards.',
+        hint: 'Review your sensory audit metrics and print your official certificate below.',
         hideButton: true,
       }
     );

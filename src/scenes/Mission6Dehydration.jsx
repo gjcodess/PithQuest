@@ -46,7 +46,7 @@ export const Mission6Dehydration = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 6 Completed! Dried ubod pieces are completely dehydrated for 12 hours at 90°C and transferred to a clean, dry container.',
+        'Stage 6 Completed! All molded ubod pieces are completely dehydrated for 12 hours at 90°C and collected into a clean, dry airtight container. Moisture content has been lowered below 10%, converting soft gelatinized starch into a glassy, brittle pellet ready for instant flash-frying expansion.',
         'happy',
         {
           badge: 'Stage 6 Complete',
@@ -57,7 +57,7 @@ export const Mission6Dehydration = () => {
       );
     } else {
       speak(
-        'Stage 6: Cooling & Cabinet Dehydration! Step 1: Place the dehydrator tray and arrange the pieces with enough space between each piece to prevent them from sticking together.',
+        'Welcome to Stage 6: Cooling & Cabinet Dehydration! While steaming set the starch matrix, the wafers still contain excessive free water that would splatter dangerously and prevent puffing if fried immediately. Dehydration removes free moisture and vitrifies the starch matrix into a hard pellet. Step 1: Place the wire mesh dehydrator tray onto your prep counter and arrange the steamed pieces in a single layer with sufficient spacing to prevent them from fusing together.',
         'neutral',
         {
           badge: 'Step 1: Tray Spacing',
@@ -136,7 +136,7 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Tray Prepared!', 'Dehydrator tray placed on counter.', 'success');
       speak(
-        'Step 1: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
+        'Dehydrator tray placed on the workstation! Step 1: Now select the Steamed Ubod Pieces from your inventory and arrange them across the wire mesh. Leave at least 1 cm of space between pieces to allow convective dry airflow around every surface.',
         'neutral',
         {
           badge: 'Step 1: Tray Spacing',
@@ -151,7 +151,7 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Pieces Arranged!', 'Pieces arranged with space to prevent sticking.', 'success');
       speak(
-        'Step 2: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Select the Cabinet Dehydrator to insert the tray.',
+        'The crackers are arranged with ideal spacing! Step 2: Now select the Cabinet Dehydrator from your inventory to slide the loaded wire tray into the drying chamber.',
         'neutral',
         {
           badge: 'Step 2: Cabinet Setup',
@@ -173,7 +173,7 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator.', 'success');
     speak(
-      'Step 3: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Click the power dial on the appliance panel to begin!',
+      'Tray secured in the cabinet chamber! Step 3: We must dehydrate the molded ubod pieces for approximately 12 hours at a steady 90°C. Click the power dial on the appliance panel below to initiate convective drying.',
       'thinking',
       {
         badge: 'Step 3: 12-Hour 90°C Dehydration',
@@ -191,7 +191,7 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Dehydration Active...', 'Dehydrating at 90°C for approximately 12 hours...', 'info');
     speak(
-      'Dehydrating molded ubod pieces at 90°C for approximately 12 hours to remove moisture and produce dried cracker pieces suitable for frying.',
+      'Active 12-hour dehydration underway at 90°C! Controlled hot airflow steadily evaporates water from the gelatinized starch network without case-hardening or scorching the delicate coconut pith.',
       'happy',
       {
         badge: 'Step 3: In Progress',
@@ -213,7 +213,7 @@ export const Mission6Dehydration = () => {
         soundManager.playSuccess();
         showToast('Dehydration Complete!', 'Pieces are completely dehydrated.', 'success');
         speak(
-          'Step 4: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container. Select the Clean Dry Container from your inventory!',
+          '12-hour dehydration cycle complete! The ubod pieces are now brittle, vitrified, and thoroughly dried. Step 4: To protect them from absorbing ambient humidity, select the Clean Dry Storage Container from your inventory to collect the dried pellets.',
           'happy',
           {
             badge: 'Step 4: Clean Storage',
@@ -234,7 +234,7 @@ export const Mission6Dehydration = () => {
     completeMission('mission6');
     showToast('Dry Container Stored!', 'Dried ubod pieces transferred to clean, dry container.', 'success');
     speak(
-      'Great job! The dried ubod pieces are transferred to a clean, dry container. They are now ready for frying in Stage 7!',
+      'Outstanding moisture control! The dried ubod pellets are securely sealed in a clean, dry container. With moisture reduced below 10%, they are shelf-stable and primed for explosive 10-second puffing in Stage 7: Flash Frying!',
       'happy',
       {
         badge: 'Stage 6 Complete',

@@ -183,16 +183,25 @@ export const HandwashingSequenceActivity = ({
     }
   };
 
+  // Active drag payload ref (avoids any React state timing/render cancellation)
+  const dragInfoRef = useRef(null);
+
   // ==========================================
-  // Desktop Drag Handlers (Live Dynamic Shift)
+  // Desktop Drag Handlers (Robust HTML5 DnD)
   // ==========================================
   const handleSlotDragStart = (e, index) => {
     if (isLocked || !slots[index]) return;
     setSelectedSlotIndex(null);
     setSelectedPoolId(null);
+    const dragData = { source: 'slot', index, id: slots[index].id, item: slots[index] };
+    dragInfoRef.current = dragData;
     setDraggedSlotIndex(index);
     setDragOverSlotIndex(index);
-    e.dataTransfer.setData('text/plain', `slot:${index}`);
+    try {
+      e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+    } catch {
+      e.dataTransfer.setData('text/plain', `slot:${index}`);
+    }
     e.dataTransfer.effectAllowed = 'move';
   };
 
@@ -200,26 +209,21 @@ export const HandwashingSequenceActivity = ({
     if (isLocked) return;
     setSelectedSlotIndex(null);
     setSelectedPoolId(null);
+    const dragData = { source: 'pool', id: item.id, item };
+    dragInfoRef.current = dragData;
     setDraggedPoolItem(item);
-    e.dataTransfer.setData('text/plain', `pool:${item.id}`);
+    try {
+      e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+    } catch {
+      e.dataTransfer.setData('text/plain', `pool:${item.id}`);
+    }
     e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleSlotDragEnter = (e, targetIndex) => {
     if (isLocked) return;
     e.preventDefault();
-
-    // If dragging a slot across other slots: LIVE DYNAMIC SHIFT
-    if (draggedSlotIndex !== null && draggedSlotIndex !== targetIndex) {
-      const newSlots = [...slots];
-      const [movedItem] = newSlots.splice(draggedSlotIndex, 1);
-      newSlots.splice(targetIndex, 0, movedItem);
-      setSlots(newSlots);
-      setDraggedSlotIndex(targetIndex);
-      setDragOverSlotIndex(targetIndex);
-      soundManager.playClick();
-      notifyChange(newSlots, pool);
-    } else if (draggedPoolItem !== null) {
+    if (dragOverSlotIndex !== targetIndex) {
       setDragOverSlotIndex(targetIndex);
     }
   };
@@ -233,21 +237,74 @@ export const HandwashingSequenceActivity = ({
     }
   };
 
+  const handleSlotDragLeave = (e, targetIndex) => {
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    if (dragOverSlotIndex === targetIndex) {
+      setDragOverSlotIndex(null);
+    }
+  };
+
   const handleSlotDrop = (e, targetIndex) => {
     if (isLocked) return;
     e.preventDefault();
     setDragOverSlotIndex(null);
 
-    // If dropped from pool into slot
-    if (draggedPoolItem) {
-      placeItemInSlot(draggedPoolItem, targetIndex);
+    // Retrieve drag data from ref or dataTransfer
+    let dragData = dragInfoRef.current;
+    if (!dragData) {
+      try {
+        const raw = e.dataTransfer.getData('text/plain');
+        if (raw) {
+          if (raw.startsWith('{')) {
+            dragData = JSON.parse(raw);
+          } else if (raw.startsWith('pool:')) {
+            dragData = { source: 'pool', id: raw.replace('pool:', '') };
+          } else if (raw.startsWith('slot:')) {
+            dragData = { source: 'slot', index: parseInt(raw.replace('slot:', ''), 10) };
+          }
+        }
+      } catch {
+        // ignore
+      }
     }
 
+    if (dragData) {
+      if (dragData.source === 'pool') {
+        const poolItem = dragData.item || pool.find((p) => p.id === dragData.id);
+        if (poolItem) {
+          placeItemInSlot(poolItem, targetIndex);
+        }
+      } else if (dragData.source === 'slot') {
+        const sourceIndex = dragData.index !== undefined ? dragData.index : draggedSlotIndex;
+        if (sourceIndex !== null && sourceIndex !== undefined && sourceIndex !== targetIndex && sourceIndex >= 0 && sourceIndex < slots.length) {
+          soundManager.playClick();
+          const newSlots = [...slots];
+          const temp = newSlots[targetIndex];
+          newSlots[targetIndex] = newSlots[sourceIndex];
+          newSlots[sourceIndex] = temp;
+          setSlots(newSlots);
+          notifyChange(newSlots, pool);
+        }
+      }
+    } else if (draggedPoolItem) {
+      placeItemInSlot(draggedPoolItem, targetIndex);
+    } else if (draggedSlotIndex !== null && draggedSlotIndex !== targetIndex) {
+      soundManager.playClick();
+      const newSlots = [...slots];
+      const temp = newSlots[targetIndex];
+      newSlots[targetIndex] = newSlots[draggedSlotIndex];
+      newSlots[draggedSlotIndex] = temp;
+      setSlots(newSlots);
+      notifyChange(newSlots, pool);
+    }
+
+    dragInfoRef.current = null;
     setDraggedSlotIndex(null);
     setDraggedPoolItem(null);
   };
 
   const handleDragEnd = () => {
+    dragInfoRef.current = null;
     setDraggedSlotIndex(null);
     setDragOverSlotIndex(null);
     setDraggedPoolItem(null);
@@ -256,13 +313,16 @@ export const HandwashingSequenceActivity = ({
 
   // Drag over pool to remove
   const handlePoolDragOver = (e) => {
-    if (isLocked || draggedSlotIndex === null) return;
+    if (isLocked) return;
+    const isFromSlot = dragInfoRef.current?.source === 'slot' || draggedSlotIndex !== null;
+    if (!isFromSlot) return;
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     if (!isDragOverPool) setIsDragOverPool(true);
   };
 
-  const handlePoolDragLeave = () => {
+  const handlePoolDragLeave = (e) => {
+    if (e.currentTarget && e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return;
     setIsDragOverPool(false);
   };
 
@@ -270,10 +330,34 @@ export const HandwashingSequenceActivity = ({
     if (isLocked) return;
     e.preventDefault();
     setIsDragOverPool(false);
-    if (draggedSlotIndex !== null) {
-      removeItemFromSlot(draggedSlotIndex);
-      setDraggedSlotIndex(null);
+
+    let dragData = dragInfoRef.current;
+    if (!dragData) {
+      try {
+        const raw = e.dataTransfer.getData('text/plain');
+        if (raw) {
+          if (raw.startsWith('{')) {
+            dragData = JSON.parse(raw);
+          } else if (raw.startsWith('slot:')) {
+            dragData = { source: 'slot', index: parseInt(raw.replace('slot:', ''), 10) };
+          }
+        }
+      } catch {
+        // ignore
+      }
     }
+
+    const slotIndexToRemove = dragData?.source === 'slot' && dragData.index !== undefined
+      ? dragData.index
+      : draggedSlotIndex;
+
+    if (slotIndexToRemove !== null && slotIndexToRemove !== undefined) {
+      removeItemFromSlot(slotIndexToRemove);
+    }
+
+    dragInfoRef.current = null;
+    setDraggedSlotIndex(null);
+    setDraggedPoolItem(null);
   };
 
   // ==========================================
@@ -308,25 +392,30 @@ export const HandwashingSequenceActivity = ({
     const wrapper = targetElement.closest('.hw-slot-box');
     if (wrapper && wrapper.dataset.slotIndex !== undefined) {
       const targetIndex = parseInt(wrapper.dataset.slotIndex, 10);
-      const currentIndex = draggedSlotIndex !== null ? draggedSlotIndex : touchOriginRef.current.index;
-      if (!isNaN(targetIndex) && targetIndex !== currentIndex && targetIndex >= 0 && targetIndex < slots.length) {
-        const newSlots = [...slots];
-        const [movedItem] = newSlots.splice(currentIndex, 1);
-        newSlots.splice(targetIndex, 0, movedItem);
-        setSlots(newSlots);
-        setDraggedSlotIndex(targetIndex);
+      if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < slots.length) {
         setDragOverSlotIndex(targetIndex);
-        touchOriginRef.current.index = targetIndex;
-        soundManager.playClick();
-        notifyChange(newSlots, pool);
       }
+    } else {
+      setDragOverSlotIndex(null);
     }
   };
 
   const handleTouchEnd = (index) => {
-    if (touchOriginRef.current && !touchOriginRef.current.hasMoved) {
-      // Tap-to-swap
-      handleSlotClick(index);
+    if (touchOriginRef.current) {
+      if (!touchOriginRef.current.hasMoved) {
+        // Tap-to-swap
+        handleSlotClick(index);
+      } else if (dragOverSlotIndex !== null && dragOverSlotIndex !== touchOriginRef.current.index) {
+        const sourceIndex = touchOriginRef.current.index;
+        const targetIndex = dragOverSlotIndex;
+        soundManager.playClick();
+        const newSlots = [...slots];
+        const temp = newSlots[targetIndex];
+        newSlots[targetIndex] = newSlots[sourceIndex];
+        newSlots[sourceIndex] = temp;
+        setSlots(newSlots);
+        notifyChange(newSlots, pool);
+      }
     }
     touchOriginRef.current = null;
     setDraggedSlotIndex(null);
@@ -380,20 +469,25 @@ export const HandwashingSequenceActivity = ({
 
   return (
     <div className="handwash-sequence-container">
-      {/* Header Info & Progress */}
-      <div className="inspection-header-row">
+      {/* Unified Clean Header Row */}
+      <div className="inspection-header-row hw-main-header-row">
         <div className="inspection-title-box">
-          <h3 className="item-target-title">Target: 7-Step Handwashing Sequence</h3>
+          <h3 className="item-target-title">7-Step Sanitary Handwashing Sequence</h3>
         </div>
-        <div className="inspection-counter">
-          Assigned: {filledCount} / 7 Steps
+        <div className="hw-header-badges">
+          <div className="inspection-counter hw-counter-badge">
+            Assigned: {filledCount} / 7 Steps
+          </div>
+          <span className="vessel-badge hw-task-badge">
+            {isLocked ? '🔒 Submitted' : 'Task 2 of 4'}
+          </span>
         </div>
       </div>
 
-      <p className="inspection-prompt">
+      <p className="inspection-prompt hw-prompt">
         {isLocked
           ? 'Review your submitted handwashing sequence below:'
-          : 'Drag steps between slots to reorder live, or tap to swap! Beware of 3 hazardous distractor practices:'}
+          : 'Drag steps between slots to arrange in chronological order (or tap to swap). Beware of 3 hazardous distractors!'}
       </p>
 
       {/* Target Slots (1 to 7) with Live Interactive Reordering */}
@@ -413,6 +507,7 @@ export const HandwashingSequenceActivity = ({
               onClick={() => handleSlotClick(idx)}
               onDragOver={(e) => handleSlotDragOver(e, idx)}
               onDragEnter={(e) => handleSlotDragEnter(e, idx)}
+              onDragLeave={(e) => handleSlotDragLeave(e, idx)}
               onDrop={(e) => handleSlotDrop(e, idx)}
               draggable={!isLocked && Boolean(item)}
               onDragStart={(e) => handleSlotDragStart(e, idx)}
@@ -446,15 +541,15 @@ export const HandwashingSequenceActivity = ({
                   {!isLocked && (
                     <div className="slot-drag-handle-hint">
                       <span className="drag-dots">⋮⋮</span>
-                      <span>{isSelected ? 'Selected' : 'Drag / Tap'}</span>
+                      <span>{isSelected ? 'Selected' : 'Drag/Tap'}</span>
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="slot-placeholder">
-                  <span className="placeholder-icon">⬇</span>
+                  <span className="placeholder-icon">↓</span>
                   <span className="placeholder-label">
-                    {selectedPoolId ? 'Tap to Place' : 'Empty Step Slot'}
+                    {selectedPoolId ? 'Tap to Place' : 'Empty Slot'}
                   </span>
                 </div>
               )}
@@ -474,7 +569,7 @@ export const HandwashingSequenceActivity = ({
           <div className="hw-pool-header">
             <h4 className="hw-pool-title">
               {isDragOverPool
-                ? '⬇ Drop here to remove card back to pool'
+                ? 'Drop here to remove card back to pool'
                 : `Available Technique Cards Pool (${pool.length} remaining)`}
             </h4>
             {filledCount > 0 && (
@@ -510,8 +605,8 @@ export const HandwashingSequenceActivity = ({
                     <p className="pool-card-desc">{item.desc}</p>
                     <div className="pool-card-hint">
                       {selectedSlotIndex !== null
-                        ? '👉 Tap to assign to Step ' + (selectedSlotIndex + 1)
-                        : '👆 Tap or Drag to place'}
+                        ? 'Assign to Step ' + (selectedSlotIndex + 1)
+                        : 'Tap or Drag to place'}
                     </div>
                   </div>
                 );

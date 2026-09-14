@@ -47,7 +47,7 @@ export const Mission3Mixing = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 3 Completed! Starch formulation has been smoothly blended and ready for molding.',
+        'Stage 3 Completed! Starch formulation has been smoothly blended and ready for molding. The 1:1 ratio between ubod fibers and rice flour creates the optimal moisture-to-binder matrix, ensuring uniform heat transfer during steaming and crispy cellular expansion upon flash frying.',
         'happy',
         {
           badge: 'Stage 3 Complete',
@@ -58,7 +58,7 @@ export const Mission3Mixing = () => {
       );
     } else {
       speak(
-        'Stage 3: Paste Formulation & Mixing! Step 1: In a large bowl, combine 1 cup of rice flour and 1 teaspoon of salt. Add 1 cup of ubod paste and gradually pour in 1 cup of water while gently mixing until all ingredients are well combined.',
+        'Welcome to Stage 3: Paste Formulation & Dough Mixing! In food product development, cracker texture is governed by the starch-to-fiber ratio. In our formulation, rice flour acts as the primary structure-forming binder, providing amylose and amylopectin polymers that trap moisture and expand during frying. In a large mixing bowl, combine 1 cup of Erawan Rice Flour with 1 teaspoon of Pure Sea Salt, add 1 cup of our smooth Ubod Paste from Stage 2, and gradually pour in 1 cup of water while gently folding until all dry and wet ingredients form a smooth, cohesive dough.',
         'neutral',
         {
           badge: 'Step 1: Formulation',
@@ -136,7 +136,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Rice Flour Added!', 'Next: Add 1 tsp Sea Salt to combine dry ingredients.', 'success');
       speak(
-        'Rice flour added! Now add the Pure Sea Salt from your inventory so it blends thoroughly into the dry flour particles.',
+        'Rice flour added! Now add the measured Pure Sea Salt from your inventory. Blending dry salt thoroughly into the dry flour before introducing wet ingredients ensures uniform sodium ion dispersal throughout the batch, preventing concentrated salty pockets in individual crackers.',
         'neutral',
         {
           badge: 'Step 1: Dry Blending',
@@ -151,7 +151,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Salt Added!', 'Next: Add 1 Cup Ubod Paste (1:1 Ratio).', 'success');
       speak(
-        'Salt blended! Now add the 1 cup of pureed Ubod Paste into the bowl to achieve our balanced 1:1 binder ratio.',
+        'Dry ingredients blended! Now add 1 cup of our pureed Ubod Paste from Stage 2 into the bowl. This establishes our calibrated 1:1 ratio between fibrous coconut pith and cereal starch, creating the ideal structural balance for both elasticity and nutritional density.',
         'happy',
         {
           badge: 'Step 2: 1:1 Ratio Formulation',
@@ -166,7 +166,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Ubod Paste Added!', 'Next: Pour in 1 Cup Water gradually.', 'success');
       speak(
-        'Paste incorporated! Now gradually pour in 1 cup of water while gently mixing until all ingredients form a uniform dough.',
+        'Ubod paste incorporated! Now select the Potable Water from your inventory and gradually pour in 1 cup while preparing to mix. Adding water in a controlled stream allows the rice flour starch granules to hydrate evenly without creating lumps or causing the dough to become overly sticky.',
         'neutral',
         {
           badge: 'Step 3: Gradual Hydration',
@@ -181,7 +181,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Water Added!', 'All ingredients combined! Select the Red Spatula to mix.', 'success');
       speak(
-        'All formulation ingredients loaded! Select the Red Spatula from your inventory and click the bowl to mix gently until a uniform dough forms.',
+        'All formulation ingredients loaded! Select the flexible Red Silicone Spatula from your inventory and click the bowl to mix gently. Fold the ingredients from the outside edges toward the center until the starch slurry and ubod fibers coalesce into a smooth, pliable, lump-free dough ready for portioning.',
         'happy',
         {
           badge: 'Step 4: Dough Mixing',
@@ -216,7 +216,7 @@ export const Mission3Mixing = () => {
         completeMission('mission3');
         showToast('Stage 3 Complete!', 'Uniform ubod cracker dough successfully formulated', 'success');
         speak(
-          'We are done making our Ubod dough mixture! The dough is completely uniform and ready for portioning into the rectangular mold in Stage 4.',
+          'Outstanding formulation work! The Ubod cracker dough is completely uniform, elastic, and free of air bubbles or dry flour pockets. The starch granules are fully hydrated and primed for shaping into individual rectangular crackers in Stage 4: Portioning & Molding!',
           'happy',
           {
             badge: 'Stage 3 Complete',

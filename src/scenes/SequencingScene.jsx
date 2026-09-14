@@ -13,23 +13,23 @@ export const SequencingScene = () => {
     if (isAlreadyCompleted) {
       completeMission('sequencing');
       speak(
-        `Post-Test Sequence Completed, ${studentName || 'Food Technologist'}! Your sequential ordering has been recorded. Review your complete laboratory performance and diagnostic audit report!`,
+        `Post-Test Assessment Completed, ${studentName || 'Food Technologist'}!\n\nYour reconstructed 8-stage food manufacturing sequence has been verified and permanently recorded in your laboratory profile.\n\nYou have systematically tracked the entire lifecycle of Ubod ng Niyog—from hydrothermal fiber softening and high-shear mechanical pureeing, to balanced starch formulation, standardized geometric molding, moist-heat gelatinization, convective moisture vitrification, flash expansion deep frying, and multi-barrier hermetic packaging.\n\nClick the button below to inspect your comprehensive Diagnostic Performance Report!`,
         'happy',
         {
           badge: 'Post-Test Assessment Complete',
-          note: 'Your sequence order has been logged alongside your Pre-Test diagnostics for comprehensive evaluation.',
+          note: 'Holistic Pipeline Mastery: Your chronological manufacturing sequence is archived alongside your Pre-Test diagnostics and Stage Pre-Check Questions.',
           btnText: 'View Diagnostic Assessment Results ➔',
           onNext: () => setScene('results'),
         }
       );
     } else {
       speak(
-        `Post-Test Assessment, ${studentName || 'Food Technologist'}! Arrange the 8 processing stages in their authentic chronological sequence from left to right.`,
+        `Welcome to the Post-Test Assessment, ${studentName || 'Food Technologist'}!\n\nNow that you have successfully completed all laboratory hands-on operations, this final diagnostic exam evaluates your comprehensive understanding of the complete industrial manufacturing lifecycle.\n\nUnit operations in food processing follow strict thermodynamic and biochemical prerequisites: each stage creates the exact chemical or physical state required by the next stage. Rearranging or skipping a step would cause catastrophic production failure—such as frying un-dehydrated wafers or attempting to mold un-gelatinized flour.\n\nYour Objective: Arrange the 8 processing stage cards in their authentic chronological sequence from left to right, then click "Submit Chronological Sequence & View Results"!`,
         'thinking',
         {
-          badge: 'Post-Test: Stage Sequencing',
-          note: 'Reconstruct the complete food manufacturing pipeline: from raw ingredient preparation to finished packaged crackers.',
-          hint: 'Drag or tap cards to set their positions, then click "Submit Chronological Sequence & View Results".',
+          badge: 'Post-Test: Chronological Sequencing',
+          note: 'Industrial Flow Logic: Trace the transformation from raw coconut pith (ubod) harvesting, washing, and softening, through to commercial retail distribution.',
+          hint: 'Drag cards into target slots or tap cards to swap their positions, then click Submit below.',
           hideButton: true,
         }
       );
@@ -41,11 +41,11 @@ export const SequencingScene = () => {
     completeMission('sequencing');
     soundManager.playFanfare();
     speak(
-      `Post-Test Submitted, ${studentName || 'Food Technologist'}! Your 8-stage manufacturing sequence is recorded. Let's inspect your diagnostic assessment results and comprehensive audit report!`,
+      `Post-Test Assessment Successfully Submitted, ${studentName || 'Food Technologist'}!\n\nYour chronological sequence for the 8-stage Ubod CRUNCH processing pipeline has been submitted for automated diagnostic scoring.\n\nOur evaluation engine is cross-referencing your sequence with industry-standard HACCP unit operations, alongside your Pre-Test PPE selections, 7-step Handwashing technique, Tool safety audits, Raw Ingredient inspections, and Stage Pre-Check Questions.\n\nClick the green button below to open your comprehensive Diagnostic Audit Report and review your food science rationale breakdown!`,
       'happy',
       {
-        badge: 'Post-Test Submitted',
-        note: 'Comprehensive audit ready: Pre-Test PPE, Handwashing, Tool Safety, Ingredient QC, and Post-Test Sequencing.',
+        badge: 'Post-Test Assessment Submitted',
+        note: 'Complete Diagnostic Ready: Review your competency scores, itemized feedback, food science principles, and official laboratory certificate.',
         btnText: 'View Diagnostic Assessment Results ➔',
         onNext: () => setScene('results'),
       }
