@@ -34,7 +34,8 @@
   position: relative;
 }
 
-/* Left Column: Hosts Scene Canvas on top and Dialogue Box on bottom */
+/* Center Column: Hosts Scene Canvas */
+.viewport-center-column,
 .viewport-left-column {
   flex: 1 1 0%;
   width: auto;
@@ -49,6 +50,7 @@
   box-sizing: border-box;
 }
 
+.game-viewport.inventory-collapsed .viewport-center-column,
 .game-viewport.inventory-collapsed .viewport-left-column {
   flex: 1 1 100%;
   width: 100%;

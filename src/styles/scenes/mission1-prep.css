@@ -802,7 +802,7 @@
 /* 1. Centered Countertop Immersion Layout */
 .prep-scene .stage-center-zone,
 .game-viewport .prep-scene .stage-center-zone {
-  padding: 20px 32px 36px 32px !important;
+  padding: 64px 32px 36px 32px !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
@@ -832,6 +832,105 @@
   gap: 40px !important;
   margin: 0 auto !important;
   padding: 0 16px !important;
+}
+
+/* 2b. Single Workstation Mode (Standard Hero Layout) */
+.prep-scene .stage-content-row.stage-single-workstation {
+  max-width: 760px !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.prep-scene .stage-content-row.stage-single-workstation > .station-center-card {
+  max-width: 720px !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Stage 1 Order Stepper Bar */
+.stage-phase-stepper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #dfcfb9;
+  border-bottom: 3.5px solid #bda88e;
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin: 0 auto 14px auto;
+  box-shadow:
+    0 4px 0 #bda88e,
+    0 8px 20px rgba(78, 52, 28, 0.08);
+  z-index: 10;
+}
+
+.phase-step-pill {
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #5c4328;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.phase-step-pill:hover:not(.locked) {
+  background: #fdfbf7;
+  color: #1e1106;
+  transform: translateY(-1px);
+}
+
+.phase-step-pill.active {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: #1e40af;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.phase-step-pill.completed:not(.active) {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+.phase-step-pill.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.phase-step-arrow {
+  color: #bda88e;
+  font-size: 0.82rem;
+  font-weight: 900;
+  user-select: none;
+}
+
+/* Workstation Error Nudge & Shake */
+.prep-scene .washing-workstation.error-shake,
+.prep-scene .station-center-card.error-shake {
+  animation: shakeError 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
+}
+
+.prep-scene .washing-workstation.error-shake .sink-preview-img {
+  filter: drop-shadow(0 0 24px rgba(239, 68, 68, 0.75)) !important;
+  transition: filter 0.1s ease !important;
 }
 
 /* 3. Borderless Workstation Islands (No Outer Container Box) */
@@ -1050,7 +1149,7 @@
 /* 7. Responsive Breakpoints */
 @media (max-width: 1440px) {
   .prep-scene .stage-center-zone {
-    padding: 18px 28px 48px 28px !important;
+    padding: 60px 28px 40px 28px !important;
   }
 
   .prep-scene .stage-content-row {
@@ -1063,6 +1162,18 @@
     max-width: calc(50% - 12px) !important;
     flex: 1 1 calc(50% - 12px) !important;
     min-width: 0 !important;
+  }
+
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation {
+    max-width: 620px !important;
+  }
+
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card,
+  .prep-scene .stage-content-row > *:only-child {
+    max-width: 620px !important;
+    width: 100% !important;
   }
 
   .prep-scene .station-center-card .multi-state-workstation {
@@ -1126,7 +1237,14 @@
 
 @media (max-height: 880px) {
   .prep-scene .stage-center-zone {
-    padding: 14px 28px 48px 28px !important;
+    padding: 58px 28px 36px 28px !important;
+  }
+
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation,
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 620px !important;
   }
 
   .prep-scene .washing-viewport,
@@ -1177,7 +1295,14 @@
 
 @media (max-height: 740px) {
   .prep-scene .stage-center-zone {
-    padding: 10px 22px 42px 22px !important;
+    padding: 52px 22px 30px 22px !important;
+  }
+
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation,
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 560px !important;
   }
 
   .prep-scene .washing-viewport,
@@ -1228,7 +1353,7 @@
 
 @media (max-width: 1024px) {
   .prep-scene .stage-center-zone {
-    padding: 10px 14px 20px 14px !important;
+    padding: 52px 14px 20px 14px !important;
   }
 
   .prep-scene .stage-content-row {
@@ -1237,14 +1362,23 @@
     gap: 20px !important;
   }
 
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation {
+    max-width: 520px !important;
+  }
+
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card,
   .prep-scene .stage-content-row > *:not(:only-child),
   .prep-scene .stage-content-row > *:only-child {
     max-width: 520px !important;
     width: 100% !important;
   }
 
-  .prep-scene .station-center-card .multi-state-workstation {
-    max-width: 100% !important;
+  .prep-scene .station-center-card .multi-state-workstation,
+  .prep-scene .washing-workstation,
+  .prep-scene .workstation-header {
+    max-width: 520px !important;
     width: 100% !important;
   }
 }

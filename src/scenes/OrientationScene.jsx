@@ -76,8 +76,8 @@ export const OrientationScene = () => {
     if (phase === 'ppe') {
       speak(
         isAlreadyCompleted
-          ? 'Pre-Test Completed: Review your submitted PPE attire choices below (Read-Only).'
-          : 'Diagnostic Pre-Test (Task 1: PPE Attire): Select the personal protective equipment you consider required for sanitary food processing.',
+          ? 'Orientation Pre-Test Completed: You have successfully finalized your personal protective equipment selection! Review your equipped items below. Each piece of protective gear establishes a physical barrier that prevents hair, oral aerosols, and outdoor dust from compromising sanitized food contact surfaces.'
+          : 'Welcome to the Food Technology & Science Laboratory! Before we can handle any ingredients or operate culinary equipment, establishing personal sanitary defense is our mandatory first rule. In laboratory food preparation, humans are the primary source of physical shedding and microbial cross-contamination. Review the equipment cards on your workstation and select all approved food-grade gear required for personal protection and aseptic food preparation—such as sanitary hairnets, clean lab coats, spit guards, and vinyl gloves. Be vigilant against hazardous items or loose knit garments that shed fibers or pose severe burn risks around open flames!',
         isAlreadyCompleted ? 'happy' : 'thinking',
         {
           badge: 'Pre-Test: PPE Attire',
@@ -86,15 +86,15 @@ export const OrientationScene = () => {
             : 'Select all standard food-grade protective gear. Beware of non-approved or hazardous items!',
           hint: isAlreadyCompleted
             ? 'Pre-Test is submitted and locked.'
-            : 'Click to select or deselect gear, then click Confirm PPE Attire.',
+            : 'Click any gear card to select or deselect it, then click Confirm PPE Attire when ready.',
           hideButton: true,
         }
       );
     } else if (phase === 'sanitation') {
       speak(
         isAlreadyCompleted
-          ? 'Pre-Test Completed: Review your submitted 7-step handwashing sequence below (Read-Only).'
-          : 'Diagnostic Pre-Test (Task 2: Handwashing Sequence): Arrange the 7 handwashing steps in their strict chronological order. Avoid 3 distractor hazards!',
+          ? 'Orientation Pre-Test Completed: Review your 7-step sanitary handwashing sequence below. Friction scrubbing for at least 20 seconds mechanically dislodges transient microbes from the skin surface and prevents cross-contamination.'
+          : 'Excellent attention to protective attire! Now let\'s master our most crucial sanitation protocol: aseptic hand hygiene. Hand contact is the single most frequent vector for pathogen transmission in food processing. Drag or tap the handwashing cards to arrange the 7 sanitary steps in their strict chronological order—beginning with wetting under clean running water, applying soap, and scrubbing palms, digits, and nails with 20 seconds of friction, through to clean rinsing and sanitary disposable paper drying. Be on the lookout for distractor actions that would re-contaminate clean hands!',
         isAlreadyCompleted ? 'happy' : 'happy',
         {
           badge: 'Pre-Test: Sanitation Protocol',
@@ -103,15 +103,15 @@ export const OrientationScene = () => {
             : 'Drag or tap cards into Step slots 1 through 7. You can return to adjust your sequence anytime before completing the pre-test.',
           hint: isAlreadyCompleted
             ? 'Pre-Test is submitted and locked.'
-            : 'Arrange the sequence from first water contact to drying.',
+            : 'Arrange the sequence in order from first potable water wetting to final drying.',
           hideButton: true,
         }
       );
     } else if (phase === 'tool_inspection') {
       speak(
         isAlreadyCompleted
-          ? 'Pre-Test Completed: Review your tool safety inspection choices below (Read-Only).'
-          : 'Diagnostic Pre-Test (Task 3: Tool & Equipment Safety): Inspect each equipment pair and select the safe, food-grade option. You can navigate between items and change answers anytime.',
+          ? 'Orientation Pre-Test Completed: Review your tool safety inspection audit below. Remember that food-grade stainless steel resists pitting corrosion and prevents toxic leaching during high-temperature cooking.'
+          : 'Well done on sanitation! Now let\'s audit our culinary processing equipment. In commercial cracker manufacturing, defective or corroded tools present severe hazards: microscopic fissures in plastic or metal harbor bacterial biofilms that resist surface sanitizers, while worn mechanical components can shed physical steel shards into food batches. Inspect each equipment pair on your table—from food processor blades and cooking pots to knives and stoves—and select the certified food-grade, sanitized option with smooth stainless surfaces and intact wiring.',
         'neutral',
         {
           badge: 'Pre-Test: Tool Safety',
@@ -125,8 +125,8 @@ export const OrientationScene = () => {
     } else if (phase === 'ingredient_inspection') {
       speak(
         isAlreadyCompleted
-          ? 'Pre-Test Completed: Review your ingredient quality inspection choices below (Read-Only).'
-          : 'Diagnostic Pre-Test (Task 4: Ingredient Quality Inspection): Inspect raw materials and choose the fresh, uncontaminated food items.',
+          ? 'Orientation Pre-Test Completed: Review your ingredient quality inspection choices below. Fresh, firm coconut pith ensures the ideal starch-to-fiber ratio for crisp, uniform cracker puffing.'
+          : 'Our final diagnostic checkpoint focuses on raw material quality audit. The delicate texture, crisp puffing expansion, and safety of our coconut pith crackers depend entirely on the freshness of our harvested ubod. High-quality coconut pith must exhibit a pristine ivory-white hue, a crisp and firm cellular structure, and a clean, mild aroma without any sour odors, brown oxidation, or signs of slime. Inspect each raw material specimen carefully and approve only the fresh, uncontaminated ingredients fit for production!',
         'neutral',
         {
           badge: 'Pre-Test: Ingredient Quality',
@@ -473,16 +473,8 @@ export const OrientationScene = () => {
 
         {/* TASK 2: HANDWASHING SEQUENCE PUZZLE (Dynamic Reordering) */}
         {phase === 'sanitation' && (
-          <div className="active-vessel-card orientation-card">
+          <div className="active-vessel-card orientation-card handwash-card-wrapper">
             <div className="vessel-top-badge">Pre-Test Diagnostic Assessment: Sanitation Protocol</div>
-            <div className="vessel-header">
-              <span className="vessel-title">7-Step Sanitary Handwashing Sequence</span>
-              <span className="vessel-badge">
-                {isAlreadyCompleted ? '🔒 Submitted' : 'Task 2 of 4'}
-              </span>
-            </div>
-            <div className="vessel-header-divider" />
-
             <HandwashingSequenceActivity
               initialSlots={handwashData?.slots || null}
               initialPool={handwashData?.pool || null}

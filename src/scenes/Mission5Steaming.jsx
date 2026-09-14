@@ -47,7 +47,7 @@ export const Mission5Steaming = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 5 Completed! Starch gelatinization is complete, and the molded crackers have been transferred to cool before loading into the dehydrator.',
+        'Stage 5 Completed! Starch gelatinization is complete. The molded crackers have undergone thermal swelling where amylose and amylopectin polymers unfurled into a cohesive, translucent gel network. The pieces have been transferred to cool before entering cabinet dehydration.',
         'happy',
         {
           badge: 'Stage 5 Complete',
@@ -58,7 +58,7 @@ export const Mission5Steaming = () => {
       );
     } else {
       speak(
-        'Stage 5: Starch Gelatinization & Steaming! Step 1: Add water to the steamer base, assemble tiers, and steam for 10 minutes.',
+        'Welcome to Stage 5: Starch Gelatinization & Atmospheric Steaming! In raw dough, starch granules are tightly packed crystalline structures that cannot expand or hold shape. When exposed to 100°C steam, water penetrates the granules causing them to swell irreversibly and burst into a continuous gel matrix—a process known as starch gelatinization. To begin, pour 1 cup of potable water into the stainless steel steamer base pot on your burner.',
         'neutral',
         {
           badge: 'Step 1: Steamer Base',
@@ -136,7 +136,7 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Water Added!', 'Now seat the perforated steam tier on top of the base.', 'success');
       speak(
-        'Water added! Step 2: Now select the perforated steam tier from your shelf and attach it onto the pot.',
+        'Potable water added to the base! Step 2: Now select the perforated stainless steam tier from your shelf and attach it securely on top of the base pot. The perforated floor allows hot steam vapor to circulate freely while keeping the food elevated above boiling water.',
         'neutral',
         {
           badge: 'Step 2: Steam Tier',
@@ -151,7 +151,7 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Steam Tier Positioned!', 'Now place the molded ubod tray inside the perforated tier.', 'success');
       speak(
-        'Steam tier set! Step 3: Now select the Molded Ubod Tray from your shelf and place it inside the tier.',
+        'Steam tier positioned! Step 3: Now select the Molded Ubod Tray from your inventory and place it horizontally inside the perforated tier. Ensure the silicone tray rests flat so steam circulates identically across all 24 cavities.',
         'neutral',
         {
           badge: 'Step 3: Load Molded Tray',
@@ -166,7 +166,7 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Molded Tray Loaded!', 'Click the Burner Control Dial below to ignite medium heat (10 min).', 'success');
       speak(
-        'All assembled! Step 4: Click the Burner Control Dial below to ignite medium heat and start the 10-minute steam cycle.',
+        'All assembled and secured! Step 4: Click the Burner Control Dial below to ignite medium-high heat. We will steam the crackers for exactly 10 minutes at 100°C until the starch mixture turns firm and translucent.',
         'happy',
         {
           badge: 'Step 4: 10-Min Steaming',
@@ -198,7 +198,7 @@ export const Mission5Steaming = () => {
         soundManager.playSuccess();
         showToast('Steaming Complete!', 'Wafers are firm & translucent. Don heat mitts to remove!', 'success');
         speak(
-          '10-minute steam cycle finished! The ubod crackers are firm and translucent. Step 5: Select Silicone Heat Mitts from your inventory to safely transfer the hot mold to the cooling rack!',
+          'The 10-minute steam cycle is complete! Notice how the crackers have turned firm, cohesive, and translucent. For thermal safety, never touch hot steam tiers with bare hands! Select the Silicone Thermal Heat Mitts from your inventory to safely transfer the hot mold to the cooling rack.',
           'happy',
           {
             badge: 'Step 5: Cooling Transfer',
@@ -219,7 +219,7 @@ export const Mission5Steaming = () => {
     completeMission('mission5');
     showToast('Transferred to Cooling Rack!', 'Firm, translucent ubod crackers cooled for Stage 6', 'success');
     speak(
-      'Outstanding steaming! Starches are fully gelatinized and set. The cooled wafers are ready for single-layer arrangement in Stage 6 Dehydration!',
+      'Outstanding steaming execution! Starches are fully gelatinized, locking in moisture and solidifying the geometric wafer shape. The cooled crackers are now stable and ready for single-layer loading in Stage 6: Cabinet Dehydration!',
       'happy',
       {
         badge: 'Stage 5 Complete',

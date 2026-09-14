@@ -442,7 +442,13 @@
 /* Laptop Screens & Compact Displays (max-width: 1366px) */
 @media (max-width: 1366px) {
   .stage-center-zone {
-    padding: 10px 16px 24px 16px !important;
+    padding: 58px 18px 28px 18px !important;
+  }
+
+  .btn-recipe-guide-trigger {
+    top: 12px !important;
+    right: 18px !important;
+    padding: 6px 12px 6px 8px !important;
   }
 
   .game-viewport.dialogue-collapsed .stage-center-zone,
@@ -460,6 +466,33 @@
   }
 }
 
+/* Tablet Screens & Compact Laptops (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .workstation-header,
+  .prep-scene .workstation-header,
+  .washing-workstation .workstation-header {
+    max-width: 520px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .stage-single-workstation,
+  .stage-content-row.stage-single-workstation,
+  .prep-scene .stage-single-workstation,
+  .prep-scene .stage-content-row.stage-single-workstation {
+    max-width: 520px !important;
+  }
+
+  .stage-single-workstation .station-center-card,
+  .stage-content-row.stage-single-workstation > .station-center-card,
+  .prep-scene .stage-single-workstation .station-center-card,
+  .prep-scene .stage-content-row.stage-single-workstation > .station-center-card {
+    max-width: 520px !important;
+    width: 100% !important;
+  }
+}
+
 /* Medium Tablets & Compact Screens (max-width: 960px) */
 @media (max-width: 960px) {
   .hud-stepper {
@@ -467,7 +500,13 @@
   }
 
   .stage-center-zone {
-    padding: 8px 12px 20px 12px !important;
+    padding: 52px 12px 20px 12px !important;
+  }
+
+  .btn-recipe-guide-trigger {
+    top: 10px !important;
+    right: 12px !important;
+    padding: 5px 10px 5px 7px !important;
   }
 
   .game-viewport.dialogue-collapsed .stage-center-zone,
