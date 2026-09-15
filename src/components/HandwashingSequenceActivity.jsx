@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { soundManager } from '../audio/soundManager';
 import { HANDWASHING_STEPS } from '../data/orientationData';
@@ -185,6 +185,21 @@ export const HandwashingSequenceActivity = ({
 
   // Active drag payload ref (avoids any React state timing/render cancellation)
   const dragInfoRef = useRef(null);
+
+  // Global dragend safety net: ensures state is cleaned up even if drag ends outside component
+  useEffect(() => {
+    const handleGlobalDragEnd = () => {
+      if (dragInfoRef.current !== null || draggedSlotIndex !== null || draggedPoolItem !== null) {
+        dragInfoRef.current = null;
+        setDraggedSlotIndex(null);
+        setDragOverSlotIndex(null);
+        setDraggedPoolItem(null);
+        setIsDragOverPool(false);
+      }
+    };
+    window.addEventListener('dragend', handleGlobalDragEnd);
+    return () => window.removeEventListener('dragend', handleGlobalDragEnd);
+  }, [draggedSlotIndex, draggedPoolItem]);
 
   // ==========================================
   // Desktop Drag Handlers (Robust HTML5 DnD)
