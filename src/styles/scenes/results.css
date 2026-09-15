@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 24px 32px 140px 32px;
+  padding: 8px 32px 36px 32px !important;
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
@@ -22,9 +22,17 @@
     url('/assets/bg_evaluation_hall.jpg') center / cover no-repeat;
 }
 
+.dialogue-collapsed .results-scene,
+.inventory-collapsed .results-scene,
+.dialogue-collapsed.inventory-collapsed .results-scene {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
 .results-container {
-  width: 100%;
-  max-width: 1160px;
+  width: 92%;
+  max-width: 1040px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;

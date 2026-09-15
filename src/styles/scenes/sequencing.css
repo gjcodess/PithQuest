@@ -10,18 +10,26 @@
   background: 
     radial-gradient(ellipse at 50% 30%, rgba(253, 251, 247, 0.86) 0%, rgba(245, 238, 226, 0.88) 40%, rgba(234, 219, 199, 0.91) 80%, rgba(223, 206, 183, 0.94) 100%),
     url('/assets/bg_evaluation_hall.jpg') center / cover no-repeat;
-  padding: 28px 20px 56px;
+  padding: 8px 32px 36px 32px !important;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
 }
 
+.dialogue-collapsed .sequencing-scene,
+.inventory-collapsed .sequencing-scene,
+.dialogue-collapsed.inventory-collapsed .sequencing-scene {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
 .sequencing-page-container {
-  width: 100%;
-  max-width: 1280px;
+  width: 92%;
+  max-width: 1040px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .sequencing-hero-header {
