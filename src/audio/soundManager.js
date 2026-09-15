@@ -350,6 +350,80 @@ class SoundManager {
     }
   }
 
+  // Dough / Paste Mixing & Spatula Folding (Viscous Starch Swirl & Squelch)
+  playMix() {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    try {
+      const duration = 0.55;
+      const t = this.ctx.currentTime;
+
+      // 1. Viscous Dough Swirl (Bandpass-filtered modulated noise)
+      const bufferSize = this.ctx.sampleRate * duration;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.sin((i / bufferSize) * Math.PI);
+      }
+
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(380, t);
+      filter.frequency.exponentialRampToValueAtTime(820, t + 0.25);
+      filter.frequency.exponentialRampToValueAtTime(320, t + duration);
+      filter.Q.value = 2.5;
+
+      const noiseGain = this.ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.01, t);
+      noiseGain.gain.linearRampToValueAtTime(0.24, t + 0.15);
+      noiseGain.gain.exponentialRampToValueAtTime(0.005, t + duration);
+
+      noise.connect(filter);
+      filter.connect(noiseGain);
+      noiseGain.connect(this.ctx.destination);
+      noise.start(t);
+
+      // 2. Thick Dough Squelch / Viscoelastic Fold
+      const osc = this.ctx.createOscillator();
+      const oscGain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, t);
+      osc.frequency.exponentialRampToValueAtTime(140, t + 0.2);
+      osc.frequency.exponentialRampToValueAtTime(75, t + duration);
+
+      oscGain.gain.setValueAtTime(0.01, t);
+      oscGain.gain.linearRampToValueAtTime(0.16, t + 0.1);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+
+      osc.connect(oscGain);
+      oscGain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + duration);
+
+      // 3. Spatula Bowl Contact Tap
+      const clickOsc = this.ctx.createOscillator();
+      const clickGain = this.ctx.createGain();
+      clickOsc.type = 'triangle';
+      clickOsc.frequency.setValueAtTime(480, t + 0.05);
+      clickOsc.frequency.exponentialRampToValueAtTime(180, t + 0.12);
+
+      clickGain.gain.setValueAtTime(0.12, t + 0.05);
+      clickGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+
+      clickOsc.connect(clickGain);
+      clickGain.connect(this.ctx.destination);
+      clickOsc.start(t + 0.05);
+      clickOsc.stop(t + 0.14);
+    } catch (err) {
+      console.warn('Mix audio error', err);
+    }
+  }
+
   // Correct Action / Success Chime (Two-tone Arpeggio)
   playSuccess() {
     if (this.isMuted) return;
