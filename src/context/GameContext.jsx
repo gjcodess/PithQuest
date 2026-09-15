@@ -119,9 +119,15 @@ export const GameProvider = ({ children }) => {
   // Sidebar collapse states for 3-zone panoramic layout
   const [isDialogueCollapsed, setIsDialogueCollapsed] = useState(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 1200) return true;
+    const assessmentScenes = ['orientation', 'sequencing', 'results', 'evaluation'];
+    if (assessmentScenes.includes(scene)) return true;
     return false;
   });
-  const [isInventoryCollapsed, setIsInventoryCollapsed] = useState(false);
+  const [isInventoryCollapsed, setIsInventoryCollapsed] = useState(() => {
+    const assessmentScenes = ['orientation', 'sequencing', 'results', 'evaluation'];
+    if (assessmentScenes.includes(scene)) return true;
+    return false;
+  });
 
   const [stageKey, setStageKey] = useState(0);
   const [maxUnlockedStage, setMaxUnlockedStage] = useState(0);
@@ -156,6 +162,28 @@ export const GameProvider = ({ children }) => {
     setHoldingItem(null);
     if (typeof window !== 'undefined') {
       window.__setPithQuestScene = setScene;
+    }
+
+    const assessmentScenes = ['orientation', 'sequencing', 'results', 'evaluation'];
+    const stageScenes = [
+      'mission1',
+      'mission2',
+      'mission3',
+      'mission4',
+      'mission5',
+      'mission6',
+      'mission7',
+      'mission8',
+    ];
+
+    // Collapse both sidebars by default on Pre-Test, Post-Test, and Results
+    if (assessmentScenes.includes(scene)) {
+      setIsDialogueCollapsed(true);
+      setIsInventoryCollapsed(true);
+    } else if (stageScenes.includes(scene)) {
+      // Expand both sidebars by default when entering Stages 1 through 8
+      setIsDialogueCollapsed(false);
+      setIsInventoryCollapsed(false);
     }
   }, [scene]);
 

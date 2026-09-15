@@ -199,13 +199,16 @@ export const Mission3Mixing = () => {
     if (isKneading || bowlStep !== 4) return;
     setIsKneading(true);
     setBowlStep(5);
-    soundManager.playPour();
+    soundManager.playMix();
     showToast('Mixing Active!', 'Gently folding dough into uniform consistency...', 'info');
 
     let current = 0;
     const interval = setInterval(() => {
       current += 20;
       setKneadProgress(current);
+      if (current < 100) {
+        soundManager.playMix();
+      }
       if (current >= 100) {
         clearInterval(interval);
         setIsKneading(false);

@@ -179,20 +179,11 @@
 }
 
 .active-vessel-card.orientation-card.ppe-card,
+.active-vessel-card.orientation-card.handwash-card-wrapper,
 .active-vessel-card.orientation-card.inspection-card-wrapper,
 .active-vessel-card.orientation-card.ready-card {
   max-width: 1040px;
-  width: 92%;
-  margin: 0 auto;
-  padding: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.active-vessel-card.orientation-card.handwash-card-wrapper {
-  max-width: 1100px;
-  width: 100% !important;
+  width: 92% !important;
   margin: 0 auto;
   padding: 0 !important;
   background: transparent !important;
