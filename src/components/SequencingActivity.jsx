@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { soundManager } from '../audio/soundManager';
 import { useGame } from '../context/GameContext';
 
@@ -82,6 +82,10 @@ export const SequencingActivity = ({ onComplete }) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
   const [isSolved, setIsSolved] = useState(() => isAlreadyDone);
   const touchOriginRef = useRef(null);
+  // Ref to track the source index throughout the entire drag operation (avoids stale closure issues)
+  const dragSourceRef = useRef(null);
+  // Ref to prevent rapid re-entry into dragEnter
+  const lastDragEnterRef = useRef(null);
 
   // Re-sync if completion state changes
   useEffect(() => {
@@ -93,6 +97,20 @@ export const SequencingActivity = ({ onComplete }) => {
       setSelectedCardIndex(null);
     }
   }, [isAlreadyDone, assessmentResults]);
+
+  // Global dragend safety net: ensures state is cleaned up even if dragend fires outside component
+  useEffect(() => {
+    const handleGlobalDragEnd = () => {
+      if (dragSourceRef.current !== null) {
+        dragSourceRef.current = null;
+        lastDragEnterRef.current = null;
+        setDraggedIndex(null);
+        setDragOverIndex(null);
+      }
+    };
+    window.addEventListener('dragend', handleGlobalDragEnd);
+    return () => window.removeEventListener('dragend', handleGlobalDragEnd);
+  }, []);
 
   // Initialize with a randomized order
   const shuffleItems = () => {
@@ -126,47 +144,76 @@ export const SequencingActivity = ({ onComplete }) => {
     }
   };
 
-  // Live Dynamic Drag Displacement Handlers (Desktop Mouse)
+  // Swap-on-drop Drag Handlers (Desktop Mouse)
+  // Instead of live-reordering on every dragEnter (which causes rapid re-renders and freeze),
+  // we only highlight the drop target and perform the swap on drop.
   const handleDragStart = (e, index) => {
     if (isSolved) return;
     setSelectedCardIndex(null);
+    dragSourceRef.current = index;
+    lastDragEnterRef.current = null;
     setDraggedIndex(index);
-    setDragOverIndex(index);
-    e.dataTransfer.setData('text/plain', index.toString());
+    setDragOverIndex(null);
+    try {
+      e.dataTransfer.setData('text/plain', index.toString());
+    } catch {
+      // Some browsers may restrict setData in certain contexts
+    }
     e.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleDragEnter = (e, targetIndex) => {
-    if (isSolved || draggedIndex === null || draggedIndex === targetIndex) return;
+  const handleDragEnter = useCallback((e, targetIndex) => {
+    if (isSolved || dragSourceRef.current === null) return;
     e.preventDefault();
-    
-    // Live Dynamic Shift: instantly reorder items as cursor hovers over slots
-    const newItems = [...items];
-    const [movedItem] = newItems.splice(draggedIndex, 1);
-    newItems.splice(targetIndex, 0, movedItem);
-    setItems(newItems);
-    setDraggedIndex(targetIndex);
+    // Guard: skip if we already processed this target
+    if (lastDragEnterRef.current === targetIndex) return;
+    lastDragEnterRef.current = targetIndex;
     setDragOverIndex(targetIndex);
-    soundManager.playClick();
-  };
+  }, [isSolved]);
 
-  const handleDragOver = (e) => {
+  const handleDragOver = useCallback((e) => {
     if (isSolved) return;
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-  };
+  }, [isSolved]);
 
-  const handleDrop = (e) => {
+  const handleDragLeave = useCallback((e, targetIndex) => {
+    // Only clear if we're actually leaving this element (not entering a child)
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    if (lastDragEnterRef.current === targetIndex) {
+      lastDragEnterRef.current = null;
+      setDragOverIndex(null);
+    }
+  }, []);
+
+  const handleDrop = useCallback((e, targetIndex) => {
     if (isSolved) return;
     e.preventDefault();
-    setDraggedIndex(null);
-    setDragOverIndex(null);
-  };
 
-  const handleDragEnd = () => {
+    const sourceIndex = dragSourceRef.current;
+    if (sourceIndex !== null && sourceIndex !== targetIndex && sourceIndex >= 0 && sourceIndex < items.length) {
+      soundManager.playClick();
+      const newItems = [...items];
+      // Swap the source and target items
+      const temp = newItems[sourceIndex];
+      newItems[sourceIndex] = newItems[targetIndex];
+      newItems[targetIndex] = temp;
+      setItems(newItems);
+    }
+
+    // Clean up
+    dragSourceRef.current = null;
+    lastDragEnterRef.current = null;
     setDraggedIndex(null);
     setDragOverIndex(null);
-  };
+  }, [isSolved, items]);
+
+  const handleDragEnd = useCallback(() => {
+    dragSourceRef.current = null;
+    lastDragEnterRef.current = null;
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  }, []);
 
   // Touch Drag Handlers (Tablet / Mobile Touch Screens)
   const handleTouchStart = (e, index) => {
@@ -198,24 +245,30 @@ export const SequencingActivity = ({ onComplete }) => {
     const wrapper = targetElement.closest('.sequencing-card-wrapper');
     if (wrapper && wrapper.dataset.slotIndex !== undefined) {
       const targetIndex = parseInt(wrapper.dataset.slotIndex, 10);
-      const currentIndex = draggedIndex !== null ? draggedIndex : touchOriginRef.current.index;
-      if (!isNaN(targetIndex) && targetIndex !== currentIndex && targetIndex >= 0 && targetIndex < items.length) {
-        const newItems = [...items];
-        const [movedItem] = newItems.splice(currentIndex, 1);
-        newItems.splice(targetIndex, 0, movedItem);
-        setItems(newItems);
-        setDraggedIndex(targetIndex);
+      if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < items.length) {
         setDragOverIndex(targetIndex);
-        touchOriginRef.current.index = targetIndex;
-        soundManager.playClick();
       }
+    } else {
+      setDragOverIndex(null);
     }
   };
 
   const handleTouchEnd = (index) => {
-    if (touchOriginRef.current && !touchOriginRef.current.hasMoved) {
-      // It was a tap!
-      handleCardClick(index);
+    if (touchOriginRef.current) {
+      if (!touchOriginRef.current.hasMoved) {
+        // It was a tap!
+        handleCardClick(index);
+      } else if (dragOverIndex !== null && dragOverIndex !== touchOriginRef.current.index) {
+        // Perform swap on touch end (like drop)
+        const sourceIndex = touchOriginRef.current.index;
+        const targetIndex = dragOverIndex;
+        soundManager.playClick();
+        const newItems = [...items];
+        const temp = newItems[sourceIndex];
+        newItems[sourceIndex] = newItems[targetIndex];
+        newItems[targetIndex] = temp;
+        setItems(newItems);
+      }
     }
     touchOriginRef.current = null;
     setDraggedIndex(null);
@@ -252,14 +305,7 @@ export const SequencingActivity = ({ onComplete }) => {
   };
 
   return (
-    <div
-      className="sequencing-activity-card"
-      onContextMenu={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      }}
-    >
+    <div className="sequencing-activity-card">
       <div className="sequencing-header">
         <div className="sec-tag">Food Processing Pipeline Validation</div>
         <h3>Chronological Step Sequencing Puzzle</h3>
@@ -287,12 +333,8 @@ export const SequencingActivity = ({ onComplete }) => {
                 className={`sequencing-card-wrapper ${isDragging ? 'is-drag-origin' : ''} ${isDragTarget ? 'drag-over-target' : ''}`}
                 onDragOver={handleDragOver}
                 onDragEnter={(e) => handleDragEnter(e, index)}
-                onDrop={handleDrop}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  return false;
-                }}
+                onDragLeave={(e) => handleDragLeave(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
               >
                 {/* Timeline Position Header */}
                 <div className="seq-timeline-header">
@@ -311,11 +353,6 @@ export const SequencingActivity = ({ onComplete }) => {
                   onTouchMove={handleTouchMove}
                   onTouchEnd={() => handleTouchEnd(index)}
                   onClick={() => handleCardClick(index)}
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                  }}
                   title={!isSolved ? (isSelected ? 'Tap another card to swap' : 'Tap or drag to swap') : 'Sequence submitted'}
                 >
                   {/* Status Indicator Badge */}
@@ -331,24 +368,12 @@ export const SequencingActivity = ({ onComplete }) => {
                     </div>
                   )}
 
-                  <div
-                    className="seq-card-illustration"
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      return false;
-                    }}
-                  >
+                  <div className="seq-card-illustration">
                     <img
                       src={item.img}
                       alt={item.title}
                       className="seq-card-img"
                       draggable={false}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return false;
-                      }}
                     />
                   </div>
 
