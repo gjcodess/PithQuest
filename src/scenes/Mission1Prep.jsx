@@ -620,6 +620,7 @@ export const Mission1Prep = () => {
         stageTitle={STAGE_QUESTIONS.mission1.stageTitle}
         question={STAGE_QUESTIONS.mission1.question}
         choices={STAGE_QUESTIONS.mission1.choices}
+        explanation={STAGE_QUESTIONS.mission1.explanation}
         onComplete={handleCheckpointComplete}
       />
 

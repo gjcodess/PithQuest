@@ -369,6 +369,7 @@ export const Mission7Frying = () => {
         stageTitle={STAGE_QUESTIONS.mission7.stageTitle}
         question={STAGE_QUESTIONS.mission7.question}
         choices={STAGE_QUESTIONS.mission7.choices}
+        explanation={STAGE_QUESTIONS.mission7.explanation}
         onComplete={handleCheckpointComplete}
       />
 

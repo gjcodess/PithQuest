@@ -68,6 +68,7 @@ export const OrientationScene = () => {
 
   // Sub-phase completion states for subnav checkmarks
   const [ppeDone, setPpeDone] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.ppe));
+  const [isPpeVerified, setIsPpeVerified] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.ppe));
   const [handwashingDone, setHandwashingDone] = useState(() => isAlreadyCompleted || Boolean(assessmentResults?.preTest?.handwashing));
   const [toolSafetyDone, setToolSafetyDone] = useState(() => isAlreadyCompleted || (assessmentResults?.preTest?.toolSafety?.length || 0) > 0);
   const [qualityInspectionDone, setQualityInspectionDone] = useState(() => isAlreadyCompleted || (assessmentResults?.preTest?.qualityInspection?.length || 0) > 0);
@@ -140,19 +141,19 @@ export const OrientationScene = () => {
     }
   }, [phase, studentName, isAlreadyCompleted]);
 
-  // PPE toggle handler (disabled if isAlreadyCompleted)
+  // PPE toggle handler (disabled if isAlreadyCompleted or verified)
   const handleTogglePpe = (item) => {
-    if (isAlreadyCompleted) {
+    if (isAlreadyCompleted || isPpeVerified) {
       soundManager.playError();
       lockedClicksRef.current += 1;
       if (lockedClicksRef.current >= 2) {
         speak(
-          "You've already finalized your Pre-Test assessment! Your selected PPE attire is recorded in your performance audit and cannot be modified.",
+          "Your PPE selection has already been verified! Click Proceed to Handwashing Sequence to continue.",
           'thinking',
           {
-            badge: 'Pre-Test Completed',
-            note: 'Diagnostic assessment answers are locked to maintain evaluation integrity.',
-            hint: 'Click "Proceed to Handwashing Sequence" or choose a stage from the top navigation to continue.',
+            badge: 'PPE Verified',
+            note: 'Attire validation complete.',
+            hint: 'Click "Proceed to Handwashing Sequence" below to continue.',
           }
         );
         setIsDialogueCollapsed(false);
@@ -174,10 +175,7 @@ export const OrientationScene = () => {
       return;
     }
 
-    soundManager.playSuccess();
-    setPpeDone(true);
-
-    if (!isAlreadyCompleted) {
+    if (!isPpeVerified) {
       const correctItems = PPE_ITEMS.filter((i) => i.isCorrect);
       const correctSelected = correctItems.filter((i) => ppeEquipped[i.id]).map((i) => i.id);
       const distractorsPicked = PPE_ITEMS.filter((i) => !i.isCorrect && ppeEquipped[i.id]).map((i) => ({
@@ -194,9 +192,37 @@ export const OrientationScene = () => {
         totalCorrect: correctItems.length,
       });
 
-      showToast('Task 1 Recorded!', 'PPE Attire selection saved. Proceeding to Handwashing Sequence.', 'info');
+      setIsPpeVerified(true);
+
+      if (distractorsPicked.length > 0) {
+        soundManager.playError();
+        speak(
+          'Personal Protective Equipment Check: Attention food technologist! You equipped non-food grade or hazardous items. Knitted scarves shed fibers and pose fire hazards near burners, while dark lenses impede visual inspection. Review the safety badges below before proceeding to handwashing.',
+          'thinking',
+          {
+            badge: 'PPE Safety Feedback',
+            note: 'Contamination Risk: Loose items and synthetic fibers violate commercial HACCP standards.',
+            hint: 'Review your equipped items below, then click "Proceed to Handwashing Sequence".',
+          }
+        );
+      } else {
+        soundManager.playSuccess();
+        speak(
+          'Excellent Sanitary Attire Selection! All approved food-grade barriers are equipped. Your clean gear creates a complete defense preventing physical shedding and microbial transfer.',
+          'happy',
+          {
+            badge: 'Sanitary Attire Verified',
+            note: 'Aseptic Barrier Established: Hairnet, lab coat, mask, vinyl gloves, heat gloves, and non-slip shoes ready.',
+            hint: 'Click "Proceed to Handwashing Sequence" below to continue.',
+          }
+        );
+      }
+      return;
     }
 
+    // Already verified -> proceed to handwashing
+    soundManager.playClick();
+    setPpeDone(true);
     setPhase('sanitation');
   };
 
@@ -407,23 +433,50 @@ export const OrientationScene = () => {
             </div>
 
             <p className="inspection-prompt">
-              {isAlreadyCompleted
-                ? 'Review the personal protective equipment you submitted for the diagnostic orientation pre-test below:'
+              {isPpeVerified
+                ? 'Review the personal sanitary defense evaluation for your equipped protective gear below:'
                 : 'Select the protective items required for clean, sterile food preparation before entering the laboratory. Beware of non-approved or hazardous gear!'}
             </p>
 
             <div className="ppe-items-grid">
               {PPE_ITEMS.map((item) => {
                 const isSelected = ppeEquipped[item.id] || false;
+                const isCorrect = item.isCorrect;
+
+                let statusBadgeText = '';
+                let statusBadgeStyle = {};
+                let boxBorderClass = '';
+
+                if (isPpeVerified) {
+                  if (isCorrect && isSelected) {
+                    statusBadgeText = '✓ Approved Food-Grade Gear';
+                    statusBadgeStyle = { background: '#16a34a', color: '#ffffff', borderColor: '#15803d' };
+                    boxBorderClass = ' ppe-verified-good';
+                  } else if (!isCorrect && isSelected) {
+                    statusBadgeText = `🚫 Hazard: ${item.reason}`;
+                    statusBadgeStyle = { background: '#dc2626', color: '#ffffff', borderColor: '#b91c1c' };
+                    boxBorderClass = ' ppe-verified-hazard';
+                  } else if (isCorrect && !isSelected) {
+                    statusBadgeText = '⚠️ Required Standard Gear';
+                    statusBadgeStyle = { background: '#f59e0b', color: '#ffffff', borderColor: '#d97706' };
+                    boxBorderClass = ' ppe-verified-missing';
+                  } else {
+                    statusBadgeText = '✓ Correctly Avoided';
+                    statusBadgeStyle = { background: '#f0fdf4', color: '#15803d', borderColor: '#86efac' };
+                  }
+                } else {
+                  statusBadgeText = isSelected ? '✓ Selected' : 'Not Selected';
+                }
+
                 return (
                   <div
                     key={item.id}
-                    className={`ppe-box ${isSelected ? 'selected' : ''} ${isAlreadyCompleted ? 'locked' : ''}`}
+                    className={`ppe-box ${isSelected ? 'selected' : ''} ${isAlreadyCompleted || isPpeVerified ? 'locked' : ''}${boxBorderClass}`}
                     onClick={() => handleTogglePpe(item)}
                     role="button"
                     tabIndex={0}
                     style={{
-                      cursor: isAlreadyCompleted ? 'default' : 'pointer',
+                      cursor: isAlreadyCompleted || isPpeVerified ? 'default' : 'pointer',
                     }}
                   >
                     <img
@@ -439,29 +492,58 @@ export const OrientationScene = () => {
                       <span className="ppe-desc">{item.role}</span>
                     </div>
 
-                    <div className={`gear-status-badge ${isSelected ? 'worn' : 'pending'}`}>
-                      {isSelected ? '✓ Selected' : 'Not Selected'}
+                    <div
+                      className={`gear-status-badge ${isSelected ? 'worn' : 'pending'}`}
+                      style={statusBadgeStyle}
+                    >
+                      {statusBadgeText}
                     </div>
                   </div>
                 );
               })}
             </div>
 
+            {/* Instant PPE Sanitary Lesson Card */}
+            {isPpeVerified && (
+              <div
+                className="ppe-verified-lesson-box"
+                style={{
+                  background: '#ffffff',
+                  border: '2px solid #86efac',
+                  borderRadius: '14px',
+                  padding: '12px 16px',
+                  margin: '12px 0',
+                  boxShadow: '0 2px 0 #bbf7d0',
+                  animation: 'fadeInSlideUp 0.3s ease',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '1.2rem' }}>🥼</span>
+                  <h4 style={{ margin: 0, fontSize: '0.96rem', color: '#15803d', fontWeight: 800 }}>
+                    Personal Sanitary Defense (PPE) Standard Lesson
+                  </h4>
+                </div>
+                <p style={{ margin: 0, fontSize: '0.84rem', color: '#475569', lineHeight: 1.4 }}>
+                  In commercial food processing, humans are the primary source of microbiological and physical contamination. Clean hairnets trap shedding hair, fluid-resistant masks block oral aerosol droplets, vinyl gloves prevent microbial cross-contamination, heat-resistant silicone gloves protect against thermal burns, and closed-toe non-slip shoes prevent slip accidents and hot oil scalds. Loose knitted scarves and dark sunglasses are hazardous distractors that violate GMP guidelines.
+                </p>
+              </div>
+            )}
+
             <div className="orientation-btn-row">
               <button
-                className={`btn-primary ${!isAlreadyCompleted && selectedPpeCount === 0 ? 'btn-disabled' : ''}`}
+                className={`btn-primary ${!isAlreadyCompleted && !isPpeVerified && selectedPpeCount === 0 ? 'btn-disabled' : ''}`}
                 onClick={handleConfirmPpe}
-                disabled={!isAlreadyCompleted && selectedPpeCount === 0}
-                title={!isAlreadyCompleted && selectedPpeCount === 0 ? 'Please select at least one PPE item to proceed' : undefined}
+                disabled={!isAlreadyCompleted && !isPpeVerified && selectedPpeCount === 0}
+                title={!isAlreadyCompleted && !isPpeVerified && selectedPpeCount === 0 ? 'Please select at least one PPE item to proceed' : undefined}
                 style={{
                   marginLeft: 'auto',
                   padding: '12px 28px',
-                  opacity: !isAlreadyCompleted && selectedPpeCount === 0 ? 0.45 : 1,
-                  cursor: !isAlreadyCompleted && selectedPpeCount === 0 ? 'not-allowed' : 'pointer',
-                  filter: !isAlreadyCompleted && selectedPpeCount === 0 ? 'grayscale(0.6)' : 'none',
+                  opacity: !isAlreadyCompleted && !isPpeVerified && selectedPpeCount === 0 ? 0.45 : 1,
+                  cursor: !isAlreadyCompleted && !isPpeVerified && selectedPpeCount === 0 ? 'not-allowed' : 'pointer',
+                  filter: !isAlreadyCompleted && !isPpeVerified && selectedPpeCount === 0 ? 'grayscale(0.6)' : 'none',
                 }}
               >
-                {isAlreadyCompleted
+                {isPpeVerified
                   ? 'Proceed to Handwashing Sequence ➔'
                   : selectedPpeCount === 0
                     ? 'Select PPE Items to Proceed'

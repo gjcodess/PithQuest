@@ -88,30 +88,27 @@ export const MinigameInspection = ({
       return;
     }
 
-    soundManager.playClick();
-
-    let updatedAnswers;
-    if (selectedSide === card.side) {
-      // Toggle off / deselect
-      updatedAnswers = { ...answers };
-      delete updatedAnswers[currentItem.id];
+    if (card.isSafe) {
+      soundManager.playSuccess();
     } else {
-      const answerObj = {
-        id: currentItem.id,
-        name: currentItem.name,
-        toolType: currentItem.toolType || currentItem.category,
-        chosen: card,
-        isSafe: card.isSafe,
-        selectedSide: card.side,
-        optionLabel: card.optionLabel,
-        safeOption: currentItem.safe,
-        damagedOption: currentItem.damaged,
-      };
-      updatedAnswers = {
-        ...answers,
-        [currentItem.id]: answerObj,
-      };
+      soundManager.playError();
     }
+
+    const answerObj = {
+      id: currentItem.id,
+      name: currentItem.name,
+      toolType: currentItem.toolType || currentItem.category,
+      chosen: card,
+      isSafe: card.isSafe,
+      selectedSide: card.side,
+      optionLabel: card.optionLabel,
+      safeOption: currentItem.safe,
+      damagedOption: currentItem.damaged,
+    };
+    const updatedAnswers = {
+      ...answers,
+      [currentItem.id]: answerObj,
+    };
 
     setAnswers(updatedAnswers);
     if (onAnswersChange) {
@@ -155,7 +152,7 @@ export const MinigameInspection = ({
       <div className="vessel-header">
         <span className="vessel-title">{title}</span>
         <span className="vessel-badge">
-          {isLocked ? '🔒 Completed (Read-Only)' : `Item ${currentIndex + 1} of ${items.length}`}
+          {isLocked ? '🔒 Completed (Review)' : `Item ${currentIndex + 1} of ${items.length}`}
         </span>
       </div>
       <div className="vessel-header-divider" />
@@ -172,15 +169,25 @@ export const MinigameInspection = ({
 
       <p className="inspection-prompt">
         {isLocked
-          ? 'Review your submitted choices for this item below:'
-          : 'Select the option you would choose for laboratory food processing (or click again to deselect):'}
+          ? 'Review the safety evaluation for this item below:'
+          : 'Click Option A or Option B to immediately evaluate its food processing safety:'}
       </p>
 
       {/* Comparison Grid */}
       <div className="inspection-cards-grid">
         {currentPair.map((card, idx) => {
           const isSelected = selectedSide === card.side;
-          const cardClass = `inspection-card ${isSelected ? 'selected' : ''} ${isLocked ? 'is-locked-view' : ''}`;
+          const isSafe = card.isSafe;
+
+          let cardClass = 'inspection-card';
+          if (isSelected) {
+            cardClass += isSafe ? ' selected card-safe' : ' selected card-hazard';
+          } else if (currentAnswer) {
+            // Unselected side while an answer is made
+            cardClass += isSafe ? ' card-safe-reference' : ' choice-dimmed';
+          }
+
+          if (isLocked) cardClass += ' is-locked-view';
 
           return (
             <div
@@ -214,21 +221,56 @@ export const MinigameInspection = ({
                 <p className="card-desc">{card.description}</p>
               </div>
 
-              <div className={`card-verdict-banner ${isSelected ? 'selected-banner' : 'select-prompt'}`}>
+              <div className={`card-verdict-banner ${
+                isSelected
+                  ? isSafe
+                    ? 'selected-banner banner-safe'
+                    : 'selected-banner banner-hazard'
+                  : currentAnswer && isSafe
+                  ? 'select-prompt reference-safe'
+                  : 'select-prompt'
+              }`}>
                 <span>
                   {isSelected
-                    ? isLocked
-                      ? '✓ Your Submitted Choice'
-                      : '✓ Selected Choice (Click to Deselect)'
-                    : isLocked
-                    ? 'Not Selected'
-                    : '👆 Click to Select'}
+                    ? isSafe
+                      ? '✓ Food-Grade Safe & Approved'
+                      : '⚠️ Critical Hazard Flagged!'
+                    : currentAnswer && isSafe
+                    ? '✓ Recommended Safe Standard'
+                    : '👆 Click to Select & Check'}
                 </span>
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Instant Instructional Feedback Lesson Box */}
+      {currentAnswer && (
+        <div
+          className={`inspection-feedback-box ${currentAnswer.isSafe ? 'safe' : 'hazard'}`}
+          style={{ marginTop: '12px' }}
+        >
+          <div style={{ fontSize: '1.4rem', flexShrink: 0 }}>
+            {currentAnswer.isSafe ? '🛡️' : '⚠️'}
+          </div>
+          <div style={{ flex: 1 }}>
+            <strong style={{ display: 'block', fontSize: '0.92rem', marginBottom: '4px', fontWeight: 800 }}>
+              {currentAnswer.isSafe
+                ? `✓ ${currentItem.name}: Standard Food-Grade Procedure`
+                : `⚠️ ${currentItem.name}: Laboratory Safety Hazard`}
+            </strong>
+            <p style={{ margin: '0 0 6px', fontSize: '0.86rem', lineHeight: 1.4 }}>
+              {currentAnswer.chosen.reason}
+            </p>
+            {!currentAnswer.isSafe && currentAnswer.safeOption && (
+              <div style={{ fontSize: '0.82rem', background: '#ffffff', padding: '6px 10px', borderRadius: '8px', border: '1px solid #86efac', color: '#15803d' }}>
+                <strong>Recommended Safe Standard:</strong> {currentAnswer.safeOption.name} — {currentAnswer.safeOption.reason}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Action Row */}
       <div className="inspection-actions-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px' }}>
@@ -242,16 +284,6 @@ export const MinigameInspection = ({
         </button>
 
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          {!isLocked && currentAnswer && (
-            <button
-              className="btn-secondary btn-unselect-inspection"
-              onClick={handleUnselect}
-              title="Clear selection for this item"
-            >
-              <span>✕ Deselect</span>
-            </button>
-          )}
-
           <button
             className="btn-primary btn-gold btn-next-inspection"
             onClick={handleNextItem}

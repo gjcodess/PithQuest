@@ -242,6 +242,7 @@ export const Mission4Molding = () => {
         stageTitle={STAGE_QUESTIONS.mission4.stageTitle}
         question={STAGE_QUESTIONS.mission4.question}
         choices={STAGE_QUESTIONS.mission4.choices}
+        explanation={STAGE_QUESTIONS.mission4.explanation}
         onComplete={handleCheckpointComplete}
       />
 

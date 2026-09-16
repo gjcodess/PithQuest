@@ -335,6 +335,7 @@ export const Mission5Steaming = () => {
         stageTitle={STAGE_QUESTIONS.mission5.stageTitle}
         question={STAGE_QUESTIONS.mission5.question}
         choices={STAGE_QUESTIONS.mission5.choices}
+        explanation={STAGE_QUESTIONS.mission5.explanation}
         onComplete={handleCheckpointComplete}
       />
 

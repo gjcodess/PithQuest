@@ -31,9 +31,9 @@ export const SequencingSidebar = ({ isCompleted = false }) => {
     {
       id: 'report',
       icon: '📋',
-      title: 'Diagnostic Report',
-      desc: 'Detailed itemized audit, food science rationales, and comparison will be generated in the results.',
-      tag: 'Final Audit',
+      title: 'Master Review',
+      desc: 'Detailed itemized audit, food science rationales, and comparison will be generated in the review.',
+      tag: 'Final Review',
     },
   ];
 
