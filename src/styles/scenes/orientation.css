@@ -594,15 +594,17 @@
 }
 
 .gear-status-badge {
-  margin-top: 16px;
-  padding: 8px 16px;
+  margin-top: 14px;
+  padding: 8px 14px;
   border-radius: var(--radius-pill, 999px);
   width: 100%;
   font-family: var(--font-heading);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.01em;
   box-sizing: border-box;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .gear-status-badge.pending {
@@ -612,7 +614,8 @@
   box-shadow: none;
 }
 
-.gear-status-badge.worn {
+.gear-status-badge.worn,
+.gear-status-badge.badge-approved {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   border: 2px solid #047857 !important;
   color: #ffffff !important;
@@ -620,11 +623,104 @@
   letter-spacing: 0.02em;
 }
 
+.gear-status-badge.badge-hazard {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  border: 2px solid #b91c1c !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 0 #991b1b, 0 4px 12px rgba(220, 38, 38, 0.35) !important;
+  letter-spacing: 0.02em;
+}
+
+.gear-status-badge.badge-missing {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: 2px solid #b45309 !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 0 #92400e, 0 4px 12px rgba(245, 158, 11, 0.35) !important;
+  letter-spacing: 0.02em;
+}
+
+.gear-status-badge.badge-avoided {
+  background: #f8fafc !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #64748b !important;
+  box-shadow: none !important;
+}
+
 .gear-status-badge.error {
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
   border: 1.5px solid #fca5a5;
   color: #991b1b;
   box-shadow: 0 2px 0 #dc2626;
+}
+
+/* ==========================================================================
+   PPE Hazard & Missed Alert Callouts (Verified Mode)
+   ========================================================================== */
+.ppe-hazard-alert-box {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #fff5f5 0%, #fee2e2 100%);
+  border: 1.5px solid #fca5a5;
+  border-left: 4.5px solid #dc2626;
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: left;
+  box-shadow: 0 2px 0 #fecaca;
+  animation: ppeAlertFadeIn 0.3s ease;
+}
+
+.ppe-hazard-alert-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #991b1b;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ppe-hazard-text {
+  margin: 0;
+  font-size: 0.74rem;
+  color: #7f1d1d;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.ppe-missed-alert-box {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1.5px solid #fde68a;
+  border-left: 4.5px solid #d97706;
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: left;
+  box-shadow: 0 2px 0 #fde68a;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  animation: ppeAlertFadeIn 0.3s ease;
+}
+
+.ppe-missed-text {
+  margin: 0;
+  font-size: 0.74rem;
+  color: #92400e;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+@keyframes ppeAlertFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
@@ -1057,6 +1153,24 @@
     margin-top: 10px;
     padding: 5px 12px;
     font-size: 0.78rem;
+  }
+
+  .ppe-hazard-alert-box,
+  .ppe-missed-alert-box {
+    margin-top: 6px;
+    padding: 6px 8px;
+    border-radius: 8px;
+  }
+
+  .ppe-hazard-alert-header {
+    font-size: 0.68rem;
+    margin-bottom: 2px;
+  }
+
+  .ppe-hazard-text,
+  .ppe-missed-text {
+    font-size: 0.70rem;
+    line-height: 1.25;
   }
 
   /* Handwashing Task 2 Scaling for 15.6" Laptop Displays */
