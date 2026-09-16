@@ -437,8 +437,10 @@ export const HandwashingSequenceActivity = ({
     setDragOverSlotIndex(null);
   };
 
+  const [isVerified, setIsVerified] = useState(() => isLocked);
+
   const handleReset = () => {
-    if (isLocked) {
+    if (isLocked || isVerified) {
       handleLockedInteraction();
       return;
     }
@@ -458,7 +460,6 @@ export const HandwashingSequenceActivity = ({
       return;
     }
 
-    soundManager.playSuccess();
     const submittedSteps = slots.filter(Boolean);
     const correctSteps = HANDWASHING_STEPS.filter((s) => s.isCorrect);
     const distractorsIncluded = submittedSteps.filter((s) => !s.isCorrect);
@@ -475,6 +476,19 @@ export const HandwashingSequenceActivity = ({
       pool,
     };
 
+    if (!isVerified) {
+      if (isAllCorrect) {
+        soundManager.playSuccess();
+      } else {
+        soundManager.playError();
+      }
+      setIsVerified(true);
+      notifyChange(slots, pool);
+      return;
+    }
+
+    // If already verified, proceed to next task
+    soundManager.playClick();
     if (onComplete) {
       onComplete(payload);
     }
@@ -505,12 +519,23 @@ export const HandwashingSequenceActivity = ({
           : 'Drag steps between slots to arrange in chronological order (or tap to swap). Beware of 3 hazardous distractors!'}
       </p>
 
-      {/* Target Slots (1 to 7) with Live Interactive Reordering */}
+      {/* Target Slots (1 to 7) with Live Interactive Reordering & Instant Verification */}
       <div className="hw-slots-grid">
         {slots.map((item, idx) => {
           const isSelected = selectedSlotIndex === idx;
           const isDragging = draggedSlotIndex === idx;
           const isHoverTarget = dragOverSlotIndex === idx && !isDragging;
+
+          const isStepCorrect = item && item.isCorrect && item.step === idx + 1;
+          const isMisplaced = item && item.isCorrect && item.step !== idx + 1;
+          const isDistractor = item && !item.isCorrect;
+
+          let verifyClass = '';
+          if (isVerified || isLocked) {
+            if (isStepCorrect) verifyClass = ' slot-correct';
+            else if (isMisplaced) verifyClass = ' slot-misplaced';
+            else if (isDistractor) verifyClass = ' slot-distractor';
+          }
 
           return (
             <div
@@ -518,13 +543,13 @@ export const HandwashingSequenceActivity = ({
               data-slot-index={idx}
               className={`hw-slot-box ${item ? 'filled' : 'empty'} ${isSelected ? 'selected' : ''} ${
                 isDragging ? 'is-dragging-slot is-drag-origin' : ''
-              } ${isHoverTarget ? 'drag-over-target' : ''} ${isLocked ? 'is-locked' : ''}`}
+              } ${isHoverTarget ? 'drag-over-target' : ''} ${isLocked || isVerified ? 'is-locked' : ''}${verifyClass}`}
               onClick={() => handleSlotClick(idx)}
               onDragOver={(e) => handleSlotDragOver(e, idx)}
               onDragEnter={(e) => handleSlotDragEnter(e, idx)}
               onDragLeave={(e) => handleSlotDragLeave(e, idx)}
               onDrop={(e) => handleSlotDrop(e, idx)}
-              draggable={!isLocked && Boolean(item)}
+              draggable={!isLocked && !isVerified && Boolean(item)}
               onDragStart={(e) => handleSlotDragStart(e, idx)}
               onDragEnd={handleDragEnd}
               onTouchStart={(e) => handleTouchStart(e, idx)}
@@ -533,7 +558,7 @@ export const HandwashingSequenceActivity = ({
             >
               <div className="slot-top-row">
                 <div className="slot-number-tag">Step {idx + 1}</div>
-                {item && !isLocked && (
+                {item && !isLocked && !isVerified && (
                   <button
                     className="slot-remove-btn"
                     onClick={(e) => {
@@ -553,7 +578,28 @@ export const HandwashingSequenceActivity = ({
                   <div className="slot-card-text">
                     <h5 className="slot-card-action">{item.action}</h5>
                   </div>
-                  {!isLocked && (
+                  {(isVerified || isLocked) && (
+                    <div
+                      style={{
+                        marginTop: '6px',
+                        padding: '3px 6px',
+                        borderRadius: '6px',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        textAlign: 'center',
+                        background: isStepCorrect ? '#dcfce7' : isDistractor ? '#fee2e2' : '#fef3c7',
+                        color: isStepCorrect ? '#15803d' : isDistractor ? '#b91c1c' : '#b45309',
+                        border: `1px solid ${isStepCorrect ? '#86efac' : isDistractor ? '#fca5a5' : '#fde68a'}`,
+                      }}
+                    >
+                      {isStepCorrect
+                        ? '✓ Correct'
+                        : isDistractor
+                        ? '🚫 Hazard'
+                        : `Expected #${item.step}`}
+                    </div>
+                  )}
+                  {!isLocked && !isVerified && (
                     <div className="slot-drag-handle-hint">
                       <span className="drag-dots">⋮⋮</span>
                       <span>{isSelected ? 'Selected' : 'Drag/Tap'}</span>
@@ -573,8 +619,50 @@ export const HandwashingSequenceActivity = ({
         })}
       </div>
 
+      {/* Verified WHO Standard 7-Step Sequence Lesson Box */}
+      {(isVerified || isLocked) && (
+        <div
+          className="hw-verified-lesson-box"
+          style={{
+            background: '#ffffff',
+            border: '2px solid #86efac',
+            borderRadius: '14px',
+            padding: '12px 16px',
+            boxShadow: '0 2px 0 #bbf7d0',
+            animation: 'fadeInSlideUp 0.3s ease',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span style={{ fontSize: '1.2rem' }}>🧼</span>
+            <h4 style={{ margin: 0, fontSize: '0.96rem', color: '#15803d', fontWeight: 800 }}>
+              WHO 7-Step Standard Hand Hygiene Lesson
+            </h4>
+          </div>
+          <p style={{ margin: '0 0 10px', fontSize: '0.84rem', color: '#475569', lineHeight: 1.4 }}>
+            In commercial food processing, aseptic hand hygiene requires at least 20 seconds of mechanical friction. Each step removes specific microbial reservoirs:
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
+            {HANDWASHING_STEPS.filter((s) => s.isCorrect).map((step) => (
+              <div
+                key={step.id}
+                style={{
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '6px 10px',
+                  fontSize: '0.78rem',
+                }}
+              >
+                <strong style={{ color: '#15803d' }}>Step {step.step}: {step.action}</strong>
+                <span style={{ display: 'block', color: '#64748b', marginTop: '2px' }}>{step.desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Available Cards Pool */}
-      {!isLocked && (
+      {!isLocked && !isVerified && (
         <div
           className={`hw-pool-section ${isDragOverPool ? 'pool-drop-target' : ''}`}
           onDragOver={handlePoolDragOver}
@@ -596,7 +684,7 @@ export const HandwashingSequenceActivity = ({
 
           {pool.length === 0 ? (
             <div className="hw-pool-empty-message">
-              <span>All 7 handwashing sequence slots have been assigned! Drag cards between slots to reorder live, or click Submit below.</span>
+              <span>All 7 handwashing sequence slots have been assigned! Click Verify below to check your hygiene protocol.</span>
             </div>
           ) : (
             <div className="hw-pool-grid">
@@ -636,11 +724,11 @@ export const HandwashingSequenceActivity = ({
         <button
           className="btn-primary btn-submit-sequence"
           onClick={handleSubmit}
-          disabled={!isLocked && filledCount < 7}
+          disabled={!isLocked && !isVerified && filledCount < 7}
         >
-          {isLocked
+          {isLocked || isVerified
             ? 'Proceed to Tool Safety Inspection ➔'
-            : 'Submit Handwashing Sequence & Proceed to Tool Safety ➔'}
+            : `Verify Handwashing Sequence (${filledCount}/7 Placed) ➔`}
         </button>
       </div>
     </div>

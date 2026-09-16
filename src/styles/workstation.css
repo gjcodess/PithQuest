@@ -1911,6 +1911,27 @@
   color: #7f1d1d !important;
 }
 
+.checkpoint-choice-btn.choice-reveal-correct {
+  background: #f0fdf4 !important;
+  border: 2px dashed #22c55e !important;
+  border-bottom: 3px solid #16a34a !important;
+  box-shadow: 0 2px 0 #16a34a !important;
+}
+
+.checkpoint-choice-btn.choice-reveal-correct .choice-letter-badge {
+  background: #16a34a !important;
+  color: #ffffff !important;
+}
+
+.checkpoint-choice-btn.choice-reveal-correct .choice-text {
+  color: #14532d !important;
+}
+
+.checkpoint-choice-btn.choice-dimmed {
+  opacity: 0.55 !important;
+  filter: grayscale(0.2);
+}
+
 .checkpoint-feedback-box {
   display: flex;
   align-items: flex-start;

@@ -344,6 +344,7 @@ export const Mission3Mixing = () => {
         stageTitle={STAGE_QUESTIONS.mission3.stageTitle}
         question={STAGE_QUESTIONS.mission3.question}
         choices={STAGE_QUESTIONS.mission3.choices}
+        explanation={STAGE_QUESTIONS.mission3.explanation}
         onComplete={handleCheckpointComplete}
       />
 

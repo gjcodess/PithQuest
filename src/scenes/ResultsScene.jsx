@@ -9,72 +9,78 @@ import { STAGE_QUESTIONS } from '../data/stageQuestionsData';
 const STAGE_SCIENCE_FACTS = [
   {
     step: 1,
-    name: 'Washing & Boiling Ubod',
+    name: 'Washing & Hydrothermal Softening',
     img: '/assets/card_step_boiling.png',
     fallbackIcon: '🥥',
-    foodScience: 'Hydrothermal softening breaks down stubborn cellulosic fibers in coconut pith, solubilizing cellular walls for optimal pureeing while inactivating polyphenol oxidase to prevent discoloration.',
+    foodScience:
+      'Hydrothermal softening at 100°C breaks down stubborn cellulosic fibers in coconut pith, solubilizing hemicellulose cell walls for smooth pureeing while thermally denaturing polyphenol oxidase (PPO) enzymes to prevent enzymatic browning.',
   },
   {
     step: 2,
-    name: 'Pureeing & Grinding',
+    name: 'Pureeing & Fiber Homogenization',
     img: '/assets/card_step_grinding.png',
     fallbackIcon: '⚡',
-    foodScience: 'High-shear mechanical processing homogenizes boiled pith fibers into a uniform microscopic matrix, preventing grittiness and ensuring consistent hydration with starch polymers.',
+    foodScience:
+      'High-shear mechanical grinding ruptures parenchymal cells to homogenize boiled pith fibers into a uniform microscopic slurry, preventing grittiness and ensuring consistent hydration with starch polymers.',
   },
   {
     step: 3,
-    name: 'Paste Formulation (1:1 Ratio)',
+    name: 'Dough Formulation (1:1 Ratio)',
     img: '/assets/card_step_mixing.png',
     fallbackIcon: '🥣',
-    foodScience: 'The 1:1 ratio of ubod puree to Erawan rice flour provides balanced amylose/amylopectin starch chains, creating the ideal cohesive dough viscoelasticity needed for structural puffing.',
+    foodScience:
+      'The 1:1 formulation of pureed ubod to Erawan pure rice flour creates an optimal balance of insoluble plant fiber and amylose/amylopectin starch chains, providing the viscoelastic dough matrix required for structural steam expansion.',
   },
   {
     step: 4,
-    name: 'Rectangular Molding (50mm x 25mm)',
+    name: 'Rectangular Molding (50mm × 25mm)',
     img: '/assets/card_step_molding.png',
     fallbackIcon: '🥖',
-    foodScience: 'Standardized dimensions ensure uniform thermal conductivity and moisture diffusion during steaming and dehydration, preventing uneven core drying or blistering.',
+    foodScience:
+      'Uniform dimensional geometry (50mm length × 25mm width × 2mm thickness) establishes predictable thermal conductivity and moisture diffusion paths during steaming and dehydration, preventing blistering or raw ungelatinized cores.',
   },
   {
     step: 5,
-    name: 'Starch Steaming (10 min Gelatinization)',
+    name: 'Starch Steaming (Gelatinization)',
     img: '/assets/card_step_steaming.png',
     fallbackIcon: '♨️',
-    foodScience: 'Moist heat at 100°C ruptures starch granules, causing irreversible gelatinization that locks the wafer shape into an extensible viscoelastic gel matrix capable of holding steam bubbles.',
+    foodScience:
+      'Moist atmospheric heat at 100°C for 10 minutes drives water into starch granules until they swell and irreversibly burst, transforming crystalline amylose into an elastic gel network that locks the wafer shape.',
   },
   {
     step: 6,
-    name: 'Cabinet Dehydration (90°C to <10% Moisture)',
+    name: 'Cabinet Dehydration (Moisture < 10%)',
     img: '/assets/card_step_dehydration.png',
     fallbackIcon: '☀️',
-    foodScience: 'Controlled convective drying evaporates free water below 10% critical moisture, setting the glassy amorphous starch state essential for rapid steam expansion upon frying.',
+    foodScience:
+      'Convective hot-air drying at 90°C evaporates free water until moisture drops below the critical 10% threshold, transitioning the gelatinized starch gel into a glassy, brittle solid matrix essential for puffing.',
   },
   {
     step: 7,
-    name: 'Flash Deep Frying (180°C, 10 sec, 3x Puffing)',
+    name: 'Flash Deep Frying (180°C Puffing)',
     img: '/assets/card_step_frying.png',
     fallbackIcon: '🍳',
-    foodScience: 'Submerged in 180°C oil, residual bound water instantaneously flashes into superheated steam. The rapid vapor pressure inflates the gelatinized matrix 3x before setting into an airy, brittle crunch.',
+    foodScience:
+      'Immersion in 180°C hot oil causes tightly trapped residual bound water to instantaneously vaporize into superheated steam. The resulting explosive vapor pressure inflates the starch matrix ~3x into an airy, crispy honeycomb cracker.',
   },
   {
     step: 8,
-    name: 'Hermetic Packaging & Labeling (50g)',
+    name: 'Airtight Packaging & Quality Seal',
     img: '/assets/card_step_packaging.png',
     fallbackIcon: '📦',
-    foodScience: 'High-barrier sealed foil pouches prevent water vapor ingress (preventing starch retrogradation and staleness) and shield against lipid photo-oxidation, securing a 6-month shelf life.',
+    foodScience:
+      'Nitrogen-flushed, heat-sealed aluminum-laminated Kraft barrier pouches block water vapor, oxygen, and UV light penetration, preventing lipid oxidation (rancidity) and preserving crispness over a 6-month shelf life.',
   },
 ];
 
 export const ResultsScene = () => {
   const {
     studentName,
-    badges,
-    resetGame,
-    speak,
-    setScene,
-    completeMission,
     assessmentResults,
     stageAnswers,
+    resetGame,
+    completeMission,
+    speak,
   } = useGame();
 
   const reportRef = useRef(null);
@@ -85,12 +91,12 @@ export const ResultsScene = () => {
       completeMission('evaluation');
       soundManager.playFanfare();
       speak(
-        `Comprehensive Diagnostic Audit Ready, ${studentName || 'Food Technologist'}!\n\nCongratulations on completing your full laboratory and assessment journey in PithQuest! You have systematically developed, tested, and validated the industrial manufacturing pipeline for Ubod CRUNCH crackers.\n\nThis diagnostic report compiles your complete learning evidence: your Pre-Test PPE donning decisions, 7-step sanitary Handwashing protocol, Food Contact Tool safety audits, Raw Ingredient inspections, Stage Pre-Check Questions, and your Post-Test Chronological Sequencing assessment.\n\nScroll through each section below to review itemized diagnostic feedback, examine the underlying food chemistry and thermodynamic principles, and print your official Laboratory Completion Audit Report!`,
+        `Welcome to your Laboratory Instructional Debrief, ${studentName || 'Food Technologist'}!\n\nHere is your comprehensive study guide and complete answer key for the Ubod CRUNCH manufacturing curriculum.\n\nEvery test question, personal protective equipment decision, sanitary handwashing step, equipment inspection, and stage principle is compiled below with its full food science rationale and quality assurance standard. No scores or pressure—just deep learning!\n\nUse the quick-jump directory or scroll down to explore each lesson.`,
         'happy',
         {
-          badge: 'Diagnostic Performance Audit',
-          note: 'HACCP Competency Certified: Your diagnostic profile validates your mastery of sanitary regulations, formulation precision, moisture control, and quality assurance.',
-          hint: 'Scroll down to review each section of your assessment and click "Print / Save Comprehensive Audit Report" below.',
+          badge: 'Instructional Debrief & Answer Key',
+          note: 'Interactive Study Guide: Explore the complete answer key, scientific principles, and standard operating procedures for each stage.',
+          hint: 'Click any section in the directory or scroll to review the lessons, then print your study guide below.',
           hideButton: true,
         }
       );
@@ -110,124 +116,45 @@ export const ResultsScene = () => {
     window.print();
   };
 
+  const scrollToSection = (sectionId) => {
+    soundManager.playClick();
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   // Pre-Test PPE Audit Data
   const ppeAudit = assessmentResults?.preTest?.ppe;
   const ppeDistractors = Array.isArray(ppeAudit?.distractorsPicked) ? ppeAudit.distractorsPicked : [];
   const ppeCorrectSelected = Array.isArray(ppeAudit?.correctSelected) ? ppeAudit.correctSelected : [];
-  const ppeTotalCorrect = ppeAudit?.totalCorrect || 6;
 
   // Pre-Test Handwashing Audit Data
   const handwashAudit = assessmentResults?.preTest?.handwashing;
   const handwashSubmitted = Array.isArray(handwashAudit?.submittedSteps) ? handwashAudit.submittedSteps : [];
-  const handwashDistractors = Array.isArray(handwashAudit?.distractorsIncluded) ? handwashAudit.distractorsIncluded : [];
-  const hwCorrectCount = handwashSubmitted.filter((s, idx) => s && s.isCorrect && s.step === idx + 1).length;
 
   // Pre-Test Tools Audit Data
   const toolAudit = Array.isArray(assessmentResults?.preTest?.toolSafety) ? assessmentResults.preTest.toolSafety : [];
-  const toolSafeCount = toolAudit.filter((t) => t?.isSafe).length;
 
   // Pre-Test Ingredients Audit Data
   const ingredientAudit = Array.isArray(assessmentResults?.preTest?.qualityInspection) ? assessmentResults.preTest.qualityInspection : [];
-  const ingredientSafeCount = ingredientAudit.filter((i) => i?.isSafe).length;
 
   // Stage Pre-Checks Audit Data
   const stageKeys = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5', 'mission6', 'mission7', 'mission8'];
-  const stageAnswersList = stageKeys.map((key) => stageAnswers?.[key] || null);
-  const stageCorrectCount = stageAnswersList.filter((a) => a?.isCorrect).length;
 
   // Post-Test Sequencing Audit Data
   const sequenceAudit = assessmentResults?.postTest?.sequencing;
   const sequenceSubmitted = Array.isArray(sequenceAudit?.submittedItems) ? sequenceAudit.submittedItems : [];
-  const sequenceCorrectCount = sequenceAudit?.correctCount ?? (sequenceAudit?.isCorrect ? 8 : 0);
-
-  // Module Completion Breakdown (No scores/points)
-  const modulesSummary = [
-    {
-      task: 'Pre-Test Task 1: PPE Attire Selection',
-      icon: '🥼',
-      criteria: '6 food-grade protective barriers identified & hazardous attire avoided',
-      status: ppeDistractors.length === 0 && ppeCorrectSelected.length >= 5 ? 'COMPLIANT' : 'HAZARDS FLAGGED',
-      isPass: ppeDistractors.length === 0,
-      detail: `${ppeCorrectSelected.length}/${ppeTotalCorrect} items verified (${ppeDistractors.length} hazards)`,
-    },
-    {
-      task: 'Pre-Test Task 2: Sanitary Handwashing Sequence',
-      icon: '🧼',
-      criteria: 'WHO 7-step chronological hygiene order without cross-contamination',
-      status: handwashDistractors.length === 0 && hwCorrectCount === 7 ? 'ZERO CONTAMINATION' : 'REVIEW PROTOCOL',
-      isPass: handwashDistractors.length === 0 && hwCorrectCount >= 6,
-      detail: `${hwCorrectCount}/7 steps in order (${handwashDistractors.length} hazards)`,
-    },
-    {
-      task: 'Pre-Test Task 3: Tool & Equipment Safety Inspection',
-      icon: '🔍',
-      criteria: 'Sanitary blades, intact cords, food-grade materials & undamaged appliances',
-      status: toolSafeCount >= TOOL_INSPECTION_ITEMS.length ? 'PASSED SAFE' : 'HAZARDS FLAGGED',
-      isPass: toolSafeCount >= TOOL_INSPECTION_ITEMS.length,
-      detail: `${toolSafeCount}/${TOOL_INSPECTION_ITEMS.length} safe equipment verified`,
-    },
-    {
-      task: 'Pre-Test Task 4: Raw Material Quality Inspection',
-      icon: '🥥',
-      criteria: 'Fresh coconut pith, unexpired rice flour, pure sea salt & fresh oil',
-      status: ingredientSafeCount >= INGREDIENT_INSPECTION_ITEMS.length ? 'GRADE A FRESH' : 'SPOILED FLAGGED',
-      isPass: ingredientSafeCount >= INGREDIENT_INSPECTION_ITEMS.length,
-      detail: `${ingredientSafeCount}/${INGREDIENT_INSPECTION_ITEMS.length} fresh ingredients verified`,
-    },
-    {
-      task: 'Stage Pre-Check Questions (Stages 1–8)',
-      icon: '📝',
-      criteria: 'Key food technology principles assessed prior to interactive cooking',
-      status: `${stageCorrectCount}/8 MASTERED`,
-      isPass: stageCorrectCount >= 6,
-      detail: `${stageCorrectCount}/8 food science pre-check questions answered correctly`,
-    },
-    {
-      task: 'Interactive Workstation Lessons (Stages 1–8)',
-      icon: '🎓',
-      criteria: 'Hands-on practical manufacturing simulations & SOP training',
-      status: 'ALL 8 STAGES COMPLETED',
-      isPass: true,
-      detail: '8 practical workstation simulations completed',
-    },
-    {
-      task: 'Post-Test Task 7: Manufacturing Stage Sequencing',
-      icon: '🔄',
-      criteria: 'Chronological reconstruction of the authentic 8-stage manufacturing lifecycle',
-      status: sequenceCorrectCount === 8 ? 'PERFECT SEQUENCE' : `${sequenceCorrectCount}/8 CORRECT`,
-      isPass: sequenceCorrectCount >= 7,
-      detail: `${sequenceCorrectCount}/8 stages correctly positioned in sequence`,
-    },
-  ];
-
-  // Overall Performance Level
-  const totalCorrectAssessments =
-    (ppeCorrectSelected.length >= 5 ? 1 : 0) +
-    (handwashDistractors.length === 0 && handwashSubmitted.length === 7 ? 1 : 0) +
-    (toolSafeCount >= 5 ? 1 : 0) +
-    (ingredientSafeCount >= 3 ? 1 : 0) +
-    (stageCorrectCount >= 6 ? 1 : 0) +
-    (sequenceCorrectCount >= 7 ? 1 : 0);
-
-  const competencyLevel =
-    totalCorrectAssessments >= 5
-      ? 'Master Food Technologist (Advanced Competency)'
-      : totalCorrectAssessments >= 3
-      ? 'Proficient Food Technologist (Meets Laboratory Standard)'
-      : 'Apprentice Technologist (Requires Supervised Review)';
 
   return (
     <div className="results-scene">
       <div className="results-container" ref={reportRef}>
-        {/* Header Hero Card */}
+        {/* ========================================================================= */}
+        {/* HERO HEADER CARD (Score-Free Study Reference) */}
+        {/* ========================================================================= */}
         <div className="results-header-card">
           <div className="results-ribbon">
-            <img
-              src="/assets/icon_gold_medal_front.png"
-              alt="Medal"
-              className="results-ribbon-medal-img"
-            />
-            <span>COMPREHENSIVE DIAGNOSTIC AUDIT & PERFORMANCE REPORT</span>
+            <span>📖 LABORATORY INSTRUCTIONAL DEBRIEF & COMPLETE ANSWER KEY</span>
           </div>
 
           <div className="results-hero-showcase">
@@ -257,156 +184,92 @@ export const ResultsScene = () => {
             </div>
           </div>
 
-          <h2 className="results-main-title">Coconut Pith Crackers Laboratory Performance Audit</h2>
+          <h2 className="results-main-title">Coconut Pith Processing: Master Answer Key & Lessons</h2>
           <p className="results-sub-title">
-            <span>Instructional Assessment & Science Competency Report</span>
+            <span>Curriculum: Coconut Pith Utilization for Cracker Development</span>
             <br />
             <span>
-              Candidate: <strong>{studentName || 'Food Technology Student'}</strong> • Date: {currentDate}
+              Student: <strong>{studentName || 'Food Technology Student'}</strong> • Reference Date: {currentDate}
             </span>
           </p>
 
-          <div className="results-competency-pill">
-            <span className="competency-badge-icon">🎖️</span>
-            <span className="competency-label">Evaluated Rank:</span>
-            <span className="competency-value">{competencyLevel}</span>
-          </div>
-        </div>
-
-        {/* Executive Summary Metrics Grid */}
-        <div className="results-metrics-grid">
-          <div className="res-metric-box">
-            <div className="res-metric-icon-box">
-              <span>🎯</span>
+          <div className="results-study-banner">
+            <span style={{ fontSize: '1.4rem' }}>💡</span>
+            <div>
+              <strong>Pressure-Free Learning Space:</strong> This debrief presents every pre-test question,
+              laboratory safety standard, workstation pre-check question, and manufacturing stage with full
+              food science principles. Review what you chose, examine standard operating procedures, and
+              deepen your food technology knowledge!
             </div>
-            <h4>Audit Status</h4>
-            <div className="res-score-highlight" style={{ fontSize: '1.25rem', color: '#16a34a' }}>
-              100% Completed
-            </div>
-            <p>Pre-Test, 8 Interactive Stages, Pre-Checks & Post-Test</p>
-          </div>
-
-          <div className="res-metric-box">
-            <div className="res-metric-icon-box">
-              <span>🥼</span>
-            </div>
-            <h4>Pre-Test PPE & Hygiene</h4>
-            <div className="res-score-highlight" style={{ fontSize: '1.25rem' }}>
-              {ppeDistractors.length === 0 && handwashDistractors.length === 0 && hwCorrectCount === 7
-                ? '✓ Compliant'
-                : `${ppeCorrectSelected.length}/${ppeTotalCorrect} PPE • ${hwCorrectCount}/7 Steps`}
-            </div>
-            <p>
-              {ppeDistractors.length === 0 && handwashDistractors.length === 0
-                ? `${ppeCorrectSelected.length}/${ppeTotalCorrect} PPE verified • ${hwCorrectCount}/7 hygiene steps`
-                : `${ppeDistractors.length + handwashDistractors.length} hazard(s) flagged during pre-test`}
-            </p>
-          </div>
-
-          <div className="res-metric-box">
-            <div className="res-metric-icon-box">
-              <span>📝</span>
-            </div>
-            <h4>Stage Pre-Checks</h4>
-            <div className="res-score-highlight" style={{ fontSize: '1.25rem' }}>
-              {stageCorrectCount}/8 Mastered
-            </div>
-            <p>Key food technology questions across Stages 1–8</p>
-          </div>
-
-          <div className="res-metric-box">
-            <div className="res-metric-icon-box">
-              <span>🔄</span>
-            </div>
-            <h4>Post-Test Sequence</h4>
-            <div className="res-score-highlight" style={{ fontSize: '1.25rem' }}>
-              {sequenceCorrectCount}/8 Stages
-            </div>
-            <p>{sequenceCorrectCount}/8 stages correctly positioned in sequence</p>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* MODULE COMPLETION & COMPETENCY SUMMARY TABLE */}
+        {/* QUICK JUMP DIRECTORY */}
         {/* ========================================================================= */}
-        <section className="results-section-card results-score-rubric-card">
+        <div className="results-quick-jump-bar">
+          <span className="quick-jump-title">Quick Jump to Lesson:</span>
+          <div className="quick-jump-buttons">
+            <button
+              type="button"
+              className="quick-jump-btn"
+              onClick={() => scrollToSection('section-ppe')}
+            >
+              <span>🥼</span> Part 1: PPE Attire
+            </button>
+            <button
+              type="button"
+              className="quick-jump-btn"
+              onClick={() => scrollToSection('section-handwashing')}
+            >
+              <span>🧼</span> Part 2: Handwashing
+            </button>
+            <button
+              type="button"
+              className="quick-jump-btn"
+              onClick={() => scrollToSection('section-tools')}
+            >
+              <span>🔍</span> Part 3: Tool Safety
+            </button>
+            <button
+              type="button"
+              className="quick-jump-btn"
+              onClick={() => scrollToSection('section-ingredients')}
+            >
+              <span>🥥</span> Part 4: Ingredient QC
+            </button>
+            <button
+              type="button"
+              className="quick-jump-btn"
+              onClick={() => scrollToSection('section-stage-questions')}
+            >
+              <span>📝</span> Part 5: Stage Questions (1–8)
+            </button>
+            <button
+              type="button"
+              className="quick-jump-btn"
+              onClick={() => scrollToSection('section-pipeline')}
+            >
+              <span>🔄</span> Part 6: Pipeline Flow
+            </button>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* SECTION 1: PRE-TEST TASK 1 — PPE ATTIRE SELECTION */}
+        {/* ========================================================================= */}
+        <section id="section-ppe" className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
-              <span className="section-num-badge">Overview</span>
-              <h3>Laboratory Evaluation & Competency Completion Summary</h3>
+              <span className="section-num-badge">Part 1</span>
+              <h3>Personal Protective Equipment (PPE) Selection & Hygiene Standard</h3>
             </div>
-            <span className="section-status-tag">
-              All Modules Completed
-            </span>
+            <span className="section-status-tag">Sanitary Barrier Protocol</span>
           </div>
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              Comprehensive diagnostic breakdown across all pre-test baseline assessments, stage entry food technology checks, interactive laboratory simulations, and post-test process sequencing:
-            </p>
-
-            <div className="scoring-rubric-wrap">
-              <table className="rubric-table">
-                <thead>
-                  <tr>
-                    <th>Evaluation Module / Task</th>
-                    <th>Operating Criteria & Audit Details</th>
-                    <th style={{ textAlign: 'center', width: '220px' }}>Diagnostic Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {modulesSummary.map((item, idx) => (
-                    <tr key={idx}>
-                      <td>
-                        <div className="rubric-stage-cell">
-                          <span className="rubric-stage-icon">{item.icon}</span>
-                          <div>
-                            <div>{item.task}</div>
-                            <small style={{ color: '#854d0e', fontWeight: 600 }}>{item.detail}</small>
-                          </div>
-                        </div>
-                      </td>
-                      <td>{item.criteria}</td>
-                      <td style={{ textAlign: 'center' }}>
-                        <span
-                          className="rubric-pts-pill"
-                          style={{
-                            background: item.isPass ? '#dcfce7' : '#fee2e2',
-                            color: item.isPass ? '#15803d' : '#b91c1c',
-                            borderColor: item.isPass ? '#86efac' : '#fca5a5',
-                            boxShadow: item.isPass ? '0 2px 0 #bbf7d0' : '0 2px 0 #fecaca',
-                            fontWeight: 800,
-                            padding: '6px 14px',
-                          }}
-                        >
-                          {item.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* SECTION 1: PRE-TEST PPE ATTIRE DIAGNOSTIC AUDIT */}
-        {/* ========================================================================= */}
-        <section className="results-section-card results-diagnostic-audit-card">
-          <div className="section-card-header">
-            <div className="section-title-wrap">
-              <span className="section-num-badge">Pre-Test Task 1</span>
-              <h3>Personal Protective Equipment (PPE) Diagnostic Audit</h3>
-            </div>
-            <span className="section-status-tag">
-              {ppeDistractors.length === 0 ? '✓ COMPLIANT' : '⚠️ HAZARDS FLAGGED'}
-            </span>
-          </div>
-
-          <div className="audit-content-block">
-            <p className="audit-lead-text">
-              Standard food processing laboratory protocol mandates 6 critical protective barriers to prevent physical and microbiological contamination:
+              Under Good Manufacturing Practices (GMP) and Philippine Food Safety Regulations, personnel must establish 6 critical protective barriers before handling food contact surfaces:
             </p>
 
             <div className="ppe-audit-grid">
@@ -435,16 +298,16 @@ export const ResultsScene = () => {
 
                       <div className="ppe-audit-verdict">
                         {isCorrect && wasSelected && (
-                          <span className="verdict-good">✓ Correctly Equipped (Required PPE)</span>
+                          <span className="verdict-good">✓ You Equipped This (Required PPE Standard)</span>
                         )}
                         {isCorrect && !wasSelected && (
-                          <span className="verdict-warn">⚠️ Missed Required Gear</span>
+                          <span className="verdict-warn">⚠️ Required Gear (Standard Procedure)</span>
                         )}
                         {isDistractor && wasSelected && (
-                          <span className="verdict-bad">🚫 Hazard: {item.reason}</span>
+                          <span className="verdict-bad">🚫 Selected Hazard: {item.reason}</span>
                         )}
                         {isDistractor && !wasSelected && (
-                          <span className="verdict-good">✓ Correctly Rejected Non-PPE</span>
+                          <span className="verdict-good">✓ Correctly Avoided (Hazard / Non-PPE)</span>
                         )}
                       </div>
                     </div>
@@ -452,29 +315,37 @@ export const ResultsScene = () => {
                 );
               })}
             </div>
+
+            <div className="lesson-principle-card">
+              <div className="principle-header">
+                <span>🛡️</span>
+                <strong>Food Safety Principle: Personal Protective Equipment (GMP Standard)</strong>
+              </div>
+              <p>
+                Food handlers are the primary vector for physical hazards (hair, jewelry, loose threads) and microbiological contaminants (Staphylococcus aureus, fungal spores). Complete donning of clean lab coats, disposable hairnets, nitrile gloves, surgical face masks, closed-toe safety shoes, and spill aprons ensures zero direct biological contact with food formulations.
+              </p>
+            </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 2: PRE-TEST HANDWASHING PROTOCOL AUDIT */}
+        {/* SECTION 2: PRE-TEST TASK 2 — WHO 7-STEP SANITARY HANDWASHING PROTOCOL */}
         {/* ========================================================================= */}
-        <section className="results-section-card results-diagnostic-audit-card">
+        <section id="section-handwashing" className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
-              <span className="section-num-badge">Pre-Test Task 2</span>
-              <h3>Sanitary Handwashing 7-Step Sequence Audit</h3>
+              <span className="section-num-badge">Part 2</span>
+              <h3>WHO 7-Step Sanitary Handwashing Protocol</h3>
             </div>
-            <span className="section-status-tag">
-              {handwashDistractors.length === 0 && hwCorrectCount === 7 ? '✓ ZERO CONTAMINATION' : '⚠️ HAZARDS DETECTED'}
-            </span>
+            <span className="section-status-tag">Aseptic Hygiene Standard</span>
           </div>
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              Comparison of student submitted sequence against the standard 7-step sanitary protocol:
+              Comparison of your submitted hand hygiene steps against the official World Health Organization 7-step sanitary sequence:
             </p>
 
-            {/* Timeline Comparison */}
+            {/* Student's Sequence */}
             <div className="sequence-comparison-container">
               <h4 className="table-sub-header">Your Submitted Handwashing Sequence:</h4>
               <div className="submitted-sequence-row">
@@ -494,78 +365,82 @@ export const ResultsScene = () => {
                             : 'step-misplaced'
                         }`}
                       >
-                        <div className="step-badge">Step {idx + 1}</div>
+                        <div className="step-badge">Position {idx + 1}</div>
                         <div className="step-icon-box">{step.icon}</div>
                         <h6>{step.action}</h6>
                         <p className="step-status-text">
                           {isStepCorrect
-                            ? '✓ Correct'
+                            ? '✓ Correct Step & Order'
                             : isDistractor
-                            ? '🚫 Hazard'
-                            : `Expected Step ${step.step}`}
+                            ? `🚫 Hazard: ${step.reason}`
+                            : `⚠️ Misplaced (Belongs at Step ${step.step})`}
                         </p>
-                        {isDistractor && <small className="distractor-note">{step.reason}</small>}
                       </div>
                     );
                   })
                 ) : (
-                  <p style={{ color: '#94a3b8', fontStyle: 'italic' }}>
-                    No steps submitted in pre-test assessment.
-                  </p>
+                  <div className="no-data-msg">Handwashing sequence recorded via interactive workstation.</div>
                 )}
               </div>
 
-              {/* Standard Handwashing Sequence Reference */}
-              <h4 className="table-sub-header" style={{ marginTop: '24px' }}>
-                Official Standard Protocol Reference:
+              {/* Official Reference Timeline */}
+              <h4 className="table-sub-header" style={{ marginTop: '22px' }}>
+                Official WHO 7-Step Standard Reference Sequence:
               </h4>
-              <div className="standard-handwashing-list">
+              <div className="official-standard-row">
                 {HANDWASHING_STEPS.filter((s) => s.isCorrect).map((step) => (
-                  <div key={step.id} className="std-handwash-row">
-                    <span className="std-step-num">Step {step.step}</span>
-                    <span className="std-step-icon">{step.icon}</span>
-                    <div className="std-step-info">
-                      <strong>{step.action}</strong> — <span>{step.desc}</span>
-                    </div>
+                  <div key={step.id} className="official-step-card">
+                    <div className="official-step-num">Step {step.step}</div>
+                    <div className="official-step-icon">{step.icon}</div>
+                    <h6>{step.action}</h6>
+                    <p className="official-step-desc">{step.desc}</p>
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="lesson-principle-card">
+              <div className="principle-header">
+                <span>🧼</span>
+                <strong>Food Hygiene Principle: Aseptic Friction & Biofilm Removal</strong>
+              </div>
+              <p>
+                Microorganisms survive in lipid and sebum layers secreted by the skin. A 20-second mechanical scrub following the 7-step sequence (palms, dorsum, interdigital webs, knuckles, thumbs, fingernails, wrists) breaks down lipid envelopes through soap surfactant action, dislodging transient bacteria (Salmonella, E. coli, Norovirus) that casual rinsing leaves behind. Single-use paper towels prevent recontamination.
+              </p>
             </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 3: PRE-TEST TOOL & EQUIPMENT SAFETY AUDIT */}
+        {/* SECTION 3: PRE-TEST TASK 3 — TOOL & EQUIPMENT SAFETY */}
         {/* ========================================================================= */}
-        <section className="results-section-card results-diagnostic-audit-card">
+        <section id="section-tools" className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
-              <span className="section-num-badge">Pre-Test Task 3</span>
-              <h3>Laboratory Tool & Equipment Safety Inspection Audit</h3>
+              <span className="section-num-badge">Part 3</span>
+              <h3>Food Contact Tool & Equipment Safety Inspection</h3>
             </div>
-            <span className="section-status-tag">
-              {toolSafeCount}/{TOOL_INSPECTION_ITEMS.length} Safe Choices
-            </span>
+            <span className="section-status-tag">Sanitary Equipment Standards</span>
           </div>
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              Inspection records for laboratory utensils and electrical appliances:
+              Food processing equipment must be constructed from non-porous, corrosion-resistant materials with zero physical damage or electrical hazards:
             </p>
 
-            <div className="inspection-audit-table-wrap">
-              <table className="audit-table">
+            <div className="audit-table-responsive">
+              <table className="diagnostic-table">
                 <thead>
                   <tr>
-                    <th>Equipment Item</th>
-                    <th>Your Selection</th>
-                    <th>Safety Verdict</th>
-                    <th>Food Safety Rationale</th>
+                    <th>Equipment / Tool</th>
+                    <th>Standard Specification</th>
+                    <th>Your Inspection Result</th>
+                    <th>Food Contact Safety Standard & Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
                   {TOOL_INSPECTION_ITEMS.map((item) => {
-                    const recorded = toolAudit.find((t) => t.id === item.id);
+                    const recorded = toolAudit.find((t) => t.itemId === item.id);
                     const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
 
                     return (
@@ -573,18 +448,18 @@ export const ResultsScene = () => {
                         <td>
                           <strong>{item.name}</strong>
                         </td>
-                        <td>
-                          {isSafe ? item.safe?.name : (recorded?.selectedName || item.damaged?.name)}
-                        </td>
+                        <td>{item.safe?.name || 'Sanitary Standard Tool'}</td>
                         <td>
                           {isSafe ? (
-                            <span className="badge-safe">✓ PASSED SAFE</span>
+                            <span className="badge-safe">✓ VERIFIED SAFE</span>
                           ) : (
                             <span className="badge-hazard">⚠️ HAZARD DETECTED</span>
                           )}
                         </td>
                         <td>
-                          {isSafe ? item.safe?.reason : item.damaged?.reason}
+                          {isSafe
+                            ? item.safe?.reason
+                            : `Identified Hazard: ${item.damaged?.reason}. Standard Requirement: ${item.safe?.reason}`}
                         </td>
                       </tr>
                     );
@@ -592,41 +467,49 @@ export const ResultsScene = () => {
                 </tbody>
               </table>
             </div>
+
+            <div className="lesson-principle-card">
+              <div className="principle-header">
+                <span>🔧</span>
+                <strong>Engineering Principle: Hygienic Design & Food Contact Metallurgy</strong>
+              </div>
+              <p>
+                Food-grade 304/316 austenitic stainless steel is resistant to pitting corrosion from organic acids and chlorine sanitizers. Scratched plastic cutting boards, rusted carbon steel blades, and cracked plastic spatulas harbor bacterial biofilms within microscopic fissures, which sanitize chemical washings cannot penetrate.
+              </p>
+            </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 4: PRE-TEST INGREDIENT QUALITY INSPECTION AUDIT */}
+        {/* SECTION 4: PRE-TEST TASK 4 — RAW MATERIAL QUALITY INSPECTION */}
         {/* ========================================================================= */}
-        <section className="results-section-card results-diagnostic-audit-card">
+        <section id="section-ingredients" className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
-              <span className="section-num-badge">Pre-Test Task 4</span>
-              <h3>Raw Ingredient Quality & Spoilage Inspection Audit</h3>
+              <span className="section-num-badge">Part 4</span>
+              <h3>Raw Material Quality Assurance & Organoleptic Inspection</h3>
             </div>
-            <span className="section-status-tag">
-              {ingredientSafeCount}/{INGREDIENT_INSPECTION_ITEMS.length} Fresh Choices
-            </span>
+            <span className="section-status-tag">Raw Material Receiving Protocol</span>
           </div>
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              Quality control assessment of raw coconut pith, starch, seasonings, and frying oil:
+              Quality assurance inspection verifying incoming ingredients against sensory, microbiological, and moisture thresholds:
             </p>
 
-            <div className="inspection-audit-table-wrap">
-              <table className="audit-table">
+            <div className="audit-table-responsive">
+              <table className="diagnostic-table">
                 <thead>
                   <tr>
-                    <th>Ingredient Material</th>
-                    <th>Inspected Selection</th>
-                    <th>Quality Verdict</th>
-                    <th>Food Chemistry / Spoilage Rationale</th>
+                    <th>Raw Material</th>
+                    <th>Standard Quality Criteria</th>
+                    <th>Your Inspection Result</th>
+                    <th>Food Science & Quality Control Principle</th>
                   </tr>
                 </thead>
                 <tbody>
                   {INGREDIENT_INSPECTION_ITEMS.map((item) => {
-                    const recorded = ingredientAudit.find((i) => i.id === item.id);
+                    const recorded = ingredientAudit.find((i) => i.itemId === item.id);
                     const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
 
                     return (
@@ -634,18 +517,18 @@ export const ResultsScene = () => {
                         <td>
                           <strong>{item.name}</strong>
                         </td>
-                        <td>
-                          {isSafe ? item.safe?.name : (recorded?.selectedName || item.damaged?.name)}
-                        </td>
+                        <td>{item.safe?.name}</td>
                         <td>
                           {isSafe ? (
-                            <span className="badge-safe">✓ GRADE A FRESH</span>
+                            <span className="badge-safe">✓ VERIFIED GRADE A FRESH</span>
                           ) : (
-                            <span className="badge-hazard">⚠️ CONTAMINATED</span>
+                            <span className="badge-hazard">⚠️ CONTAMINATED / SPOILED</span>
                           )}
                         </td>
                         <td>
-                          {isSafe ? item.safe?.reason : item.damaged?.reason}
+                          {isSafe
+                            ? item.safe?.reason
+                            : `Identified Defect: ${item.damaged?.reason}. Quality Standard: ${item.safe?.reason}`}
                         </td>
                       </tr>
                     );
@@ -653,43 +536,54 @@ export const ResultsScene = () => {
                 </tbody>
               </table>
             </div>
+
+            <div className="lesson-principle-card">
+              <div className="principle-header">
+                <span>🥥</span>
+                <strong>Quality Assurance Principle: Incoming Ingredient Critical Limits</strong>
+              </div>
+              <p>
+                Coconut pith is highly susceptible to enzymatic browning and bacterial souring once harvested due to high moisture and polyphenol oxidase (PPO) activity. Pure Erawan rice flour must remain below 12% moisture to prevent mold (Aspergillus flavus) and weevil proliferation. Frying oil must exhibit low free fatty acid (FFA &lt; 0.1%) to prevent hydroperoxide formation and acrid off-flavors during deep frying.
+              </p>
+            </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 5: STAGE PRE-CHECK QUESTIONS DIAGNOSTIC AUDIT (STAGES 1–8) */}
+        {/* SECTION 5: STAGE PRE-CHECK QUESTIONS (STAGES 1–8) COMPLETE ANSWER KEY */}
         {/* ========================================================================= */}
-        <section className="results-section-card results-diagnostic-audit-card">
+        <section id="section-stage-questions" className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
-              <span className="section-num-badge">Section 5</span>
-              <h3>Stage Pre-Check Questions Diagnostic Audit (Stages 1–8)</h3>
+              <span className="section-num-badge">Part 5</span>
+              <h3>Stage Pre-Check Questions: Complete Master Answer Key (Stages 1–8)</h3>
             </div>
-            <span className="section-status-tag">
-              {stageCorrectCount}/8 Questions Mastered
-            </span>
+            <span className="section-status-tag">Food Technology Theory Review</span>
           </div>
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              Detailed evaluation of student answers chosen prior to each production stage, showing accuracy status, rationale, and underlying food technology principles:
+              Complete answer key for each stage pre-check question, detailing all 4 options, the standard correct answer, your submitted selection, and the comprehensive food science rationale:
             </p>
 
             <div className="stage-questions-review-stack">
               {stageKeys.map((stageKey, idx) => {
                 const qData = STAGE_QUESTIONS[stageKey];
-                const stageFact = STAGE_SCIENCE_FACTS[idx];
                 const studentAnswer = stageAnswers?.[stageKey];
                 const isAnswered = Boolean(studentAnswer);
                 const isCorrect = Boolean(studentAnswer?.isCorrect);
                 const activeChoices = studentAnswer?.choices || qData.choices;
                 const correctChoice = activeChoices.find((c) => c.isCorrect);
-                const correctLetter = studentAnswer?.correctOptionId || correctChoice?.displayLetter || correctChoice?.id?.toUpperCase() || 'A';
+                const correctLetter =
+                  studentAnswer?.correctOptionId ||
+                  correctChoice?.displayLetter ||
+                  correctChoice?.id?.toUpperCase() ||
+                  'A';
 
                 return (
                   <div key={stageKey} className="stage-question-review-card">
-                    {/* Main Body Content */}
                     <div className="stage-question-review-body">
+                      {/* Header */}
                       <div className="stage-question-review-header">
                         <div className="stage-question-title-group">
                           <span className="stage-question-stage-tag">{qData.stageTitle}</span>
@@ -703,46 +597,60 @@ export const ResultsScene = () => {
                               isCorrect ? 'verdict-correct' : 'verdict-wrong'
                             }`}
                           >
-                            {isCorrect ? '✓ CORRECT CHOICE' : '⚠️ INCORRECT CHOICE'}
+                            {isCorrect ? '✓ You Selected Correct Answer' : '⚠️ Review Recommended Procedure'}
                           </span>
                         ) : (
                           <span className="stage-question-verdict verdict-correct">
-                            ✓ STANDARD PROCEDURE
+                            ✓ Standard Procedure Lesson
                           </span>
                         )}
                       </div>
 
-                      {/* Student's Selected Answer */}
-                      <div
-                        className={`stage-answer-box ${
-                          !isAnswered || isCorrect ? 'answer-correct-highlight' : 'answer-wrong-highlight'
-                        }`}
-                      >
-                        <div className="stage-answer-badge">
-                          {!isAnswered || isCorrect ? '✓ Your Submitted Answer:' : '⚠️ Your Submitted Answer:'}
-                        </div>
-                        <div className="stage-answer-content">
-                          {studentAnswer
-                            ? `${studentAnswer.selectedOptionId?.toUpperCase()}. ${studentAnswer.selectedText}`
-                            : `${correctLetter}. ${correctChoice?.text}`}
+                      {/* All 4 Choices Full Review */}
+                      <div className="stage-choices-full-review">
+                        <div className="review-choices-label">Complete Options & Answer Status:</div>
+                        <div className="review-choices-grid">
+                          {activeChoices.map((choice) => {
+                            const choiceLetter = choice.displayLetter || choice.id?.toUpperCase();
+                            const isThisCorrect = choice.isCorrect;
+                            const isThisUserSelected =
+                              studentAnswer?.selectedOptionId?.toLowerCase() === choice.id?.toLowerCase();
+
+                            let cardClass = 'choice-review-card';
+                            if (isThisCorrect) {
+                              cardClass += ' choice-review-correct';
+                            } else if (isThisUserSelected && !isThisCorrect) {
+                              cardClass += ' choice-review-user-wrong';
+                            } else {
+                              cardClass += ' choice-review-neutral';
+                            }
+
+                            return (
+                              <div key={choice.id} className={cardClass}>
+                                <div className="choice-review-top">
+                                  <span className="choice-review-letter">{choiceLetter}</span>
+                                  {isThisCorrect && (
+                                    <span className="choice-badge-correct">✓ Correct Standard</span>
+                                  )}
+                                  {isThisUserSelected && !isThisCorrect && (
+                                    <span className="choice-badge-wrong">⚠️ Your Selection (Incorrect)</span>
+                                  )}
+                                  {isThisUserSelected && isThisCorrect && (
+                                    <span className="choice-badge-user-correct">✓ Your Selection</span>
+                                  )}
+                                </div>
+                                <p className="choice-review-text">{choice.text}</p>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
-
-                      {/* If Incorrect, show Correct Reference Choice */}
-                      {isAnswered && !isCorrect && correctChoice && (
-                        <div className="stage-correct-reference">
-                          <div className="stage-correct-badge">✓ Recommended Standard Procedure:</div>
-                          <div className="stage-correct-content">
-                            {correctLetter}. {correctChoice.text}
-                          </div>
-                        </div>
-                      )}
 
                       {/* Food Science Explanation */}
                       <div className="stage-science-rationale">
                         <div className="stage-rationale-title">
                           <span>🔬</span>
-                          <strong>Food Science Principle & Quality Control Rationale:</strong>
+                          <strong>Food Science Principle & Quality Control Lesson:</strong>
                         </div>
                         <p className="stage-rationale-text">{qData.explanation}</p>
                       </div>
@@ -755,38 +663,32 @@ export const ResultsScene = () => {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 6: POST-TEST MANUFACTURING SEQUENCE & FOOD SCIENCE AUDIT */}
+        {/* SECTION 6: POST-TEST MANUFACTURING PIPELINE CHRONOLOGY */}
         {/* ========================================================================= */}
-        <section className="results-section-card results-diagnostic-audit-card">
+        <section id="section-pipeline" className="results-section-card results-diagnostic-audit-card">
           <div className="section-card-header">
             <div className="section-title-wrap">
-              <span className="section-num-badge">Post-Test Task 6</span>
-              <h3>Manufacturing Lifecycle Sequence & Food Science Principles</h3>
+              <span className="section-num-badge">Part 6</span>
+              <h3>Manufacturing Pipeline: Authentic 8-Stage Unit Operations Sequence</h3>
             </div>
-            <span className="section-status-tag">
-              {sequenceCorrectCount}/8 Correctly Positioned
-            </span>
+            <span className="section-status-tag">Industrial Processing Flow</span>
           </div>
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              Comprehensive food technology breakdown of the 8 production stages from raw coconut pith to finished packaged snacks:
+              The authentic chronological sequence of unit operations required to transform raw coconut pith into shelf-stable Ubod CRUNCH crackers:
             </p>
 
             <div className="stage-science-cards-stack">
               {STAGE_SCIENCE_FACTS.map((stage) => {
                 const userStageAtPos = sequenceSubmitted[stage.step - 1];
-                const wasCorrectAtPos = userStageAtPos?.stepNum === stage.step;
+                const wasCorrectAtPos = userStageAtPos?.step === stage.step;
 
                 return (
                   <div key={stage.step} className="stage-science-card">
                     <div className="stage-science-left">
                       <div className="stage-science-num">Stage {stage.step}</div>
-                      <img
-                        src={stage.img}
-                        alt={stage.name}
-                        className="stage-science-img"
-                      />
+                      <img src={stage.img} alt={stage.name} className="stage-science-img" />
                     </div>
                     <div className="stage-science-body">
                       <div className="stage-science-title-row">
@@ -798,8 +700,8 @@ export const ResultsScene = () => {
                             }`}
                           >
                             {wasCorrectAtPos
-                              ? '✓ Ordered Correctly in Post-Test'
-                              : `⚠️ Submitted: ${userStageAtPos?.title || 'Misplaced'}`}
+                              ? '✓ You Ordered This Correctly'
+                              : `⚠️ Placed at Position: ${userStageAtPos?.title || 'Misplaced'}`}
                           </span>
                         )}
                       </div>
@@ -814,13 +716,15 @@ export const ResultsScene = () => {
           </div>
         </section>
 
-        {/* Action Controls */}
+        {/* ========================================================================= */}
+        {/* ACTION CONTROLS */}
+        {/* ========================================================================= */}
         <div className="results-actions-bar">
-          <button className="btn-primary" onClick={handlePrint}>
-            <span>Print / Save Comprehensive Audit Report (PDF)</span>
+          <button type="button" className="btn-primary" onClick={handlePrint}>
+            <span>🖨️ Print / Save Comprehensive Study Guide (PDF)</span>
           </button>
-          <button className="btn-secondary" onClick={resetGame}>
-            <span>Process New Laboratory Batch</span>
+          <button type="button" className="btn-secondary" onClick={resetGame}>
+            <span>🔄 Process New Laboratory Batch</span>
           </button>
         </div>
 
@@ -828,7 +732,7 @@ export const ResultsScene = () => {
         <div className="results-scroll-spacer" style={{ height: '40px', flexShrink: 0 }} />
       </div>
 
-      {/* 20% Right Column Results & Credentials Sidebar */}
+      {/* Right Column Lesson Directory Sidebar */}
       <ResultsSidebar />
     </div>
   );

@@ -192,6 +192,19 @@
   letter-spacing: 0.02em;
 }
 
+.card-verdict-banner.banner-hazard {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  border-color: #b91c1c !important;
+  box-shadow: 0 3px 0 #991b1b, 0 4px 12px rgba(239, 68, 68, 0.35) !important;
+}
+
+.card-verdict-banner.reference-safe {
+  background: #f0fdf4 !important;
+  border: 1.5px solid #86efac !important;
+  color: #15803d !important;
+  font-weight: 800 !important;
+}
+
 .card-verdict-banner.select-prompt {
   background: #fdfaf5;
   border: 1.5px dashed #cfbc9f;
@@ -199,15 +212,21 @@
 }
 
 .inspection-card.card-safe {
-  border-color: #22c55e;
-  background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
-  box-shadow: 0 5px 0 #15803d, 0 6px 16px rgba(22, 101, 52, 0.2);
+  border-color: #22c55e !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%) !important;
+  box-shadow: 0 5px 0 #15803d, 0 6px 16px rgba(22, 101, 52, 0.2) !important;
 }
 
 .inspection-card.card-hazard {
-  border-color: #ef4444;
-  background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
-  box-shadow: 0 5px 0 #dc2626, 0 6px 16px rgba(239, 68, 68, 0.2);
+  border-color: #ef4444 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%) !important;
+  box-shadow: 0 5px 0 #dc2626, 0 6px 16px rgba(239, 68, 68, 0.2) !important;
+}
+
+.inspection-card.card-safe-reference {
+  border: 2px dashed #22c55e !important;
+  background: #fdfbf7 !important;
+  box-shadow: 0 3px 0 #86efac !important;
 }
 
 .inspection-feedback-box {
