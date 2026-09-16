@@ -157,33 +157,6 @@ export const ResultsScene = () => {
             <span>📖 LABORATORY INSTRUCTIONAL DEBRIEF & COMPLETE ANSWER KEY</span>
           </div>
 
-          <div className="results-hero-showcase">
-            <div className="results-showcase-item">
-              <img
-                src="/assets/platter_crackers_cooled.png"
-                alt="Freshly Fried Ubod Crackers"
-                className="results-showcase-img"
-              />
-              <span className="results-showcase-label">Golden Crisp Ubod Crunch</span>
-            </div>
-            <div className="results-showcase-item">
-              <img
-                src="/assets/pouch_sealed_labeled.png"
-                alt="Branded Kraft Pouch"
-                className="results-showcase-img"
-              />
-              <span className="results-showcase-label">Airtight Stand-Up Pouch (50g)</span>
-            </div>
-            <div className="results-showcase-item">
-              <img
-                src="/assets/box_of_packaged_crackers.png"
-                alt="Retail Master Carton"
-                className="results-showcase-img"
-              />
-              <span className="results-showcase-label">Retail Display Box (8 Pouches)</span>
-            </div>
-          </div>
-
           <h2 className="results-main-title">Coconut Pith Processing: Master Answer Key & Lessons</h2>
           <p className="results-sub-title">
             <span>Curriculum: Coconut Pith Utilization for Cracker Development</span>
@@ -193,8 +166,38 @@ export const ResultsScene = () => {
             </span>
           </p>
 
+          <div className="results-showcase-section">
+            <span className="results-showcase-heading">Manufactured Industrial Deliverables</span>
+            <div className="results-hero-showcase">
+              <div className="results-showcase-item">
+                <img
+                  src="/assets/platter_crackers_cooled.png"
+                  alt="Freshly Fried Ubod Crackers"
+                  className="results-showcase-img"
+                />
+                <span className="results-showcase-label">Golden Crisp Ubod Crunch</span>
+              </div>
+              <div className="results-showcase-item">
+                <img
+                  src="/assets/pouch_sealed_labeled.png"
+                  alt="Branded Kraft Pouch"
+                  className="results-showcase-img"
+                />
+                <span className="results-showcase-label">Airtight Stand-Up Pouch (50g)</span>
+              </div>
+              <div className="results-showcase-item">
+                <img
+                  src="/assets/box_of_packaged_crackers.png"
+                  alt="Retail Master Carton"
+                  className="results-showcase-img"
+                />
+                <span className="results-showcase-label">Retail Master Box (8 Pouches)</span>
+              </div>
+            </div>
+          </div>
+
           <div className="results-study-banner">
-            <span style={{ fontSize: '1.4rem' }}>💡</span>
+            <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>💡</span>
             <div>
               <strong>Pressure-Free Learning Space:</strong> This debrief presents every pre-test question,
               laboratory safety standard, workstation pre-check question, and manufacturing stage with full
@@ -208,7 +211,10 @@ export const ResultsScene = () => {
         {/* QUICK JUMP DIRECTORY */}
         {/* ========================================================================= */}
         <div className="results-quick-jump-bar">
-          <span className="quick-jump-title">Quick Jump to Lesson:</span>
+          <div className="quick-jump-title">
+            <span>🧭</span>
+            <span>Jump to Section:</span>
+          </div>
           <div className="quick-jump-buttons">
             <button
               type="button"
@@ -291,23 +297,25 @@ export const ResultsScene = () => {
                         : 'item-distractor-avoided'
                     }`}
                   >
-                    <img src={item.img} alt={item.name} className="ppe-audit-img" />
+                    <div className="ppe-audit-img-box">
+                      <img src={item.img} alt={item.name} className="ppe-audit-img" />
+                    </div>
                     <div className="ppe-audit-details">
                       <h5>{item.name}</h5>
                       <p className="ppe-audit-role">{item.role}</p>
 
-                      <div className="ppe-audit-verdict">
+                      <div className="ppe-audit-verdict-wrap">
                         {isCorrect && wasSelected && (
-                          <span className="verdict-good">✓ You Equipped This (Required PPE Standard)</span>
+                          <span className="ppe-audit-verdict verdict-good">✓ You Equipped This (Required Standard)</span>
                         )}
                         {isCorrect && !wasSelected && (
-                          <span className="verdict-warn">⚠️ Required Gear (Standard Procedure)</span>
+                          <span className="ppe-audit-verdict verdict-warn">⚠️ Missed Required Gear (Standard)</span>
                         )}
                         {isDistractor && wasSelected && (
-                          <span className="verdict-bad">🚫 Selected Hazard: {item.reason}</span>
+                          <span className="ppe-audit-verdict verdict-bad">🚫 Selected Hazard: {item.reason}</span>
                         )}
                         {isDistractor && !wasSelected && (
-                          <span className="verdict-good">✓ Correctly Avoided (Hazard / Non-PPE)</span>
+                          <span className="ppe-audit-verdict verdict-good">✓ Correctly Avoided Hazard</span>
                         )}
                       </div>
                     </div>
@@ -384,7 +392,7 @@ export const ResultsScene = () => {
               </div>
 
               {/* Official Reference Timeline */}
-              <h4 className="table-sub-header" style={{ marginTop: '22px' }}>
+              <h4 className="table-sub-header" style={{ marginTop: '24px' }}>
                 Official WHO 7-Step Standard Reference Sequence:
               </h4>
               <div className="official-standard-row">
@@ -428,14 +436,14 @@ export const ResultsScene = () => {
               Food processing equipment must be constructed from non-porous, corrosion-resistant materials with zero physical damage or electrical hazards:
             </p>
 
-            <div className="audit-table-responsive">
-              <table className="diagnostic-table">
+            <div className="audit-table-responsive inspection-audit-table-wrap">
+              <table className="diagnostic-table audit-table">
                 <thead>
                   <tr>
-                    <th>Equipment / Tool</th>
-                    <th>Standard Specification</th>
-                    <th>Your Inspection Result</th>
-                    <th>Food Contact Safety Standard & Rationale</th>
+                    <th style={{ width: '22%' }}>Equipment / Tool</th>
+                    <th style={{ width: '22%' }}>Standard Specification</th>
+                    <th style={{ width: '18%', textAlign: 'center' }}>Your Inspection Result</th>
+                    <th style={{ width: '38%' }}>Food Contact Safety Standard & Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -449,7 +457,7 @@ export const ResultsScene = () => {
                           <strong>{item.name}</strong>
                         </td>
                         <td>{item.safe?.name || 'Sanitary Standard Tool'}</td>
-                        <td>
+                        <td style={{ textAlign: 'center' }}>
                           {isSafe ? (
                             <span className="badge-safe">✓ VERIFIED SAFE</span>
                           ) : (
@@ -497,14 +505,14 @@ export const ResultsScene = () => {
               Quality assurance inspection verifying incoming ingredients against sensory, microbiological, and moisture thresholds:
             </p>
 
-            <div className="audit-table-responsive">
-              <table className="diagnostic-table">
+            <div className="audit-table-responsive inspection-audit-table-wrap">
+              <table className="diagnostic-table audit-table">
                 <thead>
                   <tr>
-                    <th>Raw Material</th>
-                    <th>Standard Quality Criteria</th>
-                    <th>Your Inspection Result</th>
-                    <th>Food Science & Quality Control Principle</th>
+                    <th style={{ width: '20%' }}>Raw Material</th>
+                    <th style={{ width: '22%' }}>Standard Quality Criteria</th>
+                    <th style={{ width: '18%', textAlign: 'center' }}>Your Inspection Result</th>
+                    <th style={{ width: '40%' }}>Food Science & Quality Control Principle</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -518,7 +526,7 @@ export const ResultsScene = () => {
                           <strong>{item.name}</strong>
                         </td>
                         <td>{item.safe?.name}</td>
-                        <td>
+                        <td style={{ textAlign: 'center' }}>
                           {isSafe ? (
                             <span className="badge-safe">✓ VERIFIED GRADE A FRESH</span>
                           ) : (
@@ -573,12 +581,6 @@ export const ResultsScene = () => {
                 const isAnswered = Boolean(studentAnswer);
                 const isCorrect = Boolean(studentAnswer?.isCorrect);
                 const activeChoices = studentAnswer?.choices || qData.choices;
-                const correctChoice = activeChoices.find((c) => c.isCorrect);
-                const correctLetter =
-                  studentAnswer?.correctOptionId ||
-                  correctChoice?.displayLetter ||
-                  correctChoice?.id?.toUpperCase() ||
-                  'A';
 
                 return (
                   <div key={stageKey} className="stage-question-review-card">
@@ -597,7 +599,7 @@ export const ResultsScene = () => {
                               isCorrect ? 'verdict-correct' : 'verdict-wrong'
                             }`}
                           >
-                            {isCorrect ? '✓ You Selected Correct Answer' : '⚠️ Review Recommended Procedure'}
+                            {isCorrect ? '✓ Correct Choice Selected' : '⚠️ Review Recommended Procedure'}
                           </span>
                         ) : (
                           <span className="stage-question-verdict verdict-correct">
@@ -606,9 +608,9 @@ export const ResultsScene = () => {
                         )}
                       </div>
 
-                      {/* All 4 Choices Full Review */}
+                      {/* All 4 Choices Full Review (2x2 Balanced Grid) */}
                       <div className="stage-choices-full-review">
-                        <div className="review-choices-label">Complete Options & Answer Status:</div>
+                        <div className="review-choices-label">Complete Options & Standard Procedure Status:</div>
                         <div className="review-choices-grid">
                           {activeChoices.map((choice) => {
                             const choiceLetter = choice.displayLetter || choice.id?.toUpperCase();
@@ -629,14 +631,14 @@ export const ResultsScene = () => {
                               <div key={choice.id} className={cardClass}>
                                 <div className="choice-review-top">
                                   <span className="choice-review-letter">{choiceLetter}</span>
-                                  {isThisCorrect && (
+                                  {isThisCorrect && !isThisUserSelected && (
                                     <span className="choice-badge-correct">✓ Correct Standard</span>
                                   )}
                                   {isThisUserSelected && !isThisCorrect && (
                                     <span className="choice-badge-wrong">⚠️ Your Selection (Incorrect)</span>
                                   )}
                                   {isThisUserSelected && isThisCorrect && (
-                                    <span className="choice-badge-user-correct">✓ Your Selection</span>
+                                    <span className="choice-badge-user-correct">✓ Your Selection (Correct Standard)</span>
                                   )}
                                 </div>
                                 <p className="choice-review-text">{choice.text}</p>
