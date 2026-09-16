@@ -444,28 +444,30 @@ export const OrientationScene = () => {
                 const isCorrect = item.isCorrect;
 
                 let statusBadgeText = '';
-                let statusBadgeStyle = {};
+                let statusBadgeClass = '';
                 let boxBorderClass = '';
 
                 if (isPpeVerified) {
                   if (isCorrect && isSelected) {
                     statusBadgeText = '✓ Approved Food-Grade Gear';
-                    statusBadgeStyle = { background: '#16a34a', color: '#ffffff', borderColor: '#15803d' };
+                    statusBadgeClass = 'badge-approved';
                     boxBorderClass = ' ppe-verified-good';
                   } else if (!isCorrect && isSelected) {
-                    statusBadgeText = `🚫 Hazard: ${item.reason}`;
-                    statusBadgeStyle = { background: '#dc2626', color: '#ffffff', borderColor: '#b91c1c' };
+                    statusBadgeText = '🚫 Hazard Flagged';
+                    statusBadgeClass = 'badge-hazard';
                     boxBorderClass = ' ppe-verified-hazard';
                   } else if (isCorrect && !isSelected) {
                     statusBadgeText = '⚠️ Required Standard Gear';
-                    statusBadgeStyle = { background: '#f59e0b', color: '#ffffff', borderColor: '#d97706' };
+                    statusBadgeClass = 'badge-missing';
                     boxBorderClass = ' ppe-verified-missing';
                   } else {
-                    statusBadgeText = '✓ Correctly Avoided';
-                    statusBadgeStyle = { background: '#f0fdf4', color: '#15803d', borderColor: '#86efac' };
+                    statusBadgeText = '✓ Non-PPE (Safe)';
+                    statusBadgeClass = 'badge-avoided';
+                    boxBorderClass = ' ppe-verified-avoided';
                   }
                 } else {
                   statusBadgeText = isSelected ? '✓ Selected' : 'Not Selected';
+                  statusBadgeClass = isSelected ? 'worn' : 'pending';
                 }
 
                 return (
@@ -490,12 +492,28 @@ export const OrientationScene = () => {
                     <div className="gear-details">
                       <span className="ppe-name">{item.name}</span>
                       <span className="ppe-desc">{item.role}</span>
+
+                      {/* Dedicated Alert Box for Hazards */}
+                      {isPpeVerified && !isCorrect && isSelected && (
+                        <div className="ppe-hazard-alert-box">
+                          <div className="ppe-hazard-alert-header">
+                            <span className="ppe-hazard-icon">⚠️</span>
+                            <span>Contamination Hazard</span>
+                          </div>
+                          <p className="ppe-hazard-text">{item.reason}</p>
+                        </div>
+                      )}
+
+                      {/* Dedicated Alert Box for Missed Required Gear */}
+                      {isPpeVerified && isCorrect && !isSelected && (
+                        <div className="ppe-missed-alert-box">
+                          <span className="ppe-missed-icon">ℹ️</span>
+                          <span className="ppe-missed-text">Mandatory food-grade barrier required by GMP standards</span>
+                        </div>
+                      )}
                     </div>
 
-                    <div
-                      className={`gear-status-badge ${isSelected ? 'worn' : 'pending'}`}
-                      style={statusBadgeStyle}
-                    >
+                    <div className={`gear-status-badge ${statusBadgeClass}`}>
                       {statusBadgeText}
                     </div>
                   </div>
