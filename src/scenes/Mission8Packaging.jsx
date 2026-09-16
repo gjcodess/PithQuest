@@ -268,6 +268,7 @@ export const Mission8Packaging = () => {
         stageTitle={STAGE_QUESTIONS.mission8.stageTitle}
         question={STAGE_QUESTIONS.mission8.question}
         choices={STAGE_QUESTIONS.mission8.choices}
+        explanation={STAGE_QUESTIONS.mission8.explanation}
         onComplete={handleCheckpointComplete}
       />
 

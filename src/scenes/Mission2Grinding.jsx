@@ -338,6 +338,7 @@ export const Mission2Grinding = () => {
         stageTitle={STAGE_QUESTIONS.mission2.stageTitle}
         question={STAGE_QUESTIONS.mission2.question}
         choices={STAGE_QUESTIONS.mission2.choices}
+        explanation={STAGE_QUESTIONS.mission2.explanation}
         onComplete={handleCheckpointComplete}
       />
 

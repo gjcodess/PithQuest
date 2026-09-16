@@ -15,8 +15,8 @@ const STAGE_CONFIG = {
   mission7: { num: 'Stage 7', title: 'Deep Frying', step: 7 },
   mission8: { num: 'Stage 8', title: 'Packaging & Labeling', step: 8 },
   sequencing: { num: 'POST-TEST', title: 'Sequence Puzzle', step: 9 },
-  evaluation: { num: 'RESULTS', title: 'Audit Report', step: 10 },
-  results: { num: 'RESULTS', title: 'Audit Report', step: 10 },
+  evaluation: { num: 'REVIEW', title: 'Answer Key & Lessons', step: 10 },
+  results: { num: 'REVIEW', title: 'Answer Key & Lessons', step: 10 },
 };
 
 const HUD_STEPS = [
@@ -30,7 +30,7 @@ const HUD_STEPS = [
   { id: 'mission7', label: '7', step: 7, isText: false, title: 'Stage 7: Deep Frying' },
   { id: 'mission8', label: '8', step: 8, isText: false, title: 'Stage 8: Packaging & Labeling' },
   { id: 'sequencing', label: 'POST', step: 9, isText: true, title: 'Post-Test: Process Sequencing' },
-  { id: 'evaluation', label: 'RESULTS', step: 10, isText: true, title: 'Results: Diagnostic Audit & Report' },
+  { id: 'evaluation', label: 'REVIEW', step: 10, isText: true, title: 'Review: Master Answer Key & Lessons' },
 ];
 
 export const HeaderHUD = () => {

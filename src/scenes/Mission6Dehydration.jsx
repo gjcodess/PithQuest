@@ -372,6 +372,7 @@ export const Mission6Dehydration = () => {
         stageTitle={STAGE_QUESTIONS.mission6.stageTitle}
         question={STAGE_QUESTIONS.mission6.question}
         choices={STAGE_QUESTIONS.mission6.choices}
+        explanation={STAGE_QUESTIONS.mission6.explanation}
         onComplete={handleCheckpointComplete}
       />
 

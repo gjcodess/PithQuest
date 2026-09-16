@@ -292,13 +292,18 @@ export const SequencingActivity = ({ onComplete }) => {
     });
 
     if (isCorrect) {
-      unlockBadge('master_sequencer', 'Master Food Technologist');
+      soundManager.playSuccess();
+    } else {
+      soundManager.playError();
     }
 
     setIsSolved(true);
-    soundManager.playSuccess();
-    showToast('Post-Test Submitted', 'Sequence recorded. Proceed to view your full diagnostic results report.', 'success');
+  };
 
+  const handleProceedToResults = () => {
+    soundManager.playClick();
+    const isCorrect = items.every((item, idx) => item.id === CORRECT_ORDER[idx].id);
+    const correctCount = items.filter((item, idx) => item.id === CORRECT_ORDER[idx].id).length;
     if (onComplete) {
       onComplete({ isCorrect, correctCount, submittedItems: items });
     }
@@ -308,7 +313,7 @@ export const SequencingActivity = ({ onComplete }) => {
     <div className="sequencing-activity-card">
       <div className="sequencing-header">
         <div className="sec-tag">Food Processing Pipeline Validation</div>
-        <h3>Chronological Step Sequencing Puzzle</h3>
+        <h3>Chronological Step Sequencing Assessment</h3>
         <p className="sec-subtitle">
           Arrange all 8 manufacturing stages in their authentic chronological order (from <strong>Stage 1</strong> on the left to <strong>Stage 8</strong> on the right).
           <br />
@@ -325,6 +330,7 @@ export const SequencingActivity = ({ onComplete }) => {
             const isDragging = draggedIndex === index;
             const isDragTarget = dragOverIndex === index && draggedIndex !== index;
             const isSelected = selectedCardIndex === index;
+            const isStepCorrect = item.stepNum === index + 1;
 
             return (
               <div
@@ -346,6 +352,10 @@ export const SequencingActivity = ({ onComplete }) => {
                   className={`sequencing-card ${
                     isSelected ? 'selected-tap-card' : ''
                   } ${isDragging ? 'is-dragging' : ''} ${isSolved ? 'card-submitted' : ''}`}
+                  style={{
+                    borderColor: isSolved ? (isStepCorrect ? '#16a34a' : '#ef4444') : undefined,
+                    background: isSolved ? (isStepCorrect ? '#f0fdf4' : '#fef2f2') : undefined,
+                  }}
                   draggable={!isSolved}
                   onDragStart={(e) => handleDragStart(e, index)}
                   onDragEnd={handleDragEnd}
@@ -353,11 +363,32 @@ export const SequencingActivity = ({ onComplete }) => {
                   onTouchMove={handleTouchMove}
                   onTouchEnd={() => handleTouchEnd(index)}
                   onClick={() => handleCardClick(index)}
-                  title={!isSolved ? (isSelected ? 'Tap another card to swap' : 'Tap or drag to swap') : 'Sequence submitted'}
+                  title={!isSolved ? (isSelected ? 'Tap another card to swap' : 'Tap or drag to swap') : 'Sequence verified'}
                 >
                   {/* Status Indicator Badge */}
                   {!isSolved && isSelected && (
                     <div className="seq-status-badge badge-selected">🔄 Selected • Tap swap</div>
+                  )}
+
+                  {/* Verification Status Badge */}
+                  {isSolved && (
+                    <div
+                      style={{
+                        padding: '4px 8px',
+                        borderRadius: '6px',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        textAlign: 'center',
+                        marginBottom: '6px',
+                        background: isStepCorrect ? '#dcfce7' : '#fee2e2',
+                        color: isStepCorrect ? '#15803d' : '#b91c1c',
+                        border: `1px solid ${isStepCorrect ? '#86efac' : '#fca5a5'}`,
+                      }}
+                    >
+                      {isStepCorrect
+                        ? '✓ Correct Unit Operation'
+                        : `⚠️ Authentic: Stage ${CORRECT_ORDER[index].stepNum}`}
+                    </div>
                   )}
 
                   {/* Grip Handle Indicator */}
@@ -388,12 +419,56 @@ export const SequencingActivity = ({ onComplete }) => {
         </div>
       </div>
 
+      {/* Verified Food Processing Unit Operations Sequence Lesson Box */}
+      {isSolved && (
+        <div
+          className="seq-verified-lesson-box"
+          style={{
+            background: '#ffffff',
+            border: '2px solid #86efac',
+            borderRadius: '16px',
+            padding: '16px 20px',
+            marginTop: '16px',
+            boxShadow: '0 4px 12px rgba(22, 101, 52, 0.12)',
+            animation: 'fadeInSlideUp 0.35s ease',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span style={{ fontSize: '1.4rem' }}>⚙️</span>
+            <h4 style={{ margin: 0, fontSize: '1.05rem', color: '#15803d', fontWeight: 800 }}>
+              Food Processing Unit Operations Sequence Lesson
+            </h4>
+          </div>
+          <p style={{ margin: '0 0 10px', fontSize: '0.88rem', color: '#475569', lineHeight: 1.5 }}>
+            In commercial food processing, each manufacturing stage creates the mandatory physical or chemical prerequisite for the subsequent stage:
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '8px 12px', fontSize: '0.8rem' }}>
+              <strong style={{ color: '#15803d' }}>Stages 1 & 2: Softening & Pureeing</strong>
+              <p style={{ margin: '2px 0 0', color: '#64748b' }}>Boiling tenderizes tough cellulosic fibers so they can be smoothly homogenized in the food processor without coarse lumps.</p>
+            </div>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '8px 12px', fontSize: '0.8rem' }}>
+              <strong style={{ color: '#15803d' }}>Stages 3 & 4: 1:1 Mixing & Molding</strong>
+              <p style={{ margin: '2px 0 0', color: '#64748b' }}>A calibrated 1:1 ratio with rice flour provides balanced amylose/amylopectin starch polymers portioned uniformly into 50mm × 25mm wafers.</p>
+            </div>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '8px 12px', fontSize: '0.8rem' }}>
+              <strong style={{ color: '#15803d' }}>Stages 5 & 6: Steaming & Dehydration</strong>
+              <p style={{ margin: '2px 0 0', color: '#64748b' }}>10-minute steam gelatinizes starches into an extensible gel matrix before 90°C dehydration removes free moisture below 10% into a glassy state.</p>
+            </div>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '8px 12px', fontSize: '0.8rem' }}>
+              <strong style={{ color: '#15803d' }}>Stages 7 & 8: Flash Frying & Packaging</strong>
+              <p style={{ margin: '2px 0 0', color: '#64748b' }}>180°C hot oil instantaneously flashes residual bound water into superheated steam (3x puffing) before airtight heat-sealing in barrier pouches.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Action Buttons */}
-      <div className="sequencing-actions">
+      <div className="sequencing-actions" style={{ marginTop: '16px' }}>
         {!isSolved ? (
           <div className="actions-button-row">
             <button className="btn-primary btn-check-sequence" onClick={handleSubmitSequence}>
-              <span>Submit Chronological Sequence & View Results ➔</span>
+              <span>Verify Chronological Sequence ➔</span>
             </button>
             <button
               className="btn-secondary btn-reshuffle"
@@ -407,8 +482,10 @@ export const SequencingActivity = ({ onComplete }) => {
             </button>
           </div>
         ) : (
-          <div className="submitted-sequence-notice">
-            <span>✓ Post-Test response recorded and locked. Click <strong>"View Diagnostic Assessment Results ➔"</strong> to view your full performance report.</span>
+          <div className="actions-button-row" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', width: '100%' }}>
+            <button className="btn-primary btn-gold" onClick={handleProceedToResults} style={{ padding: '12px 28px', fontSize: '1.02rem', fontWeight: 800 }}>
+              <span>Proceed to Laboratory Review & Answer Key ➔</span>
+            </button>
           </div>
         )}
       </div>
