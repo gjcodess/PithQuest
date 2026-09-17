@@ -1,0 +1,20 @@
+flowchart TD
+    ConnB((B)) --> PlayNode([PLAY: MANUFACTURING WORKSTATION])
+    ConnB1_Top((B1)) --> PlayNode
+
+    PlayNode --> LearnNode[LEARN: REVIEW SOP, FORMULATION & FOOD SCIENCE PRINCIPLE]
+    ConnB2_Top((B2)) --> LearnNode
+
+    LearnNode --> QuizTaskNode[TAKE CHECKPOINT QUESTION & INTERACTIVE COOKING TASK]
+    QuizTaskNode --> DecCorrect{"Is the answer / SOP correct?"}
+
+    DecCorrect -- NO --> ProcFeedback[Display Instant Formative Feedback & Biochemical Rationale]
+    ProcFeedback --> ConnB2_Loop((B2))
+
+    DecCorrect -- YES --> RewardNode[/Receive Stage Clearance Badge & Verified Step/]
+    RewardNode --> NextNode[Proceed to Next Manufacturing Stage]
+    NextNode --> DecAllDone{"All 8 Stages & Post-Test Completed?"}
+
+    DecAllDone -- NO --> ConnB1_Loop((B1))
+    DecAllDone -- YES --> MasterReviewNode[/Unlock Master Review & Comprehensive Answer Key/]
+    MasterReviewNode --> EndGame([END GAME: BATCH COMPLETE])
