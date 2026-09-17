@@ -2,15 +2,15 @@
    RIGHT INVENTORY & MATERIALS RACK (VERTICAL SHELF - DARK WALNUT CABINETRY THEME)
    ========================================================================== */
 .viewport-right-column .right-inventory-rack {
-  position: static !important;
+  position: relative !important;
   transform: none !important;
   width: 100% !important;
   max-width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
+  height: auto !important;
+  max-height: calc(100% - 16px) !important;
+  border-radius: 22px !important;
+  border: 3.5px solid #5a3a22 !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   animation: none !important;
   right: auto !important;
   top: auto !important;
@@ -18,12 +18,14 @@
 }
 
 .viewport-right-column .right-inventory-rack.expanded {
-  padding: 28px 14px 16px 14px !important;
+  position: relative !important;
+  padding: 14px 12px 14px 12px !important;
   background: linear-gradient(180deg, #382214 0%, #29170c 45%, #1e0f06 100%) !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
   gap: 8px !important;
+  margin: auto 0 !important;
   animation: expandedRackSlideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both !important;
 }
 
@@ -232,7 +234,9 @@
 }
 
 .inventory-vertical-stack {
-  flex: 1;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;

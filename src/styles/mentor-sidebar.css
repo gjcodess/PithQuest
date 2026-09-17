@@ -13,13 +13,16 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
-  background: #fbf9f4;
-  border-right: 2px solid #e5dcce;
-  box-shadow: 4px 0 18px rgba(60, 45, 30, 0.07), 1px 0 3px rgba(0, 0, 0, 0.03);
+  background: transparent;
+  border-right: none;
+  box-shadow: none;
+  padding: 12px 8px;
   z-index: 35;
 }
 
@@ -38,6 +41,8 @@
   width: 0;
   max-width: 0;
   min-width: 0;
+  padding: 0;
+  margin: 0;
   border-right: none;
   background: transparent;
   box-shadow: none;
@@ -60,24 +65,25 @@
 }
 
 .viewport-mentor-column .left-mentor-sidebar.expanded {
-  position: static !important;
+  position: relative !important;
   transform: none !important;
   width: 100% !important;
   max-width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
+  height: auto !important;
+  max-height: calc(100% - 16px) !important;
+  border-radius: 20px !important;
+  border: 2px solid #e0d8cc !important;
+  box-shadow: 0 10px 32px rgba(60, 45, 30, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06) !important;
   left: auto !important;
   top: auto !important;
   box-sizing: border-box;
-  padding: 16px 14px 16px 14px !important;
+  padding: 14px 12px 14px 12px !important;
   background: linear-gradient(180deg, #fdfbf7 0%, #f7f3ea 50%, #f1ebde 100%) !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
   gap: 8px !important;
+  margin: auto 0 !important;
   animation: expandedMentorSlideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both !important;
 }
 
@@ -562,7 +568,9 @@
    3. TAB CONTENT VIEWPORT & CARDS
    ========================================================================== */
 .mentor-content-viewport {
-  flex: 1;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
