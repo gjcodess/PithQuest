@@ -1,0 +1,45 @@
+stateDiagram-v2
+    [*] --> TitleScreen: Open Application
+    TitleScreen --> PreTest: Enter Name & Begin
+    
+    state PreTest {
+        [*] --> PPE_Selection: Don Sanitary Barriers
+        PPE_Selection --> PPE_Feedback: Instant Barrier Verification
+        PPE_Feedback --> Handwashing: Proceed to Hygiene
+        Handwashing --> Handwash_Feedback: Instant Slot-by-Slot Validation
+        Handwash_Feedback --> Tool_Inspection: Proceed to Equipment QC
+        Tool_Inspection --> Tool_Feedback: 1-Click Safe/Hazard Reveal
+        Tool_Feedback --> Ingredient_QC: Inspect Raw Materials
+        Ingredient_QC --> Ingredient_Feedback: 1-Click Freshness Reveal
+        Ingredient_Feedback --> [*]: Pre-Test Verified
+    }
+    
+    PreTest --> Stage1_to_8: Unlock Manufacturing Workstations
+    
+    state Stage1_to_8 {
+        [*] --> PreCheckQuestion: Open Stage
+        PreCheckQuestion --> InstantScienceReveal: 1-Click Right/Wrong & Principle
+        InstantScienceReveal --> InteractiveWorkstation: Proceed to Hands-On Cooking
+        InteractiveWorkstation --> StageComplete: Finish SOP Steps
+        StageComplete --> [*]: Advance to Next Stage (1 to 8)
+    }
+    
+    Stage1_to_8 --> PostTest: Complete Packaging (Stage 8)
+    
+    state PostTest {
+        [*] --> ArrangeTimeline: Reconstruct 8-Stage Flow
+        ArrangeTimeline --> VerifySequence: Submit Sequence
+        VerifySequence --> InstantSequenceFeedback: Real-Time Slot Validation & Unit Ops Lesson
+        InstantSequenceFeedback --> [*]: Sequence Debriefed
+    }
+    
+    PostTest --> MasterReview: Proceed to Master Review
+    
+    state MasterReview {
+        [*] --> QuickJumpNavigation: 6-Part Directory
+        QuickJumpNavigation --> StudyMasterAnswerKey: 4-Choice Review & Science Principles
+        StudyMasterAnswerKey --> PrintStudyGuide: Print / Save PDF
+        StudyMasterAnswerKey --> RestartBatch: Process New Batch
+    }
+    
+    MasterReview --> TitleScreen: Restart Batch

@@ -10,14 +10,6 @@ const AVATARS = {
   sad: '/images/teacher_mia_sad.png',
 };
 
-const TAB_CONFIG = [
-  { id: 'guide', label: 'Guide', icon: '🗣️', shortLabel: 'Guide' },
-  { id: 'science', label: 'Food Science', icon: '🔬', shortLabel: 'Science' },
-  { id: 'tips', label: 'Pro Tips', icon: '💡', shortLabel: 'Tips' },
-  { id: 'safety', label: 'Safety Rules', icon: '🛡️', shortLabel: 'Safety' },
-  { id: 'recipe', label: 'Recipe Ratio', icon: '🥥', shortLabel: 'Recipe' },
-];
-
 export const TeacherMiaSidebar = () => {
   const {
     dialogue,
@@ -26,7 +18,6 @@ export const TeacherMiaSidebar = () => {
     setIsDialogueCollapsed,
   } = useGame();
 
-  const [activeTab, setActiveTab] = useState('guide');
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
@@ -44,10 +35,9 @@ export const TeacherMiaSidebar = () => {
     setIsTyping(false);
   };
 
-  // Switch back to 'guide' tab automatically when new speech text arrives
+  // Track unread speech text
   useEffect(() => {
     if (dialogue.text && dialogue.text !== lastReadTextRef.current) {
-      setActiveTab('guide');
       if (isDialogueCollapsed) {
         setHasUnread(true);
       } else {
@@ -191,231 +181,107 @@ export const TeacherMiaSidebar = () => {
             <span>◀</span>
           </button>
         </div>
-
-        {/* Current Protocol Step Badge */}
-        <div className="mentor-stage-badge-strip">
-          <span className="badge-pin-icon">📍</span>
-          <span className="badge-stage-text">
-            {dialogue.badge || stageKnowledge.title}
-          </span>
-        </div>
-
-        {/* Tab Navigation Selector */}
-        <nav className="mentor-tab-bar" role="tablist" aria-label="Mentor Guide Sections">
-          {TAB_CONFIG.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab.id}
-              className={`mentor-nav-tab ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => {
-                soundManager.playClick();
-                setActiveTab(tab.id);
-              }}
-              title={tab.label}
-            >
-              <span className="nav-tab-icon">{tab.icon}</span>
-              <span className="nav-tab-label">{tab.shortLabel}</span>
-            </button>
-          ))}
-        </nav>
       </div>
 
       <div className="mentor-header-divider" />
 
-      {/* Main Tab Content Viewport */}
+      {/* Current Protocol Step Badge */}
+      <div className="mentor-stage-badge-strip">
+        <span className="badge-pin-icon">📍</span>
+        <span className="badge-stage-text">
+          {dialogue.badge || stageKnowledge.title}
+        </span>
+      </div>
+
+      {/* Main Content Viewport */}
       <div className="mentor-content-viewport">
-        {/* TAB 1: LIVE SPEECH & INSTRUCTION */}
-        {activeTab === 'guide' && (
-          <div className="mentor-tab-panel guide-panel">
-            <div
-              className="mentor-speech-card"
-              onClick={() => {
-                if (isTyping) finishTyping();
-              }}
-              title={isTyping ? 'Click to reveal full lesson instantly' : undefined}
-            >
-              <div className="speech-quote-header">
-                <span className="quote-icon">💬</span>
-                <span className="speech-status-tag">
-                  {isTyping ? 'Teacher Mia Speaking...' : 'Mentor Lesson'}
+        <div className="mentor-tab-panel guide-panel">
+          <div
+            className="mentor-speech-card"
+            onClick={() => {
+              if (isTyping) finishTyping();
+            }}
+            title={isTyping ? 'Click to reveal full lesson instantly' : undefined}
+          >
+            <div className="speech-quote-header">
+              <span className="quote-icon">💬</span>
+              <span className="speech-status-tag">
+                {isTyping ? 'Teacher Mia Speaking...' : 'Mentor Lesson'}
+              </span>
+              <button
+                type="button"
+                className="speech-replay-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  soundManager.playClick();
+                  finishTyping();
+                }}
+                title="Replay Voice Chime"
+              >
+                🔊
+              </button>
+            </div>
+
+            <div className="mentor-speech-body">
+              {((displayedText || dialogue.text || '').split('\n\n')).map((para, idx, arr) => (
+                <p key={idx} className="mentor-speech-paragraph">
+                  {para}
+                  {isTyping && idx === arr.length - 1 && (
+                    <span className="mentor-typing-cursor">▌</span>
+                  )}
+                </p>
+              ))}
+            </div>
+
+            {(dialogue.objective || stageKnowledge?.subtitle) && (
+              <div className="speech-focus-strip">
+                <span className="speech-focus-icon">🎯</span>
+                <span className="speech-focus-text">
+                  <strong>Objective:</strong> {dialogue.objective || stageKnowledge.subtitle}
                 </span>
-                <button
-                  type="button"
-                  className="speech-replay-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    soundManager.playClick();
-                    finishTyping();
-                  }}
-                  title="Replay Voice Chime"
-                >
-                  🔊
-                </button>
               </div>
+            )}
+          </div>
 
-              <div className="mentor-speech-body">
-                {((displayedText || dialogue.text || '').split('\n\n')).map((para, idx, arr) => (
-                  <p key={idx} className="mentor-speech-paragraph">
-                    {para}
-                    {isTyping && idx === arr.length - 1 && (
-                      <span className="mentor-typing-cursor">▌</span>
-                    )}
-                  </p>
-                ))}
-              </div>
-
-              {stageKnowledge?.subtitle && (
-                <div className="speech-focus-strip">
-                  <span className="speech-focus-icon">🎯</span>
-                  <span className="speech-focus-text">
-                    <strong>Objective:</strong> {stageKnowledge.subtitle}
-                  </span>
+          {/* Note & Hint Callouts */}
+          {(dialogue.note || dialogue.hint) && (
+            <div className="mentor-callouts-box">
+              {dialogue.note && (
+                <div className="mentor-callout-item note-item">
+                  <span className="callout-icon">📝</span>
+                  <div className="callout-content">
+                    <strong className="callout-title">
+                      {dialogue.noteTitle || 'Standard Note'}:
+                    </strong>
+                    <p className="callout-desc">{dialogue.note}</p>
+                  </div>
+                </div>
+              )}
+              {dialogue.hint && (
+                <div className="mentor-callout-item hint-item">
+                  <span className="callout-icon">💡</span>
+                  <div className="callout-content">
+                    <strong className="callout-title">Laboratory Hint:</strong>
+                    <p className="callout-desc">{dialogue.hint}</p>
+                  </div>
                 </div>
               )}
             </div>
+          )}
 
-            {/* Note & Hint Callouts */}
-            {(dialogue.note || dialogue.hint) && (
-              <div className="mentor-callouts-box">
-                {dialogue.note && (
-                  <div className="mentor-callout-item note-item">
-                    <span className="callout-icon">📝</span>
-                    <div className="callout-content">
-                      <strong className="callout-title">
-                        {dialogue.noteTitle || 'Standard Note'}:
-                      </strong>
-                      <p className="callout-desc">{dialogue.note}</p>
-                    </div>
-                  </div>
-                )}
-                {dialogue.hint && (
-                  <div className="mentor-callout-item hint-item">
-                    <span className="callout-icon">💡</span>
-                    <div className="callout-content">
-                      <strong className="callout-title">Laboratory Hint:</strong>
-                      <p className="callout-desc">{dialogue.hint}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Stage Progression Action Button */}
-            {!dialogue.hideButton && Boolean(dialogue.btnText) && (
-              <div className="mentor-stage-action-row">
-                <button
-                  type="button"
-                  className="btn-primary mentor-stage-btn"
-                  onClick={handleNextClick}
-                >
-                  <span>{dialogue.btnText}</span>
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* TAB 2: FOOD SCIENCE PRINCIPLES */}
-        {activeTab === 'science' && (
-          <div className="mentor-tab-panel science-panel">
-            <div className="panel-intro-bar">
-              <span className="intro-icon">🔬</span>
-              <span className="intro-text">
-                Core biochemistry and food physics governing {stageKnowledge.title}:
-              </span>
+          {/* Stage Progression Action Button */}
+          {!dialogue.hideButton && Boolean(dialogue.btnText) && (
+            <div className="mentor-stage-action-row">
+              <button
+                type="button"
+                className="btn-primary mentor-stage-btn"
+                onClick={handleNextClick}
+              >
+                <span>{dialogue.btnText}</span>
+              </button>
             </div>
-
-            <div className="science-cards-stack">
-              {stageKnowledge.science.map((concept, idx) => (
-                <div key={idx} className="mentor-info-card science-card">
-                  <div className="info-card-header">
-                    <span className="info-card-icon">{concept.icon}</span>
-                    <h5 className="info-card-title">{concept.title}</h5>
-                  </div>
-                  <p className="info-card-summary">{concept.summary}</p>
-                  <div className="info-card-deepdive">
-                    <span className="deepdive-label">Science Insight:</span>
-                    <p className="deepdive-text">{concept.details}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* TAB 3: PRO CULINARY TIPS */}
-        {activeTab === 'tips' && (
-          <div className="mentor-tab-panel tips-panel">
-            <div className="panel-intro-bar">
-              <span className="intro-icon">💡</span>
-              <span className="intro-text">
-                Pro tips and culinary techniques to avoid errors and ensure perfect texture:
-              </span>
-            </div>
-
-            <div className="tips-cards-stack">
-              {stageKnowledge.tips.map((tip, idx) => (
-                <div key={idx} className="mentor-info-card tip-card">
-                  <div className="info-card-header">
-                    <span className="info-card-icon">{tip.icon}</span>
-                    <h5 className="info-card-title">{tip.title}</h5>
-                  </div>
-                  <p className="info-card-text">{tip.tip}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* TAB 4: SAFETY & HYGIENE PROTOCOLS */}
-        {activeTab === 'safety' && (
-          <div className="mentor-tab-panel safety-panel">
-            <div className="panel-intro-bar safety-alert-bar">
-              <span className="intro-icon">🛡️</span>
-              <span className="intro-text">
-                Safety precautions and mandatory hygiene standards for this stage:
-              </span>
-            </div>
-
-            <div className="safety-cards-stack">
-              {stageKnowledge.safety.map((rule, idx) => (
-                <div key={idx} className="mentor-info-card safety-card">
-                  <div className="info-card-header">
-                    <span className="info-card-icon">{rule.icon}</span>
-                    <h5 className="info-card-title">{rule.title}</h5>
-                  </div>
-                  <p className="info-card-text">{rule.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* TAB 5: STANDARD RECIPE RATIOS */}
-        {activeTab === 'recipe' && (
-          <div className="mentor-tab-panel recipe-panel">
-            <div className="panel-intro-bar">
-              <span className="intro-icon">🥥</span>
-              <span className="intro-text">
-                Standard recipe measurements and targets for {stageKnowledge.title}:
-              </span>
-            </div>
-
-            <div className="recipe-items-grid">
-              {stageKnowledge.recipe.map((item, idx) => (
-                <div key={idx} className="mentor-recipe-pill">
-                  <span className="recipe-pill-emoji">{item.icon}</span>
-                  <div className="recipe-pill-info">
-                    <span className="recipe-pill-name">{item.name}</span>
-                    <strong className="recipe-pill-measure">{item.measure}</strong>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </aside>
   );

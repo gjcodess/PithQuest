@@ -446,5 +446,20 @@ export const MENTOR_KNOWLEDGE = {
       { name: 'Moisture-Barrier Pouch', measure: '1 Standup Pouch', icon: '📦' },
       { name: 'Hermetic Heat Seal Width', measure: '5–10 mm Continuous', icon: '🔒' }
     ]
+  },
+
+  sequencing: {
+    title: 'Post-Test: Process Sequencing',
+    subtitle: 'Chronological Unit Operations & Manufacturing Logic',
+  },
+
+  evaluation: {
+    title: 'Review: Laboratory Mastery & Certification',
+    subtitle: 'Sensory Audit & Quality Verification',
+  },
+
+  results: {
+    title: 'Review: Master Answer Key & Debrief',
+    subtitle: 'Comprehensive Scientific Explanations & Audit',
   }
 };

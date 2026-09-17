@@ -1,0 +1,54 @@
+flowchart TD
+    Start([START]) --> Banner[/PITHQUEST: COCONUT PITH CRACKER SIMULATION/]
+    ConnA_Top((A)) --> Banner
+
+    Banner --> BtnStart[Start]
+    Banner --> BtnSound[Sound]
+    Banner --> BtnRecipe[Recipe SOP]
+    Banner --> BtnAbout[About]
+    Banner --> BtnExit[Exit]
+
+    %% Sound Branch
+    BtnSound --> ProcSound[Audio Mute / Unmute]
+    ProcSound --> ConnA_Sound((A))
+
+    %% Recipe SOP Branch
+    BtnRecipe --> ProcRecipe[Standard Cracker SOP & Formulation Guide]
+    ProcRecipe --> DecCloseRecipe{"Close?"}
+    DecCloseRecipe -- Y --> ConnA_Recipe((A))
+    DecCloseRecipe -- N --> ProcRecipe
+
+    %% About Branch
+    BtnAbout --> ProcAbout[Project Background, Safety Objectives & Team]
+    ProcAbout --> DecCloseAbout{"Close?"}
+    DecCloseAbout -- Y --> ConnA_About((A))
+    DecCloseAbout -- N --> ProcAbout
+
+    %% Exit Branch
+    BtnExit --> DecExit{"Are you sure?"}
+    DecExit -- Y --> EndProg([End])
+    DecExit -- N --> ConnA_Exit((A))
+
+    %% Start Branch
+    BtnStart --> ConnC((C))
+    ConnC --> ScrName[/Student Name Registration/]
+    ScrName --> BtnHome[Home]
+    BtnHome --> ConnA_Home((A))
+
+    ScrName --> ProcPreTest[Pre-Test Orientation: PPE, Handwashing, Tools & QC]
+    ProcPreTest --> ProcPreFeedback[Instant Sanitary Verification & GMP Lessons]
+    ProcPreFeedback --> ProcSelectStage[Select Manufacturing Stage]
+
+    ConnB_Top((B)) --> ProcSelectStage
+    ProcSelectStage --> ProcShowLesson[Show Stage SOP & Food Science Principle]
+    ProcShowLesson --> ProcPlay[[Play Interactive Workstation Simulation]]
+    ProcPlay --> ScrStageComplete[/Stage Milestone Complete/]
+    ScrStageComplete --> ProcReward[Award Stage Clearance & Verified Step]
+    ProcReward --> DecNextStage{"Proceed to Next Stage?"}
+
+    DecNextStage -- Y --> ConnB_Next((B))
+    DecNextStage -- N --> ProcPostTest[Post-Test Process Sequencing Assessment]
+    ProcPostTest --> ProcReview[Master Review & Comprehensive Answer Key]
+    ProcReview --> DecRestart{"Process New Batch?"}
+    DecRestart -- Y --> ConnB_Restart((B))
+    DecRestart -- N --> ConnA_End((A))
