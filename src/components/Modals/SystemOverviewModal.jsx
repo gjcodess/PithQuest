@@ -21,8 +21,8 @@ const SYSTEM_MODULES = [
     icon: '👩‍🏫',
     badge: 'Module 3',
     title: 'Pedagogical Teacher Companion (Teacher Mia)',
-    desc: 'Interactive virtual mentor providing context-aware speech synthesis (TTS), live audio voiceover, step-by-step Standard Operating Procedures (SOPs), Good Manufacturing Practices (GMP) alerts, and scientific explanations.',
-    tags: ['Live TTS Voice', 'Contextual SOPs', 'GMP Reminders', 'Food Science Insights'],
+    desc: 'Interactive virtual mentor providing context-aware instructional guidance, step-by-step Standard Operating Procedures (SOPs), Good Manufacturing Practices (GMP) alerts, and scientific explanations.',
+    tags: ['Contextual Guidance', 'Contextual SOPs', 'GMP Reminders', 'Food Science Insights'],
   },
   {
     icon: '🧩',
@@ -30,20 +30,6 @@ const SYSTEM_MODULES = [
     title: 'Formative Process Mastery & Sequencing',
     desc: 'Hands-on post-lab interactive sequencing challenge where learners arrange the entire 8-stage manufacturing flow chronologically to demonstrate psychomotor and cognitive mastery of the process chain.',
     tags: ['Process Sequencing', 'Chronological Logic', 'Mastery Verification'],
-  },
-  {
-    icon: '📊',
-    badge: 'Module 5',
-    title: 'Competency Analytics & Formal Diagnostic Report',
-    desc: 'Comprehensive diagnostic vs. post-test performance comparison, PPE safety audit, stage pre-check questions review, stage completion breakdown, and printable / downloadable formal Report of Completion with student name.',
-    tags: ['Pre/Post Comparison', 'Diagnostic Metrics', 'Formal Report', 'Print / PDF Ready'],
-  },
-  {
-    icon: '⚙️',
-    badge: 'Module 6',
-    title: 'Accessible & Scalable Virtual Lab System',
-    desc: 'Cross-platform web software engineered with dynamic UI zoom scaling (50%–150%), audio synthesizer controls, interactive tactile drag-and-drop inventory rack, and touch/mouse hybrid support.',
-    tags: ['Zoom Scaling', 'Drag & Drop Rack', 'Tactile Audio', 'Tablet & Desktop Ready'],
   },
 ];
 
