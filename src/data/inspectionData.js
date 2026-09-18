@@ -96,6 +96,139 @@ export const TOOL_INSPECTION_ITEMS = [
       fallbackIcon: "🔥",
       reason: "Fire Hazard! Scorched plugs indicate past electrical shorting, and clogged vents will overheat the unit."
     }
+  },
+  {
+    id: "bowl",
+    name: "Preparation Bowl",
+    toolType: "Food Preparation Vessel",
+    safe: {
+      name: "Clean Stainless Preparation Bowl",
+      description: "Deep polished stainless steel bowl with a smooth rim, intact walls, and spotless food-contact surface.",
+      img: "/assets/tool_bowl_stainless.png",
+      fallbackIcon: "🥣",
+      reason: "Safe to use! A clean, intact stainless bowl prevents contamination during ingredient preparation."
+    },
+    damaged: {
+      name: "Dented Contaminated Bowl",
+      description: "Deep dents, scratched interior, dark residue, and visibly damaged food-contact surface.",
+      img: "/assets/tool_bowl_stainless_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Deep damage and residue can harbor contaminants and make the vessel difficult to sanitize."
+    }
+  },
+  {
+    id: "tongs",
+    name: "Kitchen Tongs",
+    toolType: "Food Handling Tool",
+    safe: {
+      name: "Clean Heat-Resistant Kitchen Tongs",
+      description: "Intact stainless steel tongs with secure scalloped tips, clean silicone grips, and working lock ring.",
+      img: "/assets/tool_tongs_kitchen.png",
+      fallbackIcon: "🥢",
+      reason: "Safe to use! Intact tongs provide a secure grip for handling hot food without direct hand contact."
+    },
+    damaged: {
+      name: "Damaged Kitchen Tongs",
+      description: "Bent gripping ends, torn silicone grip, loose locking mechanism, and visible grime.",
+      img: "/assets/tool_tongs_kitchen_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Bent or loose tongs can drop hot food and damaged grips can contaminate the product."
+    }
+  },
+  {
+    id: "spatula",
+    name: "Silicone Spatula",
+    toolType: "Mixing and Scraping Tool",
+    safe: {
+      name: "Clean Silicone Spatula",
+      description: "Smooth red food-grade silicone head, intact beveled edge, and secure clear handle.",
+      img: "/assets/tool_spatula_kitchen.png",
+      fallbackIcon: "🟥",
+      reason: "Safe to use! A clean, intact spatula supports sanitary mixing and scraping without shedding fragments."
+    },
+    damaged: {
+      name: "Cracked Silicone Spatula",
+      description: "Split silicone head, torn edge, loose handle, and dark residue trapped in the damaged seam.",
+      img: "/assets/tool_spatula_kitchen_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Cracks trap food residue and may shed silicone pieces into the dough."
+    }
+  },
+  {
+    id: "measuring_glass",
+    name: "Measuring Glass",
+    toolType: "Liquid Measuring Tool",
+    safe: {
+      name: "Clear Graduated Measuring Glass",
+      description: "Spotless transparent glass with intact handle, pour spout, and readable red volume markings.",
+      img: "/assets/tool_measuring_glass.png",
+      fallbackIcon: "🥛",
+      reason: "Safe to use! Clear markings and an intact vessel support accurate liquid measurement and safe pouring."
+    },
+    damaged: {
+      name: "Cracked Measuring Glass",
+      description: "Cracked glass body, chipped rim, faded measurement markings, and unsafe sharp edges.",
+      img: "/assets/tool_measuring_glass_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Cracks and chips can cause cuts, leaks, and inaccurate liquid measurements."
+    }
+  },
+  {
+    id: "cooking_pots",
+    name: "Cooking Pots",
+    toolType: "Heating Cookware",
+    safe: {
+      name: "Clean Stainless Cooking Pots",
+      description: "Three intact stainless steel pots with secure handles, matching lids, and clean polished interiors.",
+      img: "/assets/equip_cooking_pots.png",
+      fallbackIcon: "🍲",
+      reason: "Safe to use! Clean, stable pots with secure handles support controlled cooking and safe handling."
+    },
+    damaged: {
+      name: "Damaged Cooking Pots",
+      description: "Warped pot bodies, loose handles, cracked lids, burnt residue, and unstable bases.",
+      img: "/assets/equip_cooking_pots_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Loose handles and unstable cookware can spill hot contents and cause burns."
+    }
+  },
+  {
+    id: "steamer",
+    name: "Food Steamer",
+    toolType: "Steam Cooking Equipment",
+    safe: {
+      name: "Clean Multi-Tier Food Steamer",
+      description: "Polished multi-tier steamer with intact perforated tiers, secure handles, and fitted domed lid.",
+      img: "/assets/equip_steamer_safe.png",
+      fallbackIcon: "♨️",
+      reason: "Safe to use! Intact tiers and handles keep hot steam contained and allow safe food transfer."
+    },
+    damaged: {
+      name: "Damaged Multi-Tier Food Steamer",
+      description: "Dented tiers, loose handles, warped lid, blocked vents, and corroded metal surfaces.",
+      img: "/assets/equip_steamer_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Damaged or blocked steam equipment can release scalding steam unpredictably."
+    }
+  },
+  {
+    id: "stove",
+    name: "Countertop Stove",
+    toolType: "Heating Appliance",
+    safe: {
+      name: "Inspected Countertop Stove",
+      description: "Clean stainless two-burner stove with intact grates, burner heads, control knobs, and stable base.",
+      img: "/assets/equip_stove_countertop.png",
+      fallbackIcon: "🔥",
+      reason: "Safe to use! Intact burners and controls provide stable heating and reliable flame adjustment."
+    },
+    damaged: {
+      name: "Damaged Countertop Stove",
+      description: "Cracked cooktop, bent burner grate, damaged control knob, and visible scorching near the burner.",
+      img: "/assets/equip_stove_countertop_bad.png",
+      fallbackIcon: "⚠️",
+      reason: "Hazardous! Damaged burners or controls can cause unstable flames, gas leaks, or accidental burns."
+    }
   }
 ];
 
