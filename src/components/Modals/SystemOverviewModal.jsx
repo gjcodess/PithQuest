@@ -14,15 +14,15 @@ const SYSTEM_MODULES = [
     icon: '🏭',
     badge: 'Module 2',
     title: '8-Stage Standardized Processing Line',
-    desc: 'Fully simulated commercial production stages from raw coconut pith boiling and fiber disintegration to exact 1:1 formulation, molding, steam gelatinization, 90°C convection dehydration, 180°C deep frying, and hermetic packaging.',
+    desc: 'Fully simulated commercial production stages from raw coconut pith boiling and fiber disintegration to exact 1:1 formulation, molding, steam gelatinization, 90°C convection dehydration, high-temperature deep frying, and hermetic packaging.',
     tags: ['Boiling & Wash', 'Pureeing', '1:1 Mixing', 'Silicone Molding', 'Steaming', 'Dehydration', 'Deep Frying', 'Nitrogen Pack'],
   },
   {
     icon: '👩‍🏫',
     badge: 'Module 3',
     title: 'Pedagogical Teacher Companion (Teacher Mia)',
-    desc: 'Interactive virtual mentor providing context-aware speech synthesis (TTS), live audio voiceover, step-by-step Standard Operating Procedures (SOPs), Good Manufacturing Practices (GMP) alerts, and scientific explanations.',
-    tags: ['Live TTS Voice', 'Contextual SOPs', 'GMP Reminders', 'Food Science Insights'],
+    desc: 'Interactive virtual mentor providing context-aware instructional guidance, step-by-step Standard Operating Procedures (SOPs), Good Manufacturing Practices (GMP) alerts, and scientific explanations.',
+    tags: ['Contextual Guidance', 'Contextual SOPs', 'GMP Reminders', 'Food Science Insights'],
   },
   {
     icon: '🧩',
@@ -30,20 +30,6 @@ const SYSTEM_MODULES = [
     title: 'Formative Process Mastery & Sequencing',
     desc: 'Hands-on post-lab interactive sequencing challenge where learners arrange the entire 8-stage manufacturing flow chronologically to demonstrate psychomotor and cognitive mastery of the process chain.',
     tags: ['Process Sequencing', 'Chronological Logic', 'Mastery Verification'],
-  },
-  {
-    icon: '📊',
-    badge: 'Module 5',
-    title: 'Competency Analytics & Formal Diagnostic Report',
-    desc: 'Comprehensive diagnostic vs. post-test performance comparison, PPE safety audit, stage pre-check questions review, stage completion breakdown, and printable / downloadable formal Report of Completion with student name.',
-    tags: ['Pre/Post Comparison', 'Diagnostic Metrics', 'Formal Report', 'Print / PDF Ready'],
-  },
-  {
-    icon: '⚙️',
-    badge: 'Module 6',
-    title: 'Accessible & Scalable Virtual Lab System',
-    desc: 'Cross-platform web software engineered with dynamic UI zoom scaling (50%–150%), audio synthesizer controls, interactive tactile drag-and-drop inventory rack, and touch/mouse hybrid support.',
-    tags: ['Zoom Scaling', 'Drag & Drop Rack', 'Tactile Audio', 'Tablet & Desktop Ready'],
   },
 ];
 
@@ -62,7 +48,7 @@ const CURRICULUM_COMPETENCIES = [
     icon: '🛠️',
     items: [
       'Demonstrate proper execution of all 8 production stages in correct chronological sequence.',
-      'Perform virtual tool calibration (temperature monitoring at 90°C & 180°C, precise leveling, hermetic sealing).',
+      'Perform virtual tool calibration (temperature monitoring at 90°C & high-temperature, precise leveling, hermetic sealing).',
       'Execute sanitary 7-step handwashing technique according to international health standards.',
     ],
   },
@@ -149,15 +135,6 @@ export const SystemOverviewModal = () => {
                 </div>
 
                 <div className="system-pillar-card">
-                  <div className="pillar-icon">🧪</div>
-                  <h4>Safe Experimental Learning</h4>
-                  <p>
-                    Allows students to practice high-heat boiling, dehydration at 90°C, and 180°C deep frying in a risk-free,
-                    zero-waste virtual kitchen with infinite repeatability.
-                  </p>
-                </div>
-
-                <div className="system-pillar-card">
                   <div className="pillar-icon">👩‍🏫</div>
                   <h4>Pedagogical Support</h4>
                   <p>
@@ -166,14 +143,6 @@ export const SystemOverviewModal = () => {
                   </p>
                 </div>
 
-                <div className="system-pillar-card">
-                  <div className="pillar-icon">📜</div>
-                  <h4>Evidence-Based Certification</h4>
-                  <p>
-                    Tracks student diagnostics, calculates skill improvement percentages, and issues an official verifiable
-                    Certificate of Completion upon successful graduation.
-                  </p>
-                </div>
               </div>
 
               {/* Research Affiliation Footer Callout */}

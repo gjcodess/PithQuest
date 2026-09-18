@@ -27,7 +27,7 @@ export const STAGE_QUESTIONS = {
         id: 'c',
         text: 'To fry the exterior surface into an instant crunchy cracker.',
         isCorrect: false,
-        reason: 'Boiling in 100°C water softens fibers for pureeing; frying occurs later in hot oil at 180°C.',
+        reason: 'Boiling in 100°C water softens fibers for pureeing; frying occurs later in hot oil at high-temperature.',
       },
       {
         id: 'd',
@@ -213,13 +213,13 @@ export const STAGE_QUESTIONS = {
     stageNum: 7,
     stageKey: 'mission7',
     stageTitle: 'Stage 7: Flash Deep Frying',
-    question: 'What physical phenomenon causes the dry ubod pellets to expand 3x their original size during 10-second flash frying at 180°C?',
+    question: 'What physical phenomenon causes the dry ubod pellets to expand 3x their original size during 10-second flash frying at high-temperature?',
     choices: [
       {
         id: 'a',
         text: 'Residual bound moisture instantaneously flashes into superheated steam, inflating the softened starch matrix into an airy, crispy honeycomb.',
         isCorrect: true,
-        reason: 'At 180°C, the trace bound moisture flashes into steam vapor, creating high internal pressure that inflates the starch walls 3x before setting.',
+        reason: 'At high-temperature, the trace bound moisture flashes into steam vapor, creating high internal pressure that inflates the starch walls 3x before setting.',
       },
       {
         id: 'b',
@@ -240,7 +240,7 @@ export const STAGE_QUESTIONS = {
         reason: 'The crackers rapidly puff and expand 3x into crispy snacks.',
       },
     ],
-    explanation: 'Submerged in 180°C oil, residual bound water instantaneously flashes into superheated steam. The rapid vapor pressure inflates the gelatinized matrix 3x before setting into an airy, brittle crunch.',
+    explanation: 'Submerged in high-temperature oil, residual bound water instantaneously flashes into superheated steam. The rapid vapor pressure inflates the gelatinized matrix 3x before setting into an airy, brittle crunch.',
   },
 
   mission8: {

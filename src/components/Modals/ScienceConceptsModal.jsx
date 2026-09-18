@@ -29,7 +29,6 @@ export const ScienceConceptsModal = () => {
                     <h4 className="science-card-title">{index + 1}. {concept.title}</h4>
                   </div>
                 </div>
-                <p className="science-card-summary">{concept.summary}</p>
                 <div className="science-card-deepdive">
                   <strong>Science Insight:</strong> {concept.details}
                 </div>

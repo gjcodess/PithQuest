@@ -6,17 +6,17 @@ export const Mission5Frying = () => {
   const { setScene, addScore, unlockBadge, speak, showToast, completeMission, recordMistake, holdingItem, setHoldingItem } = useGame();
 
   const [fryStep, setFryStep] = useState(0); // 0: Heat oil, 1: Drop chips, 2: Puffing & sizzling, 3: Scoop with skimmer, 4: Done
-  const [oilTemp, setOilTemp] = useState(120); // Target: 180°C (Green zone 175-190°C)
+  const [oilTemp, setOilTemp] = useState(120); // Target: high-temperature (Green zone 175-190°C)
   const [isHeating, setIsHeating] = useState(false);
   const [crackersPuffed, setCrackersPuffed] = useState(false);
 
   useEffect(() => {
     speak(
-      'Stage 5: The Grand Finale (Deep Frying)! When dried pellets enter hot oil at 180°C, trapped micro-moisture flashes into steam, instantly puffing the starch matrix into golden, crispy crackers.',
+      'Stage 5: The Grand Finale (Deep Frying)! When dried pellets enter hot oil at high-temperature, trapped micro-moisture flashes into steam, instantly puffing the starch matrix into golden, crispy crackers.',
       'neutral',
       {
         badge: 'Stage 5: Deep Frying',
-        hint: 'Click the Burner Control to heat the cooking oil to 180°C.',
+        hint: 'Click the Burner Control to heat the cooking oil to high-temperature.',
         hideButton: true,
       }
     );
@@ -39,9 +39,9 @@ export const Mission5Frying = () => {
             setIsHeating(false);
             setFryStep(1);
             soundManager.playSuccess();
-            showToast('Optimal 180°C Reached!', 'Click the pellets to hold them, then click the wok!', 'success');
+            showToast('Optimal high-temperature Reached!', 'Click the pellets to hold them, then click the wok!', 'success');
             speak(
-              'Oil is at the optimal 180°C frying temperature! Click the Dried Pellets to hold them, then click into the sizzling wok!',
+              'Oil is at the optimal high-temperature frying temperature! Click the Dried Pellets to hold them, then click into the sizzling wok!',
               'happy',
               {
                 badge: 'Thermal Optimum',
@@ -121,7 +121,6 @@ export const Mission5Frying = () => {
     setHoldingItem(null);
     setFryStep(4);
     completeMission('mission5');
-    showToast('Cracker Master!', '+50 Points! Golden, crispy batch complete.', 'success');
     speak(
       'Outstanding culinary execution! The Coconut Pith Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
       'happy',
@@ -159,14 +158,14 @@ export const Mission5Frying = () => {
                   <div className="oil-heating-prompt" onClick={handleStartHeating}>
                     <span className="oil-temp-badge">Oil Temp: {oilTemp}°C</span>
                     <button className="btn-gold btn-heat-oil">
-                      🔥 {isHeating ? 'Heating Oil...' : 'Click to Heat Oil to 180°C'}
+                      🔥 {isHeating ? 'Heating Oil...' : 'Click to Heat Oil to high-temperature'}
                     </button>
                   </div>
                 )}
 
                 {fryStep === 1 && (
                   <div className="oil-ready-alert pop-in">
-                    <span className="temp-ready">✓ 180°C Ready!</span>
+                    <span className="temp-ready">✓ high-temperature Ready!</span>
                     <p>Tap here or tap tray to drop chips</p>
                   </div>
                 )}
@@ -200,7 +199,7 @@ export const Mission5Frying = () => {
                   <div className="therm-fill" style={{ height: `${(oilTemp / 220) * 100}%` }} />
                 </div>
                 <span className="therm-readout">{oilTemp}°C</span>
-                <span className="therm-sub">Target: 180°C</span>
+                <span className="therm-sub">Target: high-temperature</span>
               </div>
 
               {fryStep >= 3 && (
@@ -228,7 +227,7 @@ export const Mission5Frying = () => {
       <div className="inventory-tray">
         <div className="tray-title-bar">
           <span className="tray-label">🧰 Frying Supplies:</span>
-          <span className="tray-hint">Click dried pellets when oil is 180°C</span>
+          <span className="tray-hint">Click dried pellets when oil is high-temperature</span>
         </div>
         <div className="items-carousel">
           <div

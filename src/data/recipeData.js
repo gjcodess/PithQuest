@@ -87,7 +87,7 @@ export const RECIPE_DATA = {
     },
     frying: {
       equipment: "Deep Heavy Bottom Wok",
-      temperature: "175°C - 180°C Medium Heat",
+      temperature: "Medium Heat",
       duration: "10 Seconds per batch",
       action: "Turn once with tongs, transfer immediately to colander to drain oil",
       targetState: "Puffed, pale golden, ultra-crisp with delicate snap",

@@ -50,7 +50,7 @@ const CORRECT_ORDER = [
     stepNum: 7,
     title: 'Flash Deep Frying (10 sec)',
     img: '/assets/card_step_frying.png',
-    desc: 'Fry dried chips in 180°C hot oil for 10 seconds until puffed 3x and golden.',
+    desc: 'Fry dried chips in high-temperature hot oil for 10 seconds until puffed 3x and golden.',
   },
   {
     id: 'packaging',
@@ -457,7 +457,7 @@ export const SequencingActivity = ({ onComplete }) => {
             </div>
             <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '8px 12px', fontSize: '0.8rem' }}>
               <strong style={{ color: '#15803d' }}>Stages 7 & 8: Flash Frying & Packaging</strong>
-              <p style={{ margin: '2px 0 0', color: '#64748b' }}>180°C hot oil instantaneously flashes residual bound water into superheated steam (3x puffing) before airtight heat-sealing in barrier pouches.</p>
+              <p style={{ margin: '2px 0 0', color: '#64748b' }}>high-temperature hot oil instantaneously flashes residual bound water into superheated steam (3x puffing) before airtight heat-sealing in barrier pouches.</p>
             </div>
           </div>
         </div>

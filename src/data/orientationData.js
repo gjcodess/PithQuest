@@ -38,7 +38,7 @@ export const LECTURE_CONCEPTS = [
     title: "Thermal Flash Expansion (Deep Frying)",
     tag: "Rapid Aeration Physics",
     icon: "🍳",
-    summary: "180°C oil transfers intense thermal energy, flash-boiling residual trapped water into high-pressure steam.",
+    summary: "high-temperature oil transfers intense thermal energy, flash-boiling residual trapped water into high-pressure steam.",
     details: "In just 10 seconds, expanding steam inflates millions of microscopic cells inside the gelatinized starch matrix, transforming the hard glassy chip into an airy, crispy Ubod Crunch cracker!"
   }
 ];

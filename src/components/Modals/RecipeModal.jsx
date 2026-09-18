@@ -15,7 +15,7 @@ export const RecipeModal = () => {
           <button className="close-btn" onClick={closeModal}>&times;</button>
         </div>
         <div className="modal-body">
-          <div className="recipe-grid">
+          <div className="recipe-grid recipe-grid-single">
             <div className="recipe-col">
               <h3>📋 Standard Ingredients & Ratios</h3>
               <ul className="recipe-ingredient-list">
@@ -44,25 +44,6 @@ export const RecipeModal = () => {
                   Approximately <strong>3 teaspoons per piece</strong> to ensure uniform dimensions, even steaming, and balanced dehydration.
                 </li>
               </ul>
-            </div>
-            <div className="recipe-col">
-              <h3>🔬 Processing Science Standards</h3>
-              <div className="pillar-item">
-                <span className="p-badge">1. Boiling & Pureeing (10–15 min) ⚙️</span>
-                <p>Boiling tenderizes fibrous ubod in salted water; processing in a food processor ruptures cell walls into a silky fine puree.</p>
-              </div>
-              <div className="pillar-item">
-                <span className="p-badge">2. Starch Gelatinization (10 min) ♨️</span>
-                <p>100°C steam swells and gelatinizes rice amylose and amylopectin starches, locking the molded rectangular shapes.</p>
-              </div>
-              <div className="pillar-item">
-                <span className="p-badge">3. Cabinet Dehydration (90°C / 12h) 💨</span>
-                <p>Convection airflow steadily reduces moisture content to &lt;8%, creating glassy, vitrified cracker pellets with extended shelf stability.</p>
-              </div>
-              <div className="pillar-item">
-                <span className="p-badge">4. Thermal Flash Expansion (180°C / 10s) 💥</span>
-                <p>Hot oil flash-vaporizes residual moisture into micro-steam pockets, expanding the matrix 3x into an airy, crispy cracker.</p>
-              </div>
             </div>
           </div>
         </div>
