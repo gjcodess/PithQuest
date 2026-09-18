@@ -14,7 +14,7 @@ A gamified, interactive educational web simulation designed for **Home Economics
 2. **Stage 2: Boiling & Softening** — Hydrolyze tough cellulose and lignin fibers at 100°C to achieve optimal puree consistency in the blender.
 3. **Stage 3: Formulation & Mixing** — Accurately balance the dough using tapioca starch (binder/puffing agent), water, and savory seasonings.
 4. **Stage 4: Dehydration** — Monitor moisture content as pellets dry from ~75% to under 9% in the cabinet dehydrator, creating a stable glassy starch matrix.
-5. **Stage 5: Deep Frying & Expansion** — Flash-steam residual moisture at 180°C in cooking oil to achieve 3.5× volume puffing and golden crispness.
+5. **Stage 5: Deep Frying & Expansion** — Flash-steam residual moisture at high-temperature in cooking oil to achieve 3.5× volume puffing and golden crispness.
 6. **Mastery: Sensory Evaluation & Certificate** — Complete a 4-metric sensory evaluation audit and generate a printable, personalized Certificate of Lab Mastery.
 
 ---
@@ -72,7 +72,7 @@ PithQuest/
 │   │   ├── Mission2Boiling.jsx     # Softening gauge & pureeing
 │   │   ├── Mission3Mixing.jsx      # Tapioca dough formulation
 │   │   ├── Mission4Dehydration.jsx # Moisture reduction gauge
-│   │   ├── Mission5Frying.jsx      # 180°C oil thermal expansion
+│   │   ├── Mission5Frying.jsx      # high-temperature oil thermal expansion
 │   │   └── EvaluationScene.jsx     # Sensory audit & printable certificate
 │   ├── styles/
 │   │   ├── theme.css               # Color tokens, typography & button styles

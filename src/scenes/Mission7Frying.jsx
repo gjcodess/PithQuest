@@ -50,7 +50,7 @@ export const Mission7Frying = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 7 Completed: Flash Deep Frying & Oil Drainage!\n\nYour dehydrated coconut pith pellets have been successfully transformed into delicate, golden Ubod Crackers! Under the intense 180°C thermal energy of the vegetable oil, residual bound moisture flashed instantaneously into high-pressure steam, puffing the gelatinized rice-pith starch matrix to three times its original size in just 10 seconds.\n\nAll excess surface oil has been drained through the colander, and the crackers have cooled completely to room temperature, preventing soggy condensation and locking in their signature brittle acoustic snap.',
+        'Stage 7 Completed: Flash Deep Frying & Oil Drainage!\n\nYour dehydrated coconut pith pellets have been successfully transformed into delicate, golden Ubod Crackers! Under the intense high-temperature thermal energy of the vegetable oil, residual bound moisture flashed instantaneously into high-pressure steam, puffing the gelatinized rice-pith starch matrix to three times its original size in just 10 seconds.\n\nAll excess surface oil has been drained through the colander, and the crackers have cooled completely to room temperature, preventing soggy condensation and locking in their signature brittle acoustic snap.',
         'happy',
         {
           badge: 'Stage 7 Complete: Flash Expansion',
@@ -139,11 +139,11 @@ export const Mission7Frying = () => {
       setHoldingItem(null);
       showToast('Oil Added!', '5 Cups of oil loaded. Click the burner dial to preheat.', 'success');
       speak(
-        '5 cups of vegetable oil poured into the frying pan!\n\nThis provides ample volume to fully submerge the dehydrated pellets without causing a severe temperature drop. Now turn the rotary burner knob to ignite the stove and preheat the oil to the critical flash-expansion temperature of 180°C.',
+        '5 cups of vegetable oil poured into the frying pan!\n\nThis provides ample volume to fully submerge the dehydrated pellets without causing a severe temperature drop. Now turn the rotary burner knob to ignite the stove and preheat the oil to the critical flash-expansion temperature of high-temperature.',
         'neutral',
         {
-          badge: 'Step 1: Oil Preheating (180°C)',
-          note: 'Optimal Frying Physics: Preheating to 180°C ensures instantaneous expansion. If the oil is below 160°C, the starch absorbs oil and becomes soggy rather than crisp. If above 200°C, starches scorch.',
+          badge: 'Step 1: Oil Preheating (high-temperature)',
+          note: 'Optimal Frying Physics: Preheating to high-temperature ensures instantaneous expansion. If the oil is below 160°C, the starch absorbs oil and becomes soggy rather than crisp. If above 200°C, starches scorch.',
           hint: 'Click the stove burner dial below to ignite and preheat the oil.',
           hideButton: true,
         }
@@ -174,7 +174,7 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Oil Ready!', 'Optimal frying temperature reached. Drop dehydrated pieces!', 'success');
         speak(
-          'Step 2: Flash Frying Dehydrated Ubod Pellets!\n\nThe vegetable oil has reached our target temperature of 180°C. Notice the subtle convection currents and shimmer on the oil surface, confirming optimal heat transfer readiness.\n\nSelect the Dehydrated Pellets from your inventory shelf and gently introduce them into the hot oil. They will fry for approximately 10 seconds until fully puffed and golden-crisp!',
+          'Step 2: Flash Frying Dehydrated Ubod Pellets!\n\nThe vegetable oil has reached our target temperature of high-temperature. Notice the subtle convection currents and shimmer on the oil surface, confirming optimal heat transfer readiness.\n\nSelect the Dehydrated Pellets from your inventory shelf and gently introduce them into the hot oil. They will fry for approximately 10 seconds until fully puffed and golden-crisp!',
           'happy',
           {
             badge: 'Step 2: Flash Frying Submersion',
@@ -194,7 +194,7 @@ export const Mission7Frying = () => {
     setHoldingItem(null);
     showToast('Flash Frying!', '10-second flash expansion active! Starches puffing...', 'info');
     speak(
-      'Instant Flash Expansion in Progress!\n\nObserve the vigorous bubbling around the crackers! As the 180°C oil conducts heat into the vitrified pellets, trapped water flashes violently into superheated steam. This immense internal vapor pressure balloons the gelatinized starch polymers outward into an airy honeycomb cellular structure.\n\nKeep a close watch—flash frying takes only 10 seconds!',
+      'Instant Flash Expansion in Progress!\n\nObserve the vigorous bubbling around the crackers! As the high-temperature oil conducts heat into the vitrified pellets, trapped water flashes violently into superheated steam. This immense internal vapor pressure balloons the gelatinized starch polymers outward into an airy honeycomb cellular structure.\n\nKeep a close watch—flash frying takes only 10 seconds!',
       'happy',
       {
         badge: 'Step 2: 10-Second Vapor Expansion',
@@ -257,7 +257,7 @@ export const Mission7Frying = () => {
       'happy',
       {
         badge: 'Stage 7 Complete: Master Fryer',
-        note: 'Commercial Production Milestone: Proper flash frying at 180°C followed by thorough oil drainage and room-temperature cooling ensures superior sensory quality and extended shelf life.',
+        note: 'Commercial Production Milestone: Proper flash frying at high-temperature followed by thorough oil drainage and room-temperature cooling ensures superior sensory quality and extended shelf life.',
         btnText: 'Proceed to Stage 8: Barrier Packaging ➔',
         onNext: () => setScene('mission8'),
       }
@@ -273,7 +273,7 @@ export const Mission7Frying = () => {
       fallbackIcon: '🫗',
       isUsed: fryStep >= 1,
       isNext: fryStep === 0,
-      tooltip: 'High smoke-point vegetable oil heated to 180°C–190°C for instantaneous expansion.',
+      tooltip: 'High smoke-point vegetable oil heated to high-temperature range for instantaneous expansion.',
     },
     {
       id: 'dehydrated_pellets',
@@ -389,7 +389,7 @@ export const Mission7Frying = () => {
             <MultiStateContainer
               containerId="frying_pan"
               title="Heavy-Gauge Frying Pan"
-              subtitle="Stage 7: 180°C Flash Frying (10 sec) & Oil Drainage"
+              subtitle="Stage 7: high-temperature Flash Frying (10 sec) & Oil Drainage"
               currentStepIndex={fryStep}
               steps={frySteps}
               onItemAccepted={handleItemAccepted}
@@ -445,7 +445,7 @@ export const Mission7Frying = () => {
                       ? () => `🔥 Preheating oil... ${oilTemp}°C`
                       : isPuffing
                       ? () => `💥 Flash frying... ${puffProgress}%`
-                      : '🔥 Oil at 180°C — Add dehydrated pellets!'
+                      : '🔥 Oil at high-temperature — Add dehydrated pellets!'
                   }
                   completeHint="✓ Frying complete • Burner extinguished"
                   modeTitleIgnited={
@@ -453,14 +453,14 @@ export const Mission7Frying = () => {
                       ? 'MEDIUM HEAT: PREHEATING'
                       : isPuffing
                       ? 'FLASH EXPANSION (10s)'
-                      : 'MEDIUM HEAT: 180°C READY'
+                      : 'MEDIUM HEAT: high-temperature READY'
                   }
                   modeTitleActive={
                     isHeatingOil
                       ? 'MEDIUM HEAT: PREHEATING'
                       : isPuffing
                       ? 'FLASH EXPANSION (10s)'
-                      : 'MEDIUM HEAT: 180°C READY'
+                      : 'MEDIUM HEAT: high-temperature READY'
                   }
                   modeTitleReady="IGNITE BURNER"
                   modeTitleStandby="BURNER: OFF"

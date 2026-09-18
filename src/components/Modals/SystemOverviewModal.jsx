@@ -14,7 +14,7 @@ const SYSTEM_MODULES = [
     icon: '🏭',
     badge: 'Module 2',
     title: '8-Stage Standardized Processing Line',
-    desc: 'Fully simulated commercial production stages from raw coconut pith boiling and fiber disintegration to exact 1:1 formulation, molding, steam gelatinization, 90°C convection dehydration, 180°C deep frying, and hermetic packaging.',
+    desc: 'Fully simulated commercial production stages from raw coconut pith boiling and fiber disintegration to exact 1:1 formulation, molding, steam gelatinization, 90°C convection dehydration, high-temperature deep frying, and hermetic packaging.',
     tags: ['Boiling & Wash', 'Pureeing', '1:1 Mixing', 'Silicone Molding', 'Steaming', 'Dehydration', 'Deep Frying', 'Nitrogen Pack'],
   },
   {
@@ -48,7 +48,7 @@ const CURRICULUM_COMPETENCIES = [
     icon: '🛠️',
     items: [
       'Demonstrate proper execution of all 8 production stages in correct chronological sequence.',
-      'Perform virtual tool calibration (temperature monitoring at 90°C & 180°C, precise leveling, hermetic sealing).',
+      'Perform virtual tool calibration (temperature monitoring at 90°C & high-temperature, precise leveling, hermetic sealing).',
       'Execute sanitary 7-step handwashing technique according to international health standards.',
     ],
   },
