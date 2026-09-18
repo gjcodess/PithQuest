@@ -725,4 +725,51 @@
   ```
 
 ---
+
+## 14. Additional Standalone Kitchen Equipment Assets
+*Standalone item prompts for generating reusable kitchen equipment assets.*
+
+### 14.1 `tool_bowl_stainless.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a clean deep stainless steel kitchen bowl, wide rounded rim, polished reflective interior, sturdy commercial food-preparation design, empty, isometric 3/4 view looking slightly inside, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+### 14.2 `tool_tongs_kitchen.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of durable stainless steel kitchen tongs with scalloped gripping ends, red heat-resistant silicone grips and a locking pull ring, clean and polished, isometric 3/4 view, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+### 14.3 `tool_spatula_kitchen.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a clean red silicone kitchen spatula with a flexible flat paddle, beveled edge and clear ergonomic handle, food-grade material, isometric 3/4 view, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+### 14.4 `tool_measuring_glass.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a transparent glass measuring cup with a clear pour spout, sturdy handle and highly legible red graduated volume markings, empty and spotless, isometric 3/4 view, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+### 14.5 `equip_cooking_pots.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a clean set of three stainless steel cooking pots in graduated sizes, polished metal bodies, sturdy black heat-resistant side handles and matching lids, neatly arranged together, isometric 3/4 view, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+### 14.6 `equip_steamer_stainless.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a clean multi-tier stainless steel food steamer with stacked perforated tiers, sturdy side handles and a domed lid, polished metal surfaces, isometric 3/4 view, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+### 14.7 `equip_stove_countertop.png`
+* **Prompt:**
+  ```text
+  A 2D game asset of a clean compact stainless steel countertop gas stove with two black burner grates, brass burner heads, two front control knobs and subtle blue flames, safe commercial kitchen equipment, isometric 3/4 view, smooth cel-shaded vector art style, clean dark outlines, isolated on white background, mobile game asset.
+  ```
+
+---
 *Catalog generated for PithQuest by DeepMind pair programming assistant. All assets designed for unified 2.5D isometric game integration.*
