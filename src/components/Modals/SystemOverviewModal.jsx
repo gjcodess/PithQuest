@@ -149,15 +149,6 @@ export const SystemOverviewModal = () => {
                 </div>
 
                 <div className="system-pillar-card">
-                  <div className="pillar-icon">🧪</div>
-                  <h4>Safe Experimental Learning</h4>
-                  <p>
-                    Allows students to practice high-heat boiling, dehydration at 90°C, and 180°C deep frying in a risk-free,
-                    zero-waste virtual kitchen with infinite repeatability.
-                  </p>
-                </div>
-
-                <div className="system-pillar-card">
                   <div className="pillar-icon">👩‍🏫</div>
                   <h4>Pedagogical Support</h4>
                   <p>
@@ -166,14 +157,6 @@ export const SystemOverviewModal = () => {
                   </p>
                 </div>
 
-                <div className="system-pillar-card">
-                  <div className="pillar-icon">📜</div>
-                  <h4>Evidence-Based Certification</h4>
-                  <p>
-                    Tracks student diagnostics, calculates skill improvement percentages, and issues an official verifiable
-                    Certificate of Completion upon successful graduation.
-                  </p>
-                </div>
               </div>
 
               {/* Research Affiliation Footer Callout */}
