@@ -28,14 +28,8 @@ const HELP_SECTIONS = [
       'After completing all 8 processing stages, demonstrate mastery by arranging the full coconut pith cracker production chain in correct chronological order.',
   },
   {
-    icon: '📊',
-    title: '5. Comprehensive Audit & Certificate',
-    description:
-      'Review your diagnostic pre-test vs. post-test improvements, PPE safety audit, stage-by-stage performance metrics, and receive your official Certificate of Completion.',
-  },
-  {
     icon: '⚙️',
-    title: '6. Audio, Zoom & Navigation Controls',
+    title: '5. Audio, Zoom & Navigation Controls',
     description:
       'Click the top-right Menu button at any time to toggle sound effects and voice, adjust the screen zoom scale (50%–150%) to fit your display, restart a stage, or access recipe standards.',
   },

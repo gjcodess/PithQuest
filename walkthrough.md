@@ -41,7 +41,7 @@ We have built and launched **PITHQuest** as a modern, responsive React.js web-ba
 * **Stage 2: Thermal Softening & Boiling (`src/scenes/Mission2Boiling.jsx`):** Adding water, igniting the burner, boiling the ubod with an interactive tenderness gauge, and pureeing into a smooth paste in the blender.
 * **Stage 3: Formulation & Mixing (`src/scenes/Mission3Mixing.jsx`):** Measuring and sequencing tapioca starch (the puffing agent), pureed ubod, and savory seasonings (salt, garlic powder, sugar) into the mixing bowl, kneading with a spatula, with distractor penalty detection.
 * **Stage 4: Moisture Removal & Dehydration (`src/scenes/Mission4Dehydration.jsx`):** Loading sliced cracker discs onto perforated stainless mesh trays, setting cabinet temperature to 60°C, and watching product moisture drop from 75% down to 9% to yield glassy raw pellets.
-* **Stage 5: Deep Frying & Expansion (`src/scenes/Mission5Frying.jsx`):** Monitoring oil temperature until reaching the green optimal zone (180°C), dropping dried pellets to trigger flash steam expansion (3x puff), and scooping with the wire spider skimmer onto a cooling rack.
+* **Stage 5: Deep Frying & Expansion (`src/scenes/Mission5Frying.jsx`):** Monitoring oil temperature until reaching the green optimal zone (high-temperature), dropping dried pellets to trigger flash steam expansion (3x puff), and scooping with the wire spider skimmer onto a cooling rack.
 
 #### Phase 3: Mastery & Certification
 * **Evaluation Scene (`src/scenes/EvaluationScene.jsx`):** Sensory quality audit (5/5 ratings on color, crunch, puff ratio, and non-greasy texture), final score breakdown, badge ribbons showcase, and an **Official Printable / Downloadable Certificate of Completion** with the student's name, date, and signatures.

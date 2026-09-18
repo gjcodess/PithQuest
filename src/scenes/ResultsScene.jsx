@@ -57,11 +57,11 @@ const STAGE_SCIENCE_FACTS = [
   },
   {
     step: 7,
-    name: 'Flash Deep Frying (180°C Puffing)',
+    name: 'Flash Deep Frying (high-temperature Puffing)',
     img: '/assets/card_step_frying.png',
     fallbackIcon: '🍳',
     foodScience:
-      'Immersion in 180°C hot oil causes tightly trapped residual bound water to instantaneously vaporize into superheated steam. The resulting explosive vapor pressure inflates the starch matrix ~3x into an airy, crispy honeycomb cracker.',
+      'Immersion in high-temperature hot oil causes tightly trapped residual bound water to instantaneously vaporize into superheated steam. The resulting explosive vapor pressure inflates the starch matrix ~3x into an airy, crispy honeycomb cracker.',
   },
   {
     step: 8,

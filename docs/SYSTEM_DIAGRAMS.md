@@ -216,7 +216,7 @@ The gameplay system flowchart illustrates the repetitive, mastery-based formativ
 | **11** | **Stage 4: Precision Sheet Molding & Cutting** | Instructs learners on sheeting dough to a uniform 2mm thickness and cutting uniform 50mm × 25mm rectangular cracker pieces for consistent thermal conductivity. |
 | **12** | **Stage 5: Atmospheric Starch Steaming** | Involves atmospheric steaming of molded cracker blanks for 10 minutes at 100°C to induce complete amylose/amylopectin starch gelatinization. |
 | **13** | **Stage 6: Convective Cabinet Dehydration** | Simulates convective hot-air drying at 60–90°C to reduce cracker moisture content below the critical 10% threshold to prevent mold and prepare for puffing. |
-| **14** | **Stage 7: Flash Deep Frying & Steam Expansion** | Simulates immersion deep frying in clean vegetable oil at 180°C, triggering rapid superheated steam flash-off and 3× structural volumetric expansion. |
+| **14** | **Stage 7: Flash Deep Frying & Steam Expansion** | Simulates immersion deep frying in clean vegetable oil at high-temperature, triggering rapid superheated steam flash-off and 3× structural volumetric expansion. |
 | **15** | **Stage 8: Nitrogen-Flushed Barrier Packaging** | Focuses on cooling crackers to ambient temperature and sealing them into nitrogen-flushed, multi-layer aluminum Kraft pouches to prevent lipid oxidation and staling. |
 | **16** | **Post-Test Process Sequencing Module** | A chronological assessment module requiring learners to drag and order all eight authentic unit operations into the correct production pipeline with real-time feedback. |
 | **17** | **Master Review & Comprehensive Answer Key** | A pressure-free instructional study debrief replacing traditional scores with a 6-part navigation directory, full 4-choice question answer keys, scientific explanations, and browser Print-to-PDF export. |
@@ -258,7 +258,7 @@ The core processing curriculum consists of eight authentic unit operations:
 - **Stage 4 (Precision Sheet Molding)**: Emphasizes uniform heat and mass transfer by sheeting cracker dough to an exact 2mm thickness and stamping 50mm × 25mm rectangular blanks.
 - **Stage 5 (Atmospheric Starch Steaming)**: Demonstrates starch gelatinization by subjecting molded blanks to atmospheric steam at 100°C for 10 minutes, swelling starch granules and stabilizing the viscoelastic network.
 - **Stage 6 (Convective Cabinet Dehydration)**: Explores convective moisture removal, drying steamed blanks at 60–90°C until moisture drops below 10%, preparing the internal matrix for rapid vapor expansion.
-- **Stage 7 (Flash Deep Frying)**: Demonstrates heat transfer and structural expansion, immersing dried cracker blanks into 180°C oil for 8–12 seconds, turning trapped residual moisture into superheated steam that puffs the cracker to 3× its original volume.
+- **Stage 7 (Flash Deep Frying)**: Demonstrates heat transfer and structural expansion, immersing dried cracker blanks into high-temperature oil for 8–12 seconds, turning trapped residual moisture into superheated steam that puffs the cracker to 3× its original volume.
 - **Stage 8 (Nitrogen-Flushed Barrier Packaging)**: Covers post-fry cooling, moisture barrier packaging, and nitrogen flushing in multi-layer foil/Kraft pouches to prevent atmospheric re-absorption and lipid auto-oxidation.
 
 Each stage begins with an instructional Checkpoint Question utilizing 1-click instant verification, illuminating the correct standard procedure and biochemical rationale before launching the interactive cooking mini-game.

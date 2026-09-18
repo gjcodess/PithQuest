@@ -57,7 +57,7 @@ The software models the full industrial valorization lifecycle of **Coconut Pith
             ▼
    [ 100°C Steam Gelatinization ] ➔ [ 90°C Cabinet Dehydration ]
                                                 │
-   [ 50g Hermetic Packaging ] ◄── [ 180°C Flash Deep Frying ] ◄─┘
+   [ 50g Hermetic Packaging ] ◄── [ high-temperature Flash Deep Frying ] ◄─┘
 ```
 
 ### Core Pedagogical Pillars
@@ -158,7 +158,7 @@ Click **📖 Recipe & Standards** to view the standardized formula and critical 
 * **🌾 Rice Flour — 1 Cup (1:1 Ratio):** Primary starch binder supplying amylose polymers for crisp fracture snap.
 * **🧂 Pure Sea Salt — 1 Teaspoon:** Flavor enhancer and osmotic cell-softening agent.
 * **💧 Potable Water — 1 Cup:** Hydrates dry starches into cohesive, pliable dough.
-* **🍳 Vegetable Cooking Oil — 5 Cups:** High-smoke-point frying medium for 180°C rapid expansion.
+* **🍳 Vegetable Cooking Oil — 5 Cups:** High-smoke-point frying medium for high-temperature rapid expansion.
 * **📐 Portioning Specification:** Uniform **50mm × 25mm × 2mm** rectangular wafers (~3 teaspoons per portion).
 
 ---
@@ -369,17 +369,17 @@ Remove free water from gelatinized wafers, lowering moisture content from **75% 
 ![Stage 7 Workstation](./docs/manual-assets/step-15-stage7-deep-frying.png)
 
 #### Objective:
-Submerge glassy dried pellets into 180°C oil, flash-vaporizing internal water to expand crackers **3× in size**.
+Submerge glassy dried pellets into high-temperature oil, flash-vaporizing internal water to expand crackers **3× in size**.
 
 #### Step-by-Step Procedure:
 1. **Charge Frying Vessel:** Pour **5 Cups Vegetable Cooking Oil** into the heavy-gauge frying pan.
-2. **Pre-heat Oil to 180°C:** Turn on the burner and monitor the dial until the temperature indicator enters the **Green Optimal Zone (180°C–190°C)**.
+2. **Pre-heat Oil to high-temperature:** Turn on the burner and monitor the dial until the temperature indicator enters the **Green Optimal Zone (high-temperature range)**.
 3. **Drop Dried Pellets:** Gently slide dehydrated pellets into the hot oil.
 4. **Observe Flash Expansion:** Within **8–10 seconds**, the pellets puff dramatically to 300% of original volume.
 5. **Retrieve with Wire Spider Skimmer:** Immediately scoop the floating, golden puffed crackers before over-browning occurs.
 6. **Drain Oil:** Transfer onto a paper-towel-lined stainless colander to drain surface oil.
 
-> **🔬 Food Science Rationale:** When glassy pellets hit 180°C oil, the heat instantly superheats residual water trapped in the gelatinized starch into high-pressure steam. The expanding steam inflates millions of micro-alveoli within the starch matrix before escaping, leaving a porous, crispy, brittle fracture structure.
+> **🔬 Food Science Rationale:** When glassy pellets hit high-temperature oil, the heat instantly superheats residual water trapped in the gelatinized starch into high-pressure steam. The expanding steam inflates millions of micro-alveoli within the starch matrix before escaping, leaving a porous, crispy, brittle fracture structure.
 
 ---
 
@@ -416,7 +416,7 @@ After finishing all practical laboratory stages, students must demonstrate syste
    - **Slot 4:** Stage 4 — Precision Rectangular Molding
    - **Slot 5:** Stage 5 — Starch Steaming & Gelatinization
    - **Slot 6:** Stage 6 — Cabinet Dehydration (<8% Moisture)
-   - **Slot 7:** Stage 7 — Flash Deep Frying (180°C, 3× Expansion)
+   - **Slot 7:** Stage 7 — Flash Deep Frying (high-temperature, 3× Expansion)
    - **Slot 8:** Stage 8 — Hermetic Packaging & Labeling
 2. Click **"Submit Chronological Sequence & View Results"** to generate your official diagnostic audit report.
 
@@ -459,7 +459,7 @@ Students who meet laboratory competency standards unlock the official **Departme
 | **Stage 4** | Dimensional Standardization | 50mm × 25mm × 2mm mold | Ensures uniform thermal diffusivity and moisture evaporation rates across all batches. |
 | **Stage 5** | Atmospheric Steam Gelatinization | 100°C saturated steam / 10 min | Hydrates and ruptures starch granules; locks dough into an extensible, elastic gel matrix. |
 | **Stage 6** | Convective Cabinet Dehydration | 90°C forced airflow / to <8% moisture | Evaporates free unbound water into an amorphous "glassy" state ready for vapor expansion. |
-| **Stage 7** | Superheated Flash Frying | 180°C–190°C vegetable oil / 10 sec | Trapped water flashes to superheated steam, inflating starch alveoli 3× before hardening crisp. |
+| **Stage 7** | Superheated Flash Frying | high-temperature range vegetable oil / 10 sec | Trapped water flashes to superheated steam, inflating starch alveoli 3× before hardening crisp. |
 | **Stage 8** | Barrier Hermetic Packaging | Foil stand-up pouch + silica desiccant | Protects against water vapor transmission (prevents starch staling) and oil oxidation. |
 
 ---
@@ -469,7 +469,7 @@ Students who meet laboratory competency standards unlock the official **Departme
 ### 💡 Pro Tips for Perfect Scores
 * **Don't Rush the Pre-Test:** Read each PPE card carefully. Knit scarves and tinted goggles are intentional distractors that penalize safety scores.
 * **Handwashing Friction:** In real laboratories as in the simulation, mechanical friction for at least 20 seconds is mandatory to dislodge transient pathogens.
-* **Watch the Oil Thermometer:** Frying below 170°C results in oil-logged, soggy crackers that fail to puff. Frying above 200°C burns the surface before the core can expand. Always fry in the **Green Zone (180°C)**.
+* **Watch the Oil Thermometer:** Frying below 170°C results in oil-logged, soggy crackers that fail to puff. Frying above 200°C burns the surface before the core can expand. Always fry in the **Green Zone (high-temperature)**.
 * **Cool Before Packaging:** Placing hot crackers directly into sealed plastic bags traps steam, creating condensation droplets that turn the crackers soggy within hours. Always cool crackers on wire racks first.
 
 ### 🛠️ Troubleshooting & FAQ

@@ -176,7 +176,7 @@ export const INGREDIENT_INSPECTION_ITEMS = [
     id: "salt",
     name: "Pure Sea Salt",
     safe: {
-      name: "Dry Pure White Salt",
+      name: "White Salt",
       description: "Clean sparkling white crystals, completely dry and non-clumpy, food-grade mineral.",
       img: "/assets/ing_salt_fresh.png",
       fallbackIcon: "🧂",

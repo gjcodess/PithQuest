@@ -358,13 +358,13 @@ export const MENTOR_KNOWLEDGE = {
       {
         title: 'Flash Steam Aeration Physics',
         icon: '💥',
-        summary: '180°C hot oil flash-vaporizes residual bound water, expanding the matrix 300%.',
-        details: 'When a vitrified pellet enters 180°C oil, trapped residual moisture instantly boils into high-pressure steam. Because the starch matrix is plasticized by heat, it inflates like millions of micro-balloons before setting into a light, crispy foam.'
+        summary: 'high-temperature hot oil flash-vaporizes residual bound water, expanding the matrix 300%.',
+        details: 'When a vitrified pellet enters high-temperature oil, trapped residual moisture instantly boils into high-pressure steam. Because the starch matrix is plasticized by heat, it inflates like millions of micro-balloons before setting into a light, crispy foam.'
       },
       {
         title: 'Oil Absorption Kinetics & Temperature Control',
         icon: '🌡️',
-        summary: 'Frying at exactly 180°C minimizes oil uptake.',
+        summary: 'Frying at exactly high-temperature minimizes oil uptake.',
         details: 'If oil drops below 160°C, expansion fails and oil soaks deep into the core, producing greasy crackers. Above 190°C, starches char and burn before expansion is complete.'
       }
     ],
@@ -382,7 +382,7 @@ export const MENTOR_KNOWLEDGE = {
     ],
     safety: [
       {
-        title: '180°C Hot Oil Splatter Hazard',
+        title: 'high-temperature Hot Oil Splatter Hazard',
         icon: '🔥',
         desc: 'Never drop wet items into hot oil. Wear heat-resistant gloves and face guard. Keep flammable items 1 meter away.'
       },
@@ -395,7 +395,7 @@ export const MENTOR_KNOWLEDGE = {
     recipe: [
       { name: 'Vitrified Cracker Pellets', measure: '24 Pieces', icon: '💎' },
       { name: 'Pure Vegetable Cooking Oil', measure: '2 Cups (Deep Fry)', icon: '🫗' },
-      { name: 'Target Oil Temperature', measure: '180°C (356°F)', icon: '🌡️' },
+      { name: 'Target Oil Temperature', measure: 'high-temperature', icon: '🌡️' },
       { name: 'Flash Puffing Time', measure: '8–10 Seconds', icon: '⏱️' }
     ]
   },
