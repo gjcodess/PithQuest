@@ -291,6 +291,10 @@
   gap: 20px;
 }
 
+.recipe-grid-single {
+  grid-template-columns: 1fr;
+}
+
 .recipe-col h3 {
   font-family: var(--font-heading);
   font-size: 1.05rem;
@@ -321,32 +325,6 @@
   color: #78350f;
   font-family: var(--font-heading);
   font-size: 0.90rem;
-}
-
-.pillar-item {
-  background: #ffffff;
-  border: 2px solid #dfcfb9;
-  border-left: 4.5px solid #15803d;
-  padding: 10px 14px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 0 #cfbc9f, 0 2px 6px rgba(90, 60, 30, 0.04);
-}
-
-.p-badge {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 0.90rem;
-  color: #15803d;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.pillar-item p {
-  color: #3d2612;
-  margin: 0;
-  font-size: 0.86rem;
-  line-height: 1.4;
 }
 
 .objective-card {
