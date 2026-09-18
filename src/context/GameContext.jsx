@@ -238,7 +238,6 @@ export const GameProvider = ({ children }) => {
     setBadges(prev => {
       if (prev.some(b => b.id === badgeId)) return prev;
       soundManager.playFanfare();
-      showToast('Badge Unlocked!', `${badgeTitle}`, 'success');
       return [...prev, { id: badgeId, title: badgeTitle, icon }];
     });
   };

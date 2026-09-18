@@ -121,7 +121,6 @@ export const Mission5Frying = () => {
     setHoldingItem(null);
     setFryStep(4);
     completeMission('mission5');
-    showToast('Cracker Master!', '+50 Points! Golden, crispy batch complete.', 'success');
     speak(
       'Outstanding culinary execution! The Coconut Pith Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
       'happy',
