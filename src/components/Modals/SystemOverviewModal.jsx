@@ -2,37 +2,6 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useGame } from '../../context/GameContext';
 
-const SYSTEM_MODULES = [
-  {
-    icon: '🧪',
-    badge: 'Module 1',
-    title: 'Diagnostic Pre-Lab Safety & Sanitation',
-    desc: '4 interactive preparation assessments covering PPE compliance check, WHO 7-step sanitary handwashing sequencing with friction timer, tool defect hazard inspection, and raw coconut pith quality sorting.',
-    tags: ['PPE Attire', 'WHO Handwashing', 'Equipment Safety', 'Ingredient Clearance'],
-  },
-  {
-    icon: '🏭',
-    badge: 'Module 2',
-    title: '8-Stage Standardized Processing Line',
-    desc: 'Fully simulated commercial production stages from raw coconut pith boiling and fiber disintegration to exact 1:1 formulation, molding, steam gelatinization, 90°C convection dehydration, high-temperature deep frying, and hermetic packaging.',
-    tags: ['Boiling & Wash', 'Pureeing', '1:1 Mixing', 'Silicone Molding', 'Steaming', 'Dehydration', 'Deep Frying', 'Nitrogen Pack'],
-  },
-  {
-    icon: '👩‍🏫',
-    badge: 'Module 3',
-    title: 'Pedagogical Teacher Companion (Teacher Mia)',
-    desc: 'Interactive virtual mentor providing context-aware instructional guidance, step-by-step Standard Operating Procedures (SOPs), Good Manufacturing Practices (GMP) alerts, and scientific explanations.',
-    tags: ['Contextual Guidance', 'Contextual SOPs', 'GMP Reminders', 'Food Science Insights'],
-  },
-  {
-    icon: '🧩',
-    badge: 'Module 4',
-    title: 'Formative Process Mastery & Sequencing',
-    desc: 'Hands-on post-lab interactive sequencing challenge where learners arrange the entire 8-stage manufacturing flow chronologically to demonstrate psychomotor and cognitive mastery of the process chain.',
-    tags: ['Process Sequencing', 'Chronological Logic', 'Mastery Verification'],
-  },
-];
-
 const CURRICULUM_COMPETENCIES = [
   {
     category: 'Cognitive Domain (Knowledge)',
@@ -56,7 +25,6 @@ const CURRICULUM_COMPETENCIES = [
     category: 'Affective Domain (Values & Safety)',
     icon: '🤝',
     items: [
-      'Appreciate the economic and nutritional value of agricultural by-products through coconut pith valorization.',
       'Adhere strictly to personal hygiene and Good Manufacturing Practices (GMP) without skipping safety steps.',
       'Demonstrate discipline and attention to detail in food formulation and quality control.',
     ],
@@ -87,12 +55,6 @@ export const SystemOverviewModal = () => {
             onClick={() => setActiveTab('overview')}
           >
             🏛️ System Overview
-          </button>
-          <button
-            className={`system-nav-btn ${activeTab === 'materials' ? 'active' : ''}`}
-            onClick={() => setActiveTab('materials')}
-          >
-            📚 Instructional Modules
           </button>
           <button
             className={`system-nav-btn ${activeTab === 'competencies' ? 'active' : ''}`}
@@ -126,15 +88,6 @@ export const SystemOverviewModal = () => {
               {/* Core Pillars Grid */}
               <div className="system-pillars-grid">
                 <div className="system-pillar-card">
-                  <div className="pillar-icon">🌴</div>
-                  <h4>Agricultural Valorization</h4>
-                  <p>
-                    Showcases how agricultural coconut by-products (<em>ubod ng niyog</em> or coconut pith) can be upcycled
-                    into high-fiber, shelf-stable, commercial-grade crispy crackers.
-                  </p>
-                </div>
-
-                <div className="system-pillar-card">
                   <div className="pillar-icon">👩‍🏫</div>
                   <h4>Pedagogical Support</h4>
                   <p>
@@ -158,39 +111,7 @@ export const SystemOverviewModal = () => {
             </div>
           )}
 
-          {/* TAB 2: INSTRUCTIONAL MATERIALS */}
-          {activeTab === 'materials' && (
-            <div className="system-tab-content">
-              <div className="materials-intro-banner">
-                <h4>📦 Instructional & Learning Materials Provided</h4>
-                <p>
-                  PithQuest delivers a complete end-to-end learning package that integrates diagnostic testing, experiential workstation practice, and summative evaluation.
-                </p>
-              </div>
-
-              <div className="modules-list-grid">
-                {SYSTEM_MODULES.map((mod, idx) => (
-                  <div key={idx} className="module-item-card">
-                    <div className="module-item-header">
-                      <div className="module-icon-wrap">{mod.icon}</div>
-                      <div className="module-title-wrap">
-                        <span className="module-badge">{mod.badge}</span>
-                        <h5 className="module-title">{mod.title}</h5>
-                      </div>
-                    </div>
-                    <p className="module-desc">{mod.desc}</p>
-                    <div className="module-tags-row">
-                      {mod.tags.map((tag, tIdx) => (
-                        <span key={tIdx} className="module-tag-chip">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: COMPETENCIES */}
+          {/* TAB 2: COMPETENCIES */}
           {activeTab === 'competencies' && (
             <div className="system-tab-content">
               <div className="competencies-intro-banner">
