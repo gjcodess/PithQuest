@@ -5,33 +5,27 @@ import { useGame } from '../../context/GameContext';
 const HELP_SECTIONS = [
   {
     icon: '🥼',
-    title: '1. Diagnostic Pre-Test Assessment',
+    title: 'Safety and Quality Inspection',
     description:
-      'Before entering the commercial laboratory, complete 4 essential safety and knowledge evaluations: PPE attire verification, 7-step sanitary handwashing reordering, tool safety inspection, and ingredient quality clearance.',
+      'Students must complete the four parts of safety and quality inspection. PPE verification. 7 step sanitary handwashing. Tools and equipment inspection. Ingredients quality.',
   },
   {
     icon: '🧪',
-    title: '2. Interactive Laboratory Workstations (Stages 1–8)',
+    title: 'Laboratory Workstations',
     description:
-      'Progress through each standardized production stage from raw coconut pith preparation to final packaging. Follow Teacher Mia’s guidance, interact with workstation equipment, and monitor temperature, ratios, and timers.',
+      'Students will be able to interact with 8 laboratory workstations.',
   },
   {
     icon: '👩‍🏫',
-    title: '3. Teacher Mia Companion & Guidance',
+    title: 'Teacher Mia',
     description:
-      'Look for the floating circular avatar in the bottom-left corner. When she has a new tip or standard procedure, a glowing indicator will appear. Click her avatar anytime to view step notes, safety hints, and science insights.',
+      'There is a teacher in the left side of the screen wherein the students will be able to read teacher Mia’s instructions.',
   },
   {
     icon: '🧩',
-    title: '4. Post-Test Process Sequencing',
+    title: 'Post Test',
     description:
-      'After completing all 8 processing stages, demonstrate mastery by arranging the full coconut pith cracker production chain in correct chronological order.',
-  },
-  {
-    icon: '⚙️',
-    title: '5. Audio, Zoom & Navigation Controls',
-    description:
-      'Click the top-right Menu button at any time to toggle sound effects and voice, adjust the screen zoom scale (50%–150%) to fit your display, restart a stage, or access recipe standards.',
+      'Before the game ends, students will need to arrange coconut pith cracker production from Stage 1 to 8.',
   },
 ];
 

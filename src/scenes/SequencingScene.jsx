@@ -24,12 +24,12 @@ export const SequencingScene = () => {
       );
     } else {
       speak(
-        `Welcome to the Post-Test Assessment, ${studentName || 'Food Technologist'}!\n\nNow that you have successfully completed all laboratory hands-on operations, this final assessment evaluates your comprehensive understanding of the complete industrial manufacturing lifecycle.\n\nUnit operations in food processing follow strict thermodynamic and biochemical prerequisites: each stage creates the exact chemical or physical state required by the next stage.\n\nYour Objective: Arrange the 8 processing stage cards in their authentic chronological sequence from left to right, then click "Verify Chronological Sequence"!`,
+        'Teacher Mia: Welcome to our final test! Answer these Chronological step sequencing assessments.\n\nArrange all 8 stages, from stage 1 to stage 8. Drag or tap the cards to put in position.',
         'thinking',
         {
-          badge: 'Post-Test: Chronological Sequencing',
-          note: 'Industrial Flow Logic: Trace the transformation from raw coconut pith (ubod) harvesting, washing, and softening, through to commercial retail distribution.',
-          hint: 'Drag cards into target slots or tap cards to swap their positions, then click Verify below.',
+          badge: 'POST TEST',
+          note: 'Arrange all 8 stages, from stage 1 to stage 8. Drag or tap the cards to put in position.',
+          hint: 'Select “Verify Chronological Sequence” if you are sure with your answer',
           hideButton: true,
         }
       );

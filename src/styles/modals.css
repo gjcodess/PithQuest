@@ -972,6 +972,10 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
+.system-pillars-grid .system-pillar-card:only-child {
+  grid-column: 1 / -1;
+}
+
 .pillar-icon {
   font-size: 1.5rem;
   line-height: 1;

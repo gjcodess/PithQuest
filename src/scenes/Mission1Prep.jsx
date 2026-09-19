@@ -88,23 +88,23 @@ export const Mission1Prep = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 1 Completed! You have masterfully prepared, boiled, and washed the tender coconut pith clean. Thermal degradation of hemicellulose and pectin fibrils has converted the tough apical meristem into a tender texture, perfectly primed for mechanical grinding. You can review your work or proceed to Stage 2: Food Processing.',
-        'happy',
+        'Stage 1 complete.',
+        'neutral',
         {
           badge: 'Stage 1 Complete',
-          note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
-          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          note: 'Click the “Proceed to stage 2”',
+          btnText: 'Click the “Proceed to stage 2”',
           onNext: () => setScene('mission2'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 1: Washing & Thermal Pre-Cooking! Freshly harvested coconut pith (ubod) is the tender apical meristem of the coconut palm. Before thermal processing, we must perform an initial wash to remove loose soil particulates, botanical sap, and surface debris. Pick up the Raw Ubod Strips from your inventory shelf on the right and place them into the stainless steel colander in the washing sink.',
+        'Select the raw ubod and place it in the sink',
         'neutral',
         {
-          badge: 'Step 1: Raw Preparation',
-          note: 'Always wash the raw ubod thoroughly under clean running water to remove surface dirt, debris, and impurities.',
-          hint: 'Tap "Raw Ubod Strips" in your inventory, then click or drop onto the sink colander.',
+          badge: 'Step 1',
+          note: 'Select the raw ubod and place it in the sink',
+          hint: 'Select the raw ubod and place it in the sink',
           hideButton: true,
         }
       );
@@ -116,7 +116,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 0,
       acceptedItems: ['washed_ubod'],
-      prompt: 'Add washed ubod strips into the empty cooking pot',
+      prompt: 'Select the washed ubod. Put in the pot.',
       img: '/assets/pot_empty.png',
       fallbackIcon: '🥣',
       label: 'Empty Cooking Pot',
@@ -124,7 +124,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 1,
       acceptedItems: ['water_pitcher', 'water', 'portion_water'],
-      prompt: 'Pour clean potable water to submerge the ubod',
+      prompt: 'Select water then drop to the pot.',
       img: '/assets/pot_with_ubod.png',
       fallbackIcon: '💧',
       label: 'Cooking Pot with Ubod',
@@ -132,7 +132,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 2,
       acceptedItems: ['sea_salt', 'salt', 'ing_salt_fresh'],
-      prompt: 'Add pinch of sea salt into the pot for seasoning',
+      prompt: 'Select salt then drop to the pot.',
       img: '/assets/pot_with_ubod_water.png',
       fallbackIcon: '🧂',
       label: 'Submerged Ubod in Water',
@@ -140,7 +140,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Ignite stove burner for 10–15 minute medium boil',
+      prompt: 'Click “Ignite burner” to boil the ubod',
       img: isBoilingTimerActive ? '/assets/pot_boiling_on_stove.png' : '/assets/pot_with_ubod_water_salt.png',
       fallbackIcon: '♨️',
       label: isBoilingTimerActive ? 'Rolling Boil (100°C)' : 'Seasoned Ubod Ready to Boil',
@@ -149,8 +149,8 @@ export const Mission1Prep = () => {
       stepIndex: 4,
       acceptedItems: ['colander', 'stainless_colander', 'tool_colander_safe'],
       prompt: isDrainingActive
-        ? 'Draining boiling water in stainless colander...'
-        : 'Boiled tender! Click Stainless Colander to drain & transition to sink',
+        ? 'Select stainless colander then drop to the pot.'
+        : 'Select stainless colander then drop to the pot.',
       img: isDrainingActive ? '/assets/colander_boiled_ubod_draining.png' : '/assets/pot_boiling_done.png',
       fallbackIcon: '🥘',
       label: isDrainingActive ? 'Draining in Colander...' : 'Fork-Tender Boiled Ubod (Ready to Drain)',
@@ -159,8 +159,8 @@ export const Mission1Prep = () => {
       stepIndex: 5,
       acceptedItems: [],
       prompt: isCoolingRinseComplete
-        ? 'Boiled ubod rinsed clean & properly drained for Stage 2'
-        : 'Boiled ubod transferred to sink colander for cooling rinse & residue wash',
+        ? 'Click “Turn faucet to cool” so the ubod will be cooled and drained'
+        : 'Click “Turn faucet to cool” so the ubod will be cooled and drained',
       img: '/assets/pot_empty.png',
       fallbackIcon: '✨',
       label: 'Emptied Cooking Pot (Contents Drained)',
@@ -173,14 +173,14 @@ export const Mission1Prep = () => {
     soundManager.playPour();
     setIsUbodInColander(true);
     setHoldingItem(null);
-    showToast('Loaded into Colander!', 'Raw ubod placed in colander. Now turn on faucet to rinse!', 'success');
+    showToast('Step 1', 'Select the raw ubod and place it in the sink', 'success');
     speak(
-      'Great placement! The raw coconut pith is loaded securely in the colander. Now, let\'s initiate the preliminary wash. Turn the chrome cross valve handle on the faucet knob on the washing console to rinse the ubod under running potable water. This mechanical washing removes surface impurities and loose botanical exudates.',
+      'Select the raw ubod and place it in the sink\n\nClick the “Click cross to rinse” to full washed the ubod',
       'happy',
       {
-        badge: 'Step 1: Rinse Ubod',
-        note: 'Wash the ubod thoroughly to remove unwanted residue and cool it down.',
-        hint: 'Click or turn the 4-arm chrome cross handle to start washing.',
+        badge: 'Step 2',
+        note: 'Click the “Click cross to rinse” to full washed the ubod',
+        hint: 'Click the “Click cross to rinse” to full washed the ubod',
         hideButton: true,
       }
     );
@@ -195,16 +195,16 @@ export const Mission1Prep = () => {
       setIsWashingActive(false);
       setIsWashed(true);
       soundManager.playSuccess();
-      showToast('Ubod Sanitized!', 'Raw coconut pith rinsed clean! Moving to stove pot...', 'success');
+      showToast('Step 2', 'Click the “Click cross to rinse” to full washed the ubod', 'success');
       setTimeout(() => {
         setCurrentPhase('boil');
         speak(
-          'Step 2: Excellent! The raw ubod has been washed thoroughly. Now we begin thermal tenderization. The tough cell wall matrix must be softened so that it can later be pureed into a fine, smooth slurry. Pick up the Washed Ubod from your inventory and place it into the stainless steel boiling pot on the stove.',
+        'Select the washed ubod. Put in the pot.',
           'happy',
           {
-            badge: 'Step 2: Transfer to Pot',
-            note: 'Drain the ubod properly in the colander before transferring it to the cooking pot.',
-            hint: 'Select Washed Ubod from your inventory and drop it into the Stainless Steel Boiling Pot.',
+            badge: 'Step 3',
+            note: 'Select the washed ubod. Put in the pot.',
+            hint: 'Select the washed ubod. Put in the pot.',
             hideButton: true,
           }
         );
@@ -216,42 +216,42 @@ export const Mission1Prep = () => {
     if (stepIndex === 0 && item.id === 'washed_ubod') {
       soundManager.playPour();
       setPotStep(1);
-      showToast('Ubod Added!', 'Now pour clean potable water to submerge the ubod.', 'success');
+      showToast('Step 3', 'Select the washed ubod. Put in the pot.', 'success');
       speak(
-        'Step 3: Great job loading the pot! Now we need an efficient thermal conduction medium. Clean potable water conducts heat uniformly across all plant tissues and hydrates the cellulose matrix. Pick up the Potable Water from your inventory and pour 1 cup into the pot to completely submerge the ubod.',
+        'Select water then drop to the pot.',
         'neutral',
         {
-          badge: 'Step 3: Add Water',
-          note: 'Water provides moisture and facilitates uniform heat distribution during thermal softening.',
-          hint: 'Select Potable Water from your inventory and drop into the pot.',
+          badge: 'Step 4',
+          note: 'Select water then drop to the pot.',
+          hint: 'Select water then drop to the pot.',
           hideButton: true,
         }
       );
     } else if (stepIndex === 1 && (item.id === 'water_pitcher' || item.id === 'water' || item.id === 'portion_water')) {
       soundManager.playPour();
       setPotStep(2);
-      showToast('Water Added!', 'Now add a pinch of Sea Salt to season and tenderize.', 'success');
+      showToast('Step 4', 'Select water then drop to the pot.', 'success');
       speak(
-        'Step 3 (cont): Water is added! Now we introduce sodium chloride (pure sea salt). Dissolved sodium and chloride ions loosen ionic bonds between plant pectin and cellulose chains, accelerating thermal softening while evenly pre-seasoning the pith down to its cellular core. Pick up the Pure Sea Salt from the shelf and add a measured pinch to the pot.',
+        'Select salt then drop to the pot.',
         'neutral',
         {
-          badge: 'Step 3: Add Salt',
-          note: 'Salt enhances flavor and helps tenderize coconut pith during the boiling process.',
-          hint: 'Select Pure Sea Salt from the shelf and drop it into the pot.',
+          badge: 'Step 5',
+          note: 'Select salt then drop to the pot.',
+          hint: 'Select salt then drop to the pot.',
           hideButton: true,
         }
       );
     } else if (stepIndex === 2 && (item.id === 'sea_salt' || item.id === 'salt' || item.id === 'ing_salt_fresh')) {
       soundManager.playClick();
       setPotStep(3);
-      showToast('Salt Added!', 'Pot is ready! Turn the burner dial to ignite.', 'success');
+      showToast('Step 5', 'Select salt then drop to the pot.', 'success');
       speak(
-        'Step 4: Everything is in the pot! Before lighting the burner, always observe our lab safety check: ensure the burner ports are unobstructed, check for gas smell, and clear away nearby flammables. Now turn the stove burner dial to ignite medium-high heat and boil the ubod for 10–15 minutes until fork-tender.',
+        'Click “Ignite burner” to boil the ubod',
         'thinking',
         {
-          badge: 'Step 4: Boiling',
-          note: 'Safety Note: Check the Stove, Gas Smell, Gas Hose and Regulator, and Nearby Materials before igniting.',
-          hint: 'Click the burner dial on the stove console below the pot.',
+          badge: 'Step 6',
+          note: 'Click “Ignite burner” to boil the ubod',
+          hint: 'Click “Ignite burner” to boil the ubod',
           hideButton: true,
         }
       );
@@ -263,7 +263,7 @@ export const Mission1Prep = () => {
   const handleIgniteBurner = () => {
     soundManager.playBoil();
     setIsBoilingTimerActive(true);
-    showToast('Burner Ignited!', 'Water reaching 100°C rolling boil...', 'info');
+    showToast('Step 6', 'Click “Ignite burner” to boil the ubod', 'info');
 
     let current = 0;
     const interval = setInterval(() => {
@@ -274,14 +274,14 @@ export const Mission1Prep = () => {
         setIsBoilingTimerActive(false);
         setPotStep(4);
         soundManager.playSuccess();
-        showToast('Boiling Complete!', 'Ubod is fork-tender! Click Stainless Colander to drain.', 'success');
+        showToast('Step 7', 'Select stainless colander then drop to the pot.', 'success');
         speak(
-          'Step 5: Thermal boiling complete! The coconut pith is now fork-tender and translucent. To prevent carryover heat from overcooking the ubod into a mushy consistency, we must drain the boiling water immediately. Click the Stainless Colander in your inventory or tap the pot to drain the water and transition to the cooling sink!',
+          'Select stainless colander then drop to the pot.',
           'happy',
           {
-            badge: 'Step 5: Drain Boiled Ubod',
-            note: 'Safety Note: Wear heat-resistant gloves or use oven mitts when handling the hot pan after boiling.',
-            hint: 'Click the Stainless Colander in your inventory or tap the pot to drain.',
+            badge: 'Step 7',
+            note: 'Select stainless colander then drop to the pot.',
+            hint: 'Select stainless colander then drop to the pot.',
             hideButton: true,
           }
         );
@@ -296,20 +296,20 @@ export const Mission1Prep = () => {
     soundManager.playPour();
     soundManager.playSuccess();
     setHoldingItem(null);
-    showToast('Draining in Colander!', 'Boiling water draining away...', 'success');
+    showToast('Step 7', 'Select stainless colander then drop to the pot.', 'success');
 
     setTimeout(() => {
       setIsDrainingActive(false);
       setPotStep(5);
       setCurrentPhase('drain_rinse');
-      showToast('Transferred to Sink!', 'Boiled ubod in colander ready for cooling rinse.', 'info');
+      showToast('Step 8', 'Click “Turn faucet to cool” so the ubod will be cooled and drained', 'info');
       speak(
-        'Step 6: The boiled ubod is now in the sink colander! While it rests in the colander, we must perform a cooling rinse. Cold running water immediately arrests carryover thermal cooking, washes away excess surface starch leachates, and cools the pith down to safe handling temperature. Turn the chrome cross valve handle to activate the faucet.',
+        'Click “Turn faucet to cool” so the ubod will be cooled and drained',
         'neutral',
         {
-          badge: 'Step 6: Residue & Cooling Rinse',
-          note: 'Washing the boiled ubod removes excess surface starch residue and rapidly cools it down to stop carryover cooking.',
-          hint: 'Click the chrome cross valve handle on the washing console to turn on the faucet.',
+          badge: 'Step 8',
+          note: 'Click “Turn faucet to cool” so the ubod will be cooled and drained',
+          hint: 'Click “Turn faucet to cool” so the ubod will be cooled and drained',
           hideButton: true,
         }
       );
@@ -327,14 +327,14 @@ export const Mission1Prep = () => {
       soundManager.playSuccess();
       unlockBadge('boil_master', 'Thermal Softening Specialist', '🥣');
       completeMission('mission1');
-      showToast('Cooled & Drained!', 'Ubod residue washed away and properly cooled!', 'success');
+      showToast('Step 9', 'Click the “Proceed to stage 2”', 'success');
       speak(
-        'Step 7: Outstanding execution! The boiled ubod is sanitized, fork-tender, thoroughly drained, and cooled down. You have achieved the ideal moisture and texture balance required for smooth pureeing without excess water dilution. You are officially ready for Stage 2: Food Processing!',
+        'Click the “Proceed to stage 2”',
         'happy',
         {
-          badge: 'Stage 1 Complete',
-          note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
-          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          badge: 'Step 9',
+          note: 'Click the “Proceed to stage 2”',
+          btnText: 'Click the “Proceed to stage 2”',
           onNext: () => setScene('mission2'),
         }
       );
@@ -349,15 +349,15 @@ export const Mission1Prep = () => {
       } else {
         triggerSinkError(
           holdingItem
-            ? 'Place the Raw Ubod Strips into the sink colander first before adding other items!'
-            : 'Select Raw Ubod Strips from your inventory first, then tap the sink colander!'
+            ? 'Select the raw ubod and place it in the sink'
+            : 'Select the raw ubod and place it in the sink'
         );
         speak(
           'Pick up the fresh cut raw ubod from your inventory first, then tap the sink colander to place it inside!',
           'thinking',
           {
-            badge: 'Load Colander',
-            hint: 'Tap "Raw Ubod Strips" in your inventory, then tap the sink.',
+            badge: 'Step 1',
+            hint: 'Select the raw ubod and place it in the sink',
             hideButton: true,
           }
         );
@@ -368,13 +368,13 @@ export const Mission1Prep = () => {
     // 2. Initial raw wash
     if (!isWashed && !isWashingActive) {
       if (holdingItem?.id === 'water_pitcher' || holdingItem?.id === 'water' || holdingItem?.id === 'portion_water' || holdingItem?.id === 'sea_salt' || holdingItem?.id === 'salt') {
-        triggerSinkError('Wash the raw ubod under running water first! Turn the faucet handle below.');
+        triggerSinkError('Click the “Click cross to rinse” to full washed the ubod');
         speak(
-          'Wash the raw coconut pith under clean running water first before cooking! Turn the faucet handle below.',
+          'Click the “Click cross to rinse” to full washed the ubod',
           'thinking',
           {
             badge: 'Wash Ubod First',
-            hint: 'Click the faucet cross-handle knob below the sink to rinse the ubod.',
+            hint: 'Click the “Click cross to rinse” to full washed the ubod',
             hideButton: true,
           }
         );
@@ -402,12 +402,12 @@ export const Mission1Prep = () => {
         showToast('Holding Washed Ubod!', 'Moving to Stove Boil...', 'info');
         setCurrentPhase('boil');
         speak(
-          'Step 2: Transfer the washed ubod to the cooking pot. Drop or tap the Washed Ubod into the empty boiling pot!',
+          'Select the washed ubod. Put in the pot.',
           'happy',
           {
-            badge: 'Step 2: Transfer to Pot',
-            note: 'Drain the ubod properly in the colander before transferring it to the cooking pot.',
-            hint: 'Drop or tap the Washed Ubod into the Stainless Steel Boiling Pot.',
+            badge: 'Step 3',
+            note: 'Select the washed ubod. Put in the pot.',
+            hint: 'Select the washed ubod. Put in the pot.',
             hideButton: true,
           }
         );
@@ -420,13 +420,13 @@ export const Mission1Prep = () => {
       if (holdingItem?.id === 'colander' || holdingItem?.id === 'stainless_colander' || holdingItem?.id === 'tool_colander_safe') {
         handleDrainUbod();
       } else {
-        triggerSinkError('Select the Stainless Colander from your inventory to drain the hot water!');
+        triggerSinkError('Select stainless colander then drop to the pot.');
         speak(
           'Pick up the stainless colander from your inventory first, then tap the sink to drain the boiling pot!',
           'thinking',
           {
-            badge: 'Select Colander',
-            hint: 'Tap "Stainless Colander" in your inventory, then tap the sink.',
+            badge: 'Step 7',
+            hint: 'Select stainless colander then drop to the pot.',
             hideButton: true,
           }
         );
@@ -463,11 +463,11 @@ export const Mission1Prep = () => {
       } else if (!isUbodInColander) {
         triggerSinkError('Place the Raw Ubod Strips into the sink colander first before adding other items!');
       } else if (isUbodInColander && !isWashed) {
-        triggerSinkError('Wash the raw ubod under running water first! Turn the faucet handle below.');
+        triggerSinkError('Click the “Click cross to rinse” to full washed the ubod');
       } else if (potStep === 4 && (item.id === 'colander' || item.id === 'stainless_colander' || item.id === 'tool_colander_safe')) {
         handleDrainUbod();
       } else if (potStep === 4) {
-        triggerSinkError('Select the Stainless Colander from your inventory to drain the hot water!');
+        triggerSinkError('Select stainless colander then drop to the pot.');
       } else if (potStep >= 5 && !isCoolingRinseComplete) {
         triggerSinkError('Turn the faucet cross-handle knob below to run the cooling rinse!');
       }
@@ -494,10 +494,10 @@ export const Mission1Prep = () => {
         isUbodInColander && !isWashed
           ? () => {
               soundManager.playClick();
-              showToast('Turn Faucet On', 'Click the cross valve handle on the washing console to wash the ubod.', 'info');
-              speak('The raw ubod is loaded in the colander! Turn the cross valve handle to wash it with running water.', 'thinking', {
-                badge: 'Turn On Faucet',
-                hint: 'Click the chrome cross valve handle on the washing console.',
+              showToast('Step 2', 'Click the “Click cross to rinse” to full washed the ubod', 'info');
+              speak('Click the “Click cross to rinse” to full washed the ubod', 'thinking', {
+                badge: 'Step 2',
+                hint: 'Click the “Click cross to rinse” to full washed the ubod',
                 hideButton: true,
               });
             }
@@ -579,22 +579,22 @@ export const Mission1Prep = () => {
     : '/assets/sink_colander_empty.png';
 
   const sinkStatusText = isWashingActive
-    ? '🌊 Rinsing Raw Ubod under Running Water...'
+    ? 'Click the “Click cross to rinse” to full washed the ubod'
     : isCoolingRinseActive
-    ? '🌊 Cooling Rinse: Washing residue & cooling ubod...'
+    ? 'Click “Turn faucet to cool” so the ubod will be cooled and drained'
     : isCoolingRinseComplete
-    ? '✨ Cooled & Drained (Ready for Stage 2)'
+    ? 'Click the “Proceed to stage 2”'
     : potStep >= 5
-    ? '♨️ Boiled Ubod in Colander • Turn Faucet to Wash & Cool'
+    ? 'Click “Turn faucet to cool” so the ubod will be cooled and drained'
     : potStep >= 1
-    ? '🥣 Empty Colander (Ready to Drain)'
+    ? 'Select stainless colander then drop to the pot.'
     : isWashed && potStep === 0
-    ? '✨ Washed & Sanitized • Click to Pick Up'
+    ? 'Select the washed ubod. Put in the pot.'
     : isWashed
-    ? '✨ Washed & Sanitized'
+    ? 'Select the washed ubod. Put in the pot.'
     : isUbodInColander
-    ? '🌿 Fresh Cut Raw Ubod (Ready to Wash)'
-    : '🥣 Empty Colander • Place Raw Ubod Here';
+    ? 'Click the “Click cross to rinse” to full washed the ubod'
+    : 'Select the raw ubod and place it in the sink';
 
   const sinkStatusClass = isWashingActive || isCoolingRinseActive
     ? 'washing'
@@ -649,7 +649,13 @@ export const Mission1Prep = () => {
                 <div className="workstation-header">
                   <div className="workstation-titles">
                     <h4 className="workstation-name">Washing & Draining Sink</h4>
-                    <span className="workstation-sub">Step 1: Potable Water Rinse & Residue Wash</span>
+                    <span className="workstation-sub">
+                      {!isUbodInColander
+                        ? 'Step 1: Select the raw ubod and place it in the sink'
+                        : !isWashed
+                        ? 'Step 2: Click the “Click cross to rinse” to full washed the ubod'
+                        : 'Step 3: Select the washed ubod. Put in the pot.'}
+                    </span>
                   </div>
                   <div
                     className={`workstation-step-badge ${
@@ -665,20 +671,20 @@ export const Mission1Prep = () => {
                     {isWashingActive ? (
                       <>
                         <span className="badge-icon">💧</span>
-                        <span>Rinsing...</span>
+                        <span>Click the “Click cross to rinse” to full washed the ubod</span>
                       </>
                     ) : isWashed ? (
                       <>
                         <span className="badge-icon-check">✓</span>
-                        <span>Sanitized & Ready</span>
+                        <span>Select the washed ubod. Put in the pot.</span>
                       </>
                     ) : isUbodInColander ? (
                       <>
                         <span className="badge-icon">🌿</span>
-                        <span>Ready to Wash</span>
+                        <span>Click the “Click cross to rinse” to full washed the ubod</span>
                       </>
                     ) : (
-                      <span>1. Load Ubod</span>
+                      <span>Select the raw ubod and place it in the sink</span>
                     )}
                   </div>
                 </div>
@@ -696,12 +702,12 @@ export const Mission1Prep = () => {
                   onDrop={handleSinkDrop}
                   title={
                     !isUbodInColander
-                      ? 'Drop Fresh Cut Raw Ubod into empty colander'
+                      ? 'Select the raw ubod and place it in the sink'
                       : !isWashed
-                      ? 'Click to wash under running faucet'
+                      ? 'Click the “Click cross to rinse” to full washed the ubod'
                       : isWashed && potStep === 0
-                      ? 'Click to move to Stove Boil'
-                      : 'Sanitized raw ubod'
+                      ? 'Select the washed ubod. Put in the pot.'
+                      : 'Select the washed ubod. Put in the pot.'
                   }
                 >
                   {/* Active Water Spray Splash Animation Overlay */}
@@ -724,7 +730,7 @@ export const Mission1Prep = () => {
                       }}
                       title="Proceed to Stove Boil"
                     >
-                      <span>👉 Washed Clean! Proceed to Stove Boil ➔</span>
+                      <span>3. Select the washed ubod. Put in the pot.</span>
                     </div>
                   )}
 
@@ -771,6 +777,8 @@ export const Mission1Prep = () => {
                 subtitle="Stage 1: Thermal Boiling & Softening on Gas Stove"
                 currentStepIndex={potStep}
                 steps={potSteps}
+                stepNumber={potStep + 3}
+                stepTotal={9}
                 onItemAccepted={handleItemAccepted}
                 activeAnimation={isBoilingTimerActive ? 'boiling' : isDrainingActive ? 'boiling' : potStep === 4 ? 'steaming' : null}
                 containerWidth="100%"
@@ -782,12 +790,12 @@ export const Mission1Prep = () => {
                     progress={boilProgress}
                     onIgnite={handleIgniteBurner}
                     disabled={potStep !== 3 || isBoilingTimerActive}
-                    standbyHint="Add ubod, water & salt first"
-                    readyHint="👉 Turn burner dial to ignite"
-                    modeTitleReady="IGNITE BURNER"
-                    modeTitleActive="BOILING: MEDIUM HEAT"
-                    modeTitleStandby="BURNER: OFF"
-                    modeTitleComplete="BOILED (10–15 MIN)"
+                    standbyHint="Select salt then drop to the pot."
+                    readyHint="Click “Ignite burner” to boil the ubod"
+                    modeTitleReady="Click “Ignite burner” to boil the ubod"
+                    modeTitleActive="Click “Ignite burner” to boil the ubod"
+                    modeTitleStandby="Select salt then drop to the pot."
+                    modeTitleComplete="Select stainless colander then drop to the pot."
                   />
                 }
                 specBadge={
@@ -828,7 +836,13 @@ export const Mission1Prep = () => {
                 <div className="workstation-header">
                   <div className="workstation-titles">
                     <h4 className="workstation-name">Washing & Draining Sink</h4>
-                    <span className="workstation-sub">Step 3: Colander Drain & Rapid Cooling Rinse</span>
+                    <span className="workstation-sub">
+                      {potStep === 4
+                        ? 'Step 7: Select stainless colander then drop to the pot.'
+                        : !isCoolingRinseComplete
+                        ? 'Step 8: Click “Turn faucet to cool” so the ubod will be cooled and drained'
+                        : 'Step 9: Click the “Proceed to stage 2”'}
+                    </span>
                   </div>
                   <div
                     className={`workstation-step-badge ${
@@ -844,20 +858,20 @@ export const Mission1Prep = () => {
                     {isCoolingRinseActive ? (
                       <>
                         <span className="badge-icon">💧</span>
-                        <span>Cooling Rinse...</span>
+                        <span>Click “Turn faucet to cool” so the ubod will be cooled and drained</span>
                       </>
                     ) : isCoolingRinseComplete ? (
                       <>
                         <span className="badge-icon-check">✓</span>
-                        <span>Cooled & Ready</span>
+                        <span>Click the “Proceed to stage 2”</span>
                       </>
                     ) : potStep >= 5 ? (
                       <>
                         <span className="badge-icon">♨️</span>
-                        <span>Turn Faucet to Cool</span>
+                        <span>Click “Turn faucet to cool” so the ubod will be cooled and drained</span>
                       </>
                     ) : (
-                      <span>Drain Hot Water</span>
+                      <span>Select stainless colander then drop to the pot.</span>
                     )}
                   </div>
                 </div>
@@ -876,13 +890,13 @@ export const Mission1Prep = () => {
                   title={
                     potStep === 4
                       ? holdingItem?.id === 'colander' || holdingItem?.id === 'stainless_colander' || holdingItem?.id === 'tool_colander_safe'
-                        ? 'Tap sink to drain boiled ubod into colander'
-                        : 'Select Stainless Colander first, then tap sink'
+                        ? 'Select stainless colander then drop to the pot.'
+                        : 'Select stainless colander then drop to the pot.'
                       : potStep >= 5 && !isCoolingRinseComplete
-                      ? 'Click to turn on faucet and cool down boiled ubod'
+                      ? 'Click “Turn faucet to cool” so the ubod will be cooled and drained'
                       : isCoolingRinseComplete
-                      ? 'Clean, cooled & drained boiled ubod'
-                      : 'Sanitized colander'
+                      ? 'Click the “Proceed to stage 2”'
+                      : 'Select stainless colander then drop to the pot.'
                   }
                 >
                   {/* Active Water Spray Splash Animation Overlay */}
@@ -902,7 +916,7 @@ export const Mission1Prep = () => {
                       onClick={handleSinkClick}
                       title="Click to wash residue & cool boiled ubod"
                     >
-                      <span>💧 Click Sink or Turn Cross Handle to Rinse</span>
+                      <span>8. Click “Turn faucet to cool” so the ubod will be cooled and drained</span>
                     </div>
                   )}
 
