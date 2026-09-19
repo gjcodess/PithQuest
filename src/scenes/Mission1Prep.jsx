@@ -93,13 +93,13 @@ export const Mission1Prep = () => {
         {
           badge: 'Stage 1 Complete',
           note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
-          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          btnText: 'Click the “Proceed to stage 2”',
           onNext: () => setScene('mission2'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 1: Washing & Thermal Pre-Cooking! Freshly harvested coconut pith (ubod) is the tender apical meristem of the coconut palm. Before thermal processing, we must perform an initial wash to remove loose soil particulates, botanical sap, and surface debris. Pick up the Raw Ubod Strips from your inventory shelf on the right and place them into the stainless steel colander in the washing sink.',
+        'Teacher Mia: we are wearing our PPE, choosing the tools and equipments, and choosing the ingredients. Let us now proceed with our stage 1 which is washing and boiling the Ubod first. Fresh Ubod is washed thoroughly to remove dirt and impurities.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: Raw Preparation',
@@ -116,7 +116,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 0,
       acceptedItems: ['washed_ubod'],
-      prompt: 'Add washed ubod strips into the empty cooking pot',
+      prompt: 'Select the washed ubod. Put in the pot.',
       img: '/assets/pot_empty.png',
       fallbackIcon: '🥣',
       label: 'Empty Cooking Pot',
@@ -124,7 +124,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 1,
       acceptedItems: ['water_pitcher', 'water', 'portion_water'],
-      prompt: 'Pour clean potable water to submerge the ubod',
+      prompt: 'Select water then drop to the pot.',
       img: '/assets/pot_with_ubod.png',
       fallbackIcon: '💧',
       label: 'Cooking Pot with Ubod',
@@ -132,7 +132,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 2,
       acceptedItems: ['sea_salt', 'salt', 'ing_salt_fresh'],
-      prompt: 'Add pinch of sea salt into the pot for seasoning',
+      prompt: 'Select salt then drop to the pot.',
       img: '/assets/pot_with_ubod_water.png',
       fallbackIcon: '🧂',
       label: 'Submerged Ubod in Water',
@@ -140,7 +140,7 @@ export const Mission1Prep = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Ignite stove burner for 10–15 minute medium boil',
+      prompt: 'Click “Ignite burner” to boil the ubod',
       img: isBoilingTimerActive ? '/assets/pot_boiling_on_stove.png' : '/assets/pot_with_ubod_water_salt.png',
       fallbackIcon: '♨️',
       label: isBoilingTimerActive ? 'Rolling Boil (100°C)' : 'Seasoned Ubod Ready to Boil',
@@ -149,8 +149,8 @@ export const Mission1Prep = () => {
       stepIndex: 4,
       acceptedItems: ['colander', 'stainless_colander', 'tool_colander_safe'],
       prompt: isDrainingActive
-        ? 'Draining boiling water in stainless colander...'
-        : 'Boiled tender! Click Stainless Colander to drain & transition to sink',
+        ? 'Select stainless colander then drop to the pot.'
+        : 'Select stainless colander then drop to the pot.',
       img: isDrainingActive ? '/assets/colander_boiled_ubod_draining.png' : '/assets/pot_boiling_done.png',
       fallbackIcon: '🥘',
       label: isDrainingActive ? 'Draining in Colander...' : 'Fork-Tender Boiled Ubod (Ready to Drain)',
@@ -159,8 +159,8 @@ export const Mission1Prep = () => {
       stepIndex: 5,
       acceptedItems: [],
       prompt: isCoolingRinseComplete
-        ? 'Boiled ubod rinsed clean & properly drained for Stage 2'
-        : 'Boiled ubod transferred to sink colander for cooling rinse & residue wash',
+        ? 'Click “Turn faucet to cool” so the ubod will be cooled and drained'
+        : 'Click “Turn faucet to cool” so the ubod will be cooled and drained',
       img: '/assets/pot_empty.png',
       fallbackIcon: '✨',
       label: 'Emptied Cooking Pot (Contents Drained)',
@@ -175,7 +175,7 @@ export const Mission1Prep = () => {
     setHoldingItem(null);
     showToast('Loaded into Colander!', 'Raw ubod placed in colander. Now turn on faucet to rinse!', 'success');
     speak(
-      'Great placement! The raw coconut pith is loaded securely in the colander. Now, let\'s initiate the preliminary wash. Turn the chrome cross valve handle on the faucet knob on the washing console to rinse the ubod under running potable water. This mechanical washing removes surface impurities and loose botanical exudates.',
+      'Select the raw ubod and place it in the sink\n\nClick the “Click cross to rinse” to full washed the ubod',
       'happy',
       {
         badge: 'Step 1: Rinse Ubod',
@@ -334,7 +334,7 @@ export const Mission1Prep = () => {
         {
           badge: 'Stage 1 Complete',
           note: 'Drain the ubod properly so excess moisture does not affect the grinding consistency in Stage 2.',
-          btnText: 'Proceed to Stage 2: Food Processing ➔',
+          btnText: 'Click the “Proceed to stage 2”',
           onNext: () => setScene('mission2'),
         }
       );

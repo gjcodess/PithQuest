@@ -48,13 +48,13 @@ export const Mission4Molding = () => {
         {
           badge: 'Stage 4 Complete',
           note: 'Evenly molded pieces are now ready for steaming to set the starch matrix before dehydration.',
-          btnText: 'Proceed to Stage 5: Starch Steaming ➔',
+          btnText: 'Click “Proceed to stage 5”',
           onNext: () => setScene('mission5'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 4: Portioning & Rectangular Molding! In food manufacturing, piece uniformity is critical for quality control. If cracker pieces vary in thickness, thinner wafers will burn during frying while thicker ones remain dense and chewy. Using our calibrated measuring spoon, portion exactly 3 teaspoons of dough into each cavity of our 24-cavity food-grade silicone mold. Pick up the Ubod Dough from your inventory and place your first portion into the mold!',
+        'Teacher Mia: Let’s move to Molding and Shaping! When it comes to molding, make sure to measure it consistently. In this game, we measure it by filling the silicon mold square with 3 teaspoons per portion.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: Portioning & Molding',
@@ -70,7 +70,7 @@ export const Mission4Molding = () => {
     {
       stepIndex: 0,
       acceptedItems: ['dough_bowl', 'dough_portion', 'measuring_spoon'],
-      prompt: 'Portion 3 teaspoons of dough into the silicone mold',
+      prompt: 'Select the mixture and drop to the molder',
       img: '/assets/molder_empty.png',
       fallbackIcon: '🌸',
       label: 'Clean 24-Cavity Silicone Mold',
@@ -78,7 +78,7 @@ export const Mission4Molding = () => {
     {
       stepIndex: 1,
       acceptedItems: ['dough_bowl', 'dough_portion', 'measuring_spoon'],
-      prompt: 'Standard 3 tsp portion calibrated! Fill remaining cavities or click Quick-Fill',
+      prompt: 'Select Spatula level',
       img: '/assets/molder_single_piece.png',
       fallbackIcon: '🧈',
       label: '1 Cavity Calibrated (3 tsp)',
@@ -161,7 +161,7 @@ export const Mission4Molding = () => {
         {
           badge: 'Stage 4 Complete',
           note: 'Uniform thickness ensures equal heat penetration during steaming and even moisture loss during dehydration.',
-          btnText: 'Proceed to Stage 5: Starch Steaming ➔',
+          btnText: 'Click “Proceed to stage 5”',
           onNext: () => setScene('mission5'),
         }
       );

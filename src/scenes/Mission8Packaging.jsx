@@ -48,13 +48,13 @@ export const Mission8Packaging = () => {
         {
           badge: 'Stage 8 Complete: Commercial QA',
           note: 'Food Packaging Engineering: Hermetic heat sealing prevents water vapor transmission (WVTR), preventing starch retrogradation and guaranteeing signature crunch until opened by consumers.',
-          btnText: 'Proceed to Process Sequencing Exam ➔',
+          btnText: 'Select “Proceed to Laboratory Review”',
           onNext: () => setScene('sequencing'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 8: Aseptic Portioning, Hermetic Sealing & Retail Packaging!\n\nThis is the crowning phase of our food manufacturing pipeline. Dehydrated and fried starch matrices are extremely hygroscopic—meaning they eagerly pull moisture from humid ambient air. Without immediate hermetic barrier protection, our crackers would lose their fracture snap within hours.\n\nStep 1: Verify your complete food safety attire (hairnet, mask, clean apron, and food-grade sanitary gloves). Select the Cooled Crispy Crackers (50g portion) from your inventory shelf and gently transfer them into the open barrier pouch.',
+        'Teacher Mia: Let’s proceed to the last stage. Welcome to stage 8! Let us pack the crackers.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: 50g Portion Loading',
@@ -70,7 +70,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 0,
       acceptedItems: ['crispy_crackers', 'crackers', 'platter_crackers_cooled'],
-      prompt: 'Fill 50g of crispy golden crackers into the open kraft pouch',
+      prompt: 'Stage 1: Select the ubod crackers then drop to the center of the packaging',
       img: '/assets/pouch_empty.png',
       fallbackIcon: '📦',
       label: 'Open Kraft Pouch with Window',
@@ -78,7 +78,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 1,
       acceptedItems: ['brand_label', 'label', 'pouch_sealed_labeled'],
-      prompt: 'Crackers portioned! Apply official brand label & impulse heat seal the rim',
+      prompt: 'Stage 2: Select the Label then drop to the center of the packaging',
       img: '/assets/pouch_with_crackers.png',
       fallbackIcon: '🏷️',
       label: 'Portioned Pouch (Ready to Seal & Label)',
@@ -169,7 +169,7 @@ export const Mission8Packaging = () => {
       {
         badge: 'Production Master: All 8 Stages Complete',
         note: 'HACCP Compliance Milestone: You have maintained strict sanitary controls, calibrated formulation ratios, thermal parameters, and commercial quality assurance across every manufacturing step!',
-        btnText: 'Proceed to Final Step: Sequence Exam ➔',
+        btnText: 'Select “Proceed to Laboratory Review”',
         onNext: () => setScene('sequencing'),
       }
     );

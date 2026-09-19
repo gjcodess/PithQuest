@@ -52,13 +52,13 @@ export const Mission3Mixing = () => {
         {
           badge: 'Stage 3 Complete',
           note: 'Proper dough consistency is critical: uniform dough prevents cracks during dehydration and ensures even puffing during frying.',
-          btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
+          btnText: 'Select “Proceed to stage 4: portioning and molding”',
           onNext: () => setScene('mission4'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 3: Paste Formulation & Dough Mixing! In food product development, cracker texture is governed by the starch-to-fiber ratio. In our formulation, rice flour acts as the primary structure-forming binder, providing amylose and amylopectin polymers that trap moisture and expand during frying. In a large mixing bowl, combine 1 cup of Erawan Rice Flour with 1 teaspoon of Pure Sea Salt, add 1 cup of our smooth Ubod Paste from Stage 2, and gradually pour in 1 cup of water while gently folding until all dry and wet ingredients form a smooth, cohesive dough.',
+        'Teacher Mia: we are moving to paste formulation! Rice flour, salt, water should be added and mixed all together evenly to form a uniform dough.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: Formulation',
@@ -74,7 +74,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 0,
       acceptedItems: ['rice_flour'],
-      prompt: 'Pour 1 cup of Erawan Rice Flour into the large mixing bowl',
+      prompt: 'Select the rice flour and drop to the bowl',
       img: '/assets/mixing_bowl_empty.png',
       fallbackIcon: '🥣',
       label: 'Empty Stainless Mixing Bowl',
@@ -82,7 +82,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 1,
       acceptedItems: ['salt'],
-      prompt: 'Add 1 teaspoon of Pure Sea Salt into the dry flour',
+      prompt: 'Select 1 teaspoon of salt and drop to the bowl.',
       img: '/assets/mixing_bowl_flour_added.png',
       fallbackIcon: '🌾',
       label: 'Bowl with Rice Flour',
@@ -90,7 +90,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 2,
       acceptedItems: ['ubod_paste'],
-      prompt: 'Add 1 cup of pureed Ubod Paste into the dry mixture',
+      prompt: 'Select 1 cup of ubod paste and drop to the bowl.',
       img: '/assets/mixing_bowl_dry_ingredients.png',
       fallbackIcon: '🧂',
       label: 'Flour + Salt Dry Mix',
@@ -98,7 +98,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 3,
       acceptedItems: ['water_hydration', 'water'],
-      prompt: 'Gradually pour in 1 cup of water while preparing to mix',
+      prompt: 'Select 1 cup water and drop to the bowl.',
       img: '/assets/mixing_bowl_paste_added.png',
       fallbackIcon: '🥥',
       label: 'Flour + Paste Mixture',
@@ -106,7 +106,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 4,
       acceptedItems: ['spatula', 'red_spatula'],
-      prompt: 'All ingredients added! Select Red Spatula on shelf to mix dough',
+      prompt: 'Select spatula to mix the ingredients all together.',
       img: '/assets/mixing_bowl_water_pouring.png',
       fallbackIcon: '💧',
       label: 'Hydrated Formulation Mix',
@@ -114,7 +114,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'Gently mixing and folding into a uniform, cohesive dough...',
+      prompt: 'Select spatula to mix the ingredients all together.',
       img: '/assets/mixing_bowl_mixing_in_progress.png',
       fallbackIcon: '🥣',
       label: 'Mixing in Progress',
@@ -122,7 +122,7 @@ export const Mission3Mixing = () => {
     {
       stepIndex: 6,
       acceptedItems: [],
-      prompt: 'Smooth, uniform coconut pith dough ready for Stage 4 molding!',
+      prompt: 'Select “Proceed to stage 4: portioning and molding”',
       img: '/assets/mixing_bowl_dough_uniform.png',
       fallbackIcon: '✨',
       label: 'Uniform Cracker Dough',
@@ -224,7 +224,7 @@ export const Mission3Mixing = () => {
           {
             badge: 'Stage 3 Complete',
             note: 'The 1:1 ratio of ubod paste to rice flour creates the optimal moisture-to-binder structure for steaming and crisp frying.',
-            btnText: 'Proceed to Stage 4: Portioning & Molding ➔',
+          btnText: 'Select “Proceed to stage 4: portioning and molding”',
             onNext: () => setScene('mission4'),
           }
         );

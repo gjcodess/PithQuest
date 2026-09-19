@@ -51,13 +51,13 @@ export const Mission6Dehydration = () => {
         {
           badge: 'Stage 6 Complete',
           note: 'Dehydrated ubod pieces are now ready for frying in preheated vegetable oil for approximately 10 seconds.',
-          btnText: 'Proceed to Stage 7: Frying ➔',
+          btnText: 'Click “Proceed to stage 7”',
           onNext: () => setScene('mission7'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 6: Cooling & Cabinet Dehydration! While steaming set the starch matrix, the wafers still contain excessive free water that would splatter dangerously and prevent puffing if fried immediately. Dehydration removes free moisture and vitrifies the starch matrix into a hard pellet. Step 1: Place the wire mesh dehydrator tray onto your prep counter and arrange the steamed pieces in a single layer with sufficient spacing to prevent them from fusing together.',
+        'Teacher Mia: Let’s proceed to dehydration. The steamed mixture is dried for approximately 12 hours for 90 degrees celsius to remove moisture and shelf life.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: Tray Spacing',
@@ -73,7 +73,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 0,
       acceptedItems: ['mesh_tray', 'wire_tray', 'icon_drying_tray', 'dehydrator_tray_empty', 'dehydrator_tray'],
-      prompt: 'Place the dehydrator tray onto the workstation prep counter',
+      prompt: 'Select the tray and drop to the center',
       img: '/assets/dehydrator_tray_empty.png',
       imgOpacity: 0.35,
       fallbackIcon: '🔲',
@@ -82,7 +82,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 1,
       acceptedItems: ['steamed_pieces', 'steamed_ubod', 'cracker_piece_unmolded', 'molded_tray', 'steamed_ubod_tray'],
-      prompt: 'Step 1: Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together',
+      prompt: 'Select the steamed ubod then drop to the tray',
       img: '/assets/dehydrator_tray_empty.png',
       fallbackIcon: '🔲',
       label: 'Empty Dehydrator Tray',
@@ -90,7 +90,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 2,
       acceptedItems: ['dehydrator_cabinet', 'equip_dehydrator_safe', 'cabinet', 'dehydrator', 'dehydrator_assembled_empty'],
-      prompt: 'Step 2: Slide the arranged tray into the cabinet dehydrator',
+      prompt: 'Select the cabinet dehydrator then drop to the tray',
       img: '/assets/dehydrator_tray_arranged.png',
       fallbackIcon: '🧈',
       label: 'Arranged Tray (Spaced Pieces)',
@@ -98,7 +98,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Step 3: Dehydrate the molded ubod pieces for approximately 12 hours at 90°C. Click dial to start!',
+      prompt: 'Click start at the center of the dehydrator',
       img: '/assets/dehydrator_assembled_empty.png',
       fallbackIcon: '💨',
       label: 'Dehydrator Cabinet (Ready)',
@@ -106,7 +106,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 4,
       acceptedItems: [],
-      prompt: 'Dehydrating molded ubod pieces at 90°C for approximately 12 hours...',
+      prompt: 'Click start at the center of the dehydrator',
       img: '/assets/dehydrator_assembled_running.png',
       fallbackIcon: '⏳',
       label: '12-Hour 90°C Dehydration Active',
@@ -114,7 +114,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 5,
       acceptedItems: ['storage_container', 'storage_tray', 'container_dehydrated_chips', 'container_empty'],
-      prompt: 'Step 4: Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container',
+      prompt: 'Select the dry container then drop to the center',
       img: '/assets/dehydrator_tray_dried.png',
       fallbackIcon: '✨',
       label: 'Completely Dehydrated Pieces',
@@ -122,7 +122,7 @@ export const Mission6Dehydration = () => {
     {
       stepIndex: 6,
       acceptedItems: [],
-      prompt: 'Dried ubod pieces transferred to a clean, dry container! Ready for Stage 7: Frying',
+      prompt: 'Click “Proceed to stage 7”',
       img: '/assets/container_dehydrated_chips.png',
       fallbackIcon: '📦',
       label: 'Clean, Dry Storage Container',
@@ -239,7 +239,7 @@ export const Mission6Dehydration = () => {
       {
         badge: 'Stage 6 Complete',
         note: 'Completely dehydrated pieces stored in clean, dry container ready for frying in 5 cups vegetable oil.',
-        btnText: 'Proceed to Stage 7: Frying ➔',
+        btnText: 'Click “Proceed to stage 7”',
         onNext: () => setScene('mission7'),
       }
     );

@@ -52,13 +52,13 @@ export const Mission5Steaming = () => {
         {
           badge: 'Stage 5 Complete',
           note: 'Steaming sets the starch matrix and solidifies the shape of the crackers for safe handling in Stage 6.',
-          btnText: 'Proceed to Stage 6: Cabinet Dehydration ➔',
+          btnText: 'Click “Proceed to stage 6”',
           onNext: () => setScene('mission6'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 5: Starch Gelatinization & Atmospheric Steaming! In raw dough, starch granules are tightly packed crystalline structures that cannot expand or hold shape. When exposed to 100°C steam, water penetrates the granules causing them to swell irreversibly and burst into a continuous gel matrix—a process known as starch gelatinization. To begin, pour 1 cup of potable water into the stainless steel steamer base pot on your burner.',
+        'Teacher Mia: We are now in stage 5 steaming the mixture. The mixture is steamed fully to cook the ingredients and bind them together.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: Steamer Base',
@@ -74,7 +74,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 0,
       acceptedItems: ['steamer_water', 'water', 'water_pitcher'],
-      prompt: 'Pour 1 cup of potable water into the steamer base pot',
+      prompt: 'Select water then drop to the steamer',
       img: '/assets/steamer_base_empty.png',
       fallbackIcon: '🫕',
       label: 'Empty Steamer Base Pot',
@@ -82,7 +82,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 1,
       acceptedItems: ['perforated_tier', 'steamer_tier', 'tier'],
-      prompt: 'Place the perforated steam tier on top of the water base',
+      prompt: 'Select the steam tier then drop to the steamer',
       img: '/assets/steamer_base_water.png',
       fallbackIcon: '💧',
       label: 'Base Pot with Water',
@@ -90,7 +90,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 2,
       acceptedItems: ['molded_tray', 'silicone_mold', 'tray'],
-      prompt: 'Place the 24-cavity molded ubod tray inside the perforated tier',
+      prompt: 'Select the molded tray then drop to the steamer',
       img: '/assets/steamer_tier_empty.png',
       fallbackIcon: '♨️',
       label: 'Perforated Middle Tier',
@@ -98,7 +98,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Molded tray loaded! Turn stove knob to HIGH to begin 10-minute rolling steam',
+      prompt: 'Click “Ignite burner” to close it and for it to be steamed',
       img: '/assets/steamer_tier_with_tray.png',
       fallbackIcon: '🧈',
       label: 'Assembled Steamer with Ubod Tray',
@@ -106,7 +106,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 4,
       acceptedItems: [],
-      prompt: 'Steaming in progress... 100°C steady steam gelatinizing starches...',
+      prompt: 'Click “Ignite burner” to close it and for it to be steamed',
       img: '/assets/steamer_assembled_steaming.png',
       fallbackIcon: '♨️',
       label: 'Active 10-Min Steaming',
@@ -114,7 +114,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 5,
       acceptedItems: ['heat_mitts', 'ppe_heat_gloves'],
-      prompt: 'Steaming complete! Don Silicone Heat Mitts to safely transfer to cooling rack',
+      prompt: 'Select silicon heat mittens then drop to the molded tray',
       img: '/assets/steamer_opened_cooked.png',
       fallbackIcon: '✨',
       label: 'Gelatinized & Set (Hot)',
@@ -122,7 +122,7 @@ export const Mission5Steaming = () => {
     {
       stepIndex: 6,
       acceptedItems: [],
-      prompt: 'Molded pieces safely transferred to cooling rack. Ready for Stage 6!',
+      prompt: 'Click “Proceed to stage 6”',
       img: '/assets/steamed_mold_on_cooling_rack.png',
       fallbackIcon: '🧊',
       label: 'Cooled on Wire Rack',
@@ -224,7 +224,7 @@ export const Mission5Steaming = () => {
       {
         badge: 'Stage 5 Complete',
         note: 'Gelatinization traps moisture within the starch web; dehydration in Stage 6 will vitrify it into brittle pellets.',
-        btnText: 'Proceed to Stage 6: Dehydration ➔',
+        btnText: 'Click “Proceed to stage 6”',
         onNext: () => setScene('mission6'),
       }
     );

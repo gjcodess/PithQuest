@@ -52,13 +52,13 @@ export const Mission2Grinding = () => {
         {
           badge: 'Stage 2 Complete',
           note: 'Smooth ubod paste will blend uniformly with rice flour in Stage 3 to produce a cohesive paste structure.',
-          btnText: 'Proceed to Stage 3: Paste Formulation ➔',
+          btnText: 'Select proceed to stage 3: paste formulation',
           onNext: () => setScene('mission3'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 2: Food Processing & Mechanical Pureeing! In order for the coconut pith to form a cohesive, elastic dough with rice flour later on, its fibrous tissue must be mechanically pulverized into an ultra-smooth paste. Pick up the Drained Boiled Ubod from your inventory shelf and transfer it into the food processor bowl equipped with the sharp stainless steel S-blade.',
+        'Teacher mia: Lets proceed to stage 2. Which is the processing/grinding the ubod. This is to softened the ubod using a food processor until it becomes a smooth paste.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
         'neutral',
         {
           badge: 'Step 1: Load Processor',
@@ -74,7 +74,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 0,
       acceptedItems: ['boiled_ubod'],
-      prompt: 'Place tender boiled ubod into the processor bowl',
+      prompt: 'Select the drained ubod in the bowl and drop to the food processor.',
       img: '/assets/processor_empty.png',
       fallbackIcon: '⚙️',
       label: 'Processor Bowl & S-Blade',
@@ -82,7 +82,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 1,
       acceptedItems: ['salt_portion', 'salt'],
-      prompt: 'Add 1 teaspoon of sea salt per cup of boiled ubod',
+      prompt: 'Select one teaspoon of salt then drop to the food processor.',
       img: '/assets/processor_with_boiled_ubod.png',
       fallbackIcon: '🧂',
       label: 'Loaded Ubod in Bowl',
@@ -91,8 +91,8 @@ export const Mission2Grinding = () => {
       stepIndex: 2,
       acceptedItems: !isLidLocked ? ['processor_lid', 'lid'] : [],
       prompt: isLidLocked
-        ? 'Safety interlock locked! Press High-Speed Puree to blend'
-        : 'Select Processor Safety Lid from inventory & attach to bowl',
+        ? 'Select the Processor safety lid the drop to the food processor.'
+        : 'Select the Processor safety lid the drop to the food processor.',
       img: isLidLocked ? '/assets/processor_close_lid.png' : '/assets/processor_with_ubod_salt.png',
       fallbackIcon: '🔒',
       label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Awaiting Safety Lid)',
@@ -100,7 +100,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Pureeing boiled ubod fibers into uniform silky paste...',
+      prompt: 'Select “high speed puree” for it to be processed blend well.',
       img: '/assets/processor_running_blur.png',
       fallbackIcon: '🌪️',
       label: 'High-Speed Pureeing',
@@ -108,7 +108,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 4,
       acceptedItems: ['spatula', 'red_spatula'],
-      prompt: 'Select Red Spatula from inventory & tap bowl to scrape paste',
+      prompt: 'Select the spatula and drop to the food processor.',
       img: '/assets/processor_open_paste.png',
       fallbackIcon: '🥣',
       label: 'Silky Ubod Paste (Ready to Scrape)',
@@ -116,7 +116,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'All silky ubod paste scraped & collected into clean bowl (1 Cup Yield)',
+      prompt: 'Select proceed to stage 3: paste formulation',
       img: '/assets/bowl_ubod_paste_fresh.png',
       fallbackIcon: '✨',
       label: 'Pureed Ubod Paste (1 Cup Collected)',
@@ -227,7 +227,7 @@ export const Mission2Grinding = () => {
         {
           badge: 'Stage 2 Complete',
           note: 'The fine paste texture allows maximum contact with rice starch granules for superior dough elasticity.',
-          btnText: 'Proceed to Stage 3: Paste Formulation ➔',
+          btnText: 'Select proceed to stage 3: paste formulation',
           onNext: () => setScene('mission3'),
         }
       );
