@@ -19,7 +19,7 @@
    - [3.4 Right Equipment & Ingredient Inventory Rack](#34-right-equipment--ingredient-inventory-rack)
 4. [Pre-Lab Reference Modals](#4-pre-lab-reference-modals)
    - [4.1 Learning Objectives & Competencies](#41-learning-objectives--competencies)
-   - [4.2 Standard Recipe & Processing Science Standards](#42-standard-recipe--processing-science-standards)
+   - [4.2 Standard Recipe](#42-standard-recipe)
    - [4.3 System Architecture & Learning Methodology](#43-system-architecture--learning-methodology)
 5. [Pre-Test Diagnostic Assessment (Orientation Phase)](#5-pre-test-diagnostic-assessment-orientation-phase)
    - [5.1 Task 1: Personal Protective Equipment (PPE) Selection](#51-task-1-personal-protective-equipment-ppe-selection)
@@ -148,7 +148,7 @@ Click **🎯 Learning Objectives** on the Title Screen to inspect the curricular
 
 ---
 
-### 4.2 Standard Recipe & Processing Science Standards
+### 4.2 Standard Recipe
 Click **📖 Recipe & Standards** to view the standardized formula and critical physical parameters.
 
 ![Recipe and Processing Standards](./docs/manual-assets/step-03-recipe-standards.png)

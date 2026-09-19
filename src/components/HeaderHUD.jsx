@@ -302,7 +302,7 @@ export const HeaderHUD = () => {
                       <div className="menu-btn-icon-box recipe-icon-box" style={{ background: '#ecfdf5', color: '#047857' }}>🔬</div>
                       <div className="menu-item-text">
                         <strong>Food Science Concepts</strong>
-                        <small>Ubod valorization, gelatinization & puffing</small>
+                        <small>Gelatinization & puffing</small>
                       </div>
                       <span className="menu-item-arrow">➔</span>
                     </button>

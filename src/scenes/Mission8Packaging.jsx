@@ -43,23 +43,23 @@ export const Mission8Packaging = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 8 Completed: Aseptic Packaging & Commercial Distribution!\n\nYour Ubod CRUNCH crackers have been accurately portioned to 50 grams net weight, hermetically impulse-sealed inside multi-barrier food-grade kraft pouches, properly labeled with regulatory information, and packed into the 8-pouch retail display carton.\n\nBy ensuring the crackers were 100% cooled prior to sealing, and utilizing airtight foil-lined barriers, your crackers are shielded against ambient humidity, lipid photo-oxidation, and mechanical breakage, securing an optimal 6-month commercial shelf life.',
-        'happy',
+        'Stage 8 complete.',
+        'neutral',
         {
           badge: 'Stage 8 Complete: Commercial QA',
-          note: 'Food Packaging Engineering: Hermetic heat sealing prevents water vapor transmission (WVTR), preventing starch retrogradation and guaranteeing signature crunch until opened by consumers.',
-          btnText: 'Proceed to Process Sequencing Exam ➔',
+          note: 'Select “Proceed to Laboratory Review”',
+          btnText: 'Select “Proceed to Laboratory Review”',
           onNext: () => setScene('sequencing'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 8: Aseptic Portioning, Hermetic Sealing & Retail Packaging!\n\nThis is the crowning phase of our food manufacturing pipeline. Dehydrated and fried starch matrices are extremely hygroscopic—meaning they eagerly pull moisture from humid ambient air. Without immediate hermetic barrier protection, our crackers would lose their fracture snap within hours.\n\nStep 1: Verify your complete food safety attire (hairnet, mask, clean apron, and food-grade sanitary gloves). Select the Cooled Crispy Crackers (50g portion) from your inventory shelf and gently transfer them into the open barrier pouch.',
+        'Step 1: Select the ubod crackers then drop to the center of the packaging',
         'neutral',
         {
           badge: 'Step 1: 50g Portion Loading',
-          note: 'Aseptic Filling Standards: Food contact surfaces must be sanitized. Ensure crackers are completely cooled to room temperature before sealing to prevent internal condensation.',
-          hint: 'Select Crispy Ubod Crackers from your inventory and drop into the open pouch.',
+          note: 'Step 1: Select the ubod crackers then drop to the center of the packaging',
+          hint: 'Step 1: Select the ubod crackers then drop to the center of the packaging',
           hideButton: true,
         }
       );
@@ -70,7 +70,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 0,
       acceptedItems: ['crispy_crackers', 'crackers', 'platter_crackers_cooled'],
-      prompt: 'Fill 50g of crispy golden crackers into the open kraft pouch',
+      prompt: 'Step 1: Select the ubod crackers then drop to the center of the packaging',
       img: '/assets/pouch_empty.png',
       fallbackIcon: '📦',
       label: 'Open Kraft Pouch with Window',
@@ -78,7 +78,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 1,
       acceptedItems: ['brand_label', 'label', 'pouch_sealed_labeled'],
-      prompt: 'Crackers portioned! Apply official brand label & impulse heat seal the rim',
+      prompt: 'Step 2: Select the Label then drop to the center of the packaging',
       img: '/assets/pouch_with_crackers.png',
       fallbackIcon: '🏷️',
       label: 'Portioned Pouch (Ready to Seal & Label)',
@@ -108,12 +108,12 @@ export const Mission8Packaging = () => {
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
-        '50 grams of Ubod Crackers accurately portioned into the stand-up barrier pouch!\n\nNotice the clear window allowing consumers to inspect the golden color and uniform rectangular shape. Now we must apply an airtight seal and our compliant brand label.\n\nStep 2: Select the Official Brand Label from your inventory shelf, or click "Impulse Seal & Apply Label" to initiate the thermal sealing clamp and affix the label.',
+        'Step 2: Select the Label then drop to the center of the packaging',
         'neutral',
         {
-          badge: 'Step 2: Impulse Sealing & Labeling',
-          note: 'Thermal Impulse Principle: A controlled electrical pulse rapidly heats the sealing element, fusing the internal polyethylene layer into an airtight, hermetic seam without burning the outer kraft paper.',
-          hint: 'Drop Official Brand Label or click "Impulse Seal & Apply Label".',
+          badge: 'Step 2',
+          note: 'Step 2: Select the Label then drop to the center of the packaging',
+          hint: 'Step 2: Select the Label then drop to the center of the packaging',
           hideButton: true,
         }
       );
@@ -143,12 +143,12 @@ export const Mission8Packaging = () => {
         soundManager.playSuccess();
         showToast('Airtight & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
-          'Hermetic impulse seal established and official product label applied!\n\nThe sealed rim forms an absolute barrier against humidity and atmospheric oxygen. The front label prominently displays our brand name "Ubod CRUNCH", net weight (50g), nutritional facts, manufacturing batch code, and allergen information in full compliance with FDA and DTI packaging guidelines.\n\nStep 3: Now select the Retail Countertop Display Box from your inventory shelf or click "Pack into Retail Carton" to consolidate 8 finished pouches into our commercial secondary packaging.',
-          'happy',
+          'Step 2 complete.',
+          'neutral',
           {
-            badge: 'Step 3: Secondary Retail Packaging',
-            note: 'Secondary Packaging Function: The corrugated display carton protects delicate individual pouches from mechanical shock, crushing, and vibration during logistics and wholesale transit.',
-            hint: 'Select Retail Display Box from your inventory or click button to pack.',
+            badge: 'Step 2 Complete',
+            note: 'Step 2: Select the Label then drop to the center of the packaging',
+            hint: 'Step 2: Select the Label then drop to the center of the packaging',
             hideButton: true,
           }
         );
@@ -164,12 +164,12 @@ export const Mission8Packaging = () => {
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
     speak(
-      'Magnificent Laboratory Achievement, Food Technologist!\n\nAll 8 commercial pouches of Ubod CRUNCH are now securely packed inside the retail countertop display carton. You have successfully navigated the entire food processing pipeline—from raw ubod washing and hydrothermal boiling, to high-shear grinding, starch formulation, precision molding, steam gelatinization, cabinet dehydration, flash expansion frying, and aseptic hermetic packaging!\n\nYou have earned the "Packaging & Quality Assurance Specialist" badge! Now let us test your holistic process mastery in our final challenge: the Post-Test Chronological Sequencing Assessment!',
-      'happy',
+      'Select “Proceed to Laboratory Review”',
+      'neutral',
       {
         badge: 'Production Master: All 8 Stages Complete',
-        note: 'HACCP Compliance Milestone: You have maintained strict sanitary controls, calibrated formulation ratios, thermal parameters, and commercial quality assurance across every manufacturing step!',
-        btnText: 'Proceed to Final Step: Sequence Exam ➔',
+        note: 'Select “Proceed to Laboratory Review”',
+        btnText: 'Select “Proceed to Laboratory Review”',
         onNext: () => setScene('sequencing'),
       }
     );
@@ -291,6 +291,8 @@ export const Mission8Packaging = () => {
               subtitle="Stage 8: 50g Barrier Packaging & Display Carton"
               currentStepIndex={packStep}
               steps={pouchSteps}
+              stepNumber={packStep === 0 ? 1 : 2}
+              stepTotal={2}
               onItemAccepted={handleItemAccepted}
               containerWidth="100%"
               statusDotClass={packStep >= 3 ? 'dot-success' : packStep >= 1 ? 'dot-amber' : ''}
@@ -301,35 +303,34 @@ export const Mission8Packaging = () => {
               }
               specBadge={
                 <span
-                  className={`spec-badge ${
-                    packStep >= 3 ? 'spec-success' : packStep >= 1 ? 'spec-amber' : ''
-                  }`}
+                  className={`spec-badge ${packStep >= 3 ? 'spec-success' : packStep >= 1 ? 'spec-amber' : ''
+                    }`}
                 >
                   {packStep >= 3
                     ? 'CARTON: 8 PACK'
                     : packStep === 2
-                    ? 'BRAND: LABELED'
-                    : packStep === 1
-                    ? 'SEAL: READY'
-                    : 'WEIGHT: 50G'}
+                      ? 'BRAND: LABELED'
+                      : packStep === 1
+                        ? 'SEAL: READY'
+                        : 'WEIGHT: 50G'}
                 </span>
               }
               interactiveAction={
                 packStep === 1
                   ? {
-                      label: 'Seal & Apply Label',
-                      onClick: handleCombinedSealAndLabel,
-                      icon: '🏷️',
-                      variant: 'pouch-seal',
-                    }
+                    label: 'Seal & Apply Label',
+                    onClick: handleCombinedSealAndLabel,
+                    icon: '🏷️',
+                    variant: 'pouch-seal',
+                  }
                   : packStep === 2
-                  ? {
+                    ? {
                       label: 'Pack into Retail Carton',
                       onClick: handlePackIntoBox,
                       icon: '📦',
                       variant: 'box-pack',
                     }
-                  : null
+                    : null
               }
             />
           </div>

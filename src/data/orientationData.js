@@ -3,43 +3,35 @@
 export const LECTURE_CONCEPTS = [
   {
     id: "ubod",
-    title: "Coconut Pith (Ubod ng Niyog)",
-    tag: "Core Raw Material",
+    title: "Coconut Pith",
+    tag: "",
     icon: "🥥",
-    summary: "The edible tender apical bud harvested from the crown of coconut palms (Cocos nucifera).",
-    details: "Historically consumed as fresh lumpia filling, ubod is rich in soluble dietary fibers, potassium, and antioxidants. Valorizing it into shelf-stable snack crackers reduces post-harvest agricultural losses."
+    summary: "",
+    details: "The term coconut refers to the fruit of the coconut palm. Coir fibre and fibre pith are extracted from the coconut husk. This will be the main ingredient."
   },
   {
-    id: "rice_flour",
-    title: "Rice Flour Starch Matrix",
-    tag: "Structural Binder",
-    icon: "🌾",
-    summary: "Finely ground white rice flour acts as the starch framework that binds the boiled ubod paste.",
-    details: "Unlike all-purpose wheat flour, rice flour contains no gluten, producing a lighter, delicate snap. Its amylose-to-amylopectin ratio is specifically calibrated to expand rapidly upon frying."
-  },
-  {
-    id: "gelatinization",
-    title: "Starch Gelatinization (Steaming)",
-    tag: "Thermal Biochemical Phase",
+    id: "steaming",
+    title: "Steaming",
+    tag: "",
     icon: "♨️",
-    summary: "Heating raw starch with water past 65°C disrupts crystalline granules, forming an elastic irreversible gel.",
-    details: "Steaming the molded rectangular pieces for 10 minutes sets their shape and hydrates the starches completely. Without steaming, the crackers would crumble into powder inside the dehydrator."
+    summary: "",
+    details: "Steaming is a moist-heat cooking method that helps to cook food using the hot vapor from boiling or simmering water below."
   },
   {
     id: "dehydration",
-    title: "Cabinet Dehydration (90°C / 12h)",
-    tag: "Preservation & Vitrification",
+    title: "Dehydration",
+    tag: "",
     icon: "💨",
-    summary: "Continuous convective dry airflow evaporates water until moisture content drops below 10%.",
-    details: "Low moisture inhibits bacterial growth and mold, creating glassy, translucent, shelf-stable 'half-products' or cracker pellets ready for instant frying on demand."
+    summary: "",
+    details: "Dehydration keeps heat trapped and protects food from dust or pests. It also removes food moisture content."
   },
   {
     id: "flash_puffing",
-    title: "Thermal Flash Expansion (Deep Frying)",
-    tag: "Rapid Aeration Physics",
+    title: "Deep Frying",
+    tag: "",
     icon: "🍳",
-    summary: "high-temperature oil transfers intense thermal energy, flash-boiling residual trapped water into high-pressure steam.",
-    details: "In just 10 seconds, expanding steam inflates millions of microscopic cells inside the gelatinized starch matrix, transforming the hard glassy chip into an airy, crispy Ubod Crunch cracker!"
+    summary: "",
+    details: "A really fast cooking method where the food is completely covered in hot oil."
   }
 ];
 
@@ -69,7 +61,7 @@ export const PPE_ITEMS = [
     img: "/assets/distractor_scarf.png",
     role: "Loose knitted cloth that traps dust, sheds loose fibers into food, and poses a burn risk near stoves.",
     isCorrect: false,
-    reason: "Loose scarves shed fibers into food mixtures and create a dangerous entanglement or fire hazard near open burners.",
+    reason: "Teacher mia: You selected the wrong attire! Knitted scarf shouldn’t be use. It can cause hazard like near burns.",
     critical: false
   },
   {
@@ -88,7 +80,7 @@ export const PPE_ITEMS = [
     img: "/assets/distractor_goggles.png",
     role: "Enclosed chemical lab goggles that fog up from hot cooking steam and obstruct culinary visibility.",
     isCorrect: false,
-    reason: "Sealed chemical goggles are meant for corrosive acid labs, not food preparation. They fog up rapidly near boiling steam and obstruct vision.",
+    reason: "Teacher mia: You selected the wrong attire! Heavy goggles shouldn’t wear because you won’t be able to see clearly.",
     critical: false
   },
   {

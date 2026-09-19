@@ -315,7 +315,7 @@ export const SequencingActivity = ({ onComplete }) => {
         <div className="sec-tag">Food Processing Pipeline Validation</div>
         <h3>Chronological Step Sequencing Assessment</h3>
         <p className="sec-subtitle">
-          Arrange all 8 manufacturing stages in their authentic chronological order (from <strong>Stage 1</strong> on the left to <strong>Stage 8</strong> on the right).
+          Arrange all 8 stages, from stage 1 to stage 8. Drag or tap the cards to put in position.
           <br />
           <span style={{ fontSize: '0.85rem', color: '#b45309', fontWeight: 700, marginTop: '4px', display: 'inline-block' }}>
             💡 <em>Tablet Friendly: Drag cards OR tap a card then tap another to swap positions!</em>
@@ -468,7 +468,7 @@ export const SequencingActivity = ({ onComplete }) => {
         {!isSolved ? (
           <div className="actions-button-row">
             <button className="btn-primary btn-check-sequence" onClick={handleSubmitSequence}>
-              <span>Verify Chronological Sequence ➔</span>
+              <span>Select “Verify Chronological Sequence” if you are sure with your answer</span>
             </button>
             <button
               className="btn-secondary btn-reshuffle"
@@ -478,13 +478,13 @@ export const SequencingActivity = ({ onComplete }) => {
               }}
               title="Reset order"
             >
-              <span>Reset Order</span>
+              <span>Select “Reset order” if you want to change answers.</span>
             </button>
           </div>
         ) : (
           <div className="actions-button-row" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', width: '100%' }}>
             <button className="btn-primary btn-gold" onClick={handleProceedToResults} style={{ padding: '12px 28px', fontSize: '1.02rem', fontWeight: 800 }}>
-              <span>Proceed to Laboratory Review & Answer Key ➔</span>
+              <span>Select “Proceed to Laboratory Review”</span>
             </button>
           </div>
         )}

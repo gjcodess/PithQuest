@@ -50,23 +50,23 @@ export const Mission7Frying = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 7 Completed: Flash Deep Frying & Oil Drainage!\n\nYour dehydrated coconut pith pellets have been successfully transformed into delicate, golden Ubod Crackers! Under the intense high-temperature thermal energy of the vegetable oil, residual bound moisture flashed instantaneously into high-pressure steam, puffing the gelatinized rice-pith starch matrix to three times its original size in just 10 seconds.\n\nAll excess surface oil has been drained through the colander, and the crackers have cooled completely to room temperature, preventing soggy condensation and locking in their signature brittle acoustic snap.',
-        'happy',
+        'Stage 7 complete.',
+        'neutral',
         {
           badge: 'Stage 7 Complete: Flash Expansion',
-          note: 'Sensory Quality Rule: Crackers must cool completely to ambient room temperature before sealing in Stage 8 to prevent trapped steam from ruining crispness.',
-          btnText: 'Proceed to Stage 8: Barrier Packaging ➔',
+          note: 'Click “Proceed to stage 8”',
+          btnText: 'Click “Proceed to stage 8”',
           onNext: () => setScene('mission8'),
         }
       );
     } else {
       speak(
-        'Welcome to Stage 7: Flash Deep Frying & Oil Drainage!\n\nAfter 12 hours in the convective cabinet dehydrator, our ubod wafers are in a vitrified, glassy state with under 10% moisture content. In this stage, we will rapidly submerge them in hot vegetable oil. The sudden heat transfer will flash that tightly bound residual moisture into superheated steam, causing the starch matrix to instantly expand and puff into a brittle, airy cracker in approximately 10 seconds.\n\nStep 1: Before we can fry, we must establish our convective heating medium. Select the Vegetable Cooking Oil (5 Cups) from your inventory shelf and pour it into the frying pan.',
+        'Select oil then drop to the pan',
         'neutral',
         {
           badge: 'Step 1: Oil Loading & Preheating',
-          note: 'Thermal Physics & Safety: Deep frying uses oil as a rapid thermal conductor. Maintain safe distance from the stove, avoid water droplets near hot oil to prevent violent splattering, and always use long tongs.',
-          hint: 'Select the Vegetable Oil (5 Cups) from your inventory and pour into the frying pan.',
+          note: 'Select oil then drop to the pan',
+          hint: 'Select oil then drop to the pan',
           hideButton: true,
         }
       );
@@ -77,7 +77,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 0,
       acceptedItems: ['cooking_oil', 'portion_oil_5cups', 'oil_pitcher', 'vegetable_oil', 'oil', 'ing_oil_fresh'],
-      prompt: 'Pour 5 cups of fresh vegetable oil into the frying pan',
+      prompt: 'Select oil then drop to the pan',
       img: '/assets/frying_pan_empty.png',
       fallbackIcon: '🍳',
       label: 'Empty Frying Pan',
@@ -85,7 +85,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 1,
       acceptedItems: [],
-      prompt: 'Oil loaded! Click the burner dial below to preheat oil over medium heat',
+      prompt: 'Click stove medium heat',
       img: '/assets/frying_pan_with_oil.png',
       fallbackIcon: '🛢️',
       label: 'Pan with 5 Cups Oil (Cold)',
@@ -93,7 +93,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 2,
       acceptedItems: ['dehydrated_pellets', 'pellets', 'tongs_chip', 'container_dehydrated_chips', 'dehydrated_chips', 'storage_container'],
-      prompt: 'Oil preheated! Carefully drop the dehydrated ubod pellets into the hot oil',
+      prompt: 'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
       img: '/assets/frying_pan_oil_hot.png',
       fallbackIcon: '🔥',
       label: 'Preheated Oil (Medium Heat)',
@@ -101,7 +101,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: '10-Second Flash Frying in progress... Starch matrix puffing & expanding...',
+      prompt: 'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
       img: '/assets/frying_pan_frying_puffing.png',
       fallbackIcon: '💥',
       label: '10-Second Flash Expansion',
@@ -109,7 +109,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 4,
       acceptedItems: ['colander', 'tool_colander_safe', 'skimmer', 'tongs', 'tool_tongs_stainless'],
-      prompt: 'Puffed cracker ready! Lift with tongs/colander to drain excess oil',
+      prompt: 'Select stainless colander then drop to the pan with cooked crackers',
       img: '/assets/tongs_holding_puffed_cracker.png',
       fallbackIcon: '🥢',
       label: 'Expanded Cracker on Tongs',
@@ -117,7 +117,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 5,
       acceptedItems: ['platter', 'icon_cracker_platter', 'platter_empty'],
-      prompt: 'Step 4: Oil draining in colander. Tap to transfer to platter and cool completely',
+      prompt: 'Select the plate and drop to center to cool down',
       img: '/assets/colander_fried_crackers_draining.png',
       fallbackIcon: '🥣',
       label: 'Draining Oil in Colander',
@@ -125,7 +125,7 @@ export const Mission7Frying = () => {
     {
       stepIndex: 6,
       acceptedItems: [],
-      prompt: 'Golden, crispy Ubod Crunch cooled completely & ready for Stage 8 packaging!',
+      prompt: 'Click “Proceed to stage 8”',
       img: '/assets/platter_crackers_cooled.png',
       fallbackIcon: '✨',
       label: 'Cooled Crispy Crackers',
@@ -139,12 +139,12 @@ export const Mission7Frying = () => {
       setHoldingItem(null);
       showToast('Oil Added!', '5 Cups of oil loaded. Click the burner dial to preheat.', 'success');
       speak(
-        '5 cups of vegetable oil poured into the frying pan!\n\nThis provides ample volume to fully submerge the dehydrated pellets without causing a severe temperature drop. Now turn the rotary burner knob to ignite the stove and preheat the oil to the critical flash-expansion temperature of high-temperature.',
+        'Click stove medium heat',
         'neutral',
         {
-          badge: 'Step 1: Oil Preheating (high-temperature)',
-          note: 'Optimal Frying Physics: Preheating to high-temperature ensures instantaneous expansion. If the oil is below 160°C, the starch absorbs oil and becomes soggy rather than crisp. If above 200°C, starches scorch.',
-          hint: 'Click the stove burner dial below to ignite and preheat the oil.',
+          badge: 'Step 2',
+          note: 'Click stove medium heat',
+          hint: 'Click stove medium heat',
           hideButton: true,
         }
       );
@@ -174,12 +174,12 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Oil Ready!', 'Optimal frying temperature reached. Drop dehydrated pieces!', 'success');
         speak(
-          'Step 2: Flash Frying Dehydrated Ubod Pellets!\n\nThe vegetable oil has reached our target temperature of high-temperature. Notice the subtle convection currents and shimmer on the oil surface, confirming optimal heat transfer readiness.\n\nSelect the Dehydrated Pellets from your inventory shelf and gently introduce them into the hot oil. They will fry for approximately 10 seconds until fully puffed and golden-crisp!',
-          'happy',
+          'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
+          'neutral',
           {
-            badge: 'Step 2: Flash Frying Submersion',
-            note: 'Flash Expansion Protocol: Residual bound moisture will vaporize into high-pressure steam in seconds. Maintain a safe clearance and always use long stainless steel tongs.',
-            hint: 'Select "Dehydrated Pellets" from your inventory, then tap the hot frying pan.',
+            badge: 'Step 3',
+            note: 'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
+            hint: 'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
             hideButton: true,
           }
         );
@@ -194,12 +194,12 @@ export const Mission7Frying = () => {
     setHoldingItem(null);
     showToast('Flash Frying!', '10-second flash expansion active! Starches puffing...', 'info');
     speak(
-      'Instant Flash Expansion in Progress!\n\nObserve the vigorous bubbling around the crackers! As the high-temperature oil conducts heat into the vitrified pellets, trapped water flashes violently into superheated steam. This immense internal vapor pressure balloons the gelatinized starch polymers outward into an airy honeycomb cellular structure.\n\nKeep a close watch—flash frying takes only 10 seconds!',
-      'happy',
+      'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
+      'neutral',
       {
-        badge: 'Step 2: 10-Second Vapor Expansion',
-        note: 'Thermal Precision: Ubod crackers expand in just 10 seconds. Prolonged immersion causes Maillard browning to overshoot, scorching the delicate natural coconut sweetness.',
-        hint: 'Wait for the 10-second frying cycle to complete.',
+        badge: 'Step 3',
+        note: 'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
+        hint: 'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
         hideButton: true,
       }
     );
@@ -215,12 +215,12 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Frying Complete!', 'Crackers are golden and crispy. Use colander to lift and drain!', 'success');
         speak(
-          'Step 3: Oil Drainage & Removal!\n\nThe 10-second flash expansion cycle is complete! The crackers have puffed to three times their original size with an irresistible pale golden hue.\n\nUsing your heat-resistant stainless steel colander or skimmer tongs, immediately lift the hot crackers from the pan and transfer them into the draining colander to allow excess surface oil to drip away.',
-          'happy',
+          'Select stainless colander then drop to the pan with cooked crackers',
+          'neutral',
           {
-            badge: 'Step 3: Oil Drainage',
-            note: 'Lipid Drainage Quality Rule: Draining excess oil immediately in the colander prevents lipid accumulation, ensuring a light, clean, non-greasy mouthfeel and acoustic crunch.',
-            hint: 'Select "Draining Colander" from your inventory, then tap the pan to lift and drain.',
+            badge: 'Step 4',
+            note: 'Select stainless colander then drop to the pan with cooked crackers',
+            hint: 'Select stainless colander then drop to the pan with cooked crackers',
             hideButton: true,
           }
         );
@@ -234,12 +234,12 @@ export const Mission7Frying = () => {
     setHoldingItem(null);
     showToast('Draining in Colander!', 'Excess oil draining. Step 4: Allow crackers to cool completely.', 'info');
     speak(
-      'Step 4: Presentation & Complete Cooling!\n\nAll excess surface oil has successfully drained away in the colander. However, the crackers are still hot and actively releasing residual steam.\n\nSelect the Presentation Platter from your inventory shelf to transfer the crackers, and let them cool down 100% to ambient room temperature before we can safely proceed to Stage 8 packaging.',
+      'Select the plate and drop to center to cool down',
       'neutral',
       {
-        badge: 'Step 4: Ambient Cooling',
-        note: 'Condensation Prevention Principle: Sealing warm crackers inside barrier packaging traps escaping steam, causing condensation droplets that dissolve starch bonds and turn crackers limp within hours.',
-        hint: 'Select "Presentation Platter" from your inventory and tap to transfer.',
+        badge: 'Step 5',
+        note: 'Select the plate and drop to center to cool down',
+        hint: 'Select the plate and drop to center to cool down',
         hideButton: true,
       }
     );
@@ -253,12 +253,12 @@ export const Mission7Frying = () => {
     completeMission('mission7');
     showToast('Stage 7 Complete!', 'Crackers are crispy, drained of oil, and completely cooled', 'success');
     speak(
-      'Outstanding Frying Mastery, Food Technologist!\n\nYour Ubod Crackers are golden, airy, perfectly puffed, thoroughly drained of excess oil, and completely cooled to room temperature. Notice the delicate open-cell texture and signature fracture snap that will give our product its commercial appeal.\n\nYou have unlocked the "Flash Expansion Specialist" badge! Click the green button below to proceed to Stage 8: Barrier Packaging & Retail Carton.',
-      'happy',
+      'Click “Proceed to stage 8”',
+      'neutral',
       {
-        badge: 'Stage 7 Complete: Master Fryer',
-        note: 'Commercial Production Milestone: Proper flash frying at high-temperature followed by thorough oil drainage and room-temperature cooling ensures superior sensory quality and extended shelf life.',
-        btnText: 'Proceed to Stage 8: Barrier Packaging ➔',
+        badge: 'Step 6',
+        note: 'Click “Proceed to stage 8”',
+        btnText: 'Click “Proceed to stage 8”',
         onNext: () => setScene('mission8'),
       }
     );
@@ -392,6 +392,8 @@ export const Mission7Frying = () => {
               subtitle="Stage 7: high-temperature Flash Frying (10 sec) & Oil Drainage"
               currentStepIndex={fryStep}
               steps={frySteps}
+              stepNumber={fryStep === 3 ? 3 : fryStep >= 4 ? fryStep : fryStep + 1}
+              stepTotal={6}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isHeatingOil || isPuffing ? 'sizzling' : fryStep === 2 || fryStep === 3 ? 'sizzling' : null}
               containerWidth="100%"
@@ -442,7 +444,7 @@ export const Mission7Frying = () => {
                   readyHint="👉 Click dial to preheat oil"
                   activeHint={
                     isHeatingOil
-                      ? () => `🔥 Preheating oil... ${oilTemp}°C`
+                      ? '🔥 Preheating oil...'
                       : isPuffing
                       ? () => `💥 Flash frying... ${puffProgress}%`
                       : '🔥 Oil at high-temperature — Add dehydrated pellets!'

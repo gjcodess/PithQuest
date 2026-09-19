@@ -19,6 +19,8 @@ export const MultiStateContainer = ({
   interactiveAction = null, // { label: string, onClick: func, icon?: string, disabled?: boolean }
   customFooter = null,
   specBadge = null,
+  stepNumber = null,
+  stepTotal = null,
   statusDotClass = '',
   statusText = null,
   className = '',
@@ -138,7 +140,7 @@ export const MultiStateContainer = ({
               : ''
           }`}
         >
-          Step {Math.min(currentStepIndex + 1, steps.length)} of {steps.length}
+          Step {stepNumber ?? Math.min(currentStepIndex + 1, steps.length)} of {stepTotal ?? steps.length}
         </div>
       </div>
 
