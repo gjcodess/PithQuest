@@ -54,12 +54,12 @@ export const Mission8Packaging = () => {
       );
     } else {
       speak(
-        'Stage 1: Select the ubod crackers then drop to the center of the packaging',
+        'Step 1: Select the ubod crackers then drop to the center of the packaging',
         'neutral',
         {
           badge: 'Step 1: 50g Portion Loading',
-          note: 'Stage 1: Select the ubod crackers then drop to the center of the packaging',
-          hint: 'Stage 1: Select the ubod crackers then drop to the center of the packaging',
+          note: 'Step 1: Select the ubod crackers then drop to the center of the packaging',
+          hint: 'Step 1: Select the ubod crackers then drop to the center of the packaging',
           hideButton: true,
         }
       );
@@ -70,7 +70,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 0,
       acceptedItems: ['crispy_crackers', 'crackers', 'platter_crackers_cooled'],
-      prompt: 'Stage 1: Select the ubod crackers then drop to the center of the packaging',
+      prompt: 'Step 1: Select the ubod crackers then drop to the center of the packaging',
       img: '/assets/pouch_empty.png',
       fallbackIcon: '📦',
       label: 'Open Kraft Pouch with Window',
@@ -78,7 +78,7 @@ export const Mission8Packaging = () => {
     {
       stepIndex: 1,
       acceptedItems: ['brand_label', 'label', 'pouch_sealed_labeled'],
-      prompt: 'Stage 2: Select the Label then drop to the center of the packaging',
+      prompt: 'Step 2: Select the Label then drop to the center of the packaging',
       img: '/assets/pouch_with_crackers.png',
       fallbackIcon: '🏷️',
       label: 'Portioned Pouch (Ready to Seal & Label)',
@@ -108,12 +108,12 @@ export const Mission8Packaging = () => {
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
-        'Stage 2: Select the Label then drop to the center of the packaging',
+        'Step 2: Select the Label then drop to the center of the packaging',
         'neutral',
         {
-          badge: 'Stage 2',
-          note: 'Stage 2: Select the Label then drop to the center of the packaging',
-          hint: 'Stage 2: Select the Label then drop to the center of the packaging',
+          badge: 'Step 2',
+          note: 'Step 2: Select the Label then drop to the center of the packaging',
+          hint: 'Step 2: Select the Label then drop to the center of the packaging',
           hideButton: true,
         }
       );
@@ -143,12 +143,12 @@ export const Mission8Packaging = () => {
         soundManager.playSuccess();
         showToast('Airtight & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
-          'Stage 2 complete.',
+          'Step 2 complete.',
           'neutral',
           {
-            badge: 'Stage 2 Complete',
-            note: 'Stage 2: Select the Label then drop to the center of the packaging',
-            hint: 'Stage 2: Select the Label then drop to the center of the packaging',
+            badge: 'Step 2 Complete',
+            note: 'Step 2: Select the Label then drop to the center of the packaging',
+            hint: 'Step 2: Select the Label then drop to the center of the packaging',
             hideButton: true,
           }
         );
@@ -303,35 +303,34 @@ export const Mission8Packaging = () => {
               }
               specBadge={
                 <span
-                  className={`spec-badge ${
-                    packStep >= 3 ? 'spec-success' : packStep >= 1 ? 'spec-amber' : ''
-                  }`}
+                  className={`spec-badge ${packStep >= 3 ? 'spec-success' : packStep >= 1 ? 'spec-amber' : ''
+                    }`}
                 >
                   {packStep >= 3
                     ? 'CARTON: 8 PACK'
                     : packStep === 2
-                    ? 'BRAND: LABELED'
-                    : packStep === 1
-                    ? 'SEAL: READY'
-                    : 'WEIGHT: 50G'}
+                      ? 'BRAND: LABELED'
+                      : packStep === 1
+                        ? 'SEAL: READY'
+                        : 'WEIGHT: 50G'}
                 </span>
               }
               interactiveAction={
                 packStep === 1
                   ? {
-                      label: 'Seal & Apply Label',
-                      onClick: handleCombinedSealAndLabel,
-                      icon: '🏷️',
-                      variant: 'pouch-seal',
-                    }
+                    label: 'Seal & Apply Label',
+                    onClick: handleCombinedSealAndLabel,
+                    icon: '🏷️',
+                    variant: 'pouch-seal',
+                  }
                   : packStep === 2
-                  ? {
+                    ? {
                       label: 'Pack into Retail Carton',
                       onClick: handlePackIntoBox,
                       icon: '📦',
                       variant: 'box-pack',
                     }
-                  : null
+                    : null
               }
             />
           </div>
