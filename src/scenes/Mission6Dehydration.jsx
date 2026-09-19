@@ -46,23 +46,23 @@ export const Mission6Dehydration = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 6 Completed! All molded ubod pieces are completely dehydrated for 12 hours at 90°C and collected into a clean, dry airtight container. Moisture content has been lowered below 10%, converting soft gelatinized starch into a glassy, brittle pellet ready for instant flash-frying expansion.',
-        'happy',
+        'Stage 6 complete.',
+        'neutral',
         {
           badge: 'Stage 6 Complete',
-          note: 'Dehydrated ubod pieces are now ready for frying in preheated vegetable oil for approximately 10 seconds.',
+          note: 'Click “Proceed to stage 7”',
           btnText: 'Click “Proceed to stage 7”',
           onNext: () => setScene('mission7'),
         }
       );
     } else {
       speak(
-        'Teacher Mia: Let’s proceed to dehydration. The steamed mixture is dried for approximately 12 hours for 90 degrees celsius to remove moisture and shelf life.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
+        'Select the tray and drop to the center',
         'neutral',
         {
           badge: 'Step 1: Tray Spacing',
-          note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-          hint: 'Select the Dehydrator Tray from your inventory and place it on the workstation counter.',
+          note: 'Select the tray and drop to the center',
+          hint: 'Select the tray and drop to the center',
           hideButton: true,
         }
       );
@@ -136,12 +136,12 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Tray Prepared!', 'Dehydrator tray placed on counter.', 'success');
       speak(
-        'Dehydrator tray placed on the workstation! Step 1: Now select the Steamed Ubod Pieces from your inventory and arrange them across the wire mesh. Leave at least 1 cm of space between pieces to allow convective dry airflow around every surface.',
+        'Select the steamed ubod then drop to the tray',
         'neutral',
         {
-          badge: 'Step 1: Tray Spacing',
-          note: 'Arrange the pieces on the dehydrator tray with enough space between each piece to prevent them from sticking together.',
-          hint: 'Select the Steamed Ubod Pieces from inventory and place them on the dehydrator tray.',
+          badge: 'Step 2',
+          note: 'Select the steamed ubod then drop to the tray',
+          hint: 'Select the steamed ubod then drop to the tray',
           hideButton: true,
         }
       );
@@ -151,12 +151,12 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Pieces Arranged!', 'Pieces arranged with space to prevent sticking.', 'success');
       speak(
-        'The crackers are arranged with ideal spacing! Step 2: Now select the Cabinet Dehydrator from your inventory to slide the loaded wire tray into the drying chamber.',
+        'Select the cabinet dehydrator then drop to the tray',
         'neutral',
         {
-          badge: 'Step 2: Cabinet Setup',
-          note: 'Safety Note: Check the wirings, outlets, and the dehydrator itself before turning on the power.',
-          hint: 'Select Cabinet Dehydrator from inventory and place it onto the tray.',
+          badge: 'Step 3',
+          note: 'Select the cabinet dehydrator then drop to the tray',
+          hint: 'Select the cabinet dehydrator then drop to the tray',
           hideButton: true,
         }
       );
@@ -173,12 +173,12 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator.', 'success');
     speak(
-      'Tray secured in the cabinet chamber! Step 3: We must dehydrate the molded ubod pieces for approximately 12 hours at a steady 90°C. Click the power dial on the appliance panel below to initiate convective drying.',
-      'thinking',
+      'Click start at the center of the dehydrator',
+      'neutral',
       {
-        badge: 'Step 3: 12-Hour 90°C Dehydration',
-        note: 'Note: Since dehydration requires approximately 12 hours, the dehydrator may be operated under the supervision of the teacher or laboratory personnel. Students may check the product before and after the scheduled laboratory activity.',
-        hint: 'Click the power button on the dehydrator console below.',
+        badge: 'Step 4',
+        note: 'Click start at the center of the dehydrator',
+        hint: 'Click start at the center of the dehydrator',
         hideButton: true,
       }
     );
@@ -191,12 +191,12 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Dehydration Active...', 'Dehydrating at 90°C for approximately 12 hours...', 'info');
     speak(
-      'Active 12-hour dehydration underway at 90°C! Controlled hot airflow steadily evaporates water from the gelatinized starch network without case-hardening or scorching the delicate coconut pith.',
-      'happy',
+      'Click start at the center of the dehydrator',
+      'neutral',
       {
-        badge: 'Step 3: In Progress',
-        note: 'Dehydration removes moisture from the steamed ubod pieces using a dehydrator for approximately 12 hours to produce dried cracker pieces suitable for frying.',
-        hint: 'Wait for the 12-hour dehydration time-lapse to complete.',
+        badge: 'Step 4',
+        note: 'Click start at the center of the dehydrator',
+        hint: 'Click start at the center of the dehydrator',
         hideButton: true,
       }
     );
@@ -213,12 +213,12 @@ export const Mission6Dehydration = () => {
         soundManager.playSuccess();
         showToast('Dehydration Complete!', 'Pieces are completely dehydrated.', 'success');
         speak(
-          '12-hour dehydration cycle complete! The ubod pieces are now brittle, vitrified, and thoroughly dried. Step 4: To protect them from absorbing ambient humidity, select the Clean Dry Storage Container from your inventory to collect the dried pellets.',
-          'happy',
+          'Select the dry container then drop to the center',
+          'neutral',
           {
-            badge: 'Step 4: Clean Storage',
-            note: 'Once completely dehydrated, transfer the dried ubod pieces to a clean, dry container.',
-            hint: 'Select the Clean Dry Container in your inventory and tap the tray to collect.',
+            badge: 'Step 5',
+            note: 'Select the dry container then drop to the center',
+            hint: 'Select the dry container then drop to the center',
             hideButton: true,
           }
         );
@@ -234,11 +234,11 @@ export const Mission6Dehydration = () => {
     completeMission('mission6');
     showToast('Dry Container Stored!', 'Dried ubod pieces transferred to clean, dry container.', 'success');
     speak(
-      'Outstanding moisture control! The dried ubod pellets are securely sealed in a clean, dry container. With moisture reduced below 10%, they are shelf-stable and primed for explosive 10-second puffing in Stage 7: Flash Frying!',
-      'happy',
+      'Click “Proceed to stage 7”',
+      'neutral',
       {
-        badge: 'Stage 6 Complete',
-        note: 'Completely dehydrated pieces stored in clean, dry container ready for frying in 5 cups vegetable oil.',
+        badge: 'Step 6',
+        note: 'Click “Proceed to stage 7”',
         btnText: 'Click “Proceed to stage 7”',
         onNext: () => setScene('mission7'),
       }
@@ -395,6 +395,8 @@ export const Mission6Dehydration = () => {
               subtitle="Stage 6: 12-Hour 90°C Convection Dehydration & Dry Storage"
               currentStepIndex={dehydrateStep}
               steps={dehydratorSteps}
+              stepNumber={dehydrateStep === 4 ? 4 : dehydrateStep === 5 ? 5 : Math.min(dehydrateStep + 1, 6)}
+              stepTotal={6}
               onItemAccepted={handleItemAccepted}
               activeAnimation={isDehydrating ? 'convection' : null}
               containerWidth="100%"

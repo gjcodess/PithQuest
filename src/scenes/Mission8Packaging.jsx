@@ -43,23 +43,23 @@ export const Mission8Packaging = () => {
   useEffect(() => {
     if (isAlreadyCompleted) {
       speak(
-        'Stage 8 Completed: Aseptic Packaging & Commercial Distribution!\n\nYour Ubod CRUNCH crackers have been accurately portioned to 50 grams net weight, hermetically impulse-sealed inside multi-barrier food-grade kraft pouches, properly labeled with regulatory information, and packed into the 8-pouch retail display carton.\n\nBy ensuring the crackers were 100% cooled prior to sealing, and utilizing airtight foil-lined barriers, your crackers are shielded against ambient humidity, lipid photo-oxidation, and mechanical breakage, securing an optimal 6-month commercial shelf life.',
-        'happy',
+        'Stage 8 complete.',
+        'neutral',
         {
           badge: 'Stage 8 Complete: Commercial QA',
-          note: 'Food Packaging Engineering: Hermetic heat sealing prevents water vapor transmission (WVTR), preventing starch retrogradation and guaranteeing signature crunch until opened by consumers.',
+          note: 'Select “Proceed to Laboratory Review”',
           btnText: 'Select “Proceed to Laboratory Review”',
           onNext: () => setScene('sequencing'),
         }
       );
     } else {
       speak(
-        'Teacher Mia: Let’s proceed to the last stage. Welcome to stage 8! Let us pack the crackers.\n\nBefore proceeding to the steps, read the Recipe and safety reference from the upper left\n\nOn your middle left select and drop the ingredients.',
+        'Stage 1: Select the ubod crackers then drop to the center of the packaging',
         'neutral',
         {
           badge: 'Step 1: 50g Portion Loading',
-          note: 'Aseptic Filling Standards: Food contact surfaces must be sanitized. Ensure crackers are completely cooled to room temperature before sealing to prevent internal condensation.',
-          hint: 'Select Crispy Ubod Crackers from your inventory and drop into the open pouch.',
+          note: 'Stage 1: Select the ubod crackers then drop to the center of the packaging',
+          hint: 'Stage 1: Select the ubod crackers then drop to the center of the packaging',
           hideButton: true,
         }
       );
@@ -108,12 +108,12 @@ export const Mission8Packaging = () => {
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
-        '50 grams of Ubod Crackers accurately portioned into the stand-up barrier pouch!\n\nNotice the clear window allowing consumers to inspect the golden color and uniform rectangular shape. Now we must apply an airtight seal and our compliant brand label.\n\nStep 2: Select the Official Brand Label from your inventory shelf, or click "Impulse Seal & Apply Label" to initiate the thermal sealing clamp and affix the label.',
+        'Stage 2: Select the Label then drop to the center of the packaging',
         'neutral',
         {
-          badge: 'Step 2: Impulse Sealing & Labeling',
-          note: 'Thermal Impulse Principle: A controlled electrical pulse rapidly heats the sealing element, fusing the internal polyethylene layer into an airtight, hermetic seam without burning the outer kraft paper.',
-          hint: 'Drop Official Brand Label or click "Impulse Seal & Apply Label".',
+          badge: 'Stage 2',
+          note: 'Stage 2: Select the Label then drop to the center of the packaging',
+          hint: 'Stage 2: Select the Label then drop to the center of the packaging',
           hideButton: true,
         }
       );
@@ -143,12 +143,12 @@ export const Mission8Packaging = () => {
         soundManager.playSuccess();
         showToast('Airtight & Labeled!', 'Commercial Ubod CRUNCH pouch complete', 'success');
         speak(
-          'Hermetic impulse seal established and official product label applied!\n\nThe sealed rim forms an absolute barrier against humidity and atmospheric oxygen. The front label prominently displays our brand name "Ubod CRUNCH", net weight (50g), nutritional facts, manufacturing batch code, and allergen information in full compliance with FDA and DTI packaging guidelines.\n\nStep 3: Now select the Retail Countertop Display Box from your inventory shelf or click "Pack into Retail Carton" to consolidate 8 finished pouches into our commercial secondary packaging.',
-          'happy',
+          'Stage 2 complete.',
+          'neutral',
           {
-            badge: 'Step 3: Secondary Retail Packaging',
-            note: 'Secondary Packaging Function: The corrugated display carton protects delicate individual pouches from mechanical shock, crushing, and vibration during logistics and wholesale transit.',
-            hint: 'Select Retail Display Box from your inventory or click button to pack.',
+            badge: 'Stage 2 Complete',
+            note: 'Stage 2: Select the Label then drop to the center of the packaging',
+            hint: 'Stage 2: Select the Label then drop to the center of the packaging',
             hideButton: true,
           }
         );
@@ -164,11 +164,11 @@ export const Mission8Packaging = () => {
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
     speak(
-      'Magnificent Laboratory Achievement, Food Technologist!\n\nAll 8 commercial pouches of Ubod CRUNCH are now securely packed inside the retail countertop display carton. You have successfully navigated the entire food processing pipeline—from raw ubod washing and hydrothermal boiling, to high-shear grinding, starch formulation, precision molding, steam gelatinization, cabinet dehydration, flash expansion frying, and aseptic hermetic packaging!\n\nYou have earned the "Packaging & Quality Assurance Specialist" badge! Now let us test your holistic process mastery in our final challenge: the Post-Test Chronological Sequencing Assessment!',
-      'happy',
+      'Select “Proceed to Laboratory Review”',
+      'neutral',
       {
         badge: 'Production Master: All 8 Stages Complete',
-        note: 'HACCP Compliance Milestone: You have maintained strict sanitary controls, calibrated formulation ratios, thermal parameters, and commercial quality assurance across every manufacturing step!',
+        note: 'Select “Proceed to Laboratory Review”',
         btnText: 'Select “Proceed to Laboratory Review”',
         onNext: () => setScene('sequencing'),
       }
@@ -291,6 +291,8 @@ export const Mission8Packaging = () => {
               subtitle="Stage 8: 50g Barrier Packaging & Display Carton"
               currentStepIndex={packStep}
               steps={pouchSteps}
+              stepNumber={packStep === 0 ? 1 : 2}
+              stepTotal={2}
               onItemAccepted={handleItemAccepted}
               containerWidth="100%"
               statusDotClass={packStep >= 3 ? 'dot-success' : packStep >= 1 ? 'dot-amber' : ''}

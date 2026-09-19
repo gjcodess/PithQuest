@@ -237,7 +237,7 @@ export const TeacherMiaSidebar = () => {
               <div className="speech-focus-strip">
                 <span className="speech-focus-icon">🎯</span>
                 <span className="speech-focus-text">
-                  <strong>Objective:</strong> {dialogue.objective || stageKnowledge.subtitle}
+                  <strong>Objective:</strong> {dialogue.objective || dialogue.hint || 'Follow the instructions shown.'}
                 </span>
               </div>
             )}
