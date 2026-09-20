@@ -222,7 +222,7 @@ export const Mission8Packaging = () => {
         icon: item.fallbackIcon || '📦',
       });
       if (item.id === 'crispy_crackers') {
-        showToast('Crackers Selectedd', 'Tap the open kraft pouch to fill 50g.', 'info');
+        showToast('Crackers Selected', 'Tap the open kraft pouch to fill 50g.', 'info');
       } else if (item.id === 'brand_label') {
         showToast('Label Selected', 'Tap the pouch to heat seal & apply label.', 'info');
       } else if (item.id === 'retail_box') {
