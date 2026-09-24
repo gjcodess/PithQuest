@@ -57,7 +57,7 @@ export const Mission6Dehydration = () => {
       );
     } else {
       speak(
-        'Select the tray and drop to the center',
+        'Select the tray and place it in the center.',
         'neutral',
         {
           badge: 'Step 1: Tray Spacing',
@@ -136,7 +136,7 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Tray Prepared!', 'Dehydrator tray placed on counter.', 'success');
       speak(
-        'Select the steamed ubod then drop to the tray',
+        'Select the steamed ubod and place it on the tray.',
         'neutral',
         {
           badge: 'Step 2',
@@ -151,7 +151,7 @@ export const Mission6Dehydration = () => {
       setHoldingItem(null);
       showToast('Pieces Arranged!', 'Pieces arranged with space to prevent sticking.', 'success');
       speak(
-        'Select the cabinet dehydrator then drop to the tray',
+        'Select the cabinet dehydrator and place it on the tray.',
         'neutral',
         {
           badge: 'Step 3',
@@ -173,7 +173,7 @@ export const Mission6Dehydration = () => {
     setHoldingItem(null);
     showToast('Tray Inserted!', 'Tray secured inside cabinet dehydrator.', 'success');
     speak(
-      'Click start at the center of the dehydrator',
+      'Click Start in the center of the dehydrator.',
       'neutral',
       {
         badge: 'Step 4',
@@ -213,7 +213,7 @@ export const Mission6Dehydration = () => {
         soundManager.playSuccess();
         showToast('Dehydration Complete!', 'Pieces are completely dehydrated.', 'success');
         speak(
-          'Select the dry container then drop to the center',
+          'Select the dry container and place it in the center.',
           'neutral',
           {
             badge: 'Step 5',
@@ -234,7 +234,7 @@ export const Mission6Dehydration = () => {
     completeMission('mission6');
     showToast('Dry Container Stored!', 'Dried ubod pieces transferred to clean, dry container.', 'success');
     speak(
-      'Click “Proceed to stage 7”',
+      'Click “Proceed to Stage 7.”',
       'neutral',
       {
         badge: 'Step 6',

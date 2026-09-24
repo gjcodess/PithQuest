@@ -58,7 +58,7 @@ export const Mission3Mixing = () => {
       );
     } else {
       speak(
-        'Select the rice flour and drop to the bowl',
+        'Select the rice flour and add it to the bowl.',
         'neutral',
         {
           badge: 'Step 1: Formulation',
@@ -136,7 +136,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Rice Flour Added!', 'Next: Add 1 tsp Sea Salt to combine dry ingredients.', 'success');
       speak(
-        'Select 1 teaspoon of salt and drop to the bowl.',
+        'Select 1 teaspoon of salt and add it to the bowl.',
         'neutral',
         {
           badge: 'Step 2',
@@ -151,7 +151,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Salt Added!', 'Next: Add 1 Cup Ubod Paste (1:1 Ratio).', 'success');
       speak(
-        'Select 1 cup of ubod paste and drop to the bowl.',
+        'Select 1 cup of ubod paste and add it to the bowl.',
         'neutral',
         {
           badge: 'Step 3',
@@ -166,7 +166,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Ubod Paste Added!', 'Next: Pour in 1 Cup Water gradually.', 'success');
       speak(
-        'Select 1 cup water and drop to the bowl.',
+        'Select 1 cup of water and add it to the bowl.',
         'neutral',
         {
           badge: 'Step 4',
@@ -181,7 +181,7 @@ export const Mission3Mixing = () => {
       setHoldingItem(null);
       showToast('Water Added!', 'All ingredients combined! Select the Red Spatula to mix.', 'success');
       speak(
-        'Select spatula to mix the ingredients all together.',
+        'Select the spatula to mix all the ingredients together.',
         'neutral',
         {
           badge: 'Step 5',
@@ -219,7 +219,7 @@ export const Mission3Mixing = () => {
         completeMission('mission3');
         showToast('Stage 3 Complete!', 'Uniform ubod cracker dough successfully formulated', 'success');
         speak(
-          'Select “Proceed to stage 4: portioning and molding”',
+          'Select “Proceed to Stage 4: Portioning and Molding.”',
           'neutral',
           {
             badge: 'Step 6',

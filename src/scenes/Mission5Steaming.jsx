@@ -58,7 +58,7 @@ export const Mission5Steaming = () => {
       );
     } else {
       speak(
-        'Select water then drop to the steamer',
+        'Select the water and add it to the steamer.',
         'neutral',
         {
           badge: 'Step 1: Steamer Base',
@@ -136,7 +136,7 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Water Added!', 'Now seat the perforated steam tier on top of the base.', 'success');
       speak(
-        'Select the steam tier then drop to the steamer',
+        'Select the steam tier and place it in the steamer.',
         'neutral',
         {
           badge: 'Step 2',
@@ -151,7 +151,7 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Steam Tier Positioned!', 'Now place the molded ubod tray inside the perforated tier.', 'success');
       speak(
-        'Select the molded tray then drop to the steamer',
+        'Select the molded tray and place it in the steamer.',
         'neutral',
         {
           badge: 'Step 3',
@@ -166,7 +166,7 @@ export const Mission5Steaming = () => {
       setHoldingItem(null);
       showToast('Molded Tray Loaded!', 'Click the Burner Control Dial below to ignite medium heat (10 min).', 'success');
       speak(
-        'Click “Ignite burner” to close it and for it to be steamed',
+        'Click “Ignite burner” to start steaming.',
         'neutral',
         {
           badge: 'Step 4',
@@ -198,7 +198,7 @@ export const Mission5Steaming = () => {
         soundManager.playSuccess();
         showToast('Steaming Complete!', 'Wafers are firm & translucent. Don heat mitts to remove!', 'success');
         speak(
-          'Select silicon heat mittens then drop to the molded tray',
+          'Select the silicone heat mittens and place them on the molded tray.',
           'neutral',
           {
             badge: 'Step 5',
@@ -219,7 +219,7 @@ export const Mission5Steaming = () => {
     completeMission('mission5');
     showToast('Transferred to Cooling Rack!', 'Firm, translucent ubod crackers cooled for Stage 6', 'success');
     speak(
-      'Click “Proceed to stage 6”',
+        'Click “Proceed to Stage 6.”',
       'neutral',
       {
         badge: 'Stage 5 Complete',
