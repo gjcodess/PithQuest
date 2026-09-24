@@ -1,12 +1,12 @@
 /* ==========================================================================
-   PITHQUEST SOUND & AUDIO ENGINE
+   PALMQUEST SOUND & AUDIO ENGINE
    Web Audio API Procedural Synthesizer (Zero External Dependencies)
    ========================================================================== */
 
 class SoundManager {
   constructor() {
     this.ctx = null;
-    this.isMuted = localStorage.getItem('pithquest_muted') === 'true';
+    this.isMuted = localStorage.getItem('palmquest_muted') === 'true';
     this.bgmOsc = null;
   }
 
@@ -24,7 +24,7 @@ class SoundManager {
 
   toggleMute() {
     this.isMuted = !this.isMuted;
-    localStorage.setItem('pithquest_muted', this.isMuted);
+    localStorage.setItem('palmquest_muted', this.isMuted);
     return this.isMuted;
   }
 

@@ -12,7 +12,7 @@ const ASSETS_TO_PRELOAD = [
   '/images/teacher_mia_neutral.png',
   '/images/teacher_mia_happy.png',
   '/images/teacher_mia_thinking.png',
-  '/images/icon_coconut_pith.png',
+  '/images/icon_coconut_palm.png',
   '/images/icon_puffed_crackers.png',
   '/assets/platter_crackers_cooled.png',
   '/assets/icon_gold_medal_front.png',
@@ -102,13 +102,13 @@ export const LoadingScreen = ({ onLoaded }) => {
       {/* Main Minimalist Clean Loading Container */}
       <div className="title-container loading-title-container">
         <div className="title-card loading-card-minimal">
-          {/* PITHQUEST Title */}
+          {/* PALMQUEST Title */}
           <div className="loading-title-group">
             <h1 className="game-logo loading-game-logo">
-              PITH<span>QUEST</span>
+              PALM<span>QUEST</span>
             </h1>
             <p className="game-subtitle loading-game-subtitle">
-              The Coconut Pith Crackers Virtual Laboratory Challenge
+              The Coconut Palm Crackers Virtual Laboratory Challenge
             </p>
             <div className="title-divider" />
           </div>

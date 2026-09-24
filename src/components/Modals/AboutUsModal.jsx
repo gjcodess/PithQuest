@@ -54,7 +54,7 @@ export const AboutUsModal = () => {
     <div className="modal-overlay" onClick={closeModal}>
       <div className="modal-card about-us-modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>👥 About Us & The Coconut Pith Research Project</h2>
+          <h2>👥 About Us & The Coconut Palm Research Project</h2>
           <button className="close-btn" onClick={closeModal} title="Close Modal">&times;</button>
         </div>
 
@@ -62,15 +62,15 @@ export const AboutUsModal = () => {
           {/* Hero Story Card */}
           <div className="about-hero-banner">
             <div className="about-hero-badge">🎓 BSIE-HE-4A • Academic Thesis & Product Innovation</div>
-            <h3 className="about-hero-title">The Coconut Pith (Ubod) Cracker Initiative</h3>
+            <h3 className="about-hero-title">The Coconut Palm (Ubod) Cracker Initiative</h3>
             <p className="about-hero-text">
-              <strong>PithQuest</strong> was conceptualized and developed as an instructional material and interactive
+              <strong>PalmQuest</strong> was conceptualized and developed as an instructional material and interactive
               virtual laboratory for the undergraduate thesis of <strong>BSIE-HE-4A</strong> (Bachelor of Science in Industrial
               Education - Major in Home Economics, Section 4A) at the <strong>Technological University of the Philippines (TUP Manila)</strong>.
             </p>
             <p className="about-hero-text">
               The project showcases the scientific formulation and commercial processing of
-              <strong> "Coconut Pith Crackers"</strong>—an innovative snack product designed to valorize fibrous coconut pith
+              <strong> "Coconut Palm Crackers"</strong>—an innovative snack product designed to valorize fibrous coconut palm
               (<em>ubod ng niyog</em>) into nutritious, crispy, and shelf-stable food-grade crackers using standardized
               blending, steam gelatinization, dehydration, and frying technologies.
             </p>

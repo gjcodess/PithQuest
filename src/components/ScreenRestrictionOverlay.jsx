@@ -59,7 +59,7 @@ export const ScreenRestrictionOverlay = () => {
         </h2>
 
         <p id="screen-restriction-desc" className="restriction-desc">
-          <strong>PITHQuest Virtual Food Laboratory</strong> features interactive 3D
+          <strong>PALMQuest Virtual Food Laboratory</strong> features interactive 3D
           workstations, tactile tool inspections, and multi-step sanitation sequences
           designed exclusively for <strong>wide displays</strong>.
         </p>

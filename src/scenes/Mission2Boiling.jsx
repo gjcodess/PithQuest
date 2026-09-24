@@ -13,7 +13,7 @@ export const Mission2Boiling = () => {
 
   useEffect(() => {
     speak(
-      'Stage 2: Thermal Softening (Boiling)! Coconut pith fibers are tough. We must boil them in our stockpot until tender before pureeing.',
+      'Stage 2: Thermal Softening (Boiling)! Coconut palm fibers are tough. We must boil them in our stockpot until tender before pureeing.',
       'neutral',
       {
         badge: 'Stage 2: Boiling',
@@ -68,7 +68,7 @@ export const Mission2Boiling = () => {
         setHoldingItem(null);
         setSelectedItem(null);
         setIsBoiling(true);
-        showToast('Boiling Ubod Cubes!', 'Softening coconut pith fibers. Watch the tenderness gauge.', 'success');
+        showToast('Boiling Ubod Cubes!', 'Softening coconut palm fibers. Watch the tenderness gauge.', 'success');
         speak(
           'The sliced ubod is in boiling water! Watch the tenderness gauge. When it hits the green TENDER zone (between 70% and 90%), click STOP BOILING!',
           'neutral',
@@ -424,4 +424,3 @@ export const Mission2Boiling = () => {
     </div>
   );
 };
-

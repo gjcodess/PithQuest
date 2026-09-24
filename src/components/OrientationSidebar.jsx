@@ -133,7 +133,7 @@ export const OrientationSidebar = ({
                 <span className="card-title">4. Ubod Quality Audit</span>
                 <span className="card-measure">{qualityInspectionDone ? '✓ AUDITED' : 'INSPECT'}</span>
               </div>
-              <p className="card-desc-text">Fresh ivory coconut pith, crisp texture, zero discoloration.</p>
+              <p className="card-desc-text">Fresh ivory coconut palm, crisp texture, zero discoloration.</p>
             </div>
           </div>
         </div>

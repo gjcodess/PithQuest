@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PITHQUEST DIALOGUE & FEEDBACK SYSTEM
+   PALMQUEST DIALOGUE & FEEDBACK SYSTEM
    Teacher Mia Visual Novel Controller & Audio-Visual Toasts
    ========================================================================== */
 

@@ -396,7 +396,7 @@ export const Mission1Prep = () => {
           measure: '1 Cup (Sanitized)',
           img: '/assets/colander_ubod_raw.png',
           fallbackIcon: '🥣',
-          tooltip: 'Sanitized coconut pith strips, rinsed clean of surface soil & starch residues.',
+          tooltip: 'Sanitized coconut palm strips, rinsed clean of surface soil & starch residues.',
         };
         setHoldingItem(washedItem);
         showToast('Holding Washed Ubod!', 'Moving to Stove Boil...', 'info');
@@ -503,9 +503,9 @@ export const Mission1Prep = () => {
             }
           : undefined,
       tooltip: isWashed
-        ? 'Sanitized coconut pith strips, rinsed clean of surface soil & starch residues.'
+        ? 'Sanitized coconut palm strips, rinsed clean of surface soil & starch residues.'
         : !isUbodInColander
-        ? 'Fresh cut raw coconut pith strips. Place in sink colander to wash.'
+        ? 'Fresh cut raw coconut palm strips. Place in sink colander to wash.'
         : 'Ubod is in the sink colander. Turn on faucet to rinse.',
     },
     {
@@ -631,7 +631,7 @@ export const Mission1Prep = () => {
           stageTitle="Stage 1: Washing & Boiling"
           recipeItems={recipeItems}
           safetyNotes={safetyChecklist}
-          culinaryTip="Boiling the coconut pith for 10–15 minutes softens the tough plant fibers so they can be smoothly pureed into a fine paste in Stage 2 without coarse lumps."
+          culinaryTip="Boiling the coconut palm for 10–15 minutes softens the tough plant fibers so they can be smoothly pureed into a fine paste in Stage 2 without coarse lumps."
         />
 
         <div className="stage-content-row stage-single-workstation">

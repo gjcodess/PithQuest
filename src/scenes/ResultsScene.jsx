@@ -13,7 +13,7 @@ const STAGE_SCIENCE_FACTS = [
     img: '/assets/card_step_boiling.png',
     fallbackIcon: '🥥',
     foodScience:
-      'Hydrothermal softening at 100°C breaks down stubborn cellulosic fibers in coconut pith, solubilizing hemicellulose cell walls for smooth pureeing while thermally denaturing polyphenol oxidase (PPO) enzymes to prevent enzymatic browning.',
+      'Hydrothermal softening at 100°C breaks down stubborn cellulosic fibers in coconut palm, solubilizing hemicellulose cell walls for smooth pureeing while thermally denaturing polyphenol oxidase (PPO) enzymes to prevent enzymatic browning.',
   },
   {
     step: 2,
@@ -21,7 +21,7 @@ const STAGE_SCIENCE_FACTS = [
     img: '/assets/card_step_grinding.png',
     fallbackIcon: '⚡',
     foodScience:
-      'High-shear mechanical grinding ruptures parenchymal cells to homogenize boiled pith fibers into a uniform microscopic slurry, preventing grittiness and ensuring consistent hydration with starch polymers.',
+      'High-shear mechanical grinding ruptures parenchymal cells to homogenize boiled palm fibers into a uniform microscopic slurry, preventing grittiness and ensuring consistent hydration with starch polymers.',
   },
   {
     step: 3,
@@ -157,9 +157,9 @@ export const ResultsScene = () => {
             <span>📖 LABORATORY INSTRUCTIONAL DEBRIEF & COMPLETE ANSWER KEY</span>
           </div>
 
-          <h2 className="results-main-title">Coconut Pith Processing: Master Answer Key & Lessons</h2>
+          <h2 className="results-main-title">Coconut Palm Processing: Master Answer Key & Lessons</h2>
           <p className="results-sub-title">
-            <span>Curriculum: Coconut Pith Utilization for Cracker Development</span>
+            <span>Curriculum: Coconut Palm Utilization for Cracker Development</span>
             <br />
             <span>
               Student: <strong>{studentName || 'Food Technology Student'}</strong> • Reference Date: {currentDate}
@@ -551,7 +551,7 @@ export const ResultsScene = () => {
                 <strong>Quality Assurance Principle: Incoming Ingredient Critical Limits</strong>
               </div>
               <p>
-                Coconut pith is highly susceptible to enzymatic browning and bacterial souring once harvested due to high moisture and polyphenol oxidase (PPO) activity. Pure Erawan rice flour must remain below 12% moisture to prevent mold (Aspergillus flavus) and weevil proliferation. Frying oil must exhibit low free fatty acid (FFA &lt; 0.1%) to prevent hydroperoxide formation and acrid off-flavors during deep frying.
+                Coconut palm is highly susceptible to enzymatic browning and bacterial souring once harvested due to high moisture and polyphenol oxidase (PPO) activity. Pure Erawan rice flour must remain below 12% moisture to prevent mold (Aspergillus flavus) and weevil proliferation. Frying oil must exhibit low free fatty acid (FFA &lt; 0.1%) to prevent hydroperoxide formation and acrid off-flavors during deep frying.
               </p>
             </div>
           </div>
@@ -678,7 +678,7 @@ export const ResultsScene = () => {
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              The authentic chronological sequence of unit operations required to transform raw coconut pith into shelf-stable Ubod CRUNCH crackers:
+              The authentic chronological sequence of unit operations required to transform raw coconut palm into shelf-stable Ubod CRUNCH crackers:
             </p>
 
             <div className="stage-science-cards-stack">

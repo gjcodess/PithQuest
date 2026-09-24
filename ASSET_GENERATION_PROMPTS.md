@@ -1,5 +1,5 @@
-# PITHQUEST: COMPLETE ASSET GENERATION PROMPT CATALOG
-## 2D Interactive Assets for Coconut Pith Cracker Simulation (*Ubod Crunch*)
+# PALMQUEST: COMPLETE ASSET GENERATION PROMPT CATALOG
+## 2D Interactive Assets for Coconut Palm Cracker Simulation (*Ubod Crunch*)
 
 > **Style Reference & Visual Consistency Guidelines:**
 > - **Perspective:** 2.5D Isometric 3/4 angled view, looking slightly downward (~35° angle), centered on canvas.
@@ -203,17 +203,17 @@
   ```
 
 ### 2.5 `ing_ubod_fresh.png`
-* **Purpose:** Fresh white coconut pith (*Ubod ng Niyog*).
+* **Purpose:** Fresh white coconut palm (*Ubod ng Niyog*).
 * **Prompt:**
   ```text
-  A 2D game asset of fresh raw coconut pith (ubod), crisp ivory-white julienne matchstick strips piled neatly on a light aqua plate, tender moist texture, clean and fresh harvest, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile cooking game asset.
+  A 2D game asset of fresh raw coconut palm (ubod), crisp ivory-white julienne matchstick strips piled neatly on a light aqua plate, tender moist texture, clean and fresh harvest, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile cooking game asset.
   ```
 
 ### 2.6 `ing_ubod_rotten.png`
 * **Purpose:** Rotten/blackened ubod (distractor).
 * **Prompt:**
   ```text
-  A 2D game asset of rotten spoiled coconut pith, limp discolored shreds with dark black and slimy brown mold spots, decaying and unwholesome, flies graphic nearby, unhygienic, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of rotten spoiled coconut palm, limp discolored shreds with dark black and slimy brown mold spots, decaying and unwholesome, flies graphic nearby, unhygienic, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 2.7 `ing_rice_flour_clean.png`
@@ -264,13 +264,13 @@
 ### 3.3 `portion_ubod_raw_1cup.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel 1-cup dry measuring cup filled with fresh shredded ivory-white coconut pith (ubod), leveled neatly at the rim, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel 1-cup dry measuring cup filled with fresh shredded ivory-white coconut palm (ubod), leveled neatly at the rim, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 3.4 `portion_ubod_paste_1cup.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel 1-cup dry measuring cup filled with smooth, pureed pale-cream coconut pith paste, top surface leveled flat with a spatula, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel 1-cup dry measuring cup filled with smooth, pureed pale-cream coconut palm paste, top surface leveled flat with a spatula, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 3.5 `portion_rice_flour_1cup.png`
@@ -299,13 +299,13 @@
 ### 4.2 `sink_colander_ubod.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel colander inside a kitchen sink, filled with fresh shredded ivory-white coconut pith strips, faucet positioned above, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game workstation asset.
+  A 2D game asset of a stainless steel colander inside a kitchen sink, filled with fresh shredded ivory-white coconut palm strips, faucet positioned above, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game workstation asset.
   ```
 
 ### 4.3 `sink_colander_washing.png`
 * **Prompt:**
   ```text
-  A 2D game asset of shredded coconut pith in a stainless colander under a running sink faucet, stream of clear water spraying down onto the ubod with water droplets splashing through the perforations, washing action, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of shredded coconut palm in a stainless colander under a running sink faucet, stream of clear water spraying down onto the ubod with water droplets splashing through the perforations, washing action, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 4.4 `pot_empty.png`
@@ -317,19 +317,19 @@
 ### 4.5 `pot_with_ubod.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel cooking pot filled with washed, raw shredded ivory-white coconut pith at the bottom, no water, isometric 3/4 view looking into pot, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel cooking pot filled with washed, raw shredded ivory-white coconut palm at the bottom, no water, isometric 3/4 view looking into pot, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 4.6 `pot_with_ubod_water.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel cooking pot containing shredded coconut pith submerged in clear cold water, level filled halfway, no bubbles, isometric 3/4 view looking into pot, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel cooking pot containing shredded coconut palm submerged in clear cold water, level filled halfway, no bubbles, isometric 3/4 view looking into pot, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 4.7 `pot_with_ubod_water_salt.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel cooking pot containing shredded coconut pith in water, with a pinch of white salt crystals dissolving on the surface, isometric 3/4 view looking into pot, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel cooking pot containing shredded coconut palm in water, with a pinch of white salt crystals dissolving on the surface, isometric 3/4 view looking into pot, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 4.8 `pot_boiling_on_stove.png`
@@ -341,19 +341,19 @@
 ### 4.9 `colander_boiled_ubod_draining.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel colander inside a sink, filled with freshly boiled tender pale-yellowish coconut pith, hot steam rising and water streams draining from the bottom perforations, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel colander inside a sink, filled with freshly boiled tender pale-yellowish coconut palm, hot steam rising and water streams draining from the bottom perforations, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 4.10 `colander_boiled_ubod_cooling_rinse.png`
 * **Prompt:**
   ```text
-  A 2D game asset of boiled coconut pith in a stainless colander being rinsed with cold tap water from a faucet, steam dissipating, washing away surface residue and cooling the pith, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of boiled coconut palm in a stainless colander being rinsed with cold tap water from a faucet, steam dissipating, washing away surface residue and cooling the palm, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 4.11 `colander_boiled_ubod_ready.png`
 * **Prompt:**
   ```text
-  A 2D game asset of fully drained, cooled, soft and tender boiled coconut pith strips resting inside a stainless steel colander, no dripping water, ready for food processor, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of fully drained, cooled, soft and tender boiled coconut palm strips resting inside a stainless steel colander, no dripping water, ready for food processor, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ---
@@ -370,13 +370,13 @@
 ### 5.2 `processor_with_boiled_ubod.png`
 * **Prompt:**
   ```text
-  A 2D game asset of an open retro food processor, smoked transparent bowl filled with boiled, tender coconut pith strips around the central blade, open top, isometric 3/4 view looking into bowl, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of an open retro food processor, smoked transparent bowl filled with boiled, tender coconut palm strips around the central blade, open top, isometric 3/4 view looking into bowl, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 5.3 `processor_with_ubod_salt.png`
 * **Prompt:**
   ```text
-  A 2D game asset of the retro food processor bowl filled with boiled coconut pith, with 1 teaspoon of white salt sprinkled across the top, open lid, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of the retro food processor bowl filled with boiled coconut palm, with 1 teaspoon of white salt sprinkled across the top, open lid, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 5.4 `processor_running_blur.png`
@@ -388,13 +388,13 @@
 ### 5.5 `processor_open_paste.png`
 * **Prompt:**
   ```text
-  A 2D game asset of the retro food processor after blending, lid removed, bowl filled with finely pureed, smooth, creamy pale-ivory coconut pith paste, smooth uniform texture, isometric 3/4 view looking in, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of the retro food processor after blending, lid removed, bowl filled with finely pureed, smooth, creamy pale-ivory coconut palm paste, smooth uniform texture, isometric 3/4 view looking in, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 5.6 `bowl_ubod_paste_fresh.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a medium stainless steel mixing bowl filled with freshly scraped, smooth coconut pith paste, red spatula resting on edge, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a medium stainless steel mixing bowl filled with freshly scraped, smooth coconut palm paste, red spatula resting on edge, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ---
@@ -423,7 +423,7 @@
 ### 6.4 `mixing_bowl_paste_added.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel mixing bowl containing white rice flour and salt, with 1 cup of creamy pureed coconut pith paste added on top, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel mixing bowl containing white rice flour and salt, with 1 cup of creamy pureed coconut palm paste added on top, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 6.5 `mixing_bowl_water_pouring.png`
@@ -441,7 +441,7 @@
 ### 6.7 `mixing_bowl_dough_uniform.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stainless steel mixing bowl containing a smooth, uniform, cohesive ball of pale ivory coconut pith cracker dough, perfectly kneaded and moist, non-sticky texture, red spatula resting beside, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stainless steel mixing bowl containing a smooth, uniform, cohesive ball of pale ivory coconut palm cracker dough, perfectly kneaded and moist, non-sticky texture, red spatula resting beside, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ---
@@ -458,7 +458,7 @@
 ### 7.2 `molder_single_piece.png`
 * **Prompt:**
   ```text
-  A 2D game asset of the pink silicone mold with exactly 1 rectangular cavity filled with a smooth, leveled 3-teaspoon portion of pale coconut pith dough, remaining cavities empty, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of the pink silicone mold with exactly 1 rectangular cavity filled with a smooth, leveled 3-teaspoon portion of pale coconut palm dough, remaining cavities empty, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 7.3 `molder_partially_filled.png`
@@ -510,7 +510,7 @@
 ### 9.1 `cracker_piece_unmolded.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a single unmolded, steamed coconut pith cracker piece, firm rectangular shape with rounded corners, pale ivory translucent gel-like texture, flexible and rubbery, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a single unmolded, steamed coconut palm cracker piece, firm rectangular shape with rounded corners, pale ivory translucent gel-like texture, flexible and rubbery, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 9.2 `dehydrator_tray_empty.png`
@@ -534,7 +534,7 @@
 ### 9.5 `dehydrator_tray_dried.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a dehydrator mesh tray after 12 hours of drying, holding fully dehydrated coconut pith cracker chips, hard, brittle, shrunken, translucent amber-ivory color, glassy texture, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a dehydrator mesh tray after 12 hours of drying, holding fully dehydrated coconut palm cracker chips, hard, brittle, shrunken, translucent amber-ivory color, glassy texture, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 9.6 `container_dehydrated_chips.png`
@@ -581,19 +581,19 @@
 ### 10.6 `tongs_holding_puffed_cracker.png`
 * **Prompt:**
   ```text
-  A 2D game asset of stainless steel kitchen tongs lifting a single freshly fried, puffy, crispy, golden-ivory coconut pith cracker out of hot oil, glistening lightly, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of stainless steel kitchen tongs lifting a single freshly fried, puffy, crispy, golden-ivory coconut palm cracker out of hot oil, glistening lightly, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 10.7 `colander_fried_crackers_draining.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a perforated aluminum colander resting on a counter, piled high with freshly fried, puffy, crispy golden coconut pith crackers draining excess cooking oil, paper towel beneath, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a perforated aluminum colander resting on a counter, piled high with freshly fried, puffy, crispy golden coconut palm crackers draining excess cooking oil, paper towel beneath, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 10.8 `platter_crackers_cooled.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a large white ceramic serving platter heaped with perfectly golden, crispy, airy, crunchy coconut pith crackers (Ubod Crunch), light delicate blistered texture, completely cooled, ready for packaging, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile cooking game asset.
+  A 2D game asset of a large white ceramic serving platter heaped with perfectly golden, crispy, airy, crunchy coconut palm crackers (Ubod Crunch), light delicate blistered texture, completely cooled, ready for packaging, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile cooking game asset.
   ```
 
 ---
@@ -610,7 +610,7 @@
 ### 11.2 `pouch_with_crackers.png`
 * **Prompt:**
   ```text
-  A 2D game asset of a stand-up brown kraft paper pouch filled with crispy, golden puffed coconut pith crackers clearly visible through the transparent front window, top zipper still open, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
+  A 2D game asset of a stand-up brown kraft paper pouch filled with crispy, golden puffed coconut palm crackers clearly visible through the transparent front window, top zipper still open, isometric 3/4 view, smooth cel-shaded vector art style, clean outlines, isolated on white background, mobile game asset.
   ```
 
 ### 11.3 `pouch_sealed_labeled.png`
@@ -772,4 +772,4 @@
   ```
 
 ---
-*Catalog generated for PithQuest by DeepMind pair programming assistant. All assets designed for unified 2.5D isometric game integration.*
+*Catalog generated for PalmQuest by DeepMind pair programming assistant. All assets designed for unified 2.5D isometric game integration.*

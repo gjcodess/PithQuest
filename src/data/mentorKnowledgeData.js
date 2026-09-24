@@ -62,7 +62,7 @@ export const MENTOR_KNOWLEDGE = {
         title: 'Thermal Hemicellulose Degradation',
         icon: '♨️',
         summary: '100°C boiling water softens tough plant cell wall matrices.',
-        details: 'Coconut pith (apical meristem) contains dense structural cellulose, hemicellulose, and pectin fibrils. A 10–15 minute rolling boil hydrolyzes pectin and relaxes cellulose polymers, making the tissue fork-tender for fine pureeing in Stage 2.'
+        details: 'Coconut palm (apical meristem) contains dense structural cellulose, hemicellulose, and pectin fibrils. A 10–15 minute rolling boil hydrolyzes pectin and relaxes cellulose polymers, making the tissue fork-tender for fine pureeing in Stage 2.'
       },
       {
         title: 'Sodium Chloride Osmotic Tenderization',

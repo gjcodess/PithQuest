@@ -1,10 +1,10 @@
-# PITHQUEST: Virtual Food Laboratory Challenge
+# PALMQUEST: Virtual Food Laboratory Challenge
 ## Official Laboratory User Manual & Instructional Field Guide
-### *Coconut Pith Crackers (Ubod ng Niyog) Processing & Manufacturing Simulation*
+### *Coconut Palm Crackers (Ubod ng Niyog) Processing & Manufacturing Simulation*
 
 ---
 
-![PithQuest Title Screen](./docs/manual-assets/step-01-title-main-menu.png)
+![PalmQuest Title Screen](./docs/manual-assets/step-01-title-main-menu.png)
 
 ---
 
@@ -45,12 +45,12 @@
 
 ## 1. Executive Overview & Pedagogical Mission
 
-**PITHQUEST** is an interactive, browser-based gamified educational laboratory simulation engineered specifically for **Home Economics (HE)** and **Food Technology** students. 
+**PALMQUEST** is an interactive, browser-based gamified educational laboratory simulation engineered specifically for **Home Economics (HE)** and **Food Technology** students.
 
-The software models the full industrial valorization lifecycle of **Coconut Pith** (*Ubod ng Niyog* — the edible apical meristem of the coconut palm), transforming agricultural coproducts into shelf-stable, high-fiber, crispy culinary crackers (**Ubod CRUNCH** / *Kropek*).
+The software models the full industrial valorization lifecycle of **Coconut Palm** (*Ubod ng Niyog* — the edible apical meristem of the coconut palm), transforming agricultural coproducts into shelf-stable, high-fiber, crispy culinary crackers (**Ubod CRUNCH** / *Kropek*).
 
 ```
-   [ Raw Coconut Pith ] ➔ [ Washing & Boiling ] ➔ [ High-Shear Puree ]
+   [ Raw Coconut Palm ] ➔ [ Washing & Boiling ] ➔ [ High-Shear Puree ]
                                                          │
    [ Rectangular Molding ] ◄── [ 1:1 Starch Blending ] ◄─┘
             │
@@ -69,7 +69,7 @@ The software models the full industrial valorization lifecycle of **Coconut Pith
 
 ## 2. System Specifications & Environmental Setup
 
-PithQuest is designed to run locally or over a campus network without requiring third-party plugins.
+PalmQuest is designed to run locally or over a campus network without requiring third-party plugins.
 
 | Feature | Requirement / Recommendation |
 | :--- | :--- |
@@ -87,7 +87,7 @@ PithQuest is designed to run locally or over a campus network without requiring 
 
 ## 3. User Interface & Laboratory HUD Architecture
 
-The PithQuest laboratory interface is organized into a balanced, 3-zone panoramic layout designed to minimize visual clutter while maximizing tactile engagement.
+The PalmQuest laboratory interface is organized into a balanced, 3-zone panoramic layout designed to minimize visual clutter while maximizing tactile engagement.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -154,7 +154,7 @@ Click **📖 Recipe & Standards** to view the standardized formula and critical 
 ![Recipe and Processing Standards](./docs/manual-assets/step-03-recipe-standards.png)
 
 #### Standard Ingredient Ratios
-* **🥥 Coconut Pith (Ubod ng Niyog) — 1 Cup:** Provides dietary fiber, organic minerals, and unique coconut-pith body.
+* **🥥 Coconut Palm (Ubod ng Niyog) — 1 Cup:** Provides dietary fiber, organic minerals, and unique coconut-palm body.
 * **🌾 Rice Flour — 1 Cup (1:1 Ratio):** Primary starch binder supplying amylose polymers for crisp fracture snap.
 * **🧂 Pure Sea Salt — 1 Teaspoon:** Flavor enhancer and osmotic cell-softening agent.
 * **💧 Potable Water — 1 Cup:** Hydrates dry starches into cohesive, pliable dough.
@@ -235,7 +235,7 @@ Upon entering the laboratory, all students complete a 4-part Pre-Test diagnostic
 
 #### Instructions:
 1. Inspect the incoming raw materials for the batch:
-   - **Coconut Pith (Ubod):** Must be crisp, creamy white, with fresh vegetative aroma. Reject brown, oxidized, or sour-smelling pith.
+   - **Coconut Palm (Ubod):** Must be crisp, creamy white, with fresh vegetative aroma. Reject brown, oxidized, or sour-smelling palm.
    - **Rice Flour:** Must be powdery, dry, and free of weevils or moisture clumping.
    - **Potable Water:** Clean, transparent, odor-free drinking water.
    - **Vegetable Oil:** Clear, golden, low-viscosity liquid with high smoke point (reject dark or rancid oil).
@@ -492,4 +492,4 @@ Students who meet laboratory competency standards unlock the official **Departme
 
 ---
 
-*PITHQUEST: Coconut Pith Crackers Virtual Laboratory Challenge — Developed for Home Economics & Food Technology Education.*
+*PALMQUEST: Coconut Palm Crackers Virtual Laboratory Challenge — Developed for Home Economics & Food Technology Education.*

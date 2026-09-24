@@ -101,7 +101,7 @@ export const Mission5Frying = () => {
     if (fryStep === 4) {
       soundManager.playSuccess();
       speak(
-        'Outstanding culinary execution! The Coconut Pith Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
+        'Outstanding culinary execution! The Coconut Palm Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
         'happy',
         {
           badge: 'All Missions Cleared',
@@ -122,7 +122,7 @@ export const Mission5Frying = () => {
     setFryStep(4);
     completeMission('mission5');
     speak(
-      'Outstanding culinary execution! The Coconut Pith Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
+      'Outstanding culinary execution! The Coconut Palm Crackers are light, bubbly, golden, and drained dry of excess oil. You have completed the entire food processing sequence!',
       'happy',
       {
         badge: 'All Missions Cleared',

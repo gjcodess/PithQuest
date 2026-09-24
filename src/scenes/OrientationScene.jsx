@@ -126,7 +126,7 @@ export const OrientationScene = () => {
     } else if (phase === 'ingredient_inspection') {
       speak(
         isAlreadyCompleted
-          ? 'Orientation Pre-Test Completed: Review your ingredient quality inspection choices below. Fresh, firm coconut pith ensures the ideal starch-to-fiber ratio for crisp, uniform cracker puffing.'
+          ? 'Orientation Pre-Test Completed: Review your ingredient quality inspection choices below. Fresh, firm coconut palm ensures the ideal starch-to-fiber ratio for crisp, uniform cracker puffing.'
           : 'Teacher Mia: Let\'s now proceed to ingredients. You must choose the right, safe ingredients. Click to select and check.',
         'neutral',
         {
@@ -340,7 +340,7 @@ export const OrientationScene = () => {
         'happy',
         {
           badge: 'Entering Laboratory',
-          note: 'Apply safe handling and sanitary technique as you begin processing fresh coconut pith.',
+          note: 'Apply safe handling and sanitary technique as you begin processing fresh coconut palm.',
           btnText: 'Start Stage 1: Washing & Boiling ➔',
           onNext: () => setScene('mission1'),
         }
@@ -608,7 +608,7 @@ export const OrientationScene = () => {
             <div className="vessel-top-badge">Quality Inspection</div>
             <MinigameInspection
               title="Quality Inspection"
-              subtitle="Audit incoming coconut pith, rice flour, oil, and salt. Select the fresh, sanitary, uncontaminated items."
+              subtitle="Audit incoming coconut palm, rice flour, oil, and salt. Select the fresh, sanitary, uncontaminated items."
               items={INGREDIENT_INSPECTION_ITEMS}
               initialAnswers={ingredientAnswers}
               onAnswersChange={handleIngredientAnswersChange}

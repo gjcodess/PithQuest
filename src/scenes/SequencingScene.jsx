@@ -58,7 +58,7 @@ export const SequencingScene = () => {
           <div className="hero-exam-badge">
             <span>POST-TEST • MANUFACTURING SEQUENCE ASSESSMENT</span>
           </div>
-          <h2 className="hero-exam-title">Coconut Pith Crackers Pipeline Assessment</h2>
+          <h2 className="hero-exam-title">Coconut Palm Crackers Pipeline Assessment</h2>
           <p className="hero-exam-desc">
             Reconstruct the exact sequential lifecycle of <strong>Ubod ng Niyog - Ubod CRUNCH</strong> before accessing your comprehensive diagnostic audit report and food science rationale breakdown.
           </p>

@@ -1,6 +1,6 @@
 /* ==========================================================================
    RESULTS SCENE — COMPREHENSIVE DIAGNOSTIC AUDIT & ASSESSMENT REPORT
-   PithQuest Warm Laboratory Parchment & Tactile 3D Design System
+   PalmQuest Warm Laboratory Parchment & Tactile 3D Design System
    ========================================================================== */
 
 .results-scene {
@@ -1441,7 +1441,7 @@
 
   /* Official Certification Footer in Print */
   .results-container::after {
-    content: "PITHQuest: Coconut Pith Crackers Virtual Laboratory • Official Instructional Performance & Competency Summary Report";
+    content: "PALMQuest: Coconut Palm Crackers Virtual Laboratory • Official Instructional Performance & Competency Summary Report";
     display: block !important;
     text-align: center !important;
     font-size: 0.64rem !important;

@@ -25,7 +25,7 @@ const HELP_SECTIONS = [
     icon: '🧩',
     title: 'Post Test',
     description:
-      'Before the game ends, students will need to arrange coconut pith cracker production from Stage 1 to 8.',
+      'Before the game ends, students will need to arrange coconut palm cracker production from Stage 1 to 8.',
   },
 ];
 
@@ -44,8 +44,8 @@ export const HelpModal = () => {
 
         <div className="modal-body help-modal-body">
           <p className="help-intro-text">
-            Welcome to <strong>PithQuest</strong>! This interactive virtual laboratory simulates the scientific preparation 
-            and commercial manufacturing of <strong>Coconut Pith (Ubod) Crackers</strong>. Here is your quick start guide:
+            Welcome to <strong>PalmQuest</strong>! This interactive virtual laboratory simulates the scientific preparation
+            and commercial manufacturing of <strong>Coconut Palm (Ubod) Crackers</strong>. Here is your quick start guide:
           </p>
 
           <div className="help-sections-grid">

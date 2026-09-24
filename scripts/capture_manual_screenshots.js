@@ -161,8 +161,8 @@ async function capture() {
   async function captureSceneWorkstation(sceneName, filename, logMsg) {
     console.log(logMsg);
     await page.evaluate((s) => {
-      if (window.__setPithQuestScene) {
-        window.__setPithQuestScene(s);
+      if (window.__setPalmQuestScene) {
+        window.__setPalmQuestScene(s);
       }
     }, sceneName);
     await page.waitForTimeout(800);
@@ -190,8 +190,8 @@ async function capture() {
   // Sample checkpoint question screenshot for manual demonstration
   console.log('Capturing checkpoint pre-check question sample...');
   await page.evaluate(() => {
-    if (window.__setPithQuestScene) {
-      window.__setPithQuestScene('mission5');
+    if (window.__setPalmQuestScene) {
+      window.__setPalmQuestScene('mission5');
     }
   });
   await page.waitForTimeout(800);
@@ -256,8 +256,8 @@ async function capture() {
   // 17. Post-Test: Chronological Sequencing Puzzle
   console.log('Capturing step-17-post-test-sequencing-puzzle.png...');
   await page.evaluate(() => {
-    if (window.__setPithQuestScene) {
-      window.__setPithQuestScene('sequencing');
+    if (window.__setPalmQuestScene) {
+      window.__setPalmQuestScene('sequencing');
     }
   });
   await page.waitForTimeout(1000);
@@ -266,8 +266,8 @@ async function capture() {
   // 18. Results: Diagnostic Audit & Report
   console.log('Capturing step-18-diagnostic-audit-report.png (Results Scene)...');
   await page.evaluate(() => {
-    if (window.__setPithQuestScene) {
-      window.__setPithQuestScene('results');
+    if (window.__setPalmQuestScene) {
+      window.__setPalmQuestScene('results');
     }
   });
   await page.waitForTimeout(1500);
@@ -284,8 +284,8 @@ async function capture() {
   // 20. Official Printable Certificate / Evaluation Scene
   console.log('Capturing step-20-official-completion-certificate.png...');
   await page.evaluate(() => {
-    if (window.__setPithQuestScene) {
-      window.__setPithQuestScene('evaluation');
+    if (window.__setPalmQuestScene) {
+      window.__setPalmQuestScene('evaluation');
     }
   });
   await page.waitForTimeout(1500);

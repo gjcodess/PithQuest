@@ -1,6 +1,6 @@
-# Walkthrough: PITHQUEST (React.js Virtual Laboratory Game)
+# Walkthrough: PALMQUEST (React.js Virtual Laboratory Game)
 
-We have built and launched **PITHQuest** as a modern, responsive React.js web-based gamified educational laboratory simulation for Home Economics (HE) food technology students learning the preparation and processing of **Coconut Pith Crackers** (*Ubod ng Niyog*).
+We have built and launched **PALMQuest** as a modern, responsive React.js web-based gamified educational laboratory simulation for Home Economics (HE) food technology students learning the preparation and processing of **Coconut Palm Crackers** (*Ubod ng Niyog*).
 
 ---
 
@@ -13,7 +13,7 @@ We have built and launched **PITHQuest** as a modern, responsive React.js web-ba
 ## 🎨 Aesthetic & Design Integration
 * **Visual Direction:** Cozy 2D Educational Culinary Laboratory aesthetic with warm cream countertops, mint-tiled laboratory walls, and clean tactile cards.
 * **Character Assets:** Teacher Mia with 3 emotional states (`neutral` greeting, `thinking` hint/caution, `happy` thumbs-up celebration).
-* **Bespoke Food & Tool Graphics:** Illustrated fresh coconut pith, starch canisters, seasonings, stockpot, dehydrator, and golden puffed crackers.
+* **Bespoke Food & Tool Graphics:** Illustrated fresh coconut palm, starch canisters, seasonings, stockpot, dehydrator, and golden puffed crackers.
 * **Audio Engine:** Zero-dependency Web Audio API procedural synthesizer providing realistic kitchen sound effects (knife chops, water pours, boiling bubbles, hot oil sizzle, crispy crunch, and victory chimes).
 
 ---
@@ -34,10 +34,10 @@ We have built and launched **PITHQuest** as a modern, responsive React.js web-ba
 
 #### Phase 1: Orientation & Pre-Lab
 * **Title Scene (`src/scenes/TitleScene.jsx`):** Welcoming cover with student name input, audio initialization, and quick modal links for *Learning Objectives* (Cognitive, Psychomotor, Affective) and the *Standard Recipe*.
-* **Orientation & PPE Check (`src/scenes/OrientationScene.jsx`):** Interactive health benefits of coconut pith (high dietary fiber, potassium, zero-waste valorization) followed by a mandatory 3-item PPE check (hairnet, apron, hand sanitizer) that awards the **Sanitation Guardian 🧼** badge (+50 PTS).
+* **Orientation & PPE Check (`src/scenes/OrientationScene.jsx`):** Interactive health benefits of coconut palm (high dietary fiber, potassium, zero-waste valorization) followed by a mandatory 3-item PPE check (hairnet, apron, hand sanitizer) that awards the **Sanitation Guardian 🧼** badge (+50 PTS).
 
 #### Phase 2: The 5 Hands-on Laboratory Missions
-* **Stage 1: Raw Prep & Slicing (`src/scenes/Mission1Prep.jsx`):** Placing raw coconut pith on the wooden cutting board, slicing tough fibers into uniform cubes with the chef's knife, and transferring into the stainless steel prep bowl.
+* **Stage 1: Raw Prep & Slicing (`src/scenes/Mission1Prep.jsx`):** Placing raw coconut palm on the wooden cutting board, slicing tough fibers into uniform cubes with the chef's knife, and transferring into the stainless steel prep bowl.
 * **Stage 2: Thermal Softening & Boiling (`src/scenes/Mission2Boiling.jsx`):** Adding water, igniting the burner, boiling the ubod with an interactive tenderness gauge, and pureeing into a smooth paste in the blender.
 * **Stage 3: Formulation & Mixing (`src/scenes/Mission3Mixing.jsx`):** Measuring and sequencing tapioca starch (the puffing agent), pureed ubod, and savory seasonings (salt, garlic powder, sugar) into the mixing bowl, kneading with a spatula, with distractor penalty detection.
 * **Stage 4: Moisture Removal & Dehydration (`src/scenes/Mission4Dehydration.jsx`):** Loading sliced cracker discs onto perforated stainless mesh trays, setting cabinet temperature to 60°C, and watching product moisture drop from 75% down to 9% to yield glassy raw pellets.

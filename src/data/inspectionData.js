@@ -235,7 +235,7 @@ export const TOOL_INSPECTION_ITEMS = [
 export const INGREDIENT_INSPECTION_ITEMS = [
   {
     id: "ubod",
-    name: "Coconut Pith (Ubod)",
+    name: "Coconut Palm (Ubod)",
     safe: {
       name: "Fresh Crisp Ubod",
       description: "Bright ivory-white color, crisp firm snap, mild pleasant coconut aroma.",

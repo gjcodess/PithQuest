@@ -303,7 +303,7 @@ export const Mission2Grinding = () => {
   };
 
   const recipeItems = [
-    { name: 'Boiled Ubod Pith', measure: '1 Cup', icon: '🥥', isCompleted: processorStep >= 1, isCurrent: processorStep === 0 },
+    { name: 'Boiled Ubod Palm', measure: '1 Cup', icon: '🥥', isCompleted: processorStep >= 1, isCurrent: processorStep === 0 },
     { name: 'Pure Sea Salt', measure: '1 tsp (Per Cup)', icon: '🧂', isCompleted: processorStep >= 2, isCurrent: processorStep === 1 },
   ];
 
@@ -349,7 +349,7 @@ export const Mission2Grinding = () => {
           stageTitle="Stage 2: Food Processing"
           recipeItems={recipeItems}
           safetyNotes={safetyChecklist}
-          culinaryTip="Processing the boiled coconut pith until it becomes fine and paste-like ensures smooth starch incorporation in Stage 3, producing uniform crackers without hard fibrous pockets."
+          culinaryTip="Processing the boiled coconut palm until it becomes fine and paste-like ensures smooth starch incorporation in Stage 3, producing uniform crackers without hard fibrous pockets."
         />
 
         <div className="stage-content-row stage-single-workstation">
