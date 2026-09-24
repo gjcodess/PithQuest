@@ -13,6 +13,12 @@ const ASSETS_TO_PRELOAD = [
   '/images/teacher_mia_happy.png',
   '/images/teacher_mia_thinking.png',
   '/images/icon_coconut_palm.png',
+  '/images/icon_fresh_ubod.png',
+  '/images/icon_ubod_puree.png',
+  '/assets/colander_ubod_only.png',
+  '/images/icon_puffed_crackers.png',
+  '/assets/platter_crackers_cooled.png',
+  '/assets/pouch_sealed_labeled.png',
   '/images/icon_puffed_crackers.png',
   '/assets/platter_crackers_cooled.png',
   '/assets/icon_gold_medal_front.png',
@@ -97,11 +103,15 @@ export const LoadingScreen = ({ onLoaded }) => {
         <img src="/assets/card_step_dehydration.png" alt="Dehydration Step" className="particle-card p6" />
         <img src="/assets/card_step_frying.png" alt="Frying Step" className="particle-card p7" />
         <img src="/assets/card_step_packaging.png" alt="Packaging Step" className="particle-card p8" />
+        <img src="/images/icon_fresh_ubod.png" alt="Fresh coconut palm" className="particle-ubod p9" aria-hidden="true" />
+        <img src="/images/icon_ubod_puree.png" alt="Coconut palm puree" className="particle-ubod p10" aria-hidden="true" />
+        <img src="/assets/colander_ubod_only.png" alt="Prepared coconut palm" className="particle-ubod p11" aria-hidden="true" />
+        <img src="/images/icon_puffed_crackers.png" alt="Coconut palm crackers" className="particle-ubod p12" aria-hidden="true" />
       </div>
 
       {/* Main Minimalist Clean Loading Container */}
       <div className="title-container loading-title-container">
-        <div className="title-card loading-card-minimal">
+          <div className="title-card loading-card-minimal">
           {/* PALMQUEST Title */}
           <div className="loading-title-group">
             <h1 className="game-logo loading-game-logo">
@@ -111,6 +121,11 @@ export const LoadingScreen = ({ onLoaded }) => {
               The Coconut Palm Crackers Virtual Laboratory Challenge
             </p>
             <div className="title-divider" />
+          </div>
+
+          <div className="loading-product-feature">
+            <img src="/assets/platter_crackers_cooled.png" alt="Cooled coconut palm crackers" />
+            <img src="/assets/pouch_sealed_labeled.png" alt="Sealed labeled coconut palm crackers" />
           </div>
 
           {/* Loading Progress Bar */}
