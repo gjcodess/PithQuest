@@ -193,7 +193,7 @@
   width: 480px;
   max-width: calc(100vw - 44px);
   max-height: calc(100vh - 120px);
-  background: linear-gradient(180deg, #ffffff 0%, #fbfdfb 45%, #f1f9f2 100%);
+  background: linear-gradient(180deg, #edf8ef 0%, #e3f2e7 48%, #d7ebdc 100%);
   border: 2.5px solid #86efac;
   border-bottom: 5px solid #10b981;
   border-radius: 22px;
@@ -201,7 +201,7 @@
   box-shadow:
     0 6px 0 #059669,
     0 20px 48px rgba(15, 23, 42, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
