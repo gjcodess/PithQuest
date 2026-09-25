@@ -1,7 +1,7 @@
 {
-  "name": "pithquest",
+  "name": "palmquest",
   "version": "1.0.0",
-  "description": "Coconut Pith Crackers: Virtual Laboratory Challenge",
+  "description": "Coconut Palm Crackers: Virtual Laboratory Challenge",
   "type": "module",
   "scripts": {
     "dev": "vite",

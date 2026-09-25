@@ -1,6 +1,6 @@
 /* ==========================================================================
    CULINARY LABORATORY LOADING SCREEN (CLEAN MINIMALIST TACTILE THEME)
-   PithQuest Warm Laboratory Parchment & Tactile 3D Design System
+   PalmQuest Warm Laboratory Parchment & Tactile 3D Design System
    ========================================================================== */
 
 .loading-screen-backdrop {
@@ -146,6 +146,58 @@
   transform: rotate(-6deg);
 }
 
+/* Coconut Palm Cracker Ingredient Visuals */
+.loading-ambient-particles .particle-ubod {
+  position: absolute;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.68;
+  filter: blur(1.4px) drop-shadow(0 12px 22px rgba(78, 52, 28, 0.28));
+  animation: floatAmbientUbod 8s infinite ease-in-out alternate;
+}
+
+.loading-ambient-particles .p9 {
+  width: 120px;
+  top: 23%;
+  left: 16%;
+  transform: rotate(-12deg);
+  animation-delay: 0.7s;
+}
+
+.loading-ambient-particles .p10 {
+  width: 130px;
+  top: 27%;
+  right: 15%;
+  transform: rotate(10deg);
+  animation-duration: 9s;
+  animation-delay: 1.8s;
+}
+
+.loading-ambient-particles .p11 {
+  width: 145px;
+  bottom: 8%;
+  left: 43%;
+  transform: rotate(-5deg);
+  animation-duration: 8.6s;
+  animation-delay: 2.4s;
+}
+
+.loading-ambient-particles .p12 {
+  width: 150px;
+  bottom: 18%;
+  right: 17%;
+  transform: rotate(8deg);
+  animation-duration: 9.4s;
+  animation-delay: 1.1s;
+}
+
+@keyframes floatAmbientUbod {
+  0% { transform: translateY(0) rotate(-4deg) scale(0.96); }
+  50% { transform: translateY(-14px) rotate(3deg) scale(1.02); }
+  100% { transform: translateY(-26px) rotate(-2deg) scale(0.98); }
+}
+
 @keyframes floatAmbientCard {
   0% {
     transform: translateY(0) scale(0.96);
@@ -204,6 +256,27 @@
 .loading-game-subtitle {
   font-size: 1.3rem !important;
   margin-bottom: 24px !important;
+}
+
+.loading-product-feature {
+  width: min(82vw, 520px);
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: -14px auto -8px;
+  position: relative;
+  z-index: 1;
+}
+
+.loading-product-feature img {
+  width: calc(33.333% - 8px);
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 12px 22px rgba(78, 52, 28, 0.22));
+  pointer-events: none;
 }
 
 /* ==========================================================================

@@ -13,7 +13,7 @@ const STAGE_SCIENCE_FACTS = [
     img: '/assets/card_step_boiling.png',
     fallbackIcon: '🥥',
     foodScience:
-      'Hydrothermal softening at 100°C breaks down stubborn cellulosic fibers in coconut pith, solubilizing hemicellulose cell walls for smooth pureeing while thermally denaturing polyphenol oxidase (PPO) enzymes to prevent enzymatic browning.',
+      'Hydrothermal softening at 100°C breaks down stubborn cellulosic fibers in coconut palm, solubilizing hemicellulose cell walls for smooth pureeing while thermally denaturing polyphenol oxidase (PPO) enzymes to prevent enzymatic browning.',
   },
   {
     step: 2,
@@ -21,7 +21,7 @@ const STAGE_SCIENCE_FACTS = [
     img: '/assets/card_step_grinding.png',
     fallbackIcon: '⚡',
     foodScience:
-      'High-shear mechanical grinding ruptures parenchymal cells to homogenize boiled pith fibers into a uniform microscopic slurry, preventing grittiness and ensuring consistent hydration with starch polymers.',
+      'High-shear mechanical grinding ruptures parenchymal cells to homogenize boiled palm fibers into a uniform microscopic slurry, preventing grittiness and ensuring consistent hydration with starch polymers.',
   },
   {
     step: 3,
@@ -157,9 +157,9 @@ export const ResultsScene = () => {
             <span>📖 LABORATORY INSTRUCTIONAL DEBRIEF & COMPLETE ANSWER KEY</span>
           </div>
 
-          <h2 className="results-main-title">Coconut Pith Processing: Master Answer Key & Lessons</h2>
+          <h2 className="results-main-title">Coconut Palm Processing: Master Answer Key & Lessons</h2>
           <p className="results-sub-title">
-            <span>Curriculum: Coconut Pith Utilization for Cracker Development</span>
+            <span>Curriculum: Coconut Palm Utilization for Cracker Development</span>
             <br />
             <span>
               Student: <strong>{studentName || 'Food Technology Student'}</strong> • Reference Date: {currentDate}
@@ -441,33 +441,36 @@ export const ResultsScene = () => {
                 <thead>
                   <tr>
                     <th style={{ width: '22%' }}>Equipment / Tool</th>
-                    <th style={{ width: '22%' }}>Standard Specification</th>
+                    <th style={{ width: '22%' }}>Requested Option</th>
                     <th style={{ width: '18%', textAlign: 'center' }}>Your Inspection Result</th>
-                    <th style={{ width: '38%' }}>Food Contact Safety Standard & Rationale</th>
+                    <th style={{ width: '38%' }}>Target Requirement & Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
                   {TOOL_INSPECTION_ITEMS.map((item) => {
-                    const recorded = toolAudit.find((t) => t.itemId === item.id);
-                    const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
+                    const recorded = toolAudit.find((t) => t.id === item.id);
+                    const isCorrect = recorded !== undefined
+                      ? Boolean(recorded.isCorrect ?? recorded.isSafe)
+                      : true;
+                    const selectedName = recorded?.chosen?.name;
 
                     return (
-                      <tr key={item.id} className={isSafe ? 'row-pass' : 'row-fail'}>
+                      <tr key={item.id} className={isCorrect ? 'row-pass' : 'row-fail'}>
                         <td>
                           <strong>{item.name}</strong>
                         </td>
-                        <td>{item.safe?.name || 'Sanitary Standard Tool'}</td>
+                        <td>{item.correctOption?.name || 'Requested Tool'}</td>
                         <td style={{ textAlign: 'center' }}>
-                          {isSafe ? (
-                            <span className="badge-safe">✓ VERIFIED SAFE</span>
+                          {isCorrect ? (
+                            <span className="badge-safe">✓ CORRECT TARGET</span>
                           ) : (
-                            <span className="badge-hazard">⚠️ HAZARD DETECTED</span>
+                            <span className="badge-hazard">⚠️ DIFFERENT ITEM</span>
                           )}
                         </td>
                         <td>
-                          {isSafe
-                            ? item.safe?.reason
-                            : `Identified Hazard: ${item.damaged?.reason}. Standard Requirement: ${item.safe?.reason}`}
+                          {isCorrect
+                            ? item.correctOption?.reason
+                            : `Selected: ${selectedName || 'No selection'}. Requested: ${item.correctOption?.name}.`}
                         </td>
                       </tr>
                     );
@@ -510,33 +513,36 @@ export const ResultsScene = () => {
                 <thead>
                   <tr>
                     <th style={{ width: '20%' }}>Raw Material</th>
-                    <th style={{ width: '22%' }}>Standard Quality Criteria</th>
+                    <th style={{ width: '22%' }}>Requested Ingredient</th>
                     <th style={{ width: '18%', textAlign: 'center' }}>Your Inspection Result</th>
-                    <th style={{ width: '40%' }}>Food Science & Quality Control Principle</th>
+                    <th style={{ width: '40%' }}>Target Requirement & Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
                   {INGREDIENT_INSPECTION_ITEMS.map((item) => {
-                    const recorded = ingredientAudit.find((i) => i.itemId === item.id);
-                    const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
+                    const recorded = ingredientAudit.find((i) => i.id === item.id);
+                    const isCorrect = recorded !== undefined
+                      ? Boolean(recorded.isCorrect ?? recorded.isSafe)
+                      : true;
+                    const selectedName = recorded?.chosen?.name;
 
                     return (
-                      <tr key={item.id} className={isSafe ? 'row-pass' : 'row-fail'}>
+                      <tr key={item.id} className={isCorrect ? 'row-pass' : 'row-fail'}>
                         <td>
                           <strong>{item.name}</strong>
                         </td>
-                        <td>{item.safe?.name}</td>
+                        <td>{item.correctOption?.name}</td>
                         <td style={{ textAlign: 'center' }}>
-                          {isSafe ? (
-                            <span className="badge-safe">✓ VERIFIED GRADE A FRESH</span>
+                          {isCorrect ? (
+                            <span className="badge-safe">✓ CORRECT TARGET</span>
                           ) : (
-                            <span className="badge-hazard">⚠️ CONTAMINATED / SPOILED</span>
+                            <span className="badge-hazard">⚠️ DIFFERENT INGREDIENT</span>
                           )}
                         </td>
                         <td>
-                          {isSafe
-                            ? item.safe?.reason
-                            : `Identified Defect: ${item.damaged?.reason}. Quality Standard: ${item.safe?.reason}`}
+                          {isCorrect
+                            ? item.correctOption?.reason
+                            : `Selected: ${selectedName || 'No selection'}. Requested: ${item.correctOption?.name}.`}
                         </td>
                       </tr>
                     );
@@ -551,7 +557,7 @@ export const ResultsScene = () => {
                 <strong>Quality Assurance Principle: Incoming Ingredient Critical Limits</strong>
               </div>
               <p>
-                Coconut pith is highly susceptible to enzymatic browning and bacterial souring once harvested due to high moisture and polyphenol oxidase (PPO) activity. Pure Erawan rice flour must remain below 12% moisture to prevent mold (Aspergillus flavus) and weevil proliferation. Frying oil must exhibit low free fatty acid (FFA &lt; 0.1%) to prevent hydroperoxide formation and acrid off-flavors during deep frying.
+                Coconut palm is highly susceptible to enzymatic browning and bacterial souring once harvested due to high moisture and polyphenol oxidase (PPO) activity. Pure Erawan rice flour must remain below 12% moisture to prevent mold (Aspergillus flavus) and weevil proliferation. Frying oil must exhibit low free fatty acid (FFA &lt; 0.1%) to prevent hydroperoxide formation and acrid off-flavors during deep frying.
               </p>
             </div>
           </div>
@@ -678,7 +684,7 @@ export const ResultsScene = () => {
 
           <div className="audit-content-block">
             <p className="audit-lead-text">
-              The authentic chronological sequence of unit operations required to transform raw coconut pith into shelf-stable Ubod CRUNCH crackers:
+              The authentic chronological sequence of unit operations required to transform raw coconut palm into shelf-stable Ubod CRUNCH crackers:
             </p>
 
             <div className="stage-science-cards-stack">

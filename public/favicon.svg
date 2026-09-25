@@ -39,9 +39,9 @@
   <g filter="url(#shadow)">
     <!-- Coconut brown outer shell -->
     <ellipse cx="26" cy="36" rx="17" ry="17" fill="url(#shellGrad)" />
-    <!-- White coconut meat & pith -->
+    <!-- White coconut meat & palm -->
     <ellipse cx="26" cy="35" rx="13.5" ry="13.5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
-    <!-- Inner soft core / pith cavity -->
+    <!-- Inner soft core / palm cavity -->
     <ellipse cx="26" cy="35" rx="9" ry="9" fill="#ecfdf5" />
     <ellipse cx="26" cy="35" rx="6" ry="6" fill="#a7f3d0" fill-opacity="0.6" />
   </g>

@@ -58,7 +58,7 @@ export const Mission2Grinding = () => {
       );
     } else {
       speak(
-        'Select the drained ubod in the bowl and drop to the food processor.',
+        'Select the drained ubod from the bowl and place it in the food processor.',
         'neutral',
         {
           badge: 'Step 1: Load Processor',
@@ -74,7 +74,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 0,
       acceptedItems: ['boiled_ubod'],
-      prompt: 'Select the drained ubod in the bowl and drop to the food processor.',
+      prompt: 'Select the drained ubod from the bowl and place it in the food processor.',
       img: '/assets/processor_empty.png',
       fallbackIcon: '⚙️',
       label: 'Processor Bowl & S-Blade',
@@ -91,8 +91,8 @@ export const Mission2Grinding = () => {
       stepIndex: 2,
       acceptedItems: !isLidLocked ? ['processor_lid', 'lid'] : [],
       prompt: isLidLocked
-        ? 'Select the Processor safety lid the drop to the food processor.'
-        : 'Select the Processor safety lid the drop to the food processor.',
+        ? 'Select the processor safety lid and place it on the food processor.'
+        : 'Select the processor safety lid and place it on the food processor.',
       img: isLidLocked ? '/assets/processor_close_lid.png' : '/assets/processor_with_ubod_salt.png',
       fallbackIcon: '🔒',
       label: isLidLocked ? 'Lid Locked & Ready to Puree' : 'Ubod + Salt (Awaiting Safety Lid)',
@@ -100,7 +100,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 3,
       acceptedItems: [],
-      prompt: 'Select “high speed puree” for it to be processed blend well.',
+      prompt: 'Select “High-Speed Puree” to blend the mixture well.',
       img: '/assets/processor_running_blur.png',
       fallbackIcon: '🌪️',
       label: 'High-Speed Pureeing',
@@ -116,7 +116,7 @@ export const Mission2Grinding = () => {
     {
       stepIndex: 5,
       acceptedItems: [],
-      prompt: 'Select proceed to stage 3: paste formulation',
+      prompt: 'Select “Proceed to Stage 3: Paste Formulation.”',
       img: '/assets/bowl_ubod_paste_fresh.png',
       fallbackIcon: '✨',
       label: 'Pureed Ubod Paste (1 Cup Collected)',
@@ -130,7 +130,7 @@ export const Mission2Grinding = () => {
       setHoldingItem(null);
       showToast('Boiled Ubod Loaded!', 'Select one teaspoon of salt then drop to the food processor.', 'success');
       speak(
-        'Select one teaspoon of salt then drop to the food processor.',
+        'Select one teaspoon of salt and add it to the food processor.',
         'neutral',
         {
           badge: 'Step 2',
@@ -145,7 +145,7 @@ export const Mission2Grinding = () => {
       setHoldingItem(null);
       showToast('Salt Added!', 'Select the Processor safety lid the drop to the food processor.', 'success');
       speak(
-        'Select the Processor safety lid the drop to the food processor.',
+        'Select the processor safety lid and place it on the food processor.',
         'neutral',
         {
           badge: 'Step 3',
@@ -168,7 +168,7 @@ export const Mission2Grinding = () => {
     setIsLidLocked(true);
     showToast('Safety Lid Added!', 'Select “high speed puree” for it to be processed blend well.', 'success');
     speak(
-      'Select “high speed puree” for it to be processed blend well.',
+      'Select “High-Speed Puree” to blend the mixture well.',
       'neutral',
       {
         badge: 'Step 4',
@@ -196,7 +196,7 @@ export const Mission2Grinding = () => {
         soundManager.playSuccess();
         showToast('Pureeing Complete!', 'Ubod is now a smooth, lump-free paste', 'success');
         speak(
-          'Select the spatula and drop to the food processor.',
+          'Select the spatula and place it in the food processor.',
           'neutral',
           {
             badge: 'Step 5',
@@ -222,7 +222,7 @@ export const Mission2Grinding = () => {
       completeMission('mission2');
       showToast('Stage 2 Complete!', '1 cup of smooth ubod paste collected in clean bowl', 'success');
       speak(
-        'Select proceed to stage 3: paste formulation',
+        'Select “Proceed to Stage 3: Paste Formulation.”',
         'neutral',
         {
           badge: 'Step 6',
@@ -303,7 +303,7 @@ export const Mission2Grinding = () => {
   };
 
   const recipeItems = [
-    { name: 'Boiled Ubod Pith', measure: '1 Cup', icon: '🥥', isCompleted: processorStep >= 1, isCurrent: processorStep === 0 },
+    { name: 'Boiled Ubod Palm', measure: '1 Cup', icon: '🥥', isCompleted: processorStep >= 1, isCurrent: processorStep === 0 },
     { name: 'Pure Sea Salt', measure: '1 tsp (Per Cup)', icon: '🧂', isCompleted: processorStep >= 2, isCurrent: processorStep === 1 },
   ];
 
@@ -349,7 +349,7 @@ export const Mission2Grinding = () => {
           stageTitle="Stage 2: Food Processing"
           recipeItems={recipeItems}
           safetyNotes={safetyChecklist}
-          culinaryTip="Processing the boiled coconut pith until it becomes fine and paste-like ensures smooth starch incorporation in Stage 3, producing uniform crackers without hard fibrous pockets."
+          culinaryTip="Processing the boiled coconut palm until it becomes fine and paste-like ensures smooth starch incorporation in Stage 3, producing uniform crackers without hard fibrous pockets."
         />
 
         <div className="stage-content-row stage-single-workstation">

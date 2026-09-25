@@ -12,7 +12,7 @@ export const EvaluationScene = () => {
     completeMission('evaluation');
     soundManager.playFanfare();
     speak(
-      `Laboratory Graduation & Sensory Audit, ${studentName || 'Food Technologist'}!\n\nYou have officially completed the comprehensive Coconut Pith Cracker (Ubod CRUNCH) manufacturing course and demonstrated full mastery of food processing unit operations!\n\nThroughout the 8 stages, you applied rigorous food hygiene, calibrated 1:1 ingredient ratios, mastered hydrothermal softening, high-speed pureeing, uniform geometric molding, steam gelatinization, convective moisture vitrification, flash deep-frying, and hermetic barrier packaging.\n\nInspect your sensory audit score breakdown, review your earned competency badges, and click "Print Official Certificate" below to claim your credential!`,
+      `Laboratory Graduation & Sensory Audit, ${studentName || 'Food Technologist'}!\n\nYou have officially completed the comprehensive Coconut Palm Cracker (Ubod CRUNCH) manufacturing course and demonstrated full mastery of food processing unit operations!\n\nThroughout the 8 stages, you applied rigorous food hygiene, calibrated 1:1 ingredient ratios, mastered hydrothermal softening, high-speed pureeing, uniform geometric molding, steam gelatinization, convective moisture vitrification, flash deep-frying, and hermetic barrier packaging.\n\nInspect your sensory audit score breakdown, review your earned competency badges, and click "Print Official Certificate" below to claim your credential!`,
       'happy',
       {
         badge: 'Graduation & Mastery Certification',
@@ -57,7 +57,7 @@ export const EvaluationScene = () => {
               <span className="eval-showcase-label">Retail Display Box (8 Pouches)</span>
             </div>
           </div>
-          <h2>Coconut Pith Crackers Quality Audit</h2>
+          <h2>Coconut Palm Crackers Quality Audit</h2>
           <p className="eval-sub">NUDAZAR HONORE - Ubod CRUNCH Comprehensive Evaluation Report</p>
         </div>
 
@@ -103,7 +103,7 @@ export const EvaluationScene = () => {
                 <h2 className="cert-student-name">{studentName || 'Food Technology Student'}</h2>
                 <p className="cert-body">
                   has successfully performed and demonstrated comprehensive mastery in the complete 8-stage food processing lifecycle of
-                  <strong> Coconut Pith Crackers (Ubod ng Niyog - Ubod Crunch)</strong>, including hygiene inspection, washing & boiling, food processing puree,
+                  <strong> Coconut Palm Crackers (Ubod ng Niyog - Ubod Crunch)</strong>, including hygiene inspection, washing & boiling, food processing puree,
                   1:1 Erawan rice flour paste formulation, rectangular molding, 10-minute steam gelatinization, 90°C cabinet dehydration,
                   10-second flash deep-frying expansion, airtight barrier packaging, and pipeline sequence validation.
                 </p>

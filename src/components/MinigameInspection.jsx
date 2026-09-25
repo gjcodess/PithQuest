@@ -4,7 +4,7 @@ import { soundManager } from '../audio/soundManager';
 
 /**
  * MinigameInspection: Diagnostic safety inspection assessment component
- * Learners select their preferred option (Safe vs. Defective/Hazardous).
+ * Learners identify the requested item from one correct option and two plausible distractors.
  * In assessment mode:
  * - Learners make choices freely without blocking.
  * - Previous choices are saved and remembered when returning to this screen.
@@ -23,7 +23,7 @@ export const MinigameInspection = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const lockedClicksRef = React.useRef(0);
 
-  // Map of answers keyed by item id: { [itemId]: { chosen, isSafe, selectedSide, optionLabel } }
+  // Map of answers keyed by item id: { [itemId]: { chosen, isCorrect, selectedSide, optionLabel } }
   const [answers, setAnswers] = useState(() => {
     const map = {};
     if (Array.isArray(initialAnswers)) {
@@ -36,19 +36,30 @@ export const MinigameInspection = ({
     return map;
   });
 
-  // Keep pairs stable for each item
+  // Keep the three options stable for each item while still randomizing their positions.
   const [pairsByItemId, setPairsByItemId] = useState(() => {
     const pairs = {};
+    const shuffle = (values) => {
+      const shuffled = [...values];
+      for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+      }
+      return shuffled;
+    };
+
     items.forEach((item) => {
-      const isSafeFirst = Math.random() < 0.5;
-      pairs[item.id] = [
-        isSafeFirst
-          ? { ...item.safe, isSafe: true, side: 'left', optionLabel: 'Option A' }
-          : { ...item.damaged, isSafe: false, side: 'left', optionLabel: 'Option A' },
-        isSafeFirst
-          ? { ...item.damaged, isSafe: false, side: 'right', optionLabel: 'Option B' }
-          : { ...item.safe, isSafe: true, side: 'right', optionLabel: 'Option B' },
+      const options = [
+        { ...item.correctOption, isCorrect: true },
+        ...(item.distractors || []).map((distractor) => ({ ...distractor, isCorrect: false })),
       ];
+      pairs[item.id] = shuffle(options).map((card, index) => ({
+        ...card,
+        // Keep the old field as a compatibility alias for existing assessment records.
+        isSafe: card.isCorrect,
+        side: `option-${index}`,
+        optionLabel: `Option ${String.fromCharCode(65 + index)}`,
+      }));
     });
     return pairs;
   });
@@ -58,15 +69,17 @@ export const MinigameInspection = ({
   const currentPair = pairsByItemId[currentItem?.id] || [];
   const currentAnswer = answers[currentItem?.id] || null;
   const selectedSide = currentAnswer?.selectedSide || null;
+  const targetTypeLabel = mode === 'tools' ? 'Correct Tool' : 'Correct Ingredient';
+  const targetTypePlural = mode === 'tools' ? 'tools' : 'ingredients';
 
   useEffect(() => {
     if (!currentItem) return;
     speak(
-      `Inspect the ${currentItem.name}. Select the item you consider safe and suitable for food preparation.`,
+      `Inspect these three ${targetTypePlural}. Select the option that best matches the required item for this task.`,
       'neutral',
-      { hint: isLocked ? 'Pre-Test is completed. You are viewing your submitted diagnostic choices.' : 'Examine surface condition, cleanliness, structural integrity, and freshness.' }
+      { hint: isLocked ? 'Pre-Test is completed. You are reviewing your submitted choices.' : 'Compare the name, shape, material, and intended use of all three options.' }
     );
-  }, [currentIndex, currentItem, isLocked]);
+  }, [currentIndex, currentItem, isLocked, targetTypePlural]);
 
   const handleCardClick = (card) => {
     if (isLocked) {
@@ -88,22 +101,38 @@ export const MinigameInspection = ({
       return;
     }
 
-    if (card.isSafe) {
+    if (card.isCorrect) {
       soundManager.playSuccess();
     } else {
       soundManager.playError();
     }
+
+    speak(
+      card.isCorrect
+        ? `Correct! ${card.name} is the requested ${currentItem.name.toLowerCase()}.`
+        : `That is ${card.name}, but it is not the requested ${currentItem.name.toLowerCase()}. Look for the intended item.`,
+      card.isCorrect ? 'happy' : 'thinking',
+      {
+        badge: card.isCorrect ? 'Correct Choice' : 'Check the Target',
+        note: card.isCorrect ? card.reason : `Requested item: ${currentItem.correctOption.name}.`,
+        hint: 'You can change your choice before moving to the next item.',
+      }
+    );
 
     const answerObj = {
       id: currentItem.id,
       name: currentItem.name,
       toolType: currentItem.toolType || currentItem.category,
       chosen: card,
-      isSafe: card.isSafe,
+      isCorrect: card.isCorrect,
+      // Preserve the existing assessment field for compatibility with current state consumers.
+      isSafe: card.isCorrect,
       selectedSide: card.side,
       optionLabel: card.optionLabel,
-      safeOption: currentItem.safe,
-      damagedOption: currentItem.damaged,
+      correctOption: currentItem.correctOption,
+      // Keep the old field as a compatibility alias for existing assessment records.
+      safeOption: currentItem.correctOption,
+      distractorOptions: currentItem.distractors,
     };
     const updatedAnswers = {
       ...answers,
@@ -160,7 +189,7 @@ export const MinigameInspection = ({
       {/* Progress & Item Quick-Selector Bar */}
       <div className="inspection-header-row">
         <div className="inspection-title-box">
-          <h3 className="item-target-title">Target: {currentItem?.name}</h3>
+          <h3 className="item-target-title">Target: Choose the {targetTypeLabel}</h3>
         </div>
         <div className="inspection-counter">
           Answered: {answeredCount} / {items.length}
@@ -169,22 +198,22 @@ export const MinigameInspection = ({
 
       <p className="inspection-prompt">
         {isLocked
-          ? 'Review the safety evaluation for this item below:'
-          : 'Click Option A or Option B to immediately evaluate its food processing safety:'}
+          ? 'Review your selection for this target below:'
+          : 'Click Option A, B, or C to identify the requested item:'}
       </p>
 
       {/* Comparison Grid */}
       <div className="inspection-cards-grid">
         {currentPair.map((card, idx) => {
           const isSelected = selectedSide === card.side;
-          const isSafe = card.isSafe;
+          const isCorrect = card.isCorrect;
 
           let cardClass = 'inspection-card';
           if (isSelected) {
-            cardClass += isSafe ? ' selected card-safe' : ' selected card-hazard';
+            cardClass += isCorrect ? ' selected card-safe' : ' selected card-hazard';
           } else if (currentAnswer) {
-            // Unselected side while an answer is made
-            cardClass += isSafe ? ' card-safe-reference' : ' choice-dimmed';
+            // Keep the correct option visible as the reference after a selection.
+            cardClass += isCorrect ? ' card-safe-reference' : ' choice-dimmed';
           }
 
           if (isLocked) cardClass += ' is-locked-view';
@@ -223,20 +252,20 @@ export const MinigameInspection = ({
 
               <div className={`card-verdict-banner ${
                 isSelected
-                  ? isSafe
+                  ? isCorrect
                     ? 'selected-banner banner-safe'
                     : 'selected-banner banner-hazard'
-                  : currentAnswer && isSafe
+                  : currentAnswer && isCorrect
                   ? 'select-prompt reference-safe'
                   : 'select-prompt'
               }`}>
                 <span>
                   {isSelected
-                    ? isSafe
-                      ? '✓ Food-Grade Safe & Approved'
-                      : '⚠️ Critical Hazard Flagged!'
-                    : currentAnswer && isSafe
-                    ? '✓ Recommended Safe Standard'
+                    ? isCorrect
+                      ? '✓ Correct Target'
+                      : '⚠️ Not the Requested Item'
+                    : currentAnswer && isCorrect
+                    ? '✓ Correct Target'
                     : '👆 Click to Select & Check'}
                 </span>
               </div>
@@ -248,24 +277,24 @@ export const MinigameInspection = ({
       {/* Instant Instructional Feedback Lesson Box */}
       {currentAnswer && (
         <div
-          className={`inspection-feedback-box ${currentAnswer.isSafe ? 'safe' : 'hazard'}`}
+          className={`inspection-feedback-box ${(currentAnswer.isCorrect ?? currentAnswer.isSafe) ? 'safe' : 'hazard'}`}
           style={{ marginTop: '12px' }}
         >
           <div style={{ fontSize: '1.4rem', flexShrink: 0 }}>
-            {currentAnswer.isSafe ? '🛡️' : '⚠️'}
+            {(currentAnswer.isCorrect ?? currentAnswer.isSafe) ? '✅' : '🔎'}
           </div>
           <div style={{ flex: 1 }}>
             <strong style={{ display: 'block', fontSize: '0.92rem', marginBottom: '4px', fontWeight: 800 }}>
-              {currentAnswer.isSafe
-                ? `✓ ${currentItem.name}: Standard Food-Grade Procedure`
-                : `⚠️ ${currentItem.name}: Laboratory Safety Hazard`}
+              {(currentAnswer.isCorrect ?? currentAnswer.isSafe)
+                ? `✓ Correct ${currentItem.name} Selected`
+                : `🔎 Compare the ${currentItem.name} Options`}
             </strong>
             <p style={{ margin: '0 0 6px', fontSize: '0.86rem', lineHeight: 1.4 }}>
               {currentAnswer.chosen.reason}
             </p>
-            {!currentAnswer.isSafe && currentAnswer.safeOption && (
+            {!(currentAnswer.isCorrect ?? currentAnswer.isSafe) && (currentAnswer.correctOption || currentAnswer.safeOption) && (
               <div style={{ fontSize: '0.82rem', background: '#ffffff', padding: '6px 10px', borderRadius: '8px', border: '1px solid #86efac', color: '#15803d' }}>
-                <strong>Recommended Safe Standard:</strong> {currentAnswer.safeOption.name} — {currentAnswer.safeOption.reason}
+                <strong>Requested item:</strong> {(currentAnswer.correctOption || currentAnswer.safeOption).name}
               </div>
             )}
           </div>

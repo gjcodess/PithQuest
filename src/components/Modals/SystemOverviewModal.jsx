@@ -7,7 +7,7 @@ const CURRICULUM_COMPETENCIES = [
     category: 'Cognitive Domain (Knowledge)',
     icon: '🧠',
     items: [
-      'Identify raw materials, formulation ratios (1:1 rice flour to pith paste), and standard seasoning proportions.',
+      'Identify raw materials, formulation ratios (1:1 rice flour to palm paste), and standard seasoning proportions.',
       'Explain the thermal starch gelatinization and vitrification mechanisms behind crispy cracker puffing.',
       'Recognize potential kitchen hazards, equipment defects, and critical control points (HACCP).',
     ],
@@ -43,7 +43,7 @@ export const SystemOverviewModal = () => {
         <div className="modal-header">
           <div className="modal-title-with-badge">
             <span className="modal-top-pill">🌐 System & Instructional Overview</span>
-            <h2>About PithQuest & Learning Materials</h2>
+            <h2>About PalmQuest & Learning Materials</h2>
           </div>
           <button className="close-btn" onClick={closeModal} title="Close Modal">&times;</button>
         </div>
@@ -71,9 +71,9 @@ export const SystemOverviewModal = () => {
               {/* Hero Banner */}
               <div className="system-hero-card">
                 <div className="system-hero-tag">🥥 Virtual Food Processing Laboratory</div>
-                <h3 className="system-hero-title">What is PithQuest?</h3>
+                <h3 className="system-hero-title">What is PalmQuest?</h3>
                 <p className="system-hero-desc">
-                  <strong>PithQuest</strong> is an interactive web-based Virtual Food Processing Laboratory simulation
+                  <strong>PalmQuest</strong> is an interactive web-based Virtual Food Processing Laboratory simulation
                   and instructional software designed for <strong>Home Economics (HE)</strong> and <strong>Food Technology</strong> students.
                   It transforms traditional food processing curriculum into a high-engagement, gamified digital laboratory experience.
                 </p>
@@ -145,7 +145,7 @@ export const SystemOverviewModal = () => {
 
         <div className="modal-footer system-modal-footer">
           <div className="footer-left-info">
-            <span>🌿 PithQuest • Interactive Food Technology Learning System</span>
+            <span>🌿 PalmQuest • Interactive Food Technology Learning System</span>
           </div>
           <button className="btn-primary" onClick={closeModal}>
             Return to Title Screen

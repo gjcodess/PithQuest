@@ -1,8 +1,8 @@
-// Recipe data and scientific standards for Coconut Pith Crackers (Ubod Crunch)
+// Recipe data and scientific standards for Coconut Palm Crackers (Ubod Crunch)
 // Aligned with client curriculum and authentic home economics laboratory standards
 
 export const RECIPE_DATA = {
-  title: "Coconut Pith Crackers (Ubod Crunch)",
+  title: "Coconut Palm Crackers (Ubod Crunch)",
   subtitle: "Valorized Agricultural Delicacy by Nudazar Honore",
   servingSize: "24 Rectangular Crackers",
   totalTime: "13 Hours (includes 12-hr cabinet dehydration)",
@@ -10,7 +10,7 @@ export const RECIPE_DATA = {
   ingredients: [
     {
       id: "ubod",
-      name: "Fresh Coconut Pith (Ubod)",
+      name: "Fresh Coconut Palm (Ubod)",
       portion: "1 Cup (approx. 150g)",
       purpose: "Core fiber, moisture, and delicate sweet coconut flavor base",
       prepNote: "Harvested from coconut apical meristem, washed, sliced uniformly",

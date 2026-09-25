@@ -148,10 +148,10 @@ export const HeaderHUD = () => {
           type="button"
           className="hud-brand-title"
           onClick={handleHomeClick}
-          title="PithQuest - Return to Main Menu"
-          aria-label="PithQuest Main Menu"
+          title="PalmQuest - Return to Main Menu"
+          aria-label="PalmQuest Main Menu"
         >
-          <span className="brand-pith">PITH</span>
+          <span className="brand-palm">PALM</span>
           <span className="brand-quest">QUEST</span>
         </button>
       </div>
@@ -236,7 +236,7 @@ export const HeaderHUD = () => {
                 <div className="hud-menu-header-content">
                   <div className="hud-menu-top-badge">Virtual Laboratory Controls</div>
                   <div className="hud-menu-brand-row">
-                    <h3 className="hud-menu-logo">PITH<span>QUEST</span></h3>
+                    <h3 className="hud-menu-logo">PALM<span>QUEST</span></h3>
                     <button
                       className="hud-menu-close-btn"
                       onClick={() => setIsMenuOpen(false)}

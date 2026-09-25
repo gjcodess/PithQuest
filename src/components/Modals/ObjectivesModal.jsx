@@ -17,11 +17,11 @@ export const ObjectivesModal = () => {
         <div className="modal-body">
           <div className="objective-card cognitive">
             <h4>🧠 1. Identification & Knowledge (Cognitive)</h4>
-            <p><strong>Objective 1:</strong> Identify the ingredients, tools, equipment, and Personal Protective Equipment (PPE) needed in making <strong>Coconut Pith Crunch (Ubod Crunch)</strong>.</p>
+            <p><strong>Objective 1:</strong> Identify the ingredients, tools, equipment, and Personal Protective Equipment (PPE) needed in making <strong>Coconut Palm Crunch (Ubod Crunch)</strong>.</p>
           </div>
           <div className="objective-card psychomotor">
             <h4>🛠️ 2. Methodological Demonstration (Psychomotor)</h4>
-            <p><strong>Objective 2:</strong> Demonstrate the proper procedures and food-processing methods in producing Coconut Pith Crunch — from raw preparation, boiling, grinding, mixing, and molding to steaming, dehydration, and frying.</p>
+            <p><strong>Objective 2:</strong> Demonstrate the proper procedures and food-processing methods in producing Coconut Palm Crunch — from raw preparation, boiling, grinding, mixing, and molding to steaming, dehydration, and frying.</p>
           </div>
           <div className="objective-card affective">
             <h4>🤝 3. Safety & Sanitation Practice (Affective)</h4>
