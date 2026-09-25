@@ -219,12 +219,9 @@ Upon entering the laboratory, all students complete a 4-part Pre-Test diagnostic
 
 #### Instructions:
 1. Conduct a quality audit on the culinary equipment cards:
-   - **Chef's Knife:** Verify sharp, rust-free stainless steel blade vs. dull or chipped metal.
-   - **Cutting Board:** Verify non-porous food-grade plastic vs. deeply gouged wooden boards harboring bacteria.
-   - **Electric Food Processor:** Verify intact grounded electrical cord and secure interlocking safety lid.
-   - **Steamer Pot:** Inspect clean vents and non-dented lid seal.
-   - **Dehydrator Trays:** Verify sanitary stainless mesh trays without chemical corrosion.
-2. Identify safe vs. defective equipment to prevent physical contamination and equipment hazards.
+   - Select the requested item from three plausible options, including knives, boards, bowls, tongs, appliances, cookware, plates, and measuring tools.
+   - Compare each option's name, material, shape, and intended use before choosing.
+2. Identify the exact target item rather than simply choosing the most familiar or similar-looking option.
 3. Click **"Confirm Tool Inspection"**.
 
 ---
@@ -235,10 +232,8 @@ Upon entering the laboratory, all students complete a 4-part Pre-Test diagnostic
 
 #### Instructions:
 1. Inspect the incoming raw materials for the batch:
-   - **Coconut Palm (Ubod):** Must be crisp, creamy white, with fresh vegetative aroma. Reject brown, oxidized, or sour-smelling palm.
-   - **Rice Flour:** Must be powdery, dry, and free of weevils or moisture clumping.
-   - **Potable Water:** Clean, transparent, odor-free drinking water.
-   - **Vegetable Oil:** Clear, golden, low-viscosity liquid with high smoke point (reject dark or rancid oil).
+   - Identify the requested **coconut palm, salt, water, vegetable oil, and rice flour** from three plausible ingredient options.
+   - Compare each option's identity and intended use before choosing.
 2. Click **"Confirm Ingredient Inspection & Enter Laboratory"** to begin Stage 1.
 
 ---

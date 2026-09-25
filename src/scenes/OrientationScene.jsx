@@ -119,7 +119,7 @@ export const OrientationScene = () => {
           note: 'Safety Check: Examine blades, cords, and surfaces for cracks, rust, or electrical hazards.',
           hint: isAlreadyCompleted
             ? 'Pre-Test is submitted and locked.'
-            : 'Select Option A or Option B for each tool. Click an item again or press Deselect to change.',
+            : 'Select the requested item from Options A, B, or C. You can change your choice before continuing.',
           hideButton: true,
         }
       );

@@ -32,8 +32,8 @@ export const GameProvider = ({ children }) => {
     preTest: {
       ppe: null, // { selectedIds: [], correctCount: 0, totalCorrect: 6, distractorsPicked: [] }
       handwashing: null, // { submittedSteps: [], correctSequence: [], score: 0, distractorsPicked: [] }
-      toolSafety: [], // Array<{ id, toolName, selectedOption, isSafe, reason, safeOption, damagedOption }>
-      qualityInspection: [], // Array<{ id, ingredientName, selectedOption, isSafe, reason, safeOption, damagedOption }>
+      toolSafety: [], // Array<{ id, toolName, selectedOption, isCorrect, reason, correctOption, distractorOptions }>
+      qualityInspection: [], // Array<{ id, ingredientName, selectedOption, isCorrect, reason, correctOption, distractorOptions }>
     },
     postTest: {
       sequencing: null, // { submittedOrder: [], correctOrder: [], score: 0, totalStages: 8 }

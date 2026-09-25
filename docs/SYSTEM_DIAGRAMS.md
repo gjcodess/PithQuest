@@ -247,8 +247,8 @@ The **Exit** module provides a safe mechanism for terminating the current simula
 The **Pre-Test Orientation** module is a foundational four-part diagnostic assessment that must be completed prior to entering the commercial food production environment:
 1. **Personal Protective Equipment (PPE) Selection**: Learners select approved food-grade barriers (hairnet, clean lab gown/apron, fluid-resistant mask, vinyl gloves) while avoiding non-approved contaminants and fire hazards (e.g., loose knitted wool scarves, fashion sunglasses). Immediate verification flags hazards in red, approved gear in green, and missing required items in amber.
 2. **WHO 7-Step Handwashing Sequence**: Learners drag and reorder the seven World Health Organization hand hygiene friction steps (palms, backs of hands, interlaced fingers, interlocked knuckles, rotational thumb rubbing, fingernails/palms, and wrists). The module provides dynamic slot-by-slot validation.
-3. **Tool & Equipment Safety Inspection**: Students evaluate pairs of processing implements, identifying sanitary food-grade stainless steel utensils while rejecting pitted, corroded, or splintered wooden tools that harbor microbial biofilms.
-4. **Raw Ingredient Quality Inspection**: Learners inspect incoming raw coconut palm, rice flour, frying oil, and salt, screening for physical discoloration, insect infestation, rancidity, and foreign matter contamination.
+3. **Tool & Equipment Safety Inspection**: Students identify the requested tool or appliance from three plausible culinary options, using material, shape, and intended use as clues.
+4. **Raw Ingredient Quality Inspection**: Learners identify the requested coconut palm, salt, water, vegetable oil, and rice flour from three plausible ingredient options.
 
 #### Manufacturing Stages (Stages 1 to 8)
 The core processing curriculum consists of eight authentic unit operations:

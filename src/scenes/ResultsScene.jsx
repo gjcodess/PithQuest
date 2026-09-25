@@ -441,33 +441,36 @@ export const ResultsScene = () => {
                 <thead>
                   <tr>
                     <th style={{ width: '22%' }}>Equipment / Tool</th>
-                    <th style={{ width: '22%' }}>Standard Specification</th>
+                    <th style={{ width: '22%' }}>Requested Option</th>
                     <th style={{ width: '18%', textAlign: 'center' }}>Your Inspection Result</th>
-                    <th style={{ width: '38%' }}>Food Contact Safety Standard & Rationale</th>
+                    <th style={{ width: '38%' }}>Target Requirement & Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
                   {TOOL_INSPECTION_ITEMS.map((item) => {
-                    const recorded = toolAudit.find((t) => t.itemId === item.id);
-                    const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
+                    const recorded = toolAudit.find((t) => t.id === item.id);
+                    const isCorrect = recorded !== undefined
+                      ? Boolean(recorded.isCorrect ?? recorded.isSafe)
+                      : true;
+                    const selectedName = recorded?.chosen?.name;
 
                     return (
-                      <tr key={item.id} className={isSafe ? 'row-pass' : 'row-fail'}>
+                      <tr key={item.id} className={isCorrect ? 'row-pass' : 'row-fail'}>
                         <td>
                           <strong>{item.name}</strong>
                         </td>
-                        <td>{item.safe?.name || 'Sanitary Standard Tool'}</td>
+                        <td>{item.correctOption?.name || 'Requested Tool'}</td>
                         <td style={{ textAlign: 'center' }}>
-                          {isSafe ? (
-                            <span className="badge-safe">✓ VERIFIED SAFE</span>
+                          {isCorrect ? (
+                            <span className="badge-safe">✓ CORRECT TARGET</span>
                           ) : (
-                            <span className="badge-hazard">⚠️ HAZARD DETECTED</span>
+                            <span className="badge-hazard">⚠️ DIFFERENT ITEM</span>
                           )}
                         </td>
                         <td>
-                          {isSafe
-                            ? item.safe?.reason
-                            : `Identified Hazard: ${item.damaged?.reason}. Standard Requirement: ${item.safe?.reason}`}
+                          {isCorrect
+                            ? item.correctOption?.reason
+                            : `Selected: ${selectedName || 'No selection'}. Requested: ${item.correctOption?.name}.`}
                         </td>
                       </tr>
                     );
@@ -510,33 +513,36 @@ export const ResultsScene = () => {
                 <thead>
                   <tr>
                     <th style={{ width: '20%' }}>Raw Material</th>
-                    <th style={{ width: '22%' }}>Standard Quality Criteria</th>
+                    <th style={{ width: '22%' }}>Requested Ingredient</th>
                     <th style={{ width: '18%', textAlign: 'center' }}>Your Inspection Result</th>
-                    <th style={{ width: '40%' }}>Food Science & Quality Control Principle</th>
+                    <th style={{ width: '40%' }}>Target Requirement & Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
                   {INGREDIENT_INSPECTION_ITEMS.map((item) => {
-                    const recorded = ingredientAudit.find((i) => i.itemId === item.id);
-                    const isSafe = recorded !== undefined ? Boolean(recorded.isSafe) : true;
+                    const recorded = ingredientAudit.find((i) => i.id === item.id);
+                    const isCorrect = recorded !== undefined
+                      ? Boolean(recorded.isCorrect ?? recorded.isSafe)
+                      : true;
+                    const selectedName = recorded?.chosen?.name;
 
                     return (
-                      <tr key={item.id} className={isSafe ? 'row-pass' : 'row-fail'}>
+                      <tr key={item.id} className={isCorrect ? 'row-pass' : 'row-fail'}>
                         <td>
                           <strong>{item.name}</strong>
                         </td>
-                        <td>{item.safe?.name}</td>
+                        <td>{item.correctOption?.name}</td>
                         <td style={{ textAlign: 'center' }}>
-                          {isSafe ? (
-                            <span className="badge-safe">✓ VERIFIED GRADE A FRESH</span>
+                          {isCorrect ? (
+                            <span className="badge-safe">✓ CORRECT TARGET</span>
                           ) : (
-                            <span className="badge-hazard">⚠️ CONTAMINATED / SPOILED</span>
+                            <span className="badge-hazard">⚠️ DIFFERENT INGREDIENT</span>
                           )}
                         </td>
                         <td>
-                          {isSafe
-                            ? item.safe?.reason
-                            : `Identified Defect: ${item.damaged?.reason}. Quality Standard: ${item.safe?.reason}`}
+                          {isCorrect
+                            ? item.correctOption?.reason
+                            : `Selected: ${selectedName || 'No selection'}. Requested: ${item.correctOption?.name}.`}
                         </td>
                       </tr>
                     );
