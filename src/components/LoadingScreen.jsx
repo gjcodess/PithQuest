@@ -19,6 +19,7 @@ const ASSETS_TO_PRELOAD = [
   '/images/icon_puffed_crackers.png',
   '/assets/platter_crackers_cooled.png',
   '/assets/pouch_sealed_labeled.png',
+  '/assets/box_of_packaged_crackers.png',
   '/images/icon_puffed_crackers.png',
   '/assets/platter_crackers_cooled.png',
   '/assets/icon_gold_medal_front.png',
@@ -126,6 +127,7 @@ export const LoadingScreen = ({ onLoaded }) => {
           <div className="loading-product-feature">
             <img src="/assets/platter_crackers_cooled.png" alt="Cooled coconut palm crackers" />
             <img src="/assets/pouch_sealed_labeled.png" alt="Sealed labeled coconut palm crackers" />
+            <img src="/assets/box_of_packaged_crackers.png" alt="Box of packaged coconut palm crackers" />
           </div>
 
           {/* Loading Progress Bar */}

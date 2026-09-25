@@ -264,14 +264,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 12px;
   margin: -14px auto -8px;
   position: relative;
   z-index: 1;
 }
 
 .loading-product-feature img {
-  width: calc(50% - 9px);
+  width: calc(33.333% - 8px);
   height: 100%;
   object-fit: contain;
   mix-blend-mode: multiply;
