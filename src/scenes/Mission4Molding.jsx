@@ -54,7 +54,7 @@ export const Mission4Molding = () => {
       );
     } else {
       speak(
-        'Select the mixture and drop to the molder',
+        'Select the mixture and place it in the mold.',
         'neutral',
         {
           badge: 'Step 1: Portioning & Molding',
@@ -70,7 +70,7 @@ export const Mission4Molding = () => {
     {
       stepIndex: 0,
       acceptedItems: ['dough_bowl', 'dough_portion', 'measuring_spoon'],
-      prompt: 'Select the mixture and drop to the molder',
+      prompt: 'Select the mixture and place it in the mold.',
       img: '/assets/molder_empty.png',
       fallbackIcon: '🌸',
       label: 'Clean 24-Cavity Silicone Mold',
@@ -78,7 +78,7 @@ export const Mission4Molding = () => {
     {
       stepIndex: 1,
       acceptedItems: ['dough_bowl', 'dough_portion', 'measuring_spoon'],
-      prompt: 'Select Spatula level',
+      prompt: 'Select the leveling spatula.',
       img: '/assets/molder_single_piece.png',
       fallbackIcon: '🧈',
       label: '1 Cavity Calibrated (3 tsp)',
@@ -108,7 +108,7 @@ export const Mission4Molding = () => {
       setHoldingItem(null);
       showToast('Cavity Calibrated!', 'First cavity filled with 3 tsp portion', 'success');
       speak(
-        'Select Spatula level',
+        'Select the leveling spatula.',
         'neutral',
         {
           badge: 'Step 2',
@@ -130,7 +130,7 @@ export const Mission4Molding = () => {
     setHoldingItem(null);
     showToast('All 24 Cavities Portioned!', 'Now select the Leveling Spatula to level the surfaces flat.', 'info');
     speak(
-      'Select Spatula level',
+      'Select the leveling spatula.',
       'neutral',
       {
         badge: 'Step 2',

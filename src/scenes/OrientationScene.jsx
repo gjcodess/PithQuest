@@ -78,7 +78,7 @@ export const OrientationScene = () => {
       speak(
         isAlreadyCompleted
           ? 'Orientation Pre-Test Completed: You have successfully finalized your personal protective equipment selection! Review your equipped items below. Each piece of protective gear establishes a physical barrier that prevents hair, oral aerosols, and outdoor dust from compromising sanitized food contact surfaces.'
-          : 'Teacher Mia: Welcome to our Food Laboratory! Before we start with our cooking activity, you must select first your PPE attire! You need to wear your PPE to protect the food from contamination and also to protect your body from any physical hazards. Now, select the proper PPE you need such as Sanitary Hairnet, Clean Lab gown/apron, Spit guard mask, food grade vinyl gloves, thermal heat mitts, and non-slip safety shoes.',
+          : 'Teacher Mia: Welcome to our Food Laboratory! Before we start our cooking activity, you must first select your PPE attire. You need to wear PPE to protect the food from contamination and your body from physical hazards. Now, select the proper PPE: a sanitary hairnet, clean lab gown/apron, spit guard mask, food-grade vinyl gloves, thermal heat mitts, and non-slip safety shoes.',
         isAlreadyCompleted ? 'happy' : 'thinking',
         {
           badge: 'Pre-Test: PPE Attire',
@@ -95,7 +95,7 @@ export const OrientationScene = () => {
       speak(
         isAlreadyCompleted
           ? 'Orientation Pre-Test Completed: Review your 7-step sanitary handwashing sequence below. Friction scrubbing for at least 20 seconds mechanically dislodges transient microbes from the skin surface and prevents cross-contamination.'
-          : 'Teacher Mia: Now let\'s move on to Handwashing. You must clean your hands first before touching any tools, equipment and ingredients. Hand contact is very important in food processing, you lay your hands in every ingredients so you need to clean your hands before touching your ingredients to prevent the transfer of the bacteria. Tap and drag your steps.',
+          : 'Teacher Mia: Now let\'s move on to handwashing. You must clean your hands before touching any tools, equipment, or ingredients. Hand contact is very important in food processing, so clean your hands before handling ingredients to prevent the transfer of bacteria. Tap and drag the steps.',
         isAlreadyCompleted ? 'happy' : 'happy',
         {
           badge: 'Pre-Test: Sanitation Protocol',
@@ -112,22 +112,22 @@ export const OrientationScene = () => {
       speak(
         isAlreadyCompleted
           ? 'Orientation Pre-Test Completed: Review your tool safety inspection audit below. Remember that food-grade stainless steel resists pitting corrosion and prevents toxic leaching during high-temperature cooking.'
-          : 'Teacher Mia: Let\'s move on to Tool safety. Click to select and check if your answer is right.  You must choose the right tools to avoid damaging your food preparation.',
+          : 'Teacher Mia: Let\'s move on to tool safety. Click to select an item and check whether your answer is correct. You must choose the right tools to avoid damaging your food preparation.',
         'neutral',
         {
           badge: 'Pre-Test: Tool Safety',
           note: 'Safety Check: Examine blades, cords, and surfaces for cracks, rust, or electrical hazards.',
           hint: isAlreadyCompleted
             ? 'Pre-Test is submitted and locked.'
-            : 'Select Option A or Option B for each tool. Click an item again or press Deselect to change.',
+            : 'Select the requested item from Options A, B, or C. You can change your choice before continuing.',
           hideButton: true,
         }
       );
     } else if (phase === 'ingredient_inspection') {
       speak(
         isAlreadyCompleted
-          ? 'Orientation Pre-Test Completed: Review your ingredient quality inspection choices below. Fresh, firm coconut pith ensures the ideal starch-to-fiber ratio for crisp, uniform cracker puffing.'
-          : 'Teacher Mia: Let\'s now proceed to ingredients. You must choose the right and safe ingredients. Click select and check.',
+          ? 'Orientation Pre-Test Completed: Review your ingredient quality inspection choices below. Fresh, firm coconut palm ensures the ideal starch-to-fiber ratio for crisp, uniform cracker puffing.'
+          : 'Teacher Mia: Let\'s now proceed to ingredients. You must choose the right, safe ingredients. Click to select and check.',
         'neutral',
         {
           badge: 'Pre-Test: Ingredient Quality',
@@ -208,7 +208,7 @@ export const OrientationScene = () => {
       } else {
         soundManager.playSuccess();
         speak(
-          'Teacher Mia: You selected the right PPE Attire!',
+          'Teacher Mia: You selected the correct PPE attire!',
           'happy',
           {
             badge: 'Sanitary Attire Verified',
@@ -340,7 +340,7 @@ export const OrientationScene = () => {
         'happy',
         {
           badge: 'Entering Laboratory',
-          note: 'Apply safe handling and sanitary technique as you begin processing fresh coconut pith.',
+          note: 'Apply safe handling and sanitary technique as you begin processing fresh coconut palm.',
           btnText: 'Start Stage 1: Washing & Boiling ➔',
           onNext: () => setScene('mission1'),
         }
@@ -371,7 +371,7 @@ export const OrientationScene = () => {
             onClick={() => handleNavigatePhase('ppe')}
           >
             <span className="subnav-pill-icon">🥼</span>
-            <span className="subnav-pill-label">1. PPE Attite</span>
+            <span className="subnav-pill-label">1. PPE Attire</span>
             {ppeDone && <span className="subnav-pill-check">✓</span>}
           </button>
 
@@ -414,9 +414,9 @@ export const OrientationScene = () => {
         {/* TASK 1: PPE ATTIRE SELECTION (Diagnostic Selection) */}
         {phase === 'ppe' && (
           <div className="active-vessel-card orientation-card ppe-card">
-            <div className="vessel-top-badge">PPE Attite</div>
+            <div className="vessel-top-badge">PPE Attire</div>
             <div className="vessel-header">
-              <span className="vessel-title">PPE Attite</span>
+              <span className="vessel-title">PPE Attire</span>
               <span className="vessel-badge">
                 {isAlreadyCompleted ? '🔒 Submitted' : 'Task 1 of 4'}
               </span>
@@ -608,7 +608,7 @@ export const OrientationScene = () => {
             <div className="vessel-top-badge">Quality Inspection</div>
             <MinigameInspection
               title="Quality Inspection"
-              subtitle="Audit incoming coconut pith, rice flour, oil, and salt. Select the fresh, sanitary, uncontaminated items."
+              subtitle="Audit incoming coconut palm, rice flour, oil, and salt. Select the fresh, sanitary, uncontaminated items."
               items={INGREDIENT_INSPECTION_ITEMS}
               initialAnswers={ingredientAnswers}
               onAnswersChange={handleIngredientAnswersChange}

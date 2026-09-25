@@ -61,7 +61,7 @@ export const Mission7Frying = () => {
       );
     } else {
       speak(
-        'Select oil then drop to the pan',
+        'Select the oil and add it to the pan.',
         'neutral',
         {
           badge: 'Step 1: Oil Loading & Preheating',
@@ -139,7 +139,7 @@ export const Mission7Frying = () => {
       setHoldingItem(null);
       showToast('Oil Added!', '5 Cups of oil loaded. Click the burner dial to preheat.', 'success');
       speak(
-        'Click stove medium heat',
+        'Set the stove to medium heat.',
         'neutral',
         {
           badge: 'Step 2',
@@ -174,7 +174,7 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Oil Ready!', 'Optimal frying temperature reached. Drop dehydrated pieces!', 'success');
         speak(
-          'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
+          'Select the dehydrated ubod, add it to the pan, and cook it for 10 seconds.',
           'neutral',
           {
             badge: 'Step 3',
@@ -194,7 +194,7 @@ export const Mission7Frying = () => {
     setHoldingItem(null);
     showToast('Flash Frying!', '10-second flash expansion active! Starches puffing...', 'info');
     speak(
-      'Select the dehydrated ubod then drop to the pan and cook for 10 seconds',
+      'Select the dehydrated ubod, add it to the pan, and cook it for 10 seconds.',
       'neutral',
       {
         badge: 'Step 3',
@@ -215,7 +215,7 @@ export const Mission7Frying = () => {
         soundManager.playSuccess();
         showToast('Frying Complete!', 'Crackers are golden and crispy. Use colander to lift and drain!', 'success');
         speak(
-          'Select stainless colander then drop to the pan with cooked crackers',
+          'Select the stainless colander and place it in the pan with the cooked crackers.',
           'neutral',
           {
             badge: 'Step 4',
@@ -234,7 +234,7 @@ export const Mission7Frying = () => {
     setHoldingItem(null);
     showToast('Draining in Colander!', 'Excess oil draining. Step 4: Allow crackers to cool completely.', 'info');
     speak(
-      'Select the plate and drop to center to cool down',
+      'Select the plate and place it in the center to cool down.',
       'neutral',
       {
         badge: 'Step 5',
@@ -253,7 +253,7 @@ export const Mission7Frying = () => {
     completeMission('mission7');
     showToast('Stage 7 Complete!', 'Crackers are crispy, drained of oil, and completely cooled', 'success');
     speak(
-      'Click “Proceed to stage 8”',
+      'Click “Proceed to Stage 8.”',
       'neutral',
       {
         badge: 'Step 6',

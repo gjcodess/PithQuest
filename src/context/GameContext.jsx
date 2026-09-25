@@ -5,7 +5,7 @@ const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
   const [scene, setScene] = useState('title');
-  const [studentName, setStudentName] = useState(() => localStorage.getItem('pithquest_name') || '');
+  const [studentName, setStudentName] = useState(() => localStorage.getItem('palmquest_name') || '');
   const [stageAnswers, setStageAnswers] = useState({
     mission1: null,
     mission2: null,
@@ -32,8 +32,8 @@ export const GameProvider = ({ children }) => {
     preTest: {
       ppe: null, // { selectedIds: [], correctCount: 0, totalCorrect: 6, distractorsPicked: [] }
       handwashing: null, // { submittedSteps: [], correctSequence: [], score: 0, distractorsPicked: [] }
-      toolSafety: [], // Array<{ id, toolName, selectedOption, isSafe, reason, safeOption, damagedOption }>
-      qualityInspection: [], // Array<{ id, ingredientName, selectedOption, isSafe, reason, safeOption, damagedOption }>
+      toolSafety: [], // Array<{ id, toolName, selectedOption, isCorrect, reason, correctOption, distractorOptions }>
+      qualityInspection: [], // Array<{ id, ingredientName, selectedOption, isCorrect, reason, correctOption, distractorOptions }>
     },
     postTest: {
       sequencing: null, // { submittedOrder: [], correctOrder: [], score: 0, totalStages: 8 }
@@ -138,7 +138,7 @@ export const GameProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.removeItem('pithquest_zoom');
+      localStorage.removeItem('palmquest_zoom');
     } catch {}
   }, []);
 
@@ -152,7 +152,7 @@ export const GameProvider = ({ children }) => {
   const zoomOut = () => updateZoom(zoomLevel - 0.05);
   const resetZoom = () => {
     try {
-      localStorage.removeItem('pithquest_zoom');
+      localStorage.removeItem('palmquest_zoom');
     } catch {}
     setZoomLevel(1.0);
   };
@@ -161,7 +161,7 @@ export const GameProvider = ({ children }) => {
     // Reset any held cursor item when changing scenes
     setHoldingItem(null);
     if (typeof window !== 'undefined') {
-      window.__setPithQuestScene = setScene;
+      window.__setPalmQuestScene = setScene;
     }
 
     const assessmentScenes = ['orientation', 'sequencing', 'results', 'evaluation'];
@@ -353,7 +353,7 @@ export const GameProvider = ({ children }) => {
 
   const saveStudentName = (name) => {
     setStudentName(name);
-    localStorage.setItem('pithquest_name', name);
+    localStorage.setItem('palmquest_name', name);
   };
 
   const resetGame = () => {

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PITHQUEST UNIFIED DRAG & DROP ENGINE
+   PALMQUEST UNIFIED DRAG & DROP ENGINE
    Dual Input: Touch + Mouse Dragging + Tap-to-Place Mobile Fallback
    ========================================================================== */
 

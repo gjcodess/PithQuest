@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PITHQUEST STATE MANAGER
+   PALMQUEST STATE MANAGER
    Reactive State Engine & LocalStorage Persistence
    ========================================================================== */
 
@@ -11,7 +11,7 @@ class StateManager {
 
   reset() {
     this.state = {
-      studentName: localStorage.getItem('pithquest_name') || 'HE Student',
+      studentName: localStorage.getItem('palmquest_name') || 'HE Student',
       currentScene: 'title', // 'title', 'orientation', 'mission1', 'mission2', 'mission3', 'mission4', 'mission5', 'evaluation'
       score: 0,
       mistakes: 0,
@@ -35,7 +35,7 @@ class StateManager {
 
   setStudentName(name) {
     this.state.studentName = name || 'HE Student';
-    localStorage.setItem('pithquest_name', this.state.studentName);
+    localStorage.setItem('palmquest_name', this.state.studentName);
     this.emit('nameChange', this.state.studentName);
   }
 

@@ -54,7 +54,7 @@ export const Mission8Packaging = () => {
       );
     } else {
       speak(
-        'Step 1: Select the ubod crackers then drop to the center of the packaging',
+        'Step 1: Select the ubod crackers and place them in the center of the packaging.',
         'neutral',
         {
           badge: 'Step 1: 50g Portion Loading',
@@ -108,7 +108,7 @@ export const Mission8Packaging = () => {
       setHoldingItem(null);
       showToast('Crackers Portioned!', 'Pouch filled with 50g crackers. Now seal & apply brand label', 'success');
       speak(
-        'Step 2: Select the Label then drop to the center of the packaging',
+        'Step 2: Select the label and place it in the center of the packaging.',
         'neutral',
         {
           badge: 'Step 2',
@@ -164,7 +164,7 @@ export const Mission8Packaging = () => {
     completeMission('mission8');
     showToast('Retail Display Ready!', '8 pouches packed in master display box', 'success');
     speak(
-      'Select “Proceed to Laboratory Review”',
+      'Select “Proceed to Laboratory Review.”',
       'neutral',
       {
         badge: 'Production Master: All 8 Stages Complete',

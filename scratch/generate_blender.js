@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-const destDir = 'd:/PROJECTS/PithQuest/public/assets';
+const destDir = 'd:/PROJECTS/PalmQuest/public/assets';
 const outputPath = path.join(destDir, 'icon_blender.png');
 
 const svg = `

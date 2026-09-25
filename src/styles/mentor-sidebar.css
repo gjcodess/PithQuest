@@ -72,13 +72,13 @@
   height: auto !important;
   max-height: calc(100% - 16px) !important;
   border-radius: 20px !important;
-  border: 2px solid #e0d8cc !important;
-  box-shadow: 0 10px 32px rgba(60, 45, 30, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  border: 2.5px solid #10b981 !important;
+  box-shadow: 0 10px 32px rgba(4, 45, 33, 0.32), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
   left: auto !important;
   top: auto !important;
   box-sizing: border-box;
   padding: 14px 12px 14px 12px !important;
-  background: linear-gradient(180deg, #fdfbf7 0%, #f7f3ea 50%, #f1ebde 100%) !important;
+  background: linear-gradient(180deg, #0d5a42 0%, #084331 50%, #042d21 100%) !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
@@ -409,7 +409,7 @@
   font-family: var(--font-heading, system-ui);
   font-size: 0.98rem;
   font-weight: 800;
-  color: #1a2e22;
+  color: #f0fdf4;
   letter-spacing: 0.2px;
   white-space: nowrap;
 }
@@ -431,15 +431,15 @@
 .mentor-role-text {
   font-size: 0.70rem;
   font-weight: 600;
-  color: #64748b;
+  color: #bbf7d0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .mentor-collapse-btn {
-  background: #ffffff;
-  border: 2px solid #e2d8cc;
+  background: linear-gradient(180deg, #126e51 0%, #0b543e 50%, #06392a 100%);
+  border: 2px solid #34d399;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -448,19 +448,19 @@
   justify-content: center;
   font-size: 0.74rem;
   font-weight: 800;
-  color: #4b5563;
+  color: #f0fdf4;
   cursor: pointer;
-  box-shadow: 0 2px 0 #d5cbbe;
+  box-shadow: 0 2px 0 #047857;
   transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   flex-shrink: 0;
 }
 
 .mentor-collapse-btn:hover {
-  background: #ecfdf5;
-  border-color: #10b981;
-  color: #065f46;
+  background: linear-gradient(180deg, #1a8a65 0%, #0e674b 50%, #084532 100%);
+  border-color: #6ee7b7;
+  color: #ffffff;
   transform: scale(1.08);
-  box-shadow: 0 2px 0 #059669;
+  box-shadow: 0 2px 0 #059669, 0 0 12px rgba(52, 211, 153, 0.3);
 }
 
 .mentor-collapse-btn:active {
@@ -576,12 +576,12 @@
   display: flex;
   flex-direction: column;
   padding: 6px 4px 6px 4px;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(2, 45, 33, 0.42);
   border-radius: 14px;
-  border: 1px solid #e7ded0;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(52, 211, 153, 0.62);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.22);
   scrollbar-width: thin;
-  scrollbar-color: #c4b9a8 #f2ede4;
+  scrollbar-color: #34d399 #064e3b;
 }
 
 .mentor-content-viewport::-webkit-scrollbar {
@@ -589,17 +589,17 @@
 }
 
 .mentor-content-viewport::-webkit-scrollbar-track {
-  background: #f2ede4;
+  background: #064e3b;
   border-radius: 999px;
 }
 
 .mentor-content-viewport::-webkit-scrollbar-thumb {
-  background: #c4b9a8;
+  background: #34d399;
   border-radius: 999px;
 }
 
 .mentor-content-viewport::-webkit-scrollbar-thumb:hover {
-  background: #a39580;
+  background: #6ee7b7;
 }
 
 .mentor-tab-panel {
@@ -623,8 +623,8 @@
 
 /* 3A. Guide Tab: Speech Card */
 .mentor-speech-card {
-  background: #ffffff;
-  border: 2px solid #e0d8cc;
+  background: linear-gradient(145deg, #f2fcf4 0%, #dff3e4 100%);
+  border: 2px solid #86efac;
   border-radius: 14px;
   padding: 13px 15px;
   box-shadow: 0 2px 0 #d8cebf, 0 4px 14px rgba(0, 0, 0, 0.05);
@@ -700,11 +700,11 @@
   gap: 6px;
   margin-top: 2px;
   padding: 6px 9px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
   border-radius: 8px;
   font-size: 0.72rem;
-  color: #475569;
+  color: #365044;
   line-height: 1.35;
 }
 

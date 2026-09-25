@@ -175,7 +175,7 @@ export const Mission1Prep = () => {
     setHoldingItem(null);
     showToast('Step 1', 'Select the raw ubod and place it in the sink', 'success');
     speak(
-      'Select the raw ubod and place it in the sink\n\nClick the “Click cross to rinse” to full washed the ubod',
+      'Select the raw ubod and place it in the sink.\n\nClick the cross handle to rinse the ubod thoroughly.',
       'happy',
       {
         badge: 'Step 2',
@@ -199,7 +199,7 @@ export const Mission1Prep = () => {
       setTimeout(() => {
         setCurrentPhase('boil');
         speak(
-        'Select the washed ubod. Put in the pot.',
+        'Select the washed ubod and place it in the pot.',
           'happy',
           {
             badge: 'Step 3',
@@ -218,7 +218,7 @@ export const Mission1Prep = () => {
       setPotStep(1);
       showToast('Step 3', 'Select the washed ubod. Put in the pot.', 'success');
       speak(
-        'Select water then drop to the pot.',
+        'Select the water and add it to the pot.',
         'neutral',
         {
           badge: 'Step 4',
@@ -232,7 +232,7 @@ export const Mission1Prep = () => {
       setPotStep(2);
       showToast('Step 4', 'Select water then drop to the pot.', 'success');
       speak(
-        'Select salt then drop to the pot.',
+        'Select the salt and add it to the pot.',
         'neutral',
         {
           badge: 'Step 5',
@@ -276,7 +276,7 @@ export const Mission1Prep = () => {
         soundManager.playSuccess();
         showToast('Step 7', 'Select stainless colander then drop to the pot.', 'success');
         speak(
-          'Select stainless colander then drop to the pot.',
+          'Select the stainless colander and place it in the pot.',
           'happy',
           {
             badge: 'Step 7',
@@ -304,7 +304,7 @@ export const Mission1Prep = () => {
       setCurrentPhase('drain_rinse');
       showToast('Step 8', 'Click “Turn faucet to cool” so the ubod will be cooled and drained', 'info');
       speak(
-        'Click “Turn faucet to cool” so the ubod will be cooled and drained',
+        'Click “Turn faucet to cool” so the ubod can cool and drain.',
         'neutral',
         {
           badge: 'Step 8',
@@ -353,7 +353,7 @@ export const Mission1Prep = () => {
             : 'Select the raw ubod and place it in the sink'
         );
         speak(
-          'Pick up the fresh cut raw ubod from your inventory first, then tap the sink colander to place it inside!',
+          'First, pick up the freshly cut raw ubod from your inventory, then tap the sink colander to place it inside!',
           'thinking',
           {
             badge: 'Step 1',
@@ -370,7 +370,7 @@ export const Mission1Prep = () => {
       if (holdingItem?.id === 'water_pitcher' || holdingItem?.id === 'water' || holdingItem?.id === 'portion_water' || holdingItem?.id === 'sea_salt' || holdingItem?.id === 'salt') {
         triggerSinkError('Click the “Click cross to rinse” to full washed the ubod');
         speak(
-          'Click the “Click cross to rinse” to full washed the ubod',
+          'Click the cross handle to rinse the ubod thoroughly.',
           'thinking',
           {
             badge: 'Wash Ubod First',
@@ -396,13 +396,13 @@ export const Mission1Prep = () => {
           measure: '1 Cup (Sanitized)',
           img: '/assets/colander_ubod_raw.png',
           fallbackIcon: '🥣',
-          tooltip: 'Sanitized coconut pith strips, rinsed clean of surface soil & starch residues.',
+          tooltip: 'Sanitized coconut palm strips, rinsed clean of surface soil & starch residues.',
         };
         setHoldingItem(washedItem);
         showToast('Holding Washed Ubod!', 'Moving to Stove Boil...', 'info');
         setCurrentPhase('boil');
         speak(
-          'Select the washed ubod. Put in the pot.',
+          'Select the washed ubod and place it in the pot.',
           'happy',
           {
             badge: 'Step 3',
@@ -422,7 +422,7 @@ export const Mission1Prep = () => {
       } else {
         triggerSinkError('Select stainless colander then drop to the pot.');
         speak(
-          'Pick up the stainless colander from your inventory first, then tap the sink to drain the boiling pot!',
+          'First, pick up the stainless colander from your inventory, then tap the sink to drain the boiling pot!',
           'thinking',
           {
             badge: 'Step 7',
@@ -495,7 +495,7 @@ export const Mission1Prep = () => {
           ? () => {
               soundManager.playClick();
               showToast('Step 2', 'Click the “Click cross to rinse” to full washed the ubod', 'info');
-              speak('Click the “Click cross to rinse” to full washed the ubod', 'thinking', {
+              speak('Click the cross handle to rinse the ubod thoroughly.', 'thinking', {
                 badge: 'Step 2',
                 hint: 'Click the “Click cross to rinse” to full washed the ubod',
                 hideButton: true,
@@ -503,9 +503,9 @@ export const Mission1Prep = () => {
             }
           : undefined,
       tooltip: isWashed
-        ? 'Sanitized coconut pith strips, rinsed clean of surface soil & starch residues.'
+        ? 'Sanitized coconut palm strips, rinsed clean of surface soil & starch residues.'
         : !isUbodInColander
-        ? 'Fresh cut raw coconut pith strips. Place in sink colander to wash.'
+        ? 'Fresh cut raw coconut palm strips. Place in sink colander to wash.'
         : 'Ubod is in the sink colander. Turn on faucet to rinse.',
     },
     {
@@ -631,7 +631,7 @@ export const Mission1Prep = () => {
           stageTitle="Stage 1: Washing & Boiling"
           recipeItems={recipeItems}
           safetyNotes={safetyChecklist}
-          culinaryTip="Boiling the coconut pith for 10–15 minutes softens the tough plant fibers so they can be smoothly pureed into a fine paste in Stage 2 without coarse lumps."
+          culinaryTip="Boiling the coconut palm for 10–15 minutes softens the tough plant fibers so they can be smoothly pureed into a fine paste in Stage 2 without coarse lumps."
         />
 
         <div className="stage-content-row stage-single-workstation">

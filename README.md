@@ -1,16 +1,16 @@
-# 🥥 PITHQuest: Coconut Pith Crackers Virtual Laboratory
+# 🥥 PALMQuest: Coconut Palm Crackers Virtual Laboratory
 
-A gamified, interactive educational web simulation designed for **Home Economics (HE) Food Technology & Processing** students. Learn the scientific process of valorizing coconut pith (*Ubod ng Niyog*) into nutritious, high-expansion crispy crackers.
+A gamified, interactive educational web simulation designed for **Home Economics (HE) Food Technology & Processing** students. Learn the scientific process of valorizing coconut palm (*Ubod ng Niyog*) into nutritious, high-expansion crispy crackers.
 
 ---
 
 ## 📖 Overview
 
-**PITHQuest** bridges theoretical food processing principles and hands-on laboratory practice. Guided by **Teacher Mia**, learners step through the end-to-end culinary processing pipeline—from sanitation and cell-wall softening to starch retrogradation, dehydration, and hot-oil thermal flash-expansion.
+**PALMQuest** bridges theoretical food processing principles and hands-on laboratory practice. Guided by **Teacher Mia**, learners step through the end-to-end culinary processing pipeline—from sanitation and cell-wall softening to starch retrogradation, dehydration, and hot-oil thermal flash-expansion.
 
 ### 🔬 The 5 Processing Stages
 
-1. **Stage 1: Raw Prep & Slicing** — Wash, measure (200g), and dice fresh fibrous coconut pith into uniform pieces on the prep board.
+1. **Stage 1: Raw Prep & Slicing** — Wash, measure (200g), and dice fresh fibrous coconut palm into uniform pieces on the prep board.
 2. **Stage 2: Boiling & Softening** — Hydrolyze tough cellulose and lignin fibers at 100°C to achieve optimal puree consistency in the blender.
 3. **Stage 3: Formulation & Mixing** — Accurately balance the dough using tapioca starch (binder/puffing agent), water, and savory seasonings.
 4. **Stage 4: Dehydration** — Monitor moisture content as pellets dry from ~75% to under 9% in the cabinet dehydrator, creating a stable glassy starch matrix.
@@ -44,7 +44,7 @@ A gamified, interactive educational web simulation designed for **Home Economics
 ## 📂 Project Structure
 
 ```text
-PithQuest/
+PalmQuest/
 ├── public/
 │   └── assets/              # Illustrated backgrounds, icons & character art
 ├── scratch/
@@ -99,7 +99,7 @@ PithQuest/
 1. Clone or download the repository:
    ```bash
    git clone <your-repository-url>
-   cd PithQuest
+   cd PalmQuest
    ```
 
 2. Install dependencies:

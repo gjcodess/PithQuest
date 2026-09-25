@@ -13,9 +13,9 @@ export const STAGE_QUESTIONS = {
       { id: 'a', text: 'Salt', isCorrect: false, reason: 'Wrong (salt): It just enhances the flavor' },
       { id: 'b', text: 'Water', isCorrect: false, reason: 'Water: helps binding the ingredients' },
       { id: 'c', text: 'Oil', isCorrect: false, reason: 'Oil: Use for frying the food' },
-      { id: 'd', text: 'Coconut Pith', isCorrect: true, reason: 'Correct: Coconut pith. It is the main ingredient in making the ubod crackers' },
+      { id: 'd', text: 'Coconut Palm', isCorrect: true, reason: 'Correct: Coconut palm. It is the main ingredient in making the ubod crackers' },
     ],
-    explanation: 'Correct: Coconut pith. It is the main ingredient in making the ubod crackers',
+    explanation: 'Correct: Coconut palm. It is the main ingredient in making the ubod crackers',
   },
 
   mission2: {

@@ -3,11 +3,11 @@
 export const LECTURE_CONCEPTS = [
   {
     id: "ubod",
-    title: "Coconut Pith",
+    title: "Coconut Palm",
     tag: "",
     icon: "🥥",
     summary: "",
-    details: "The term coconut refers to the fruit of the coconut palm. Coir fibre and fibre pith are extracted from the coconut husk. This will be the main ingredient."
+    details: "The term coconut refers to the fruit of the coconut palm. Coir fibre and fibre palm are extracted from the coconut husk. This will be the main ingredient."
   },
   {
     id: "steaming",

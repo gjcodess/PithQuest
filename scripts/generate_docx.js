@@ -56,11 +56,11 @@ async function generateDocx() {
     { num: '2', title: 'Start / Student Registration', desc: 'Allows learners to register their student identity, initialize a fresh laboratory manufacturing batch, or resume active module progress.' },
     { num: '3', title: 'Volume / Audio Controls', desc: 'Enables users to toggle or mute procedural sound synthesis, audio cues, and Teacher Mia\'s verbal guidance to suit classroom environments.' },
     { num: '4', title: 'Recipe SOP & Food Safety Guide', desc: 'Provides an accessible reference guide detailing standard cracker formulation parameters, raw material ratios, GMP hygiene guidelines, and food safety standards.' },
-    { num: '5', title: 'About & Project Documentation', desc: 'Presents academic background information regarding the research study, the valorization of coconut pith (ubod), educational objectives, and developer credits.' },
+    { num: '5', title: 'About & Project Documentation', desc: 'Presents academic background information regarding the research study, the valorization of coconut palm (ubod), educational objectives, and developer credits.' },
     { num: '6', title: 'Exit / Batch Reset', desc: 'A system feature enabling students to terminate the current simulation session, clear temporary state, and safely return to the title screen.' },
     { num: '7', title: 'Pre-Test Orientation Module (Sanitary Defense & GMP)', desc: 'A four-part diagnostic safety audit comprising Personal Protective Equipment (PPE) selection, the WHO 7-step handwashing sequence, food-grade tool inspection, and raw ingredient quality control.' },
-    { num: '8', title: 'Stage 1: Wash & Hydrothermal Softening', desc: 'Simulates washing raw coconut pith strips and boiling them at 100°C to soften rigid cellulosic cell walls and inactivate polyphenol oxidase (PPO) enzymes.' },
-    { num: '9', title: 'Stage 2: High-Shear Pureeing & Homogenization', desc: 'Simulates high-shear mechanical blending of softened coconut pith into a uniform, microscopic fiber pulp free of coarse fibrous lumps.' },
+    { num: '8', title: 'Stage 1: Wash & Hydrothermal Softening', desc: 'Simulates washing raw coconut palm strips and boiling them at 100°C to soften rigid cellulosic cell walls and inactivate polyphenol oxidase (PPO) enzymes.' },
+    { num: '9', title: 'Stage 2: High-Shear Pureeing & Homogenization', desc: 'Simulates high-shear mechanical blending of softened coconut palm into a uniform, microscopic fiber pulp free of coarse fibrous lumps.' },
     { num: '10', title: 'Stage 3: 1:1 Dough Formulation & Mixing', desc: 'Focuses on combining boiled ubod puree with pure rice flour at an exact 1:1 mass ratio and 1% iodized salt to achieve balanced viscoelastic dough structure.' },
     { num: '11', title: 'Stage 4: Precision Sheet Molding & Cutting', desc: 'Instructs learners on sheeting dough to a uniform 2mm thickness and cutting uniform 50mm × 25mm rectangular cracker pieces for consistent thermal conductivity.' },
     { num: '12', title: 'Stage 5: Atmospheric Starch Steaming', desc: 'Involves atmospheric steaming of molded cracker blanks for 10 minutes at 100°C to induce complete amylose/amylopectin starch gelatinization.' },
@@ -170,8 +170,8 @@ async function generateDocx() {
   });
 
   const doc = new Document({
-    creator: 'PithQuest Development Team',
-    title: 'PithQuest System Diagrams and Instructional Modules',
+    creator: 'PalmQuest Development Team',
+    title: 'PalmQuest System Diagrams and Instructional Modules',
     description: 'Academic Manuscript and Capstone Documentation Reference',
     styles: {
       default: {
@@ -205,7 +205,7 @@ async function generateDocx() {
               new Paragraph({
                 alignment: AlignmentType.RIGHT,
                 children: [
-                  new TextRun({ text: 'PITHQUEST: Academic System Reference & Diagrams', italics: true, size: 16, color: '888888', font: 'Calibri' }),
+                  new TextRun({ text: 'PALMQUEST: Academic System Reference & Diagrams', italics: true, size: 16, color: '888888', font: 'Calibri' }),
                 ],
               }),
             ],
@@ -233,7 +233,7 @@ async function generateDocx() {
             spacing: { before: 100, after: 80 },
             children: [
               new TextRun({
-                text: 'PITHQUEST: System Architecture, UML Maps & Flowcharts',
+                text: 'PALMQUEST: System Architecture, UML Maps & Flowcharts',
                 bold: true,
                 size: 36,
                 color: '1E3A2B',
@@ -268,7 +268,7 @@ async function generateDocx() {
             spacing: { before: 120, after: 200 },
             children: [
               new TextRun({
-                text: 'This diagram illustrates the revised component architecture of the PithQuest web application, emphasizing its role as an active instructional material. The presentation layer comprises the primary user interface elements, including the top Header HUD (featuring the REVIEW final stage step), Teacher Mia\'s interactive pedagogical dialogues, recipe reference modals, and instant formative feedback checkpoint modals. These UI elements connect directly to the central Game Manager (GameContext), which governs application state, procedural Web Audio effects (soundManager), and interactive drag-and-drop mechanics. The system coordinates scene routing across the five major architectural phases: the Title Screen, Pre-Test Orientation, eight interactive Manufacturing Workstations, the Post-Test Process Sequencing assessment, and the comprehensive Master Review & Complete Answer Key.',
+                text: 'This diagram illustrates the revised component architecture of the PalmQuest web application, emphasizing its role as an active instructional material. The presentation layer comprises the primary user interface elements, including the top Header HUD (featuring the REVIEW final stage step), Teacher Mia\'s interactive pedagogical dialogues, recipe reference modals, and instant formative feedback checkpoint modals. These UI elements connect directly to the central Game Manager (GameContext), which governs application state, procedural Web Audio effects (soundManager), and interactive drag-and-drop mechanics. The system coordinates scene routing across the five major architectural phases: the Title Screen, Pre-Test Orientation, eight interactive Manufacturing Workstations, the Post-Test Process Sequencing assessment, and the comprehensive Master Review & Complete Answer Key.',
               }),
             ],
           }),
@@ -286,7 +286,7 @@ async function generateDocx() {
             spacing: { before: 120, after: 200 },
             children: [
               new TextRun({
-                text: 'This state diagram illustrates the operational state transitions of PithQuest under its formative instructional model. Rather than withholding feedback until the end of the session, the application provides immediate right/wrong verification at every milestone: (1) Pre-Test State, dividing safety activities into PPE attire selection, WHO 7-step handwashing, tool safety inspection, and raw ingredient quality control with instant visual and auditory verification; (2) Manufacturing Stages State (Stages 1–8), where each stage begins with an instructional Checkpoint Question Modal employing a 1-click instant reveal of correct procedures and biochemical rationales before unlocking cooking workstations; (3) Post-Test Sequencing State, where learners reconstruct the chronological 8-stage timeline with real-time slot verification; and (4) Master Review State, providing an instructional debrief and complete answer key with print-to-PDF export.',
+                text: 'This state diagram illustrates the operational state transitions of PalmQuest under its formative instructional model. Rather than withholding feedback until the end of the session, the application provides immediate right/wrong verification at every milestone: (1) Pre-Test State, dividing safety activities into PPE attire selection, WHO 7-step handwashing, tool safety inspection, and raw ingredient quality control with instant visual and auditory verification; (2) Manufacturing Stages State (Stages 1–8), where each stage begins with an instructional Checkpoint Question Modal employing a 1-click instant reveal of correct procedures and biochemical rationales before unlocking cooking workstations; (3) Post-Test Sequencing State, where learners reconstruct the chronological 8-stage timeline with real-time slot verification; and (4) Master Review State, providing an instructional debrief and complete answer key with print-to-PDF export.',
               }),
             ],
           }),
@@ -311,7 +311,7 @@ async function generateDocx() {
             spacing: { after: 200 },
             children: [
               new TextRun({
-                text: 'The flowchart shows the User Interface and operational architecture of the PithQuest educational web application, where the system initiates once the application is opened in a modern web browser. Upon launching the application, an asset initialization and viewport verification check occurs (ensuring a tablet or desktop display width of at least 768px), after which the title screen is displayed, serving as the main menu hub. The main menu features five primary interaction pathways: Start, Sound, Recipe SOP, About, and Exit. Pressing the Start button directs the student to user identification (entering their student name) and initiates the learning sequence via Connector (C), leading into the Pre-Test Orientation module. The Sound button allows users to toggle procedural sound synthesis and instructional audio on or off to accommodate classroom or self-paced environments, returning directly to the main menu hub via Connector (A). The Recipe SOP button opens a reference modal detailing standard operating procedures, raw ingredient ratios (1:1 boiled ubod to rice flour), and processing parameters before returning to the main menu upon closure. The About button presents educational objectives, food technology research on coconut pith (ubod) valorization, Good Manufacturing Practices (GMP) references, and developer information, returning via Connector (A). The Exit button prompts the student with a confirmation dialog ("Are you sure?"); confirming terminates the current session and resets state, while canceling routes the learner back to the title screen via Connector (A). From the Pre-Test Orientation, learners complete four diagnostic safety tasks (PPE selection, WHO 7-step handwashing friction sequence, equipment hygiene inspection, and raw material quality control). Each task provides immediate visual and textual verification. Upon clearance, users advance to the Manufacturing Stage Selection via Connector (B). Each stage displays authentic food science principles and standard operating parameters before opening the interactive cooking simulation. Upon successfully completing a workstation task, the user receives an authentic stage clearance badge and verified milestone. A decision point assesses whether additional stages remain; if yes, the user loops to the next stage via Connector (B). When all eight manufacturing stages are finished, the student is routed to the Post-Test Sequencing puzzle to reconstruct the chronological production pipeline, and finally to the Master Review and Complete Answer Key. From this study space, the user may print a comprehensive study guide PDF or choose to process a new batch via Connector (B) or return to the main menu via Connector (A).',
+                text: 'The flowchart shows the User Interface and operational architecture of the PalmQuest educational web application, where the system initiates once the application is opened in a modern web browser. Upon launching the application, an asset initialization and viewport verification check occurs (ensuring a tablet or desktop display width of at least 768px), after which the title screen is displayed, serving as the main menu hub. The main menu features five primary interaction pathways: Start, Sound, Recipe SOP, About, and Exit. Pressing the Start button directs the student to user identification (entering their student name) and initiates the learning sequence via Connector (C), leading into the Pre-Test Orientation module. The Sound button allows users to toggle procedural sound synthesis and instructional audio on or off to accommodate classroom or self-paced environments, returning directly to the main menu hub via Connector (A). The Recipe SOP button opens a reference modal detailing standard operating procedures, raw ingredient ratios (1:1 boiled ubod to rice flour), and processing parameters before returning to the main menu upon closure. The About button presents educational objectives, food technology research on coconut palm (ubod) valorization, Good Manufacturing Practices (GMP) references, and developer information, returning via Connector (A). The Exit button prompts the student with a confirmation dialog ("Are you sure?"); confirming terminates the current session and resets state, while canceling routes the learner back to the title screen via Connector (A). From the Pre-Test Orientation, learners complete four diagnostic safety tasks (PPE selection, WHO 7-step handwashing friction sequence, equipment hygiene inspection, and raw material quality control). Each task provides immediate visual and textual verification. Upon clearance, users advance to the Manufacturing Stage Selection via Connector (B). Each stage displays authentic food science principles and standard operating parameters before opening the interactive cooking simulation. Upon successfully completing a workstation task, the user receives an authentic stage clearance badge and verified milestone. A decision point assesses whether additional stages remain; if yes, the user loops to the next stage via Connector (B). When all eight manufacturing stages are finished, the student is routed to the Post-Test Sequencing puzzle to reconstruct the chronological production pipeline, and finally to the Master Review and Complete Answer Key. From this study space, the user may print a comprehensive study guide PDF or choose to process a new batch via Connector (B) or return to the main menu via Connector (A).',
               }),
             ],
           }),
@@ -336,7 +336,7 @@ async function generateDocx() {
             spacing: { after: 200 },
             children: [
               new TextRun({
-                text: 'The gameplay system flowchart illustrates the repetitive, mastery-based formative instructional loop executed across PithQuest\'s learning workstations. Entry into an active workstation occurs via Connector (B) into the PLAY state (referenced by sub-connector (B1)). In the LEARN State, the player is presented with the instructional foundation of the workstation via Connector (B2). This includes standard operating procedures (SOP), critical temperature and moisture limits, equipment specifications, and underlying food chemistry principles (e.g., polyphenol oxidase denaturation, starch gelatinization, retrogradation, and steam flash expansion). In the TAKE CHECKPOINT & COOKING TASK, the learner engages in a 4-choice conceptual checkpoint question followed by an interactive drag-and-drop or tactile processing simulation (e.g., controlling temperature sliders, assembling formulation ratios, adjusting convective drying time, or frying crackers). At the DECISION (Is the answer / SOP correct?), if NO, the system executes an instant formative feedback intervention. Rather than penalizing the student or terminating the game, the application visually highlights the correct standard, flags hazardous or inaccurate choices, explains the biochemical rationale behind the error, and directs the learner back via Connector (B2) to review the principle and adjust their procedure. If YES, the learner transitions to the reward state (parallelogram), earning an authentic stage clearance badge, auditory confirmation chime, and an updated step progression within the header HUD. In PROCEED TO NEXT STAGE, the learner advances to the next unit operation in the production sequence. A conditional check evaluates whether all eight manufacturing stages and the Post-Test sequencing puzzle have been satisfied: if incomplete (NO), the flow loops back to Connector (B1) to begin the next sequential processing stage; if complete (YES), the system transitions into the Master Review & Comprehensive Answer Key space, unlocking the complete study guide, question-by-question scientific breakdowns, and print-to-PDF capabilities before reaching the terminal END GAME state.',
+                text: 'The gameplay system flowchart illustrates the repetitive, mastery-based formative instructional loop executed across PalmQuest\'s learning workstations. Entry into an active workstation occurs via Connector (B) into the PLAY state (referenced by sub-connector (B1)). In the LEARN State, the player is presented with the instructional foundation of the workstation via Connector (B2). This includes standard operating procedures (SOP), critical temperature and moisture limits, equipment specifications, and underlying food chemistry principles (e.g., polyphenol oxidase denaturation, starch gelatinization, retrogradation, and steam flash expansion). In the TAKE CHECKPOINT & COOKING TASK, the learner engages in a 4-choice conceptual checkpoint question followed by an interactive drag-and-drop or tactile processing simulation (e.g., controlling temperature sliders, assembling formulation ratios, adjusting convective drying time, or frying crackers). At the DECISION (Is the answer / SOP correct?), if NO, the system executes an instant formative feedback intervention. Rather than penalizing the student or terminating the game, the application visually highlights the correct standard, flags hazardous or inaccurate choices, explains the biochemical rationale behind the error, and directs the learner back via Connector (B2) to review the principle and adjust their procedure. If YES, the learner transitions to the reward state (parallelogram), earning an authentic stage clearance badge, auditory confirmation chime, and an updated step progression within the header HUD. In PROCEED TO NEXT STAGE, the learner advances to the next unit operation in the production sequence. A conditional check evaluates whether all eight manufacturing stages and the Post-Test sequencing puzzle have been satisfied: if incomplete (NO), the flow loops back to Connector (B1) to begin the next sequential processing stage; if complete (YES), the system transitions into the Master Review & Comprehensive Answer Key space, unlocking the complete study guide, question-by-question scientific breakdowns, and print-to-PDF capabilities before reaching the terminal END GAME state.',
               }),
             ],
           }),
@@ -355,13 +355,13 @@ async function generateDocx() {
           new Paragraph({
             spacing: { after: 60 },
             children: [
-              new TextRun({ text: 'Modules of the PithQuest Educational Web Application', bold: true, size: 22, color: '15803D', font: 'Calibri' }),
+              new TextRun({ text: 'Modules of the PalmQuest Educational Web Application', bold: true, size: 22, color: '15803D', font: 'Calibri' }),
             ],
           }),
           new Paragraph({
             spacing: { after: 140 },
             children: [
-              new TextRun({ text: 'These are the following details on each module of the PithQuest educational web application.', italics: true, size: 20, color: '555555', font: 'Calibri' }),
+              new TextRun({ text: 'These are the following details on each module of the PalmQuest educational web application.', italics: true, size: 20, color: '555555', font: 'Calibri' }),
             ],
           }),
           table2,
@@ -380,7 +380,7 @@ async function generateDocx() {
           new Paragraph({
             children: [
               new TextRun({
-                text: 'In web-based educational simulations, the Main Menu serves as the primary visual anchor and centralized interface presented to learners upon accessing the application URL. In PithQuest, this module initializes the application layout, enforces responsive display validation (requiring a minimum viewport width of 768 pixels for optimal tablet/desktop laboratory simulation), preloads graphic assets, and establishes the procedural Web Audio synthesizer. The main menu houses intuitive tactile buttons allowing learners to initiate the simulation, configure audio parameters, examine standardized recipe formulations, review research background documentation, or reset application state.',
+                text: 'In web-based educational simulations, the Main Menu serves as the primary visual anchor and centralized interface presented to learners upon accessing the application URL. In PalmQuest, this module initializes the application layout, enforces responsive display validation (requiring a minimum viewport width of 768 pixels for optimal tablet/desktop laboratory simulation), preloads graphic assets, and establishes the procedural Web Audio synthesizer. The main menu houses intuitive tactile buttons allowing learners to initiate the simulation, configure audio parameters, examine standardized recipe formulations, review research background documentation, or reset application state.',
               }),
             ],
           }),
@@ -416,7 +416,7 @@ async function generateDocx() {
           new Paragraph({
             children: [
               new TextRun({
-                text: 'The Recipe SOP Guide is an instructional overlay designed to provide learners with an authentic industrial processing reference before and during manufacturing. It details the exact commercial formulation developed through food technology research: a 1:1 mass ratio of hydrothermal softened coconut pith puree to pure rice flour, paired with 1% iodized salt. It also outlines critical control points (CCPs), target moistures, and hygienic parameters, serving as a ready reference throughout the simulation.',
+                text: 'The Recipe SOP Guide is an instructional overlay designed to provide learners with an authentic industrial processing reference before and during manufacturing. It details the exact commercial formulation developed through food technology research: a 1:1 mass ratio of hydrothermal softened coconut palm puree to pure rice flour, paired with 1% iodized salt. It also outlines critical control points (CCPs), target moistures, and hygienic parameters, serving as a ready reference throughout the simulation.',
               }),
             ],
           }),
@@ -428,7 +428,7 @@ async function generateDocx() {
           new Paragraph({
             children: [
               new TextRun({
-                text: 'The About module provides academic context on the valorization of agricultural coconut by-products—specifically coconut pith (ubod), which is frequently underutilized or discarded during agricultural processing. This section details the research objectives, the integration of Good Manufacturing Practices (GMP) and Hazard Analysis Critical Control Points (HACCP) principles, the curriculum alignment with food technology coursework, and the development team behind PithQuest.',
+                text: 'The About module provides academic context on the valorization of agricultural coconut by-products—specifically coconut palm (ubod), which is frequently underutilized or discarded during agricultural processing. This section details the research objectives, the integration of Good Manufacturing Practices (GMP) and Hazard Analysis Critical Control Points (HACCP) principles, the curriculum alignment with food technology coursework, and the development team behind PalmQuest.',
               }),
             ],
           }),
@@ -452,7 +452,7 @@ async function generateDocx() {
           new Paragraph({
             children: [
               new TextRun({
-                text: 'The Pre-Test Orientation module is a foundational four-part diagnostic assessment that must be completed prior to entering the commercial food production environment: (1) Personal Protective Equipment (PPE) Selection, where learners select approved food-grade barriers (hairnet, clean lab gown/apron, fluid-resistant mask, vinyl gloves) while avoiding non-approved contaminants and fire hazards (e.g., loose knitted wool scarves, fashion sunglasses) with immediate visual hazard flags; (2) WHO 7-Step Handwashing Sequence, where learners drag and reorder the seven World Health Organization hand hygiene friction steps with dynamic slot-by-slot validation; (3) Tool & Equipment Safety Inspection, where students evaluate pairs of processing implements, identifying sanitary food-grade stainless steel utensils while rejecting pitted, corroded, or splintered wooden tools that harbor microbial biofilms; and (4) Raw Ingredient Quality Inspection, where learners inspect incoming raw coconut pith, rice flour, frying oil, and salt, screening for physical discoloration, insect infestation, rancidity, and foreign matter contamination.',
+                text: 'The Pre-Test Orientation module is a foundational four-part diagnostic assessment that must be completed prior to entering the commercial food production environment: (1) Personal Protective Equipment (PPE) Selection, where learners select approved food-grade barriers (hairnet, clean lab gown/apron, fluid-resistant mask, vinyl gloves) while avoiding non-approved contaminants and fire hazards (e.g., loose knitted wool scarves, fashion sunglasses) with immediate visual hazard flags; (2) WHO 7-Step Handwashing Sequence, where learners drag and reorder the seven World Health Organization hand hygiene friction steps with dynamic slot-by-slot validation; (3) Tool & Equipment Safety Inspection, where students evaluate pairs of processing implements, identifying sanitary food-grade stainless steel utensils while rejecting pitted, corroded, or splintered wooden tools that harbor microbial biofilms; and (4) Raw Ingredient Quality Inspection, where learners inspect incoming raw coconut palm, rice flour, frying oil, and salt, screening for physical discoloration, insect infestation, rancidity, and foreign matter contamination.',
               }),
             ],
           }),
@@ -488,7 +488,7 @@ async function generateDocx() {
           new Paragraph({
             children: [
               new TextRun({
-                text: 'The Master Review module serves as the final pedagogical capstone of PithQuest. Designed intentionally as a pressure-free study debrief rather than a punitive grading screen, it features: a 6-part quick-jump navigation directory (PPE Standards, Handwashing Protocol, Tool Inspection, Ingredient Quality, Manufacturing Checkpoints 1–8, and Production Flow Pipeline); full 4-choice checkpoint breakdowns displaying the student\'s selected answer, the correct industry standard, and in-depth scientific rationales; a Native Print-to-PDF Study Guide button allowing students and instructors to generate an official laboratory review sheet; and a Process New Batch button to restart the simulation with a clean slate for continued mastery learning.',
+                text: 'The Master Review module serves as the final pedagogical capstone of PalmQuest. Designed intentionally as a pressure-free study debrief rather than a punitive grading screen, it features: a 6-part quick-jump navigation directory (PPE Standards, Handwashing Protocol, Tool Inspection, Ingredient Quality, Manufacturing Checkpoints 1–8, and Production Flow Pipeline); full 4-choice checkpoint breakdowns displaying the student\'s selected answer, the correct industry standard, and in-depth scientific rationales; a Native Print-to-PDF Study Guide button allowing students and instructors to generate an official laboratory review sheet; and a Process New Batch button to restart the simulation with a clean slate for continued mastery learning.',
               }),
             ],
           }),
@@ -498,7 +498,7 @@ async function generateDocx() {
   });
 
   const buffer = await Packer.toBuffer(doc);
-  const outputPath = path.resolve('docs/PITHQUEST_SYSTEM_DIAGRAMS_AND_MODULES.docx');
+  const outputPath = path.resolve('docs/PALMQUEST_SYSTEM_DIAGRAMS_AND_MODULES.docx');
   fs.writeFileSync(outputPath, buffer);
   console.log(`Generated DOCX successfully at: ${outputPath} (${buffer.length} bytes)`);
 }

@@ -4,7 +4,7 @@ import path from 'path';
 
 
 const brainDir = 'C:/Users/glenn/.gemini/antigravity-ide/brain/44754fca-7075-45ae-8b59-fa7699d33570';
-const destDir = 'd:/PROJECTS/PithQuest/public/assets';
+const destDir = 'd:/PROJECTS/PalmQuest/public/assets';
 
 async function makeBorderTransparent(inputPath, outputPath, threshold = 238) {
   const image = sharp(inputPath);
@@ -73,7 +73,7 @@ async function makeBorderTransparent(inputPath, outputPath, threshold = 238) {
 async function run() {
   const tasks = [
     { in: 'wooden_cutting_board_1788506045730.jpg', out: 'cutting_board.png', thresh: 240 },
-    { in: 'icon_coconut_pith_1788504175565.jpg', out: 'icon_coconut_pith.png', thresh: 240 },
+    { in: 'icon_coconut_palm_1788504175565.jpg', out: 'icon_coconut_palm.png', thresh: 240 },
     { in: 'icon_chef_knife_1788506064046.jpg', out: 'icon_chef_knife.png', thresh: 240 },
     { in: 'icon_prep_bowl_1788506090637.jpg', out: 'icon_prep_bowl.png', thresh: 240 },
     { in: 'icon_sliced_ubod_1788506109126.jpg', out: 'icon_sliced_ubod.png', thresh: 240 },
